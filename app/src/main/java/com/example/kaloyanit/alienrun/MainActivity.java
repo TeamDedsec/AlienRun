@@ -5,6 +5,8 @@ import android.os.Bundle;
 import android.util.DisplayMetrics;
 import android.view.Window;
 import android.view.WindowManager;
+
+import com.example.kaloyanit.alienrun.Core.GamePanel;
 import com.example.kaloyanit.alienrun.Utils.BasicConstants;
 
 public class MainActivity extends Activity {
@@ -20,6 +22,6 @@ public class MainActivity extends Activity {
         BasicConstants.SCREEN_WIDTH = dm.widthPixels;
         BasicConstants.SCREEN_HEIGHT = dm.heightPixels;
 
-        setContentView(R.layout.activity_main);
+        setContentView(new GamePanel(this));
     }
 }
