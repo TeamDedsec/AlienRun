@@ -1,4 +1,4 @@
-package com.example.kaloyanit.alienrun.core;
+package com.example.kaloyanit.alienrun.Core;
 
 import android.content.Context;
 import android.graphics.Canvas;

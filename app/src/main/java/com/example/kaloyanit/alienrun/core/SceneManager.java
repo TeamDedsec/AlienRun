@@ -1,4 +1,4 @@
-package com.example.kaloyanit.alienrun.core;
+package com.example.kaloyanit.alienrun.Core;
 
 /**
  * Created by KaloyanIT on 1/25/2017.
@@ -7,14 +7,19 @@ package com.example.kaloyanit.alienrun.core;
 import android.graphics.Canvas;
 import android.view.MotionEvent;
 
+import com.example.kaloyanit.alienrun.Contracts.IManager;
+import com.example.kaloyanit.alienrun.Contracts.IScene;
+import com.example.kaloyanit.alienrun.Scenes.GameplayScene;
+
 import java.util.ArrayList;
 
-ublic class SceneManager  {
-    private ArrayList<Scene> scenes = new ArrayList<>();
+public class SceneManager implements IManager {
+    private ArrayList<IScene> scenes = new ArrayList<>();
     public static int ACTIVE_SCENE;
 
     public SceneManager() {
         ACTIVE_SCENE = 0;
+        //TODO: Add all scenes with reflection
         scenes.add(new GameplayScene());
     }
 
