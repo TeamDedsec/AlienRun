@@ -3,7 +3,6 @@ package com.example.kaloyanit.alienrun.GameObjects;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
-import android.graphics.Point;
 import android.graphics.Rect;
 
 import com.example.kaloyanit.alienrun.Contracts.IGameObject;
