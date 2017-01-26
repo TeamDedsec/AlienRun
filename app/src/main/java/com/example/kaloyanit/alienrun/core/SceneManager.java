@@ -4,6 +4,7 @@ package com.example.kaloyanit.alienrun.Core;
  * Created by KaloyanIT on 1/25/2017.
  */
 
+import android.content.Context;
 import android.graphics.Canvas;
 import android.view.MotionEvent;
 

@@ -1,5 +1,8 @@
 package com.example.kaloyanit.alienrun.Scenes;
 
+import android.content.Context;
+import android.content.res.Resources;
+import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Point;
@@ -7,7 +10,9 @@ import android.view.MotionEvent;
 
 import com.example.kaloyanit.alienrun.Contracts.IScene;
 import com.example.kaloyanit.alienrun.Core.SceneManager;
+import com.example.kaloyanit.alienrun.GameObjects.Background;
 import com.example.kaloyanit.alienrun.GameObjects.Player;
+import com.example.kaloyanit.alienrun.R;
 import com.example.kaloyanit.alienrun.Utils.BasicConstants;
 
 /**
@@ -16,21 +21,31 @@ import com.example.kaloyanit.alienrun.Utils.BasicConstants;
 
 public class GameplayScene implements IScene {
     private Player player;
+    private Background background;
     private Point playerPoint;
 
     public GameplayScene() {
-        player = new Player();
-        playerPoint = new Point(BasicConstants.SCREEN_WIDTH / 2, 3 * BasicConstants.SCREEN_HEIGHT / 4);
+        background = new Background(BitmapFactory.decodeResource(BasicConstants.CURRENT_CONTEXT.getResources(), R.drawable.bg_grasslands));
+        playerPoint = new Point(BasicConstants.BG_WIDTH / 4, BasicConstants.BG_HEIGHT / 4);
+        player = new Player(BitmapFactory.decodeResource(BasicConstants.CURRENT_CONTEXT.getResources(), R.drawable.p1_stand), playerPoint.x, playerPoint.y);
     }
     @Override
     public void update() {
-
+        background.update();
     }
 
     @Override
     public void draw(Canvas canvas) {
-        canvas.drawColor(Color.YELLOW);
+        final float scaleFactorX = BasicConstants.SCREEN_WIDTH / (BasicConstants.BG_WIDTH * 1.0f);
+        final float scaleFactorY = BasicConstants.SCREEN_HEIGHT / (BasicConstants.BG_HEIGHT * 1.0f);
+
+        final int savedState = canvas.save();
+        canvas.scale(scaleFactorX, scaleFactorY);
+
+        background.draw(canvas);
         player.draw(canvas);
+
+        canvas.restoreToCount(savedState);
     }
 
     @Override

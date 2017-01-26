@@ -1,5 +1,6 @@
 package com.example.kaloyanit.alienrun.GameObjects;
 
+import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
@@ -14,15 +15,19 @@ import com.example.kaloyanit.alienrun.Utils.BasicConstants;
  */
 
 public class Player implements IGameObject {
-    private Rect rectangle = new Rect(100, 100, 200, 200);
+    private Bitmap image;
+    private int x;
+    private int y;
 
-    private int color = Color.rgb(255, 0, 0);
+    public Player(Bitmap image, int x, int y) {
+        this.image = image;
+        this.x = x;
+        this.y = y;
+    }
 
     @Override
     public void draw(Canvas canvas) {
-        Paint paint = new Paint();
-        paint.setColor(color);
-        canvas.drawRect(rectangle, paint);
+        canvas.drawBitmap(this.image, this.x, this.y, null);
     }
 
     @Override
