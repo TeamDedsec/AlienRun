@@ -26,7 +26,7 @@ public class GameplayScene implements IScene {
 
     public GameplayScene() {
         background = new Background(BitmapFactory.decodeResource(BasicConstants.CURRENT_CONTEXT.getResources(), R.drawable.bg_grasslands));
-        playerPoint = new Point(BasicConstants.BG_WIDTH / 4, BasicConstants.BG_HEIGHT / 4);
+        playerPoint = new Point(162, BasicConstants.BG_HEIGHT - 162);
         player = new Player(BitmapFactory.decodeResource(BasicConstants.CURRENT_CONTEXT.getResources(), R.drawable.p1_stand), playerPoint.x, playerPoint.y);
     }
     @Override
@@ -36,7 +36,7 @@ public class GameplayScene implements IScene {
 
     @Override
     public void draw(Canvas canvas) {
-        final float scaleFactorX = BasicConstants.SCREEN_WIDTH / (BasicConstants.BG_WIDTH * 1.0f);
+        final float scaleFactorX = BasicConstants.SCREEN_WIDTH / (BasicConstants.BG_WIDTH * 1.3f);
         final float scaleFactorY = BasicConstants.SCREEN_HEIGHT / (BasicConstants.BG_HEIGHT * 1.0f);
 
         final int savedState = canvas.save();
