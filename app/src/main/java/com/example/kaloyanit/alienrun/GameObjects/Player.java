@@ -7,21 +7,35 @@ import android.graphics.Paint;
 import android.graphics.Rect;
 
 import com.example.kaloyanit.alienrun.Contracts.IGameObject;
+import com.example.kaloyanit.alienrun.Core.GamePanel;
+import com.example.kaloyanit.alienrun.Scenes.GameplayScene;
 import com.example.kaloyanit.alienrun.Utils.BasicConstants;
 
 /**
  * Created by KaloyanIT on 1/25/2017.
  */
 
-public class Player implements IGameObject {
+public class Player extends GameObject {
     private Bitmap image;
-    private int x;
-    private int y;
+    private int gravity;
 
-    public Player(Bitmap image, int x, int y) {
+    private boolean isFalling = true;
+
+    public Player(Bitmap image, int x, int y, int gravity) {
         this.image = image;
         this.x = x;
         this.y = y;
+        this.width = 66;
+        this.height = 92;
+        this.gravity = gravity;
+    }
+
+    public boolean isFalling() {
+        return isFalling;
+    }
+
+    public void setFalling(boolean falling) {
+        isFalling = falling;
     }
 
     @Override
@@ -31,6 +45,8 @@ public class Player implements IGameObject {
 
     @Override
     public void update() {
-
+        if (isFalling) {
+            this.y += this.gravity;
+        }
     }
 }

@@ -17,9 +17,9 @@ public class Background implements IGameObject {
     private int y;
     private int deltaX;
 
-    public Background(Bitmap image) {
+    public Background(Bitmap image, int speed) {
         this.image = image;
-        deltaX = -5;
+        deltaX = speed / 2;
     }
 
     public void draw(Canvas canvas) {
