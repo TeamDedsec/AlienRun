@@ -1,15 +1,12 @@
 package com.example.kaloyanit.alienrun.Scenes;
 
-import android.content.Context;
-import android.content.res.Resources;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
-import android.graphics.Color;
 import android.graphics.Point;
 import android.graphics.Rect;
+import android.util.Log;
 import android.view.MotionEvent;
 
-import com.example.kaloyanit.alienrun.Contracts.IGameObject;
 import com.example.kaloyanit.alienrun.Contracts.IScene;
 import com.example.kaloyanit.alienrun.Core.SceneManager;
 import com.example.kaloyanit.alienrun.GameObjects.Background;
@@ -27,32 +24,71 @@ public class GameplayScene implements IScene {
     private Player player;
     private Background background;
     private Point playerPoint;
-    private GroundBlock block;
+    private GroundBlock[] blocks;
 
-    public final int gravity = 1;
-    public final int speed = -2;
+    public final int gravity = 5;
+    public final int speed = -8;
+    public final int jumpVelocity = -5;
+    public final int jumpFrames = 20;
 
     public GameplayScene() {
         background = new Background(BitmapFactory.decodeResource(BasicConstants.CURRENT_CONTEXT.getResources(), R.drawable.bg_grasslands), speed);
         playerPoint = new Point(162, BasicConstants.BG_HEIGHT - 162);
-        player = new Player(BitmapFactory.decodeResource(BasicConstants.CURRENT_CONTEXT.getResources(), R.drawable.p1_stand), playerPoint.x, playerPoint.y, gravity);
-        block = new GroundBlock(BitmapFactory.decodeResource(BasicConstants.CURRENT_CONTEXT.getResources(), R.drawable.grassmid), playerPoint.x, playerPoint.y + 92, speed);
+        player = new Player(BitmapFactory.decodeResource(BasicConstants.CURRENT_CONTEXT.getResources(), R.drawable.p1_stand), playerPoint.x, playerPoint.y, gravity, jumpVelocity, jumpFrames);
+        blocks = new GroundBlock[10];
+        for (int i = 0; i < 10; i++) {
+            blocks[i] = new GroundBlock(BitmapFactory.decodeResource(BasicConstants.CURRENT_CONTEXT.getResources(), R.drawable.grassmid), playerPoint.x + (70 * i), playerPoint.y + 92, speed);
+        }
 
     }
+
     @Override
     public void update() {
-        if (checkCollision(player, block)) {
-            player.setFalling(false);
+        if (!player.isOnGround()) {
+            if (!player.isJumping()) {
+                if (checkCollision(player, blocks)) {
+                    player.setFalling(false);
+                    player.setOnGround(true);
+                } else {
+                    player.setFalling(true);
+                }
+            }
         } else {
-            player.setFalling(true);
+            if (player.isJumping()) {
+                player.setOnGround(false);
+            } else {
+                if (checkCollision(player, blocks)) {
+                    player.setJumping(false);
+                    player.setDoubleJumping(false);
+                    player.setOnGround(true);
+                    player.setFalling(false);
+                } else {
+                    player.setOnGround(false);
+                    player.setFalling(true);
+                }
+            }
         }
-        background.update();
         player.update();
-        block.update();
+        background.update();
+        for (int i = 0; i < blocks.length; i++) {
+            blocks[i].update();
+        }
     }
 
-    private boolean checkCollision(GameObject player, GameObject block) {
-        return Rect.intersects(player.getRectangle(), block.getRectangle());
+    private boolean checkCollision(GameObject object1, GameObject object2) {
+        return Rect.intersects(object1.getRectangle(), object2.getRectangle());
+    }
+
+    private boolean checkCollision(GameObject object, GameObject[] objectArr) {
+        boolean result = false;
+        for (int i = 0; i < objectArr.length; i++) {
+            if (Rect.intersects(object.getRectangle(), objectArr[i].getRectangle())) {
+                result = true;
+                break;
+            }
+        }
+
+        return result;
     }
 
     @Override
@@ -67,7 +103,9 @@ public class GameplayScene implements IScene {
 
         background.draw(canvas);
         player.draw(canvas);
-        block.draw(canvas);
+        for (int i = 0; i < blocks.length; i++) {
+            blocks[i].draw(canvas);
+        }
 
         canvas.restoreToCount(savedState);
     }
@@ -81,8 +119,18 @@ public class GameplayScene implements IScene {
     public void recieveTouch(MotionEvent event) {
         //Sample event
         switch (event.getAction()) {
-            case MotionEvent.ACTION_DOWN:
-
+            case MotionEvent.ACTION_DOWN: {
+                if (player.isOnGround()) {
+                    player.setJumping(true);
+                    player.setOnGround(false);
+                } else {
+                    if (!player.isDoubleJumping()) {
+                        player.resetJump();
+                        player.setDoubleJumping(true);
+                        player.setJumping(true);
+                    }
+                }
+            }
         }
     }
 }
