@@ -30,11 +30,20 @@ public class GameplayScene implements IScene {
     public final int speed = -8;
     public final int jumpVelocity = -5;
     public final int jumpFrames = 20;
+    public final int walkFrames = 5;
 
     public GameplayScene() {
         background = new Background(BitmapFactory.decodeResource(BasicConstants.CURRENT_CONTEXT.getResources(), R.drawable.bg_grasslands), speed);
         playerPoint = new Point(162, BasicConstants.BG_HEIGHT - 162);
-        player = new Player(BitmapFactory.decodeResource(BasicConstants.CURRENT_CONTEXT.getResources(), R.drawable.p1_stand), playerPoint.x, playerPoint.y, gravity, jumpVelocity, jumpFrames);
+        player = new Player(BitmapFactory.decodeResource(BasicConstants.CURRENT_CONTEXT.getResources(), R.drawable.p1_walk),
+                            BitmapFactory.decodeResource(BasicConstants.CURRENT_CONTEXT.getResources(), R.drawable.p1_jump),
+                            BitmapFactory.decodeResource(BasicConstants.CURRENT_CONTEXT.getResources(), R.drawable.p1_duck),
+                            playerPoint.x,
+                            playerPoint.y,
+                            gravity,
+                            jumpVelocity,
+                            walkFrames,
+                            jumpFrames);
         blocks = new GroundBlock[10];
         for (int i = 0; i < 10; i++) {
             blocks[i] = new GroundBlock(BitmapFactory.decodeResource(BasicConstants.CURRENT_CONTEXT.getResources(), R.drawable.grassmid), playerPoint.x + (70 * i), playerPoint.y + 92, speed);
