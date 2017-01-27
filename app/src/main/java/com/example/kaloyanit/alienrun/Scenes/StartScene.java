@@ -1,5 +1,6 @@
 package com.example.kaloyanit.alienrun.Scenes;
 
+import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.view.MotionEvent;
@@ -17,6 +18,7 @@ import com.example.kaloyanit.alienrun.Utils.GameConstants;
 
 public class StartScene implements IScene {
     private Background background;
+    private Bitmap bitmap;
 
     public StartScene() {
         background = new Background(BitmapFactory.decodeResource(BasicConstants.CURRENT_CONTEXT.getResources(), R.drawable.bg_grasslands), 0);

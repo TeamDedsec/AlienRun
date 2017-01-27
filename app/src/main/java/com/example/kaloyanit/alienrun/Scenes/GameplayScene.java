@@ -1,5 +1,6 @@
 package com.example.kaloyanit.alienrun.Scenes;
 
+import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Point;
@@ -23,6 +24,7 @@ public class GameplayScene implements IScene {
     private Player player;
     private Background background;
     private Point playerPoint;
+    private Bitmap pause;
     private GroundBlock[] blocks;
 
     public final int gravity = 5;
@@ -44,6 +46,7 @@ public class GameplayScene implements IScene {
                             walkFrames,
                             jumpFrames);
         blocks = new GroundBlock[50];
+        pause = BitmapFactory.decodeResource(BasicConstants.CURRENT_CONTEXT.getResources(), R.drawable.pause);
         for (int i = 0; i < 50; i++) {
             blocks[i] = new GroundBlock(BitmapFactory.decodeResource(BasicConstants.CURRENT_CONTEXT.getResources(), R.drawable.grassmid), playerPoint.x + (70 * i), playerPoint.y + 92, speed);
         }
@@ -100,6 +103,7 @@ public class GameplayScene implements IScene {
 
     @Override
     public void draw(Canvas canvas) {
+        canvas.drawBitmap(pause, 120, 120, null);
         final float ratio = BasicConstants.SCREEN_WIDTH / (BasicConstants.SCREEN_HEIGHT * 1.0f);
 
         final float scaleFactorX = BasicConstants.SCREEN_HEIGHT / (BasicConstants.BG_HEIGHT * ratio);
@@ -137,6 +141,7 @@ public class GameplayScene implements IScene {
                         player.setJumping(true);
                     }
                 }
+                SceneManager.ACTIVE_SCENE = 2;
             }
         }
     }

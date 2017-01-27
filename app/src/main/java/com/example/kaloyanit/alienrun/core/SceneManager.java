@@ -10,6 +10,7 @@ import android.view.MotionEvent;
 
 import com.example.kaloyanit.alienrun.Contracts.IManager;
 import com.example.kaloyanit.alienrun.Contracts.IScene;
+import com.example.kaloyanit.alienrun.Scenes.GameOverScene;
 import com.example.kaloyanit.alienrun.Scenes.GameplayScene;
 import com.example.kaloyanit.alienrun.Scenes.StartScene;
 
@@ -29,6 +30,7 @@ public class SceneManager implements IManager {
         //TODO: Add all scenes with reflection
         scenes.add(new StartScene());
         scenes.add(new GameplayScene());
+        scenes.add(new GameOverScene());
     }
 
     public void recieveTouch(MotionEvent event) {
