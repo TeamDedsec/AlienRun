@@ -12,7 +12,7 @@ public class MainThread extends Thread {
     private double averageFPS;
     private SurfaceHolder surfaceHolder;
     private GamePanel gamePanel;
-    private boolean running;
+    public boolean running;
     public static Canvas canvas;
 
     public void setRunning(boolean running) {
@@ -24,6 +24,11 @@ public class MainThread extends Thread {
         this.surfaceHolder = surfaceHolder;
         this.gamePanel= gamePanel;
     }
+
+    public void pause() {
+        super.interrupt();
+    }
+
 
     @Override
     public void run() {

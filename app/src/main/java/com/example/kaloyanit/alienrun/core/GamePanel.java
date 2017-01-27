@@ -1,12 +1,16 @@
 package com.example.kaloyanit.alienrun.Core;
 
 import android.content.Context;
+import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.view.MotionEvent;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 
+import com.example.kaloyanit.alienrun.GameObjects.Background;
+import com.example.kaloyanit.alienrun.R;
 import com.example.kaloyanit.alienrun.Utils.BasicConstants;
+import com.example.kaloyanit.alienrun.Utils.GameConstants;
 
 /**
  * Created by KaloyanIT on 1/25/2017.
@@ -14,11 +18,13 @@ import com.example.kaloyanit.alienrun.Utils.BasicConstants;
 
 public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
     private MainThread thread;
-
+    private Background background;
     private SceneManager manager;
 
     public GamePanel(Context context) {
         super(context);
+
+
 
         getHolder().addCallback(this);
 
@@ -26,13 +32,26 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
 
         thread = new MainThread(getHolder(), this);
 
+
+
         manager = new SceneManager();
 
         setFocusable(true);
 
     }
 
+    public void pause() {
+        thread.running = false;
+        while (true) {
+            try {
+                thread.join();
+            } catch (InterruptedException e) { }
+        }
+    }
 
+    public void resume() {
+        thread.start();
+    }
 
     @Override
     public void surfaceChanged(SurfaceHolder holder, int format, int width, int height) {
@@ -64,6 +83,7 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
     @Override
     public boolean onTouchEvent(MotionEvent event) {
         manager.recieveTouch(event);
+        //resume();
         return true;
         //return super.onTouchEvent(event);
     }
@@ -75,7 +95,6 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
     @Override
     public void draw(Canvas canvas) {
         super.draw(canvas);
-
         manager.draw(canvas);
 
     }

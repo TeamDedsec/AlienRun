@@ -4,7 +4,6 @@ import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Point;
 import android.graphics.Rect;
-import android.util.Log;
 import android.view.MotionEvent;
 
 import com.example.kaloyanit.alienrun.Contracts.IScene;
@@ -44,11 +43,10 @@ public class GameplayScene implements IScene {
                             jumpVelocity,
                             walkFrames,
                             jumpFrames);
-        blocks = new GroundBlock[10];
-        for (int i = 0; i < 10; i++) {
+        blocks = new GroundBlock[50];
+        for (int i = 0; i < 50; i++) {
             blocks[i] = new GroundBlock(BitmapFactory.decodeResource(BasicConstants.CURRENT_CONTEXT.getResources(), R.drawable.grassmid), playerPoint.x + (70 * i), playerPoint.y + 92, speed);
         }
-
     }
 
     @Override
