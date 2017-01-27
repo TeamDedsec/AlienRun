@@ -18,11 +18,11 @@ import com.example.kaloyanit.alienrun.Utils.GameConstants;
 
 public class StartScene implements IScene {
     private Background background;
-    private Bitmap bitmap;
+    private Bitmap startButton;
 
     public StartScene() {
         background = new Background(BitmapFactory.decodeResource(BasicConstants.CURRENT_CONTEXT.getResources(), R.drawable.bg_grasslands), 0);
-
+        startButton = BitmapFactory.decodeResource(BasicConstants.CURRENT_CONTEXT.getResources(), R.drawable.start_button);
     }
 
 
@@ -43,7 +43,9 @@ public class StartScene implements IScene {
         canvas.scale(scaleFactorX, scaleFactorY);
         background.draw(canvas);
 
+
         canvas.restoreToCount(savedState);
+        canvas.drawBitmap(startButton, 200, 200, null);
     }
 
     @Override
