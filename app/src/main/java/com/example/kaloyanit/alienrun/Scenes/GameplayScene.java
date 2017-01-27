@@ -35,6 +35,7 @@ public class GameplayScene implements IScene {
 
     public GameplayScene() {
         background = new Background(BitmapFactory.decodeResource(BasicConstants.CURRENT_CONTEXT.getResources(), R.drawable.bg_grasslands), speed);
+        pause = BitmapFactory.decodeResource(BasicConstants.CURRENT_CONTEXT.getResources(), R.drawable.pause);
         playerPoint = new Point(162, BasicConstants.BG_HEIGHT - 162);
         player = new Player(BitmapFactory.decodeResource(BasicConstants.CURRENT_CONTEXT.getResources(), R.drawable.p1_walk),
                             BitmapFactory.decodeResource(BasicConstants.CURRENT_CONTEXT.getResources(), R.drawable.p1_jump),
@@ -46,7 +47,6 @@ public class GameplayScene implements IScene {
                             walkFrames,
                             jumpFrames);
         blocks = new GroundBlock[50];
-        pause = BitmapFactory.decodeResource(BasicConstants.CURRENT_CONTEXT.getResources(), R.drawable.pause);
         for (int i = 0; i < 50; i++) {
             blocks[i] = new GroundBlock(BitmapFactory.decodeResource(BasicConstants.CURRENT_CONTEXT.getResources(), R.drawable.grassmid), playerPoint.x + (70 * i), playerPoint.y + 92, speed);
         }
@@ -103,7 +103,6 @@ public class GameplayScene implements IScene {
 
     @Override
     public void draw(Canvas canvas) {
-        canvas.drawBitmap(pause, 120, 120, null);
         final float ratio = BasicConstants.SCREEN_WIDTH / (BasicConstants.SCREEN_HEIGHT * 1.0f);
 
         final float scaleFactorX = BasicConstants.SCREEN_HEIGHT / (BasicConstants.BG_HEIGHT * ratio);
@@ -119,11 +118,12 @@ public class GameplayScene implements IScene {
         }
 
         canvas.restoreToCount(savedState);
+        canvas.drawBitmap(pause, 10, 0, null);
     }
 
     @Override
     public void terminate() {
-        SceneManager.ACTIVE_SCENE = 0;
+        SceneManager.ACTIVE_SCENE = 2;
     }
 
     @Override
@@ -141,7 +141,7 @@ public class GameplayScene implements IScene {
                         player.setJumping(true);
                     }
                 }
-                SceneManager.ACTIVE_SCENE = 2;
+                //SceneManager.ACTIVE_SCENE = 2;
             }
         }
     }
