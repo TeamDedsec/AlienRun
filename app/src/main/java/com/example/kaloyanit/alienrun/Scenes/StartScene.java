@@ -19,7 +19,7 @@ public class StartScene implements IScene {
     private Background background;
 
     public StartScene() {
-        background = new Background(BitmapFactory.decodeResource(BasicConstants.CURRENT_CONTEXT.getResources(), R.drawable.bg_grasslands), GameConstants.BACKGROUND_SPEED);
+        background = new Background(BitmapFactory.decodeResource(BasicConstants.CURRENT_CONTEXT.getResources(), R.drawable.bg_grasslands), 0);
 
     }
 
@@ -31,7 +31,17 @@ public class StartScene implements IScene {
 
     @Override
     public void draw(Canvas canvas) {
+        //TODO: move to constant class
+        final float ratio = BasicConstants.SCREEN_WIDTH / (BasicConstants.SCREEN_HEIGHT * 1.0f);
+
+        final float scaleFactorX = BasicConstants.SCREEN_HEIGHT / (BasicConstants.BG_HEIGHT * ratio);
+        final float scaleFactorY = BasicConstants.SCREEN_HEIGHT / (BasicConstants.BG_HEIGHT * 1.0f);
+
+        final int savedState = canvas.save();
+        canvas.scale(scaleFactorX, scaleFactorY);
         background.draw(canvas);
+
+        canvas.restoreToCount(savedState);
     }
 
     @Override

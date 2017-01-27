@@ -11,6 +11,7 @@ import android.view.MotionEvent;
 import com.example.kaloyanit.alienrun.Contracts.IManager;
 import com.example.kaloyanit.alienrun.Contracts.IScene;
 import com.example.kaloyanit.alienrun.Scenes.GameplayScene;
+import com.example.kaloyanit.alienrun.Scenes.StartScene;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -26,6 +27,7 @@ public class SceneManager implements IManager {
         root = new File("Scenes");
         files = root.listFiles();
         //TODO: Add all scenes with reflection
+        scenes.add(new StartScene());
         scenes.add(new GameplayScene());
     }
 
