@@ -47,6 +47,8 @@ public class Player extends GameObject {
         animation.setDelay(10);
     }
 
+    //TODO: Refactor jump logic, so it is simpler and easier to increase jump count!!!
+
     public boolean isFalling() {
         return isFalling;
     }
@@ -85,7 +87,7 @@ public class Player extends GameObject {
 
     @Override
     public void draw(Canvas canvas) {
-        if (!isOnGround() && jump > 12) {
+        if (!isOnGround() && jump > 15) {
             canvas.drawBitmap(this.duckImage, this.x, this.y + 20, null);
         } else if (!isOnGround()) {
             canvas.drawBitmap(this.jumpImage, this.x, this.y, null);

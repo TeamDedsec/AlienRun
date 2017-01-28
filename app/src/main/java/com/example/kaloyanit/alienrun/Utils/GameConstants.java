@@ -5,5 +5,9 @@ package com.example.kaloyanit.alienrun.Utils;
  */
 
 public class GameConstants {
-    public static int BACKGROUND_SPEED = 8;
+    public static int GRAVITY = 5;
+    public static int GAME_SPEED = -8;
+    public static int JUMP_VELOCITY = -5;
+    public static int JUMP_FRAMES = 20;
+    public static int WALK_FRAMES = 5;
 }

@@ -9,12 +9,16 @@ import android.view.MotionEvent;
 
 import com.example.kaloyanit.alienrun.Contracts.IScene;
 import com.example.kaloyanit.alienrun.Core.SceneManager;
+import com.example.kaloyanit.alienrun.Factories.BackgroundFactory;
+import com.example.kaloyanit.alienrun.Factories.BlockFactory;
+import com.example.kaloyanit.alienrun.Factories.PlayerFactory;
 import com.example.kaloyanit.alienrun.GameObjects.Background;
 import com.example.kaloyanit.alienrun.GameObjects.GameObject;
 import com.example.kaloyanit.alienrun.GameObjects.GroundBlock;
 import com.example.kaloyanit.alienrun.GameObjects.Player;
 import com.example.kaloyanit.alienrun.R;
 import com.example.kaloyanit.alienrun.Utils.BasicConstants;
+import com.example.kaloyanit.alienrun.Utils.GameConstants;
 
 /**
  * Created by KaloyanIT on 1/25/2017.
@@ -27,28 +31,14 @@ public class GameplayScene implements IScene {
     private Bitmap pause;
     private GroundBlock[] blocks;
 
-    public final int gravity = 5;
-    public final int speed = -8;
-    public final int jumpVelocity = -5;
-    public final int jumpFrames = 20;
-    public final int walkFrames = 5;
-
     public GameplayScene() {
-        background = new Background(BitmapFactory.decodeResource(BasicConstants.CURRENT_CONTEXT.getResources(), R.drawable.bg_grasslands), speed);
+        background = BackgroundFactory.createBackground();
         pause = BitmapFactory.decodeResource(BasicConstants.CURRENT_CONTEXT.getResources(), R.drawable.pause);
         playerPoint = new Point(162, BasicConstants.BG_HEIGHT - 162);
-        player = new Player(BitmapFactory.decodeResource(BasicConstants.CURRENT_CONTEXT.getResources(), R.drawable.p1_walk),
-                            BitmapFactory.decodeResource(BasicConstants.CURRENT_CONTEXT.getResources(), R.drawable.p1_jump),
-                            BitmapFactory.decodeResource(BasicConstants.CURRENT_CONTEXT.getResources(), R.drawable.p1_duck),
-                            playerPoint.x,
-                            playerPoint.y,
-                            gravity,
-                            jumpVelocity,
-                            walkFrames,
-                            jumpFrames);
+        player = PlayerFactory.createPlayer("green", playerPoint.x, playerPoint.y);
         blocks = new GroundBlock[50];
         for (int i = 0; i < 50; i++) {
-            blocks[i] = new GroundBlock(BitmapFactory.decodeResource(BasicConstants.CURRENT_CONTEXT.getResources(), R.drawable.grassmid), playerPoint.x + (70 * i), playerPoint.y + 92, speed);
+            blocks[i] = BlockFactory.createBlock(playerPoint.x + (70 * i), playerPoint.y + 92);
         }
 
     }
