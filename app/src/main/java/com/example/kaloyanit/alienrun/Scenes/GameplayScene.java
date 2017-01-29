@@ -6,6 +6,7 @@ import android.graphics.Canvas;
 import android.graphics.Point;
 import android.graphics.Rect;
 import android.view.MotionEvent;
+import android.view.View;
 
 import com.example.kaloyanit.alienrun.Contracts.IScene;
 import com.example.kaloyanit.alienrun.Core.SceneManager;
@@ -29,6 +30,7 @@ public class GameplayScene implements IScene {
     private Background background;
     private Point playerPoint;
     private Bitmap pause;
+    private View pauseView;
     private GroundBlock[] blocks;
 
     public GameplayScene() {
@@ -103,13 +105,13 @@ public class GameplayScene implements IScene {
         canvas.scale(scaleFactorX, scaleFactorY);
 
         background.draw(canvas);
+        canvas.drawBitmap(pause, 10, 0, null);
         player.draw(canvas);
         for (int i = 0; i < blocks.length; i++) {
             blocks[i].draw(canvas);
         }
 
         canvas.restoreToCount(savedState);
-        canvas.drawBitmap(pause, 10, 0, null);
     }
 
     @Override
@@ -119,6 +121,8 @@ public class GameplayScene implements IScene {
 
     @Override
     public void recieveTouch(MotionEvent event) {
+        float x = event.getX();
+        float y = event.getY();
         //Sample event
         switch (event.getAction()) {
             case MotionEvent.ACTION_DOWN: {
@@ -132,6 +136,8 @@ public class GameplayScene implements IScene {
                         player.setJumping(true);
                     }
                 }
+
+                //if(pause.getWidth())
                 //SceneManager.ACTIVE_SCENE = 2;
             }
         }
