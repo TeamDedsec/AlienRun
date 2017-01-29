@@ -3,6 +3,7 @@ package com.example.kaloyanit.alienrun.Core;
 import android.content.Context;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
+import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
@@ -12,6 +13,8 @@ import com.example.kaloyanit.alienrun.PauseView;
 import com.example.kaloyanit.alienrun.R;
 import com.example.kaloyanit.alienrun.Utils.BasicConstants;
 import com.example.kaloyanit.alienrun.Utils.GameConstants;
+
+import org.w3c.dom.Attr;
 
 /**
  * Created by KaloyanIT on 1/25/2017.
@@ -38,6 +41,34 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
 
         setFocusable(true);
 
+        //setWillNotDraw(false);
+
+    }
+
+    public GamePanel(Context context, AttributeSet attrs) {
+        super(context, attrs);
+        getHolder().addCallback(this);
+
+        BasicConstants.CURRENT_CONTEXT = context;
+
+        thread = new MainThread(getHolder(), this);
+
+        manager = new SceneManager();
+
+        setFocusable(true);
+    }
+
+    public GamePanel(Context context, AttributeSet attrs, int defStyle) {
+        super(context, attrs, defStyle);
+        getHolder().addCallback(this);
+
+        BasicConstants.CURRENT_CONTEXT = context;
+
+        thread = new MainThread(getHolder(), this);
+
+        manager = new SceneManager();
+
+        setFocusable(true);
     }
 
     public void pause() {

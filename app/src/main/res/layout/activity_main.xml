@@ -16,9 +16,15 @@
         <!--android:text="Button"-->
         <!--android:id="@+id/button" />-->
 
-    <SurfaceView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:id="@+id/gameView">
-    </SurfaceView>
+    <!--<com.AlienRun.GamePanel-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="match_parent"-->
+        <!--android:id="@+id/gameView"/>-->
+    <!--</com.example.kaloyanit.alienrun.Core.GamePanel>-->
+
+    <com.example.kaloyanit.alienrun.Core.GamePanel
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:id="@+id/gameView"/>
 </RelativeLayout>

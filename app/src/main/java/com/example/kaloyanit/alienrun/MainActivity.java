@@ -31,8 +31,10 @@ public class MainActivity extends Activity {
         BasicConstants.SCREEN_WIDTH = dm.widthPixels;
         BasicConstants.SCREEN_HEIGHT = dm.heightPixels;
 
-        //setContentView(R.layout.activity_main);
-        setContentView(new GamePanel(this));
+        setContentView(R.layout.activity_main);
+
+        //setContentView(new GamePanel(this));
+        GamePanel view = (GamePanel)findViewById(R.id.gameView);
 
         //CompleteBullshit
 //        setContentView(R.layout.activity_main);
