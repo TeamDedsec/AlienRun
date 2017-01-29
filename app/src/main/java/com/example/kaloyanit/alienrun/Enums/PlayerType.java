@@ -5,4 +5,7 @@ package com.example.kaloyanit.alienrun.Enums;
  */
 
 public enum PlayerType {
+    Green,
+    Blue,
+    Pink
 }

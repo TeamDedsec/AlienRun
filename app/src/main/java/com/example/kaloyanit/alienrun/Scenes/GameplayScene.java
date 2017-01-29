@@ -9,6 +9,8 @@ import android.view.MotionEvent;
 
 import com.example.kaloyanit.alienrun.Contracts.IScene;
 import com.example.kaloyanit.alienrun.Core.SceneManager;
+import com.example.kaloyanit.alienrun.Enums.PlayerState;
+import com.example.kaloyanit.alienrun.Enums.PlayerType;
 import com.example.kaloyanit.alienrun.Factories.BackgroundFactory;
 import com.example.kaloyanit.alienrun.Factories.BlockFactory;
 import com.example.kaloyanit.alienrun.Factories.PlayerFactory;
@@ -35,7 +37,7 @@ public class GameplayScene implements IScene {
         background = BackgroundFactory.createBackground();
         pause = BitmapFactory.decodeResource(BasicConstants.CURRENT_CONTEXT.getResources(), R.drawable.pause);
         playerPoint = new Point(162, BasicConstants.BG_HEIGHT - 162);
-        player = PlayerFactory.createPlayer("green", playerPoint.x, playerPoint.y);
+        player = PlayerFactory.createPlayer(PlayerType.Blue, playerPoint.x, playerPoint.y);
         blocks = new GroundBlock[50];
         for (int i = 0; i < 50; i++) {
             blocks[i] = BlockFactory.createBlock(playerPoint.x + (70 * i), playerPoint.y + 92);
@@ -45,29 +47,20 @@ public class GameplayScene implements IScene {
 
     @Override
     public void update() {
-        if (!player.isOnGround()) {
-            if (!player.isJumping()) {
-                if (checkCollision(player, blocks)) {
-                    player.setFalling(false);
-                    player.setOnGround(true);
-                } else {
-                    player.setFalling(true);
+        switch (player.getState()) {
+            case Running:
+                if (!checkCollision(player, blocks)) {
+                    player.setState(PlayerState.Falling);
                 }
-            }
-        } else {
-            if (player.isJumping()) {
-                player.setOnGround(false);
-            } else {
+                break;
+            case Jumping:
+                break;
+            case Falling:
                 if (checkCollision(player, blocks)) {
-                    player.setJumping(false);
-                    player.setDoubleJumping(false);
-                    player.setOnGround(true);
-                    player.setFalling(false);
-                } else {
-                    player.setOnGround(false);
-                    player.setFalling(true);
+                    player.setState(PlayerState.Running);
+                    player.setJumps(0);
                 }
-            }
+                break;
         }
         player.update();
         background.update();
@@ -122,15 +115,24 @@ public class GameplayScene implements IScene {
         //Sample event
         switch (event.getAction()) {
             case MotionEvent.ACTION_DOWN: {
-                if (player.isOnGround()) {
-                    player.setJumping(true);
-                    player.setOnGround(false);
-                } else {
-                    if (!player.isDoubleJumping()) {
+                switch (player.getState()) {
+                    case Running:
+                        player.setState(PlayerState.Jumping);
                         player.resetJump();
-                        player.setDoubleJumping(true);
-                        player.setJumping(true);
-                    }
+                        break;
+                    case Jumping:
+                        if (player.getJumps() < player.getJumpCount()) {
+                            player.resetJump();
+                            player.setJumps(player.getJumps() + 1);
+                        }
+                        break;
+                    case Falling:
+                        if (player.getJumps() < player.getJumpCount()) {
+                            player.setState(PlayerState.Jumping);
+                            player.resetJump();
+                            player.setJumps(player.getJumps() + 1);
+                        }
+                        break;
                 }
                 //SceneManager.ACTIVE_SCENE = 2;
             }

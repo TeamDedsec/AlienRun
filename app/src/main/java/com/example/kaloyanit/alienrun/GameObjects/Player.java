@@ -4,6 +4,8 @@ import android.graphics.Bitmap;
 import android.graphics.Canvas;
 
 import com.example.kaloyanit.alienrun.Core.Animation;
+import com.example.kaloyanit.alienrun.Enums.PlayerState;
+import com.example.kaloyanit.alienrun.Utils.GameConstants;
 
 /**
  * Created by KaloyanIT on 1/25/2017.
@@ -13,29 +15,36 @@ public class Player extends GameObject {
     private Bitmap walksheet;
     private Bitmap jumpImage;
     private Bitmap duckImage;
+    private PlayerState state;
     private int gravity;
     private int jumpVelocity;
     private int jumpFrames;
+    private int duckFrames;
     private int jump = 0;
     private Animation animation;
+    private int jumpCount;
+    private int lives;
+    private int jumps;
 
-    private boolean isFalling = true;
-    private boolean isOnGround = false;
-    private boolean isJumping = false;
-    private boolean isDoubleJumping = false;
-
-    public Player(Bitmap walksheet, Bitmap jumpImage, Bitmap duckImage, int x, int y, int gravity, int jumpVelocity, int walkFrames, int jumpFrames) {
+    public Player(Bitmap walksheet, Bitmap jumpImage, Bitmap duckImage,
+                  int x, int y, int gravity, int jumpVelocity, int walkFrames, int jumpFrames,
+                  int duckFrames, int jumpCount, int lives) {
         this.walksheet = walksheet;
         this.jumpImage = jumpImage;
         this.duckImage = duckImage;
+        this.state = PlayerState.Running;
         this.x = x;
         this.y = y;
-        this.width = 66;
-        this.height = 92;
+        this.width = GameConstants.PLAYER_WIDTH;
+        this.height = GameConstants.PLAYER_HEIGTH;
         this.gravity = gravity;
         this.jumpVelocity = jumpVelocity;
         this.jumpFrames = jumpFrames;
+        this.duckFrames = duckFrames;
         this.animation = new Animation();
+        this.jumpCount = jumpCount;
+        this.lives = lives;
+        this.jumps = 0;
 
         Bitmap[] walk = new Bitmap[walkFrames];
 
@@ -44,41 +53,35 @@ public class Player extends GameObject {
         }
 
         animation.setFrames(walk, walkFrames);
-        animation.setDelay(10);
+        animation.setDelay(GameConstants.DELAY);
     }
 
-    //TODO: Refactor jump logic, so it is simpler and easier to increase jump count!!!
-
-    public boolean isFalling() {
-        return isFalling;
+    public PlayerState getState() {
+        return state;
     }
 
-    public void setFalling(boolean falling) {
-        isFalling = falling;
+    public void setState(PlayerState state) {
+        this.state = state;
     }
 
-    public boolean isOnGround() {
-        return isOnGround;
+    public int getLives() {
+        return lives;
     }
 
-    public void setOnGround(boolean onGround) {
-        isOnGround = onGround;
+    public void setLives(int lives) {
+        this.lives = lives;
     }
 
-    public boolean isJumping() {
-        return isJumping;
+    public int getJumpCount() {
+        return jumpCount;
     }
 
-    public void setJumping(boolean jumping) {
-        this.isJumping = jumping;
+    public int getJumps() {
+        return jumps;
     }
 
-    public boolean isDoubleJumping() {
-        return isDoubleJumping;
-    }
-
-    public void setDoubleJumping(boolean doubleJumping) {
-        this.isDoubleJumping = doubleJumping;
+    public void setJumps(int jumps) {
+        this.jumps = jumps;
     }
 
     public void resetJump() {
@@ -87,31 +90,36 @@ public class Player extends GameObject {
 
     @Override
     public void draw(Canvas canvas) {
-        if (!isOnGround() && jump > 15) {
-            canvas.drawBitmap(this.duckImage, this.x, this.y + 20, null);
-        } else if (!isOnGround()) {
-            canvas.drawBitmap(this.jumpImage, this.x, this.y, null);
-        } else {
-            canvas.drawBitmap(animation.getImage(), this.x, this.y, null);
+        switch (state) {
+            case Running:
+                canvas.drawBitmap(animation.getImage(), this.x, this.y, null);
+                break;
+            case Jumping:
+                if (jump > jumpFrames - duckFrames) {
+                    canvas.drawBitmap(this.duckImage, this.x, this.y + GameConstants.DUCK_CORRECTION, null);
+                } else {
+                    canvas.drawBitmap(this.jumpImage, this.x, this.y, null);
+                }
+                break;
+            case Falling: canvas.drawBitmap(this.jumpImage, this.x, this.y, null);
+                break;
         }
     }
 
     @Override
     public void update() {
-        if (jump >= 0) {
-            this.y += this.jumpVelocity;
-            jump--;
-            if (jump == 0) {
-                this.isJumping = false;
-                this.isFalling = true;
-            }
-        } else {
-            if (isJumping()) {
-                this.resetJump();
-            } else if (isFalling()) {
-                this.y += this.gravity;
-            }
+        switch (state) {
+            case Jumping:
+                this.y += this.jumpVelocity;
+                jump--;
+                if (jump == 0) {
+                    state = PlayerState.Falling;
+                }
+                break;
+            case Falling: this.y += this.gravity;
+                break;
         }
+
         animation.update();
     }
 }
