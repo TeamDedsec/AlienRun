@@ -8,6 +8,7 @@ import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 
 import com.example.kaloyanit.alienrun.GameObjects.Background;
+import com.example.kaloyanit.alienrun.PauseView;
 import com.example.kaloyanit.alienrun.R;
 import com.example.kaloyanit.alienrun.Utils.BasicConstants;
 import com.example.kaloyanit.alienrun.Utils.GameConstants;
@@ -17,6 +18,7 @@ import com.example.kaloyanit.alienrun.Utils.GameConstants;
  */
 
 public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
+
     private MainThread thread;
     private Background background;
     private SceneManager manager;
@@ -31,8 +33,6 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
         BasicConstants.CURRENT_CONTEXT = context;
 
         thread = new MainThread(getHolder(), this);
-
-
 
         manager = new SceneManager();
 
@@ -63,7 +63,7 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
         thread = new MainThread(getHolder(), this);
 
         thread.setRunning(true);
-        thread.start();
+        thread.start();        ;
     }
 
     @Override
@@ -95,6 +95,7 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
     @Override
     public void draw(Canvas canvas) {
         super.draw(canvas);
+        //pauseview.onDraw(canvas);
         manager.draw(canvas);
 
     }

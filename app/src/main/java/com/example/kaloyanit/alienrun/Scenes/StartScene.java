@@ -42,10 +42,10 @@ public class StartScene implements IScene {
         final int savedState = canvas.save();
         canvas.scale(scaleFactorX, scaleFactorY);
         background.draw(canvas);
-
+        canvas.drawBitmap(startButton, 200, 200, null);
 
         canvas.restoreToCount(savedState);
-        canvas.drawBitmap(startButton, 200, 200, null);
+
     }
 
     @Override
