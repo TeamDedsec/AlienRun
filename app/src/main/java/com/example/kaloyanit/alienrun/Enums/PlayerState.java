@@ -7,5 +7,6 @@ package com.example.kaloyanit.alienrun.Enums;
 public enum PlayerState {
     Running,
     Jumping,
-    Falling
+    Falling,
+    Drowning
 }

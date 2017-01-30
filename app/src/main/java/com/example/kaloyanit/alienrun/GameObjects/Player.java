@@ -5,6 +5,7 @@ import android.graphics.Canvas;
 
 import com.example.kaloyanit.alienrun.Core.Animation;
 import com.example.kaloyanit.alienrun.Enums.PlayerState;
+import com.example.kaloyanit.alienrun.Utils.BasicConstants;
 import com.example.kaloyanit.alienrun.Utils.GameConstants;
 
 /**
@@ -25,6 +26,8 @@ public class Player extends GameObject {
     private int jumpCount;
     private int lives;
     private int jumps;
+    private int drownFrames;
+    private boolean isAlive = true;
 
     public Player(Bitmap walksheet, Bitmap jumpImage, Bitmap duckImage,
                   int x, int y, int gravity, int jumpVelocity, int walkFrames, int jumpFrames,
@@ -88,6 +91,18 @@ public class Player extends GameObject {
         this.jump = jumpFrames;
     }
 
+    public int getDrownFrames() {
+        return drownFrames;
+    }
+
+    public void resetDrownFrames() {
+        this.drownFrames = GameConstants.DRWON_FRAMES;
+    }
+
+    public boolean isAlive() {
+        return isAlive;
+    }
+
     @Override
     public void draw(Canvas canvas) {
         switch (state) {
@@ -103,6 +118,8 @@ public class Player extends GameObject {
                 break;
             case Falling: canvas.drawBitmap(this.jumpImage, this.x, this.y, null);
                 break;
+            case Drowning: canvas.drawBitmap(this.jumpImage, this.x, this.y, null);
+                break;
         }
     }
 
@@ -117,6 +134,14 @@ public class Player extends GameObject {
                 }
                 break;
             case Falling: this.y += this.gravity;
+                if (y > BasicConstants.BG_HEIGHT)
+                    isAlive = false;
+                break;
+            case Drowning: this.y += this.gravity;
+                drownFrames--;
+                if (drownFrames == 0) {
+                    isAlive = false;
+                }
                 break;
         }
 

@@ -7,6 +7,7 @@ import android.view.MotionEvent;
 
 import com.example.kaloyanit.alienrun.Contracts.IScene;
 import com.example.kaloyanit.alienrun.Core.SceneManager;
+import com.example.kaloyanit.alienrun.Enums.BackgroundType;
 import com.example.kaloyanit.alienrun.Factories.BackgroundFactory;
 import com.example.kaloyanit.alienrun.GameObjects.Background;
 import com.example.kaloyanit.alienrun.R;
@@ -22,7 +23,7 @@ public class StartScene implements IScene {
     private Bitmap startButton;
 
     public StartScene() {
-        background = BackgroundFactory.createStaticBackground();
+        background = BackgroundFactory.createBackground(BackgroundType.Grass);
         startButton = BitmapFactory.decodeResource(BasicConstants.CURRENT_CONTEXT.getResources(), R.drawable.start_button);
     }
 
