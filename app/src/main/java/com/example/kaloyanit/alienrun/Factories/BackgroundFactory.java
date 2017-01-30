@@ -1,5 +1,6 @@
 package com.example.kaloyanit.alienrun.Factories;
 
+import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 
 import com.example.kaloyanit.alienrun.GameObjects.Background;
@@ -13,9 +14,8 @@ import com.example.kaloyanit.alienrun.Utils.GameConstants;
 
 public class BackgroundFactory {
     public static Background createBackground() {
-        return new Background(BitmapFactory.decodeResource(
-                BasicConstants.CURRENT_CONTEXT.getResources(),
-                R.drawable.bg_grasslands),
-                GameConstants.GAME_SPEED);
+        Bitmap image = BitmapFactory.decodeResource(BasicConstants.CURRENT_CONTEXT.getResources(), R.drawable.bg_grasslands);
+        Bitmap resizedImage = Bitmap.createScaledBitmap(image, BasicConstants.BG_WIDTH, BasicConstants.BG_HEIGHT, false);
+        return new Background(resizedImage, GameConstants.GAME_SPEED);
     }
 }

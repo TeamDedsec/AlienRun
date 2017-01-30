@@ -39,9 +39,9 @@ public class GameplayScene implements IScene {
         background = BackgroundFactory.createBackground();
         pause = BitmapFactory.decodeResource(BasicConstants.CURRENT_CONTEXT.getResources(), R.drawable.pause);
         playerPoint = new Point(162, BasicConstants.BG_HEIGHT - 162);
-        player = PlayerFactory.createPlayer(PlayerType.Blue, playerPoint.x, playerPoint.y);
+        player = PlayerFactory.createPlayer(PlayerType.Green, playerPoint.x, playerPoint.y);
         blocks = new GroundBlock[50];
-        for (int i = 0; i < 50; i++) {
+        for (int i = 0; i < blocks.length; i++) {
             blocks[i] = BlockFactory.createBlock(playerPoint.x + (70 * i), playerPoint.y + 92);
         }
 
@@ -89,9 +89,8 @@ public class GameplayScene implements IScene {
 
     @Override
     public void draw(Canvas canvas) {
-        final float ratio = BasicConstants.SCREEN_WIDTH / (BasicConstants.SCREEN_HEIGHT * 1.0f);
-
-        final float scaleFactorX = BasicConstants.SCREEN_HEIGHT / (BasicConstants.BG_HEIGHT * ratio);
+        //final float ratio = BasicConstants.SCREEN_WIDTH / (BasicConstants.SCREEN_HEIGHT * 1.0f);
+        final float scaleFactorX = BasicConstants.SCREEN_HEIGHT / (BasicConstants.BG_HEIGHT * 1.0f);
         final float scaleFactorY = BasicConstants.SCREEN_HEIGHT / (BasicConstants.BG_HEIGHT * 1.0f);
 
         final int savedState = canvas.save();
