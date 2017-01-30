@@ -23,11 +23,7 @@ public class StartScene implements IScene {
     private Bitmap startButton;
 
     public StartScene() {
-<<<<<<< HEAD
         background = BackgroundFactory.createBackground(BackgroundType.Grass);
-=======
-        background = BackgroundFactory.createStaticBackground();
->>>>>>> adbe4bccbf16646d0cb9bab7fe3af9129cc948e7
         startButton = BitmapFactory.decodeResource(BasicConstants.CURRENT_CONTEXT.getResources(), R.drawable.start_button);
     }
 
