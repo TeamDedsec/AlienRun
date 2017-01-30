@@ -15,37 +15,41 @@ import com.example.kaloyanit.alienrun.Utils.GameConstants;
 public class PlayerFactory {
     public static Player createPlayer(PlayerType type, int x, int y) {
         switch (type) {
-            case Green: return new Player(BitmapFactory.decodeResource(BasicConstants.CURRENT_CONTEXT.getResources(), R.drawable.p1_walk),
-                    BitmapFactory.decodeResource(BasicConstants.CURRENT_CONTEXT.getResources(), R.drawable.p1_jump),
-                    BitmapFactory.decodeResource(BasicConstants.CURRENT_CONTEXT.getResources(), R.drawable.p1_duck),
-                    x, y,
-                    GameConstants.GRAVITY,
-                    GameConstants.JUMP_VELOCITY,
-                    GameConstants.WALK_FRAMES,
-                    GameConstants.JUMP_FRAMES,
-                    GameConstants.DUCK_FRAMES,
-                    1, 1);
-            case Blue: return new Player(BitmapFactory.decodeResource(BasicConstants.CURRENT_CONTEXT.getResources(), R.drawable.p2_walk),
-                    BitmapFactory.decodeResource(BasicConstants.CURRENT_CONTEXT.getResources(), R.drawable.p2_jump),
-                    BitmapFactory.decodeResource(BasicConstants.CURRENT_CONTEXT.getResources(), R.drawable.p2_duck),
-                    x, y,
-                    GameConstants.GRAVITY,
-                    GameConstants.JUMP_VELOCITY,
-                    GameConstants.WALK_FRAMES,
-                    GameConstants.JUMP_FRAMES,
-                    GameConstants.DUCK_FRAMES,
-                    1, 2);
-            case Pink: return new Player(BitmapFactory.decodeResource(BasicConstants.CURRENT_CONTEXT.getResources(), R.drawable.p3_walk),
-                    BitmapFactory.decodeResource(BasicConstants.CURRENT_CONTEXT.getResources(), R.drawable.p3_jump),
-                    BitmapFactory.decodeResource(BasicConstants.CURRENT_CONTEXT.getResources(), R.drawable.p3_duck),
-                    x, y,
-                    GameConstants.GRAVITY,
-                    GameConstants.JUMP_VELOCITY,
-                    GameConstants.WALK_FRAMES,
-                    GameConstants.JUMP_FRAMES,
-                    GameConstants.DUCK_FRAMES,
-                    2, 1);
-            default: throw new RuntimeException();
+            case Green:
+                return new Player(BitmapFactory.decodeResource(BasicConstants.CURRENT_CONTEXT.getResources(), R.drawable.p1_walk),
+                        BitmapFactory.decodeResource(BasicConstants.CURRENT_CONTEXT.getResources(), R.drawable.p1_jump),
+                        BitmapFactory.decodeResource(BasicConstants.CURRENT_CONTEXT.getResources(), R.drawable.p1_duck),
+                        x, y,
+                        GameConstants.GRAVITY,
+                        GameConstants.JUMP_VELOCITY,
+                        GameConstants.WALK_FRAMES,
+                        GameConstants.JUMP_FRAMES,
+                        GameConstants.DUCK_FRAMES,
+                        1, 1);
+            case Blue:
+                return new Player(BitmapFactory.decodeResource(BasicConstants.CURRENT_CONTEXT.getResources(), R.drawable.p2_walk),
+                        BitmapFactory.decodeResource(BasicConstants.CURRENT_CONTEXT.getResources(), R.drawable.p2_jump),
+                        BitmapFactory.decodeResource(BasicConstants.CURRENT_CONTEXT.getResources(), R.drawable.p2_duck),
+                        x, y,
+                        GameConstants.GRAVITY,
+                        GameConstants.JUMP_VELOCITY,
+                        GameConstants.WALK_FRAMES,
+                        GameConstants.JUMP_FRAMES,
+                        GameConstants.DUCK_FRAMES,
+                        1, 2);
+            case Pink:
+                return new Player(BitmapFactory.decodeResource(BasicConstants.CURRENT_CONTEXT.getResources(), R.drawable.p3_walk),
+                        BitmapFactory.decodeResource(BasicConstants.CURRENT_CONTEXT.getResources(), R.drawable.p3_jump),
+                        BitmapFactory.decodeResource(BasicConstants.CURRENT_CONTEXT.getResources(), R.drawable.p3_duck),
+                        x, y,
+                        GameConstants.GRAVITY,
+                        GameConstants.JUMP_VELOCITY,
+                        GameConstants.WALK_FRAMES,
+                        GameConstants.JUMP_FRAMES,
+                        GameConstants.DUCK_FRAMES,
+                        2, 1);
+            default:
+                throw new RuntimeException();
         }
     }
 }

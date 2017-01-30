@@ -10,6 +10,9 @@ import android.view.View;
 
 import com.example.kaloyanit.alienrun.Contracts.IScene;
 import com.example.kaloyanit.alienrun.Core.SceneManager;
+import com.example.kaloyanit.alienrun.Enums.BackgroundType;
+import com.example.kaloyanit.alienrun.Enums.BlockType;
+import com.example.kaloyanit.alienrun.Enums.CollisionType;
 import com.example.kaloyanit.alienrun.Enums.PlayerState;
 import com.example.kaloyanit.alienrun.Enums.PlayerType;
 import com.example.kaloyanit.alienrun.Factories.BackgroundFactory;
@@ -17,11 +20,12 @@ import com.example.kaloyanit.alienrun.Factories.BlockFactory;
 import com.example.kaloyanit.alienrun.Factories.PlayerFactory;
 import com.example.kaloyanit.alienrun.GameObjects.Background;
 import com.example.kaloyanit.alienrun.GameObjects.GameObject;
-import com.example.kaloyanit.alienrun.GameObjects.GroundBlock;
+import com.example.kaloyanit.alienrun.GameObjects.Block;
 import com.example.kaloyanit.alienrun.GameObjects.Player;
 import com.example.kaloyanit.alienrun.R;
 import com.example.kaloyanit.alienrun.Utils.BasicConstants;
-import com.example.kaloyanit.alienrun.Utils.GameConstants;
+
+import java.util.ArrayList;
 
 /**
  * Created by KaloyanIT on 1/25/2017.
@@ -33,41 +37,60 @@ public class GameplayScene implements IScene {
     private Point playerPoint;
     private Bitmap pause;
     private View pauseView;
-    private GroundBlock[] blocks;
+    private ArrayList<Block> blocks;
 
     public GameplayScene() {
-        background = BackgroundFactory.createBackground();
+        background = BackgroundFactory.createBackground(BackgroundType.Grass);
         pause = BitmapFactory.decodeResource(BasicConstants.CURRENT_CONTEXT.getResources(), R.drawable.pause);
         playerPoint = new Point(162, BasicConstants.BG_HEIGHT - 162);
         player = PlayerFactory.createPlayer(PlayerType.Green, playerPoint.x, playerPoint.y);
-        blocks = new GroundBlock[50];
-        for (int i = 0; i < blocks.length; i++) {
-            blocks[i] = BlockFactory.createBlock(playerPoint.x + (70 * i), playerPoint.y + 92);
+        blocks = new ArrayList<Block>();
+        for (int i = 0; i < 50; i++) {
+            if (i == 23) {
+                blocks.add(BlockFactory.createBlock(BlockType.GrassRight, (70 * i), playerPoint.y + 92));
+            } else if (i >= 24 && i <= 26) {
+                blocks.add(BlockFactory.createBlock(BlockType.Water, (70 * i), playerPoint.y + 92));
+            } else if (i == 27) {
+                blocks.add(BlockFactory.createBlock(BlockType.GrassLeft, (70 * i), playerPoint.y + 92));
+            } else {
+                blocks.add(BlockFactory.createBlock(BlockType.GrassMid, (70 * i), playerPoint.y + 92));
+            }
         }
 
     }
 
     @Override
     public void update() {
-        switch (player.getState()) {
-            case Running:
-                if (!checkCollision(player, blocks)) {
-                    player.setState(PlayerState.Falling);
+        if (player.isAlive()) {
+            switch (player.getState()) {
+                case Running:
+                    switch (checkCollision(player, blocks)) {
+                        case None:
+                            player.setState(PlayerState.Falling);
+                            break;
+                        case Water:
+                            player.setState(PlayerState.Drowning);
+                            player.resetDrownFrames();
+                            break;
+                    }
+                case Jumping:
+                    break;
+                case Falling:
+                    switch (checkCollision(player, blocks)) {
+                        case Ground:
+                            player.setState(PlayerState.Running);
+                            player.setJumps(0);
+                            break;
+                    }
+            }
+            player.update();
+            background.update();
+            for (int i = 0; i < blocks.size(); i++) {
+                blocks.get(i).update();
+                if (blocks.get(i).getX() < -100) {
+                    blocks.remove(i);
                 }
-                break;
-            case Jumping:
-                break;
-            case Falling:
-                if (checkCollision(player, blocks)) {
-                    player.setState(PlayerState.Running);
-                    player.setJumps(0);
-                }
-                break;
-        }
-        player.update();
-        background.update();
-        for (int i = 0; i < blocks.length; i++) {
-            blocks[i].update();
+            }
         }
     }
 
@@ -75,16 +98,15 @@ public class GameplayScene implements IScene {
         return Rect.intersects(object1.getRectangle(), object2.getRectangle());
     }
 
-    private boolean checkCollision(GameObject object, GameObject[] objectArr) {
+    private CollisionType checkCollision(GameObject object, ArrayList<? extends GameObject> objectArr) {
         boolean result = false;
-        for (int i = 0; i < objectArr.length; i++) {
-            if (Rect.intersects(object.getRectangle(), objectArr[i].getRectangle())) {
+        for (int i = 0; i < objectArr.size(); i++) {
+            if (Rect.intersects(object.getRectangle(), blocks.get(i).getRectangle())) {
                 result = true;
-                break;
+                return blocks.get(i).getCollisionType();
             }
         }
-
-        return result;
+        return CollisionType.None;
     }
 
     @Override
@@ -99,8 +121,8 @@ public class GameplayScene implements IScene {
         background.draw(canvas);
         canvas.drawBitmap(pause, 10, 0, null);
         player.draw(canvas);
-        for (int i = 0; i < blocks.length; i++) {
-            blocks[i].draw(canvas);
+        for (int i = 0; i < blocks.size(); i++) {
+            blocks.get(i).draw(canvas);
         }
 
         canvas.restoreToCount(savedState);
@@ -116,30 +138,38 @@ public class GameplayScene implements IScene {
         float x = event.getX();
         float y = event.getY();
         //Sample event
-        switch (event.getAction()) {
-            case MotionEvent.ACTION_DOWN: {
-                switch (player.getState()) {
-                    case Running:
-                        player.setState(PlayerState.Jumping);
-                        player.resetJump();
-                        break;
-                    case Jumping:
-                        if (player.getJumps() < player.getJumpCount()) {
-                            player.resetJump();
-                            player.setJumps(player.getJumps() + 1);
-                        }
-                        break;
-                    case Falling:
-                        if (player.getJumps() < player.getJumpCount()) {
+        if (player.isAlive()) {
+            switch (event.getAction()) {
+                case MotionEvent.ACTION_DOWN: {
+                    switch (player.getState()) {
+                        case Running:
                             player.setState(PlayerState.Jumping);
                             player.resetJump();
-                            player.setJumps(player.getJumps() + 1);
-                        }
-                        break;
-                }
+                            break;
+                        case Jumping:
+                            if (player.getJumps() < player.getJumpCount()) {
+                                player.resetJump();
+                                player.setJumps(player.getJumps() + 1);
+                            }
+                            break;
+                        case Falling:
+                            if (player.getJumps() < player.getJumpCount()) {
+                                player.setState(PlayerState.Jumping);
+                                player.resetJump();
+                                player.setJumps(player.getJumps() + 1);
+                            }
+                            break;
+                        case Drowning:
+                            if (player.getJumps() < player.getJumpCount()) {
+                                player.setState(PlayerState.Jumping);
+                                player.resetJump();
+                                player.setJumps(player.getJumps() + 1);
+                            }
+                    }
 
-                //if(pause.getWidth())
-                //SceneManager.ACTIVE_SCENE = 2;
+                    //if(pause.getWidth())
+                    //SceneManager.ACTIVE_SCENE = 2;
+                }
             }
         }
     }
