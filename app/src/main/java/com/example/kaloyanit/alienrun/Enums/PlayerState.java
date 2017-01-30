@@ -8,5 +8,6 @@ public enum PlayerState {
     Running,
     Jumping,
     Falling,
-    Drowning
+    Drowning,
+    HitWall
 }

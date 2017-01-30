@@ -24,6 +24,7 @@ import com.example.kaloyanit.alienrun.GameObjects.Block;
 import com.example.kaloyanit.alienrun.GameObjects.Player;
 import com.example.kaloyanit.alienrun.R;
 import com.example.kaloyanit.alienrun.Utils.BasicConstants;
+import com.example.kaloyanit.alienrun.Utils.GameConstants;
 
 import java.util.ArrayList;
 
@@ -46,11 +47,21 @@ public class GameplayScene implements IScene {
         player = PlayerFactory.createPlayer(PlayerType.Green, playerPoint.x, playerPoint.y);
         blocks = new ArrayList<Block>();
         for (int i = 0; i < 50; i++) {
-            if (i == 23) {
+            if (i == 20) {
                 blocks.add(BlockFactory.createBlock(BlockType.GrassRight, (70 * i), playerPoint.y + 92));
-            } else if (i >= 24 && i <= 26) {
+            } else if (i >= 21 && i <= 23) {
                 blocks.add(BlockFactory.createBlock(BlockType.Water, (70 * i), playerPoint.y + 92));
-            } else if (i == 27) {
+            } else if (i == 24) {
+                blocks.add(BlockFactory.createBlock(BlockType.GrassLeft, (70 * i), playerPoint.y + 92));
+            } else if (i == 32) {
+                blocks.add(BlockFactory.createBlock(BlockType.GrassRight, (70 * i), playerPoint.y + 92));
+            } else if (i == 33) {
+                blocks.add(BlockFactory.createBlock(BlockType.GrassHalfLeft, (70 * i), playerPoint.y - 40));
+            } else if (i == 34) {
+                blocks.add(BlockFactory.createBlock(BlockType.GrassHalfMid, (70 * i), playerPoint.y - 40));
+            } else if (i == 35) {
+                blocks.add(BlockFactory.createBlock(BlockType.GrassHalfRight, (70 * i), playerPoint.y - 40));
+            } else if (i == 36) {
                 blocks.add(BlockFactory.createBlock(BlockType.GrassLeft, (70 * i), playerPoint.y + 92));
             } else {
                 blocks.add(BlockFactory.createBlock(BlockType.GrassMid, (70 * i), playerPoint.y + 92));
@@ -72,14 +83,31 @@ public class GameplayScene implements IScene {
                             player.setState(PlayerState.Drowning);
                             player.resetDrownFrames();
                             break;
+                        case Wall:
+                            player.setState(PlayerState.HitWall);
+                            break;
                     }
                 case Jumping:
+                    switch (checkCollision(player, blocks)) {
+                        case Water:
+                            player.setState(PlayerState.Drowning);
+                            break;
+                        case Wall:
+                            player.setState(PlayerState.HitWall);
+                            break;
+                    }
                     break;
                 case Falling:
                     switch (checkCollision(player, blocks)) {
+                        case Water:
+                            player.setState(PlayerState.Drowning);
+                            break;
                         case Ground:
                             player.setState(PlayerState.Running);
                             player.setJumps(0);
+                            break;
+                        case Wall:
+                            player.setState(PlayerState.HitWall);
                             break;
                     }
             }
@@ -99,14 +127,34 @@ public class GameplayScene implements IScene {
     }
 
     private CollisionType checkCollision(GameObject object, ArrayList<? extends GameObject> objectArr) {
-        boolean result = false;
+        CollisionType collisionType = CollisionType.None;
         for (int i = 0; i < objectArr.size(); i++) {
-            if (Rect.intersects(object.getRectangle(), blocks.get(i).getRectangle())) {
-                result = true;
-                return blocks.get(i).getCollisionType();
+            Block currBlock = blocks.get(i);
+            if (currBlock.getX() >= player.getX() || currBlock.getX() <= player.getX() + player.getWidth()) {
+                if (Rect.intersects(object.getRectangle(), currBlock.getRectangle())) {
+                    if (currBlock.getCollisionType() == CollisionType.test) {
+                        if (player.getY() + player.getHeight() - 6 <= currBlock.getY() || player.getY() + player.getHeight() - 6 >= currBlock.getY()) {
+                            collisionType = CollisionType.Ground;
+                            break;
+                        } else if (player.getX() + player.getWidth() + 6 >= currBlock.getX() || player.getX() + player.getWidth() - 6 <= currBlock.getX()) {
+                            collisionType = CollisionType.Wall;
+                            break;
+                        }
+                    }
+                    if (currBlock.getCollisionType() == CollisionType.Ground) {
+                        if (player.getY() + player.getHeight() - GameConstants.GRAVITY == currBlock.getY()) {
+                            collisionType = CollisionType.Ground;
+                            break;
+                        } else if (player.getX() + player.getWidth() - GameConstants.GAME_SPEED == currBlock.getX()) {
+                            collisionType = CollisionType.Wall;
+                            break;
+                        }
+                    }
+                    return currBlock.getCollisionType();
+                }
             }
         }
-        return CollisionType.None;
+        return collisionType;
     }
 
     @Override
