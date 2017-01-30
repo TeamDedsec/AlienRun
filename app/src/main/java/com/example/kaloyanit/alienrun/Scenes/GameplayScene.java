@@ -27,6 +27,13 @@ import com.example.kaloyanit.alienrun.Utils.BasicConstants;
 import com.example.kaloyanit.alienrun.Utils.GameConstants;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.SortedSet;
+import java.util.TreeMap;
 
 /**
  * Created by KaloyanIT on 1/25/2017.
@@ -44,7 +51,7 @@ public class GameplayScene implements IScene {
         background = BackgroundFactory.createBackground(BackgroundType.Grass);
         pause = BitmapFactory.decodeResource(BasicConstants.CURRENT_CONTEXT.getResources(), R.drawable.pause);
         playerPoint = new Point(162, BasicConstants.BG_HEIGHT - 162);
-        player = PlayerFactory.createPlayer(PlayerType.Green, playerPoint.x, playerPoint.y);
+        player = PlayerFactory.createPlayer(PlayerType.Pink, playerPoint.x, playerPoint.y);
         blocks = new ArrayList<Block>();
         for (int i = 0; i < 50; i++) {
             if (i == 20) {
@@ -56,11 +63,11 @@ public class GameplayScene implements IScene {
             } else if (i == 32) {
                 blocks.add(BlockFactory.createBlock(BlockType.GrassRight, (70 * i), playerPoint.y + 92));
             } else if (i == 33) {
-                blocks.add(BlockFactory.createBlock(BlockType.GrassHalfLeft, (70 * i), playerPoint.y - 40));
+                blocks.add(BlockFactory.createBlock(BlockType.GrassHalfLeft, (70 * i), playerPoint.y - 90));
             } else if (i == 34) {
-                blocks.add(BlockFactory.createBlock(BlockType.GrassHalfMid, (70 * i), playerPoint.y - 40));
+                blocks.add(BlockFactory.createBlock(BlockType.GrassHalfMid, (70 * i), playerPoint.y - 90));
             } else if (i == 35) {
-                blocks.add(BlockFactory.createBlock(BlockType.GrassHalfRight, (70 * i), playerPoint.y - 40));
+                blocks.add(BlockFactory.createBlock(BlockType.GrassHalfRight, (70 * i), playerPoint.y - 90));
             } else if (i == 36) {
                 blocks.add(BlockFactory.createBlock(BlockType.GrassLeft, (70 * i), playerPoint.y + 92));
             } else {
@@ -89,9 +96,6 @@ public class GameplayScene implements IScene {
                     }
                 case Jumping:
                     switch (checkCollision(player, blocks)) {
-                        case Water:
-                            player.setState(PlayerState.Drowning);
-                            break;
                         case Wall:
                             player.setState(PlayerState.HitWall);
                             break;
@@ -110,6 +114,13 @@ public class GameplayScene implements IScene {
                             player.setState(PlayerState.HitWall);
                             break;
                     }
+                case Drowning:
+                    switch (checkCollision(player, blocks)) {
+                        case Wall:
+                            player.setState(PlayerState.HitWall);
+                            break;
+                    }
+
             }
             player.update();
             background.update();
@@ -127,34 +138,28 @@ public class GameplayScene implements IScene {
     }
 
     private CollisionType checkCollision(GameObject object, ArrayList<? extends GameObject> objectArr) {
-        CollisionType collisionType = CollisionType.None;
+        Map<Integer, CollisionType> types = new TreeMap<>();
         for (int i = 0; i < objectArr.size(); i++) {
             Block currBlock = blocks.get(i);
             if (currBlock.getX() >= player.getX() || currBlock.getX() <= player.getX() + player.getWidth()) {
                 if (Rect.intersects(object.getRectangle(), currBlock.getRectangle())) {
-                    if (currBlock.getCollisionType() == CollisionType.test) {
-                        if (player.getY() + player.getHeight() - 6 <= currBlock.getY() || player.getY() + player.getHeight() - 6 >= currBlock.getY()) {
-                            collisionType = CollisionType.Ground;
-                            break;
-                        } else if (player.getX() + player.getWidth() + 6 >= currBlock.getX() || player.getX() + player.getWidth() - 6 <= currBlock.getX()) {
-                            collisionType = CollisionType.Wall;
-                            break;
-                        }
-                    }
                     if (currBlock.getCollisionType() == CollisionType.Ground) {
-                        if (player.getY() + player.getHeight() - GameConstants.GRAVITY == currBlock.getY()) {
-                            collisionType = CollisionType.Ground;
-                            break;
-                        } else if (player.getX() + player.getWidth() - GameConstants.GAME_SPEED == currBlock.getX()) {
-                            collisionType = CollisionType.Wall;
-                            break;
+                        if (player.getY() + player.getHeight() - GameConstants.GRAVITY <= currBlock.getY()) {
+                            types.put(CollisionType.Ground.ordinal(), CollisionType.Ground);
+                        } else if (player.getY() > currBlock.getY() + (currBlock.getHeight() / 2)) {
+                            types.put(CollisionType.None.ordinal(), CollisionType.None);
+                        } else if (player.getX() + player.getWidth() >= currBlock.getX()) {
+                            types.put(CollisionType.Wall.ordinal(), CollisionType.Wall);
                         }
                     }
-                    return currBlock.getCollisionType();
+                    types.put(currBlock.getCollisionType().ordinal(), currBlock.getCollisionType());
                 }
             }
         }
-        return collisionType;
+
+        types.put(CollisionType.None.ordinal(), CollisionType.None);
+        Map.Entry<Integer, CollisionType> entry = types.entrySet().iterator().next();
+        return entry.getValue();
     }
 
     @Override
