@@ -28,4 +28,20 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:id="@+id/gameView"/>
+        <!--</com.example.kaloyanit.alienrun.Core.GamePanel>-->
+
+    <ImageView
+    android:id="@+id/pauseView"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:src="@drawable/pause" />
+
+    <ImageView
+        android:id="@+id/startView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/start_button"
+        android:layout_centerHorizontal="true"/>
+
+
 </RelativeLayout>

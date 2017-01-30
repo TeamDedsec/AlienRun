@@ -3,8 +3,10 @@ package com.example.kaloyanit.alienrun;
 import android.app.Activity;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
+import android.media.Image;
 import android.os.Bundle;
 import android.text.InputType;
+import android.transition.Scene;
 import android.util.DisplayMetrics;
 import android.view.SurfaceView;
 import android.view.View;
@@ -12,8 +14,11 @@ import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
+import android.widget.ImageView;
+import android.widget.Toast;
 
 import com.example.kaloyanit.alienrun.Core.GamePanel;
+import com.example.kaloyanit.alienrun.Core.SceneManager;
 import com.example.kaloyanit.alienrun.Utils.BasicConstants;
 
 public class MainActivity extends Activity {
@@ -35,7 +40,28 @@ public class MainActivity extends Activity {
 
         //setContentView(new GamePanel(this));
         GamePanel view = (GamePanel)findViewById(R.id.gameView);
+        SceneManager.ACTIVE_SCENE = 0;
+        final ImageView pauseImage = (ImageView) findViewById(R.id.pauseView);
+        pauseImage.setWillNotDraw(true);
 
+        final ImageView startView = (ImageView) findViewById(R.id.startView);
+        startView.setOnClickListener(new View.OnClickListener(){
+
+            @Override
+            public void onClick(View v) {
+                SceneManager.ACTIVE_SCENE = 1;
+                startView.setWillNotDraw(true);
+                pauseImage.setWillNotDraw(false);
+            }
+        });
+
+        pauseImage.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                SceneManager.ACTIVE_SCENE = 2;
+                pauseImage.setWillNotDraw(true);
+            }
+        });
         //CompleteBullshit
 //        setContentView(R.layout.activity_main);
 //        final Intent myIntent = new Intent(this, GameActivity.class);

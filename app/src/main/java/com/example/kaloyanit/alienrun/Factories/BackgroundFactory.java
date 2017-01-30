@@ -18,4 +18,10 @@ public class BackgroundFactory {
         Bitmap resizedImage = Bitmap.createScaledBitmap(image, BasicConstants.BG_WIDTH, BasicConstants.BG_HEIGHT, false);
         return new Background(resizedImage, GameConstants.GAME_SPEED);
     }
+
+    public static Background createStaticBackground() {
+        Bitmap image = BitmapFactory.decodeResource(BasicConstants.CURRENT_CONTEXT.getResources(), R.drawable.bg_grasslands);
+        Bitmap resizedImage = Bitmap.createScaledBitmap(image, BasicConstants.BG_WIDTH, BasicConstants.BG_HEIGHT, false);
+        return new Background(resizedImage, 0);
+    }
 }

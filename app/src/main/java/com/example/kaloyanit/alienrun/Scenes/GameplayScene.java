@@ -97,7 +97,7 @@ public class GameplayScene implements IScene {
         canvas.scale(scaleFactorX, scaleFactorY);
 
         background.draw(canvas);
-        canvas.drawBitmap(pause, 10, 0, null);
+        //canvas.drawBitmap(pause, 10, 0, null);
         player.draw(canvas);
         for (int i = 0; i < blocks.length; i++) {
             blocks[i].draw(canvas);

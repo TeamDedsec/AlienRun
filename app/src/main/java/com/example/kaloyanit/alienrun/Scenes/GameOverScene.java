@@ -6,6 +6,7 @@ import android.view.MotionEvent;
 
 import com.example.kaloyanit.alienrun.Contracts.IScene;
 import com.example.kaloyanit.alienrun.Core.SceneManager;
+import com.example.kaloyanit.alienrun.Factories.BackgroundFactory;
 import com.example.kaloyanit.alienrun.GameObjects.Background;
 import com.example.kaloyanit.alienrun.R;
 import com.example.kaloyanit.alienrun.Utils.BasicConstants;
@@ -19,7 +20,7 @@ public class GameOverScene implements IScene {
     private Background background;
 
     public GameOverScene() {
-        background = new Background(BitmapFactory.decodeResource(BasicConstants.CURRENT_CONTEXT.getResources(), R.drawable.bg_grasslands), 0);
+        background = BackgroundFactory.createStaticBackground();
     }
 
     @Override
@@ -36,6 +37,7 @@ public class GameOverScene implements IScene {
 
         final int savedState = canvas.save();
         canvas.scale(scaleFactorX, scaleFactorY);
+
         background.draw(canvas);
 
         canvas.restoreToCount(savedState);
