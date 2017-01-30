@@ -10,11 +10,11 @@ import com.example.kaloyanit.alienrun.Scenes.GameplayScene;
  * Created by julian.teofilov on 26/1/2017.
  */
 
-public class GroundBlock extends GameObject {
+public class Block extends GameObject {
     private Bitmap image;
     private int speed;
 
-    public GroundBlock(Bitmap image, int x, int y, int speed) {
+    public Block(Bitmap image, int x, int y, int speed) {
         this.image = image;
         this.x = x;
         this.y = y;
