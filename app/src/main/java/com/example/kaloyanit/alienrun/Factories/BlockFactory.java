@@ -47,7 +47,7 @@ public class BlockFactory {
                         x,
                         y,
                         GameConstants.GAME_SPEED,
-                        CollisionType.Ground);
+                        CollisionType.test);
             case GrassHalfRight:
                 return new Block(BitmapFactory.decodeResource(
                         BasicConstants.CURRENT_CONTEXT.getResources(),
@@ -55,7 +55,7 @@ public class BlockFactory {
                         x,
                         y,
                         GameConstants.GAME_SPEED,
-                        CollisionType.Ground);
+                        CollisionType.test);
             case GrassHalfLeft:
                 return new Block(BitmapFactory.decodeResource(
                         BasicConstants.CURRENT_CONTEXT.getResources(),
@@ -63,7 +63,7 @@ public class BlockFactory {
                         x,
                         y,
                         GameConstants.GAME_SPEED,
-                        CollisionType.Ground);
+                        CollisionType.test);
             case Water:
                 return new Block(BitmapFactory.decodeResource(
                         BasicConstants.CURRENT_CONTEXT.getResources(),

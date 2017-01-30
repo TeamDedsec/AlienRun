@@ -16,7 +16,9 @@ public class Player extends GameObject {
     private Bitmap walksheet;
     private Bitmap jumpImage;
     private Bitmap duckImage;
+    private Bitmap hurtImage;
     private PlayerState state;
+    private int moveSpeed;
     private int gravity;
     private int jumpVelocity;
     private int jumpFrames;
@@ -29,17 +31,19 @@ public class Player extends GameObject {
     private int drownFrames;
     private boolean isAlive = true;
 
-    public Player(Bitmap walksheet, Bitmap jumpImage, Bitmap duckImage,
-                  int x, int y, int gravity, int jumpVelocity, int walkFrames, int jumpFrames,
+    public Player(Bitmap walksheet, Bitmap jumpImage, Bitmap duckImage, Bitmap hurtImage,
+                  int x, int y, int moveSpeed, int gravity, int jumpVelocity, int walkFrames, int jumpFrames,
                   int duckFrames, int jumpCount, int lives) {
         this.walksheet = walksheet;
         this.jumpImage = jumpImage;
         this.duckImage = duckImage;
+        this.hurtImage = hurtImage;
         this.state = PlayerState.Running;
         this.x = x;
         this.y = y;
         this.width = GameConstants.PLAYER_WIDTH;
         this.height = GameConstants.PLAYER_HEIGTH;
+        this.moveSpeed = moveSpeed;
         this.gravity = gravity;
         this.jumpVelocity = jumpVelocity;
         this.jumpFrames = jumpFrames;
@@ -116,10 +120,14 @@ public class Player extends GameObject {
                     canvas.drawBitmap(this.jumpImage, this.x, this.y, null);
                 }
                 break;
-            case Falling: canvas.drawBitmap(this.jumpImage, this.x, this.y, null);
+            case Falling:
+                canvas.drawBitmap(this.jumpImage, this.x, this.y, null);
                 break;
-            case Drowning: canvas.drawBitmap(this.jumpImage, this.x, this.y, null);
+            case Drowning:
+                canvas.drawBitmap(this.jumpImage, this.x, this.y, null);
                 break;
+            case HitWall:
+                canvas.drawBitmap(this.hurtImage, this.x, this.y, null);
         }
     }
 
@@ -133,15 +141,23 @@ public class Player extends GameObject {
                     state = PlayerState.Falling;
                 }
                 break;
-            case Falling: this.y += this.gravity;
+            case Falling:
+                this.y += this.gravity;
                 if (y > BasicConstants.BG_HEIGHT)
                     isAlive = false;
                 break;
-            case Drowning: this.y += this.gravity;
+            case Drowning:
+                this.y += this.gravity;
                 drownFrames--;
                 if (drownFrames == 0) {
                     isAlive = false;
                 }
+                break;
+            case HitWall:
+                this.y += this.gravity;
+                this.x += this.moveSpeed;
+                if (y > BasicConstants.BG_HEIGHT)
+                    isAlive = false;
                 break;
         }
 
