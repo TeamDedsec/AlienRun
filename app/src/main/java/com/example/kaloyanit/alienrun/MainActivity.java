@@ -5,9 +5,13 @@ import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.media.Image;
 import android.os.Bundle;
+import android.provider.ContactsContract;
 import android.text.InputType;
 import android.transition.Scene;
 import android.util.DisplayMetrics;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.SurfaceView;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,7 +25,15 @@ import com.example.kaloyanit.alienrun.Core.GamePanel;
 import com.example.kaloyanit.alienrun.Core.SceneManager;
 import com.example.kaloyanit.alienrun.Utils.BasicConstants;
 
+import static com.example.kaloyanit.alienrun.R.id.startView;
+
 public class MainActivity extends Activity {
+
+    private ImageView pauseButton;
+    private ImageView startButton;
+    private ImageView exitButton;
+    private GamePanel gameView;
+    private ImageView cartButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,44 +46,77 @@ public class MainActivity extends Activity {
         getWindowManager().getDefaultDisplay().getMetrics(dm);
         BasicConstants.SCREEN_WIDTH = dm.widthPixels;
         BasicConstants.SCREEN_HEIGHT = dm.heightPixels;
-
+        SceneManager.ACTIVE_SCENE = 0;
         setContentView(R.layout.activity_main);
 
-        //setContentView(new GamePanel(this));
-        GamePanel view = (GamePanel)findViewById(R.id.gameView);
-        SceneManager.ACTIVE_SCENE = 0;
-        final ImageView pauseImage = (ImageView) findViewById(R.id.pauseView);
-        pauseImage.setWillNotDraw(true);
+        //Initialize elements
+        gameView = (GamePanel)findViewById(R.id.gameView);
+        pauseButton = (ImageView) findViewById(R.id.pauseView);
+        startButton = (ImageView) findViewById(R.id.startView);
+        exitButton = (ImageView) findViewById(R.id.exitView);
+        cartButton = (ImageView) findViewById(R.id.shopView);
 
-        final ImageView startView = (ImageView) findViewById(R.id.startView);
-        startView.setOnClickListener(new View.OnClickListener(){
-
+        pauseButton.setVisibility(View.GONE);
+        //Events
+        startButton.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v) {
                 SceneManager.ACTIVE_SCENE = 1;
-                startView.setWillNotDraw(true);
-                pauseImage.setWillNotDraw(false);
+                exitButton.setVisibility(View.INVISIBLE);
+                startButton.setVisibility(View.INVISIBLE);
+                pauseButton.setVisibility(View.VISIBLE);
+                cartButton.setVisibility(View.GONE);
             }
         });
 
-        pauseImage.setOnClickListener(new View.OnClickListener() {
+        pauseButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 SceneManager.ACTIVE_SCENE = 2;
-                pauseImage.setWillNotDraw(true);
+                startButton.setVisibility(View.VISIBLE);
+                exitButton.setVisibility(View.VISIBLE);
+                pauseButton.setVisibility(View.GONE);
+                cartButton.setVisibility(View.GONE);
+                //pauseButton.setWillNotDraw(true);
+
             }
         });
-        //CompleteBullshit
-//        setContentView(R.layout.activity_main);
-//        final Intent myIntent = new Intent(this, GameActivity.class);
-//        Button button = (Button)findViewById(R.id.button);
-//        button.setOnClickListener(new View.OnClickListener(){
-//            @Override
-//            public void onClick(View v) {
-//                startActivity(myIntent);
-//            }
-//        });
+
+        exitButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+                System.exit(0);
+            }
+        });
+
+
+
     }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.menu, menu);
+        return super.onCreateOptionsMenu(menu);
+        //return true;
+    }
+
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.about:
+                //startActivity(new Intent(this, About.class));
+                return true;
+            case R.id.help:
+                //startActivity(new Intent(this, Help.class));
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }
+
+
 
     @Override
     public void onPause() {

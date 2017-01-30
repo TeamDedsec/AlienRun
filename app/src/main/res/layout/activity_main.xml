@@ -30,6 +30,8 @@
         android:id="@+id/gameView"/>
         <!--</com.example.kaloyanit.alienrun.Core.GamePanel>-->
 
+
+
     <ImageView
     android:id="@+id/pauseView"
     android:layout_width="wrap_content"
@@ -38,10 +40,23 @@
 
     <ImageView
         android:id="@+id/startView"
+        android:layout_centerVertical="true"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:src="@drawable/start_button"
         android:layout_centerHorizontal="true"/>
 
+    <ImageView
+        android:id="@+id/exitView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:src="@drawable/exit_button"/>
 
+    <ImageView
+        android:id="@+id/shopView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toLeftOf="@id/exitView"
+        android:src="@drawable/shopping_cart"/>
 </RelativeLayout>
