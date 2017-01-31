@@ -13,9 +13,9 @@ public class GameConstants {
     public static int DUCK_FRAMES = 5;
     public static int DELAY = 50;
     public static int PLAYER_WIDTH = 66;
-    public static int PLAYER_HEIGTH = 92;
+    public static int PLAYER_HEIGHT = 92;
     public static int DUCK_CORRECTION = 20;
-    public static int DRWON_FRAMES = 15;
+    public static int DROWN_FRAMES = 15;
     public static int BLOCK_WIDTH = 70;
     public static int BLOCK_HEIGHT = 70;
 }

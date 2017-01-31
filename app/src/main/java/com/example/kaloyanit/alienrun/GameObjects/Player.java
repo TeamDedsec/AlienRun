@@ -43,7 +43,7 @@ public class Player extends GameObject {
         this.x = x;
         this.y = y;
         this.width = GameConstants.PLAYER_WIDTH;
-        this.height = GameConstants.PLAYER_HEIGTH;
+        this.height = GameConstants.PLAYER_HEIGHT;
         this.moveSpeed = moveSpeed;
         this.gravity = gravity;
         this.jumpVelocity = jumpVelocity;
@@ -101,7 +101,7 @@ public class Player extends GameObject {
     }
 
     public void resetDrownFrames() {
-        this.drownFrames = GameConstants.DRWON_FRAMES;
+        this.drownFrames = GameConstants.DROWN_FRAMES;
     }
 
     public boolean isAlive() {
