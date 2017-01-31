@@ -98,6 +98,7 @@ public class MainActivity extends Activity {
                 cartButton.setVisibility(View.GONE);
                 scoreView.setVisibility(View.VISIBLE);
                 pauseText.setVisibility(View.GONE);
+                refreshButton.setVisibility(View.GONE);
             }
         });
 
@@ -119,11 +120,18 @@ public class MainActivity extends Activity {
         exitButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                if(SceneManager.ACTIVE_SCENE == 0) {
+                    finish();
+                    System.exit(0);
+                }
                 SceneManager.ACTIVE_SCENE = 0;
                 pauseButton.setVisibility(View.GONE);
                 refreshButton.setVisibility(View.GONE);
-                //finish();
-                //System.exit(0);
+                pauseText.setVisibility(View.GONE);
+
+
+
+
             }
         });
 
