@@ -5,4 +5,8 @@ package com.example.kaloyanit.alienrun.Enums;
  */
 
 public enum BlockSetType {
+    Grass,
+    Sand,
+    Snow,
+    Rock
 }

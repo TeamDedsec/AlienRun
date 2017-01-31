@@ -2,9 +2,11 @@ package com.example.kaloyanit.alienrun.Factories;
 
 import android.graphics.BitmapFactory;
 
+import com.example.kaloyanit.alienrun.Enums.BlockSetType;
 import com.example.kaloyanit.alienrun.Enums.BlockType;
 import com.example.kaloyanit.alienrun.Enums.CollisionType;
 import com.example.kaloyanit.alienrun.GameObjects.Block;
+import com.example.kaloyanit.alienrun.GameObjects.BlockSet;
 import com.example.kaloyanit.alienrun.R;
 import com.example.kaloyanit.alienrun.Utils.BasicConstants;
 import com.example.kaloyanit.alienrun.Utils.GameConstants;
@@ -14,65 +16,56 @@ import com.example.kaloyanit.alienrun.Utils.GameConstants;
  */
 
 public class BlockFactory {
-    public static Block createBlock(BlockType type, int x, int y) {
-        switch (type){
-            case GrassMid:
-                return new Block(BitmapFactory.decodeResource(
-                        BasicConstants.CURRENT_CONTEXT.getResources(),
-                        R.drawable.grassmid),
-                        x,
-                        y,
+    public static Block createBlock(BlockSetType setType, BlockType blockType, int x, int y) {
+        BlockSet blockSet = BlockSetFactory.createBlockSet(setType);
+
+        switch (blockType) {
+            case GroundMid:
+                return new Block(blockSet.getMiddleGround(),
+                        x, y,
                         GameConstants.GAME_SPEED,
                         CollisionType.Ground);
-            case GrassLeft:
-                return new Block(BitmapFactory.decodeResource(
-                        BasicConstants.CURRENT_CONTEXT.getResources(),
-                        R.drawable.grassleft),
-                        x,
-                        y,
+            case GroundLeft:
+                return new Block(blockSet.getLeftGround(),
+                        x, y,
                         GameConstants.GAME_SPEED,
                         CollisionType.Ground);
-            case GrassRight:
-                return new Block(BitmapFactory.decodeResource(
-                        BasicConstants.CURRENT_CONTEXT.getResources(),
-                        R.drawable.grassright),
-                        x,
-                        y,
+            case GroundRight:
+                return new Block(blockSet.getRightGround(),
+                        x, y,
                         GameConstants.GAME_SPEED,
                         CollisionType.Ground);
-            case GrassHalfMid:
-                return new Block(BitmapFactory.decodeResource(
-                        BasicConstants.CURRENT_CONTEXT.getResources(),
-                        R.drawable.grasshalfmid),
-                        x,
-                        y,
+            case AirMid:
+                return new Block(blockSet.getMiddleAir(),
+                        x, y,
                         GameConstants.GAME_SPEED,
                         CollisionType.Ground);
-            case GrassHalfRight:
-                return new Block(BitmapFactory.decodeResource(
-                        BasicConstants.CURRENT_CONTEXT.getResources(),
-                        R.drawable.grasshalfright),
-                        x,
-                        y,
+            case AirRight:
+                return new Block(blockSet.getRightAir(),
+                        x, y,
                         GameConstants.GAME_SPEED,
                         CollisionType.Ground);
-            case GrassHalfLeft:
-                return new Block(BitmapFactory.decodeResource(
-                        BasicConstants.CURRENT_CONTEXT.getResources(),
-                        R.drawable.grasshalfleft),
-                        x,
-                        y,
+            case AirLeft:
+                return new Block(blockSet.getLeftAir(),
+                        x, y,
                         GameConstants.GAME_SPEED,
                         CollisionType.Ground);
+            default:
+                return createBlock(blockType, x, y);
+        }
+    }
+
+    public static Block createBlock(BlockType blockType, int x, int y) {
+        switch (blockType) {
             case Water:
                 return new Block(BitmapFactory.decodeResource(
                         BasicConstants.CURRENT_CONTEXT.getResources(),
                         R.drawable.liquidwatertop),
-                        x,
-                        y,
+                        x, y,
                         GameConstants.GAME_SPEED,
                         CollisionType.Water);
-                default: throw new RuntimeException();
+            default:
+                throw new RuntimeException();
         }
     }
 }

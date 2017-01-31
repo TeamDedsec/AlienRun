@@ -4,36 +4,39 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Point;
+import android.graphics.RadialGradient;
 import android.graphics.Rect;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 
 import com.example.kaloyanit.alienrun.Contracts.IScene;
 import com.example.kaloyanit.alienrun.Core.SceneManager;
 import com.example.kaloyanit.alienrun.Enums.BackgroundType;
+import com.example.kaloyanit.alienrun.Enums.BlockSetType;
 import com.example.kaloyanit.alienrun.Enums.BlockType;
 import com.example.kaloyanit.alienrun.Enums.CollisionType;
 import com.example.kaloyanit.alienrun.Enums.PlayerState;
 import com.example.kaloyanit.alienrun.Enums.PlayerType;
 import com.example.kaloyanit.alienrun.Factories.BackgroundFactory;
 import com.example.kaloyanit.alienrun.Factories.BlockFactory;
+import com.example.kaloyanit.alienrun.Factories.LevelModuleFacotry;
 import com.example.kaloyanit.alienrun.Factories.PlayerFactory;
 import com.example.kaloyanit.alienrun.GameObjects.Background;
 import com.example.kaloyanit.alienrun.GameObjects.GameObject;
 import com.example.kaloyanit.alienrun.GameObjects.Block;
+import com.example.kaloyanit.alienrun.GameObjects.LevelModule;
 import com.example.kaloyanit.alienrun.GameObjects.Player;
 import com.example.kaloyanit.alienrun.R;
 import com.example.kaloyanit.alienrun.Utils.BasicConstants;
 import com.example.kaloyanit.alienrun.Utils.GameConstants;
 
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.HashMap;
-import java.util.List;
+import java.util.Iterator;
 import java.util.Map;
-import java.util.SortedSet;
+import java.util.Random;
 import java.util.TreeMap;
+import java.util.concurrent.ThreadLocalRandom;
 
 /**
  * Created by KaloyanIT on 1/25/2017.
@@ -45,36 +48,18 @@ public class GameplayScene implements IScene {
     private Point playerPoint;
     private Bitmap pause;
     private View pauseView;
-    private ArrayList<Block> blocks;
+    LevelModuleFacotry moduleFacotry;
+    private ArrayList<LevelModule> modules;
 
     public GameplayScene() {
-        background = BackgroundFactory.createBackground(BackgroundType.Grass);
+        background = BackgroundFactory.createBackground(BackgroundType.Mushroom);
         pause = BitmapFactory.decodeResource(BasicConstants.CURRENT_CONTEXT.getResources(), R.drawable.pause);
         playerPoint = new Point(162, BasicConstants.BG_HEIGHT - 162);
         player = PlayerFactory.createPlayer(PlayerType.Pink, playerPoint.x, playerPoint.y);
-        blocks = new ArrayList<Block>();
-        for (int i = 0; i < 50; i++) {
-            if (i == 20) {
-                blocks.add(BlockFactory.createBlock(BlockType.GrassRight, (70 * i), playerPoint.y + 92));
-            } else if (i >= 21 && i <= 23) {
-                blocks.add(BlockFactory.createBlock(BlockType.Water, (70 * i), playerPoint.y + 92));
-            } else if (i == 24) {
-                blocks.add(BlockFactory.createBlock(BlockType.GrassLeft, (70 * i), playerPoint.y + 92));
-            } else if (i == 32) {
-                blocks.add(BlockFactory.createBlock(BlockType.GrassRight, (70 * i), playerPoint.y + 92));
-            } else if (i == 33) {
-                blocks.add(BlockFactory.createBlock(BlockType.GrassHalfLeft, (70 * i), playerPoint.y - 90));
-            } else if (i == 34) {
-                blocks.add(BlockFactory.createBlock(BlockType.GrassHalfMid, (70 * i), playerPoint.y - 90));
-            } else if (i == 35) {
-                blocks.add(BlockFactory.createBlock(BlockType.GrassHalfRight, (70 * i), playerPoint.y - 90));
-            } else if (i == 36) {
-                blocks.add(BlockFactory.createBlock(BlockType.GrassLeft, (70 * i), playerPoint.y + 92));
-            } else {
-                blocks.add(BlockFactory.createBlock(BlockType.GrassMid, (70 * i), playerPoint.y + 92));
-            }
-        }
-
+        moduleFacotry = new LevelModuleFacotry(BlockSetType.Sand);
+        modules = new ArrayList<>();
+        modules.add(moduleFacotry.getLevelModule(0));
+        modules.add(moduleFacotry.getLevelModule(1));
     }
 
     @Override
@@ -82,7 +67,7 @@ public class GameplayScene implements IScene {
         if (player.isAlive()) {
             switch (player.getState()) {
                 case Running:
-                    switch (checkCollision(player, blocks)) {
+                    switch (checkCollision()) {
                         case None:
                             player.setState(PlayerState.Falling);
                             break;
@@ -95,14 +80,14 @@ public class GameplayScene implements IScene {
                             break;
                     }
                 case Jumping:
-                    switch (checkCollision(player, blocks)) {
+                    switch (checkCollision()) {
                         case Wall:
                             player.setState(PlayerState.HitWall);
                             break;
                     }
                     break;
                 case Falling:
-                    switch (checkCollision(player, blocks)) {
+                    switch (checkCollision()) {
                         case Water:
                             player.setState(PlayerState.Drowning);
                             break;
@@ -115,49 +100,76 @@ public class GameplayScene implements IScene {
                             break;
                     }
                 case Drowning:
-                    switch (checkCollision(player, blocks)) {
+                    switch (checkCollision()) {
                         case Wall:
                             player.setState(PlayerState.HitWall);
                             break;
                     }
-
             }
-            player.update();
-            background.update();
-            for (int i = 0; i < blocks.size(); i++) {
-                blocks.get(i).update();
-                if (blocks.get(i).getX() < -100) {
-                    blocks.remove(i);
+        }
+
+        player.update();
+        background.update();
+
+        for (int j = 0; j < modules.size(); j++) {
+            LevelModule mod = modules.get(j);
+            for (int i = 0; i < mod.getBlocks().size(); i++) {
+                mod.update();
+                mod.getBlocks().get(i).update();
+                if (mod.getBlocks().get(i).getX() < -100) {
+                    mod.getBlocks().remove(i);
+                }
+            }
+            if (j == modules.size() - 1 && moduleFacotry != null) {
+                if (mod.getEndX() < BasicConstants.BG_WIDTH) {
+                    int random = getRandomNumber(0, 1);
+                    modules.add(moduleFacotry.getLevelModule(random));
                 }
             }
         }
     }
 
-    private boolean checkCollision(GameObject object1, GameObject object2) {
-        return Rect.intersects(object1.getRectangle(), object2.getRectangle());
+    private int getRandomNumber(int min, int max) {
+        Random rand =  new Random();
+        int random = rand.nextInt((max - min) + 1) + min;
+        return random;
     }
 
-    private CollisionType checkCollision(GameObject object, ArrayList<? extends GameObject> objectArr) {
+    private CollisionType checkCollision() {
+        //Store all found collisions in a sorted list by their priority
         Map<Integer, CollisionType> types = new TreeMap<>();
-        for (int i = 0; i < objectArr.size(); i++) {
-            Block currBlock = blocks.get(i);
-            if (currBlock.getX() >= player.getX() || currBlock.getX() <= player.getX() + player.getWidth()) {
-                if (Rect.intersects(object.getRectangle(), currBlock.getRectangle())) {
-                    if (currBlock.getCollisionType() == CollisionType.Ground) {
-                        if (player.getY() + player.getHeight() - GameConstants.GRAVITY <= currBlock.getY()) {
-                            types.put(CollisionType.Ground.ordinal(), CollisionType.Ground);
-                        } else if (player.getY() > currBlock.getY() + (currBlock.getHeight() / 2)) {
-                            types.put(CollisionType.None.ordinal(), CollisionType.None);
-                        } else if (player.getX() + player.getWidth() >= currBlock.getX()) {
-                            types.put(CollisionType.Wall.ordinal(), CollisionType.Wall);
+        for (int j = 0; j < modules.size(); j++) {
+            LevelModule module = modules.get(j);
+            if (true) {//module.getStartX() <= this.player.getX() && module.getEndX() >= this.player.getX() + this.player.getWidth()) {
+                for (int i = 0; i < module.getBlocks().size(); i++) {
+                    Block currBlock = module.getBlocks().get(i);
+                    //Skip blocks that are not in the width of the player, because they don't have collision anyway
+                    if (currBlock.getX() >= this.player.getX() || currBlock.getX() <= this.player.getX() + this.player.getWidth()) {
+                        if (Rect.intersects(player.getRectangle(), currBlock.getRectangle())) {
+                            //If the block's collision is Ground, check which side the player is hitting it from
+                            if (currBlock.getCollisionType() == CollisionType.Ground) {
+                                if (this.player.getY() + this.player.getHeight() - GameConstants.GRAVITY <= currBlock.getY()) {
+                                    //This checks if the player is above the block, and tells him he can run on it
+                                    types.put(CollisionType.Ground.ordinal(), CollisionType.Ground);
+                                } else if (this.player.getY() > currBlock.getY() + (currBlock.getHeight() / 2)) {
+                                    //This checks if the player is below the block and triggers collision at the middle of the block;
+                                    types.put(CollisionType.None.ordinal(), CollisionType.None);
+                                } else if (this.player.getX() + this.player.getWidth() >= currBlock.getX()) {
+                                    //This checks if the player is on the left side of the block
+                                    types.put(CollisionType.Wall.ordinal(), CollisionType.Wall);
+                                }
+                            }
+                            //If it is anything other than Ground, just add it
+                            types.put(currBlock.getCollisionType().ordinal(), currBlock.getCollisionType());
                         }
                     }
-                    types.put(currBlock.getCollisionType().ordinal(), currBlock.getCollisionType());
                 }
             }
         }
 
+        //Always add the default collision, which has the lowest priority
         types.put(CollisionType.None.ordinal(), CollisionType.None);
+        //Get the first item in the list, which has the highest priority
         Map.Entry<Integer, CollisionType> entry = types.entrySet().iterator().next();
         return entry.getValue();
     }
@@ -174,8 +186,12 @@ public class GameplayScene implements IScene {
         background.draw(canvas);
         //canvas.drawBitmap(pause, 10, 0, null);
         player.draw(canvas);
-        for (int i = 0; i < blocks.size(); i++) {
-            blocks.get(i).draw(canvas);
+
+        for (int j = 0; j < modules.size(); j++) {
+            LevelModule mod = modules.get(j);
+            for (int i = 0; i < mod.getBlocks().size(); i++) {
+                mod.getBlocks().get(i).draw(canvas);
+            }
         }
 
         canvas.restoreToCount(savedState);

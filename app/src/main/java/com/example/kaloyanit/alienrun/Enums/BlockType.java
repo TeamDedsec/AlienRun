@@ -5,11 +5,11 @@ package com.example.kaloyanit.alienrun.Enums;
  */
 
 public enum BlockType {
-    GrassMid,
-    GrassLeft,
-    GrassRight,
-    GrassHalfMid,
-    GrassHalfRight,
-    GrassHalfLeft,
+    GroundMid,
+    GroundLeft,
+    GroundRight,
+    AirMid,
+    AirRight,
+    AirLeft,
     Water
 }
