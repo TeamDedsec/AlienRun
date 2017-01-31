@@ -61,15 +61,6 @@
         android:src="@drawable/shopping_cart"/>
 
     <TextView
-        xmlns:android="http://schemas.android.com/apk/res/android"
-        android:id="@+id/scoreView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_toLeftOf="@id/shopView"
-        android:text="0"
-        />
-
-    <TextView
         android:id="@+id/gameOver"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -93,6 +84,36 @@
         android:src="@drawable/refresh_button"
         android:layout_toRightOf="@id/startView"
         />
+
+    <RelativeLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toLeftOf="@id/shopView">
+
+
+
+            <ImageView
+            android:id="@+id/scoreBar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:src="@drawable/points"
+            />
+            <TextView
+                xmlns:android="http://schemas.android.com/apk/res/android"
+                android:id="@+id/scoreView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/colorRed"
+                android:layout_toRightOf="@+id/scoreBar"
+                android:text="0"/>
+
+
+
+
+    </RelativeLayout>
 
 
 
