@@ -22,32 +22,32 @@ public class BlockFactory {
         switch (blockType) {
             case GroundMid:
                 return new Block(blockSet.getMiddleGround(),
-                        x, y,
+                        x, y, GameConstants.BLOCK_WIDTH, GameConstants.BLOCK_HEIGHT,
                         GameConstants.GAME_SPEED,
                         CollisionType.Ground);
             case GroundLeft:
                 return new Block(blockSet.getLeftGround(),
-                        x, y,
+                        x, y, GameConstants.BLOCK_WIDTH, GameConstants.BLOCK_HEIGHT,
                         GameConstants.GAME_SPEED,
                         CollisionType.Ground);
             case GroundRight:
                 return new Block(blockSet.getRightGround(),
-                        x, y,
+                        x, y, GameConstants.BLOCK_WIDTH, GameConstants.BLOCK_HEIGHT,
                         GameConstants.GAME_SPEED,
                         CollisionType.Ground);
             case AirMid:
                 return new Block(blockSet.getMiddleAir(),
-                        x, y,
+                        x, y, GameConstants.BLOCK_WIDTH, GameConstants.BLOCK_HEIGHT / 2,
                         GameConstants.GAME_SPEED,
                         CollisionType.Ground);
             case AirRight:
                 return new Block(blockSet.getRightAir(),
-                        x, y,
+                        x, y, GameConstants.BLOCK_WIDTH, GameConstants.BLOCK_HEIGHT / 2,
                         GameConstants.GAME_SPEED,
                         CollisionType.Ground);
             case AirLeft:
                 return new Block(blockSet.getLeftAir(),
-                        x, y,
+                        x, y, GameConstants.BLOCK_WIDTH, GameConstants.BLOCK_HEIGHT / 2,
                         GameConstants.GAME_SPEED,
                         CollisionType.Ground);
             default:
@@ -61,7 +61,7 @@ public class BlockFactory {
                 return new Block(BitmapFactory.decodeResource(
                         BasicConstants.CURRENT_CONTEXT.getResources(),
                         R.drawable.liquidwatertop),
-                        x, y,
+                        x, y, GameConstants.BLOCK_WIDTH, GameConstants.BLOCK_HEIGHT,
                         GameConstants.GAME_SPEED,
                         CollisionType.Water);
             default:

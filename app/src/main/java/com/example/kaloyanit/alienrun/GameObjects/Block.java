@@ -16,12 +16,12 @@ public class Block extends GameObject {
     private int speed;
     private CollisionType collisionType;
 
-    public Block(Bitmap image, int x, int y, int speed, CollisionType collisionType) {
+    public Block(Bitmap image, int x, int y, int width, int height, int speed, CollisionType collisionType) {
         this.image = image;
         this.x = x;
         this.y = y;
-        this.width = 70;
-        this.height = 70;
+        this.width = width;
+        this.height = height;
         this.speed = speed;
         this.collisionType = collisionType;
     }
