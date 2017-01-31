@@ -143,7 +143,7 @@ public class Player extends GameObject {
                 break;
             case Falling:
                 this.y += this.gravity;
-                if (y > BasicConstants.BG_HEIGHT)
+                if (this.y > BasicConstants.BG_HEIGHT)
                     isAlive = false;
                 break;
             case Drowning:
@@ -156,7 +156,7 @@ public class Player extends GameObject {
             case HitWall:
                 this.y += this.gravity;
                 this.x += this.moveSpeed;
-                if (y > BasicConstants.BG_HEIGHT)
+                if (this.y > BasicConstants.BG_HEIGHT)
                     isAlive = false;
                 break;
         }

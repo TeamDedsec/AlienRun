@@ -106,24 +106,24 @@ public class GameplayScene implements IScene {
                             break;
                     }
             }
-        }
 
-        player.update();
-        background.update();
+            player.update();
+            background.update();
 
-        for (int j = 0; j < modules.size(); j++) {
-            LevelModule mod = modules.get(j);
-            if (mod.getEndX() < -100) {
-                modules.remove(mod);
-            } else {
-                mod.update();
-                for (int i = 0; i < mod.getBlocks().size(); i++) {
-                    mod.getBlocks().get(i).update();
-                }
-                if (j == modules.size() - 1) {
-                    moduleFacotry.updateStartPosition(mod.getEndX());
-                    if (mod.getEndX() < BasicConstants.BG_WIDTH) {
-                        modules.add(moduleFacotry.getLevelModule());
+            for (int j = 0; j < modules.size(); j++) {
+                LevelModule mod = modules.get(j);
+                if (mod.getEndX() < -100) {
+                    modules.remove(mod);
+                } else {
+                    mod.update();
+                    for (int i = 0; i < mod.getBlocks().size(); i++) {
+                        mod.getBlocks().get(i).update();
+                    }
+                    if (j == modules.size() - 1) {
+                        moduleFacotry.updateStartPosition(mod.getEndX());
+                        if (mod.getEndX() < BasicConstants.BG_WIDTH) {
+                            modules.add(moduleFacotry.getLevelModule());
+                        }
                     }
                 }
             }

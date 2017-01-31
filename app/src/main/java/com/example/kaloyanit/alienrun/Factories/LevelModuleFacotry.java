@@ -26,7 +26,7 @@ public class LevelModuleFacotry {
     }
 
     public LevelModule getLevelModule() {
-        int index = getRandomNumber(0, 2);
+        int index = getRandomNumber(0, 3);
         LevelModule module;
 
         switch (index) {
@@ -40,6 +40,10 @@ public class LevelModuleFacotry {
                 return module;
             case 2:
                 module = createFloatingLevel();
+                startPosition = module.getEndX() + 1;
+                return module;
+            case 3:
+                module = createBigHole();
                 startPosition = module.getEndX() + 1;
                 return module;
             default:
@@ -110,6 +114,30 @@ public class LevelModuleFacotry {
         module.addBlock(BlockType.AirRight, currentX, positionY);
         currentX += GameConstants.BLOCK_WIDTH;
         positionY += 150;
+
+        module.addBlock(BlockType.GroundLeft, currentX, positionY);
+        currentX += GameConstants.BLOCK_WIDTH;
+
+        for (int i = 0; i < 3; i++) {
+            module.addBlock(BlockType.GroundMid, currentX, positionY);
+            currentX += GameConstants.BLOCK_WIDTH;
+        }
+
+        return module;
+    }
+
+    private LevelModule createBigHole() {
+        LevelModule module = new LevelModule(type, startPosition);
+        int currentX = startPosition;
+        int positionY = BasicConstants.BG_HEIGHT - GameConstants.BLOCK_HEIGHT;
+
+        for (int i = 0; i < 3; i++) {
+            module.addBlock(BlockType.GroundMid, currentX, positionY);
+            currentX += GameConstants.BLOCK_WIDTH;
+        }
+
+        module.addBlock(BlockType.GroundRight, currentX, positionY);
+        currentX += GameConstants.BLOCK_WIDTH * 4;
 
         module.addBlock(BlockType.GroundLeft, currentX, positionY);
         currentX += GameConstants.BLOCK_WIDTH;
