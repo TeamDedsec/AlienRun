@@ -50,6 +50,7 @@ public class GameplayScene implements IScene {
     private View pauseView;
     LevelModuleFacotry moduleFacotry;
     private ArrayList<LevelModule> modules;
+    private int frameCounter = 0;
 
     public GameplayScene() {
         background = BackgroundFactory.createBackground(BackgroundType.Desert);
@@ -105,6 +106,12 @@ public class GameplayScene implements IScene {
                             player.setState(PlayerState.HitWall);
                             break;
                     }
+            }
+
+            frameCounter++;
+            if(frameCounter == 25) {
+                Player.SCORE++;
+                frameCounter = 0;
             }
 
             player.update();

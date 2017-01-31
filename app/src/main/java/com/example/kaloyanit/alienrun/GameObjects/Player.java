@@ -30,6 +30,7 @@ public class Player extends GameObject {
     private int jumps;
     private int drownFrames;
     private boolean isAlive = true;
+    public static Integer SCORE = 0;
 
     public Player(Bitmap walksheet, Bitmap jumpImage, Bitmap duckImage, Bitmap hurtImage,
                   int x, int y, int moveSpeed, int gravity, int jumpVelocity, int walkFrames, int jumpFrames,

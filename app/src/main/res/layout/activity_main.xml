@@ -60,12 +60,40 @@
         android:layout_toLeftOf="@id/exitView"
         android:src="@drawable/shopping_cart"/>
 
-    <!--<com.example.kaloyanit.alienrun.Views.PauseView-->
-        <!--xmlns:android="http://schemas.android.com/apk/res/android"-->
-        <!--android:layout_toLeftOf="@id/shopView"-->
-        <!--android:layout_width="wrap_content"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--android:src="@drawable/pause"-->
-        <!--android:id="@+id/pauseCustom"/>-->
+    <TextView
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/scoreView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toLeftOf="@id/shopView"
+        android:text="0"
+        />
+
+    <TextView
+        android:id="@+id/gameOver"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_centerInParent="true"
+        android:text="GameOver"/>
+
+    <TextView
+        android:id="@+id/pauseText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_centerInParent="true"
+        android:text="Pause"/>
+
+    <ImageView
+        android:id="@+id/refreshButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:src="@drawable/refresh_button"
+        android:layout_toRightOf="@id/startView"
+        />
+
+
 
 </RelativeLayout>

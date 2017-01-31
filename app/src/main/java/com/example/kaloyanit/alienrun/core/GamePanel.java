@@ -6,9 +6,13 @@ import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
+import android.widget.TextView;
 
 import com.example.kaloyanit.alienrun.GameObjects.Background;
+import com.example.kaloyanit.alienrun.GameObjects.Player;
+import com.example.kaloyanit.alienrun.R;
 import com.example.kaloyanit.alienrun.Utils.BasicConstants;
+import com.example.kaloyanit.alienrun.Views.ScoreView;
 
 /**
  * Created by KaloyanIT on 1/25/2017.
@@ -19,6 +23,7 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
     private MainThread thread;
     private Background background;
     private SceneManager manager;
+    private TextView scoreView;
 
     public GamePanel(Context context) {
         super(context);
@@ -32,6 +37,8 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
         thread = new MainThread(getHolder(), this);
 
         manager = new SceneManager();
+        scoreView = new TextView(context);
+        scoreView = (TextView) findViewById(R.id.scoreView);
 
         setFocusable(true);
         //TODO: Ask doncho for help with canvas bug #1
@@ -50,6 +57,8 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
 
         manager = new SceneManager();
 
+
+
         setFocusable(true);
     }
 
@@ -62,6 +71,8 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
         thread = new MainThread(getHolder(), this);
 
         manager = new SceneManager();
+        scoreView =(TextView) findViewById(R.id.scoreView);
+
 
         setFocusable(true);
     }
@@ -116,6 +127,7 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
 
     public void update() {
         manager.update();
+        //scoreView.setText("Pesho");
     }
 
     @Override
