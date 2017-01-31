@@ -26,7 +26,7 @@ public class LevelModule {
 
     public void addBlock (BlockType type, int x, int y) {
         blocks.add(BlockFactory.createBlock(blockSet, type, x, y));
-        endX = x + GameConstants.BLOCK_WIDTH;
+        endX = (x + GameConstants.BLOCK_WIDTH);
         length = endX - startX;
     }
 

@@ -6,8 +6,7 @@ import com.example.kaloyanit.alienrun.GameObjects.LevelModule;
 import com.example.kaloyanit.alienrun.Utils.BasicConstants;
 import com.example.kaloyanit.alienrun.Utils.GameConstants;
 
-import java.util.concurrent.RunnableFuture;
-import java.util.logging.Level;
+import java.util.Random;
 
 /**
  * Created by julian.teofilov on 31/1/2017.
@@ -21,20 +20,37 @@ public class LevelModuleFacotry {
         this.type = type;
     }
 
-    public LevelModule getLevelModule(int index) {
+
+    public void updateStartPosition(int startPosition) {
+        this.startPosition = startPosition;
+    }
+
+    public LevelModule getLevelModule() {
+        int index = getRandomNumber(0, 2);
         LevelModule module;
+
         switch (index) {
             case 0:
                 module = createStraightLine();
-                startPosition = module.getEndX();
+                startPosition = module.getEndX() + 1;
                 return module;
             case 1:
                 module = createWaterPool();
-                startPosition = module.getEndX();
+                startPosition = module.getEndX() + 1;
+                return module;
+            case 2:
+                module = createFloatingLevel();
+                startPosition = module.getEndX() + 1;
                 return module;
             default:
                 throw new RuntimeException();
         }
+    }
+
+    private int getRandomNumber(int min, int max) {
+        Random rand = new Random();
+        int random = rand.nextInt((max - min) + 1) + min;
+        return random;
     }
 
     private LevelModule createStraightLine() {
@@ -51,7 +67,7 @@ public class LevelModuleFacotry {
         int positionY = BasicConstants.BG_HEIGHT - GameConstants.BLOCK_HEIGHT;
         for (int i = 0; i < 3; i++) {
             module.addBlock(BlockType.GroundMid, currentX, positionY);
-            currentX = startPosition + (i * GameConstants.BLOCK_WIDTH);
+            currentX += GameConstants.BLOCK_WIDTH;
         }
 
         module.addBlock(BlockType.GroundRight, currentX, positionY);
@@ -67,7 +83,40 @@ public class LevelModuleFacotry {
 
         for (int i = 0; i < 3; i++) {
             module.addBlock(BlockType.GroundMid, currentX, positionY);
-            currentX = startPosition + (i * GameConstants.BLOCK_WIDTH);
+            currentX += GameConstants.BLOCK_WIDTH;
+        }
+
+        return module;
+    }
+
+    private LevelModule createFloatingLevel() {
+        LevelModule module = new LevelModule(type, startPosition);
+        int currentX = startPosition;
+        int positionY = BasicConstants.BG_HEIGHT - GameConstants.BLOCK_HEIGHT;
+
+        for (int i = 0; i < 3; i++) {
+            module.addBlock(BlockType.GroundMid, currentX, positionY);
+            currentX += GameConstants.BLOCK_WIDTH;
+        }
+
+        module.addBlock(BlockType.GroundRight, currentX, positionY);
+        currentX += GameConstants.BLOCK_WIDTH;
+
+        positionY -= 150;
+        module.addBlock(BlockType.AirLeft, currentX, positionY);
+        currentX += GameConstants.BLOCK_WIDTH;
+        module.addBlock(BlockType.AirMid, currentX, positionY);
+        currentX += GameConstants.BLOCK_WIDTH;
+        module.addBlock(BlockType.AirRight, currentX, positionY);
+        currentX += GameConstants.BLOCK_WIDTH;
+        positionY += 150;
+
+        module.addBlock(BlockType.GroundLeft, currentX, positionY);
+        currentX += GameConstants.BLOCK_WIDTH;
+
+        for (int i = 0; i < 3; i++) {
+            module.addBlock(BlockType.GroundMid, currentX, positionY);
+            currentX += GameConstants.BLOCK_WIDTH;
         }
 
         return module;

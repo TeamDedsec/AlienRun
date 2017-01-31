@@ -52,14 +52,14 @@ public class GameplayScene implements IScene {
     private ArrayList<LevelModule> modules;
 
     public GameplayScene() {
-        background = BackgroundFactory.createBackground(BackgroundType.Mushroom);
+        background = BackgroundFactory.createBackground(BackgroundType.Desert);
         pause = BitmapFactory.decodeResource(BasicConstants.CURRENT_CONTEXT.getResources(), R.drawable.pause);
         playerPoint = new Point(162, BasicConstants.BG_HEIGHT - 162);
         player = PlayerFactory.createPlayer(PlayerType.Pink, playerPoint.x, playerPoint.y);
-        moduleFacotry = new LevelModuleFacotry(BlockSetType.Sand);
+        moduleFacotry = new LevelModuleFacotry(BlockSetType.Snow);
         modules = new ArrayList<>();
-        modules.add(moduleFacotry.getLevelModule(0));
-        modules.add(moduleFacotry.getLevelModule(1));
+        modules.add(moduleFacotry.getLevelModule());
+        modules.add(moduleFacotry.getLevelModule());
     }
 
     @Override
@@ -113,26 +113,21 @@ public class GameplayScene implements IScene {
 
         for (int j = 0; j < modules.size(); j++) {
             LevelModule mod = modules.get(j);
-            for (int i = 0; i < mod.getBlocks().size(); i++) {
+            if (mod.getEndX() < -100) {
+                modules.remove(mod);
+            } else {
                 mod.update();
-                mod.getBlocks().get(i).update();
-                if (mod.getBlocks().get(i).getX() < -100) {
-                    mod.getBlocks().remove(i);
+                for (int i = 0; i < mod.getBlocks().size(); i++) {
+                    mod.getBlocks().get(i).update();
                 }
-            }
-            if (j == modules.size() - 1 && moduleFacotry != null) {
-                if (mod.getEndX() < BasicConstants.BG_WIDTH) {
-                    int random = getRandomNumber(0, 1);
-                    modules.add(moduleFacotry.getLevelModule(random));
+                if (j == modules.size() - 1) {
+                    moduleFacotry.updateStartPosition(mod.getEndX());
+                    if (mod.getEndX() < BasicConstants.BG_WIDTH) {
+                        modules.add(moduleFacotry.getLevelModule());
+                    }
                 }
             }
         }
-    }
-
-    private int getRandomNumber(int min, int max) {
-        Random rand =  new Random();
-        int random = rand.nextInt((max - min) + 1) + min;
-        return random;
     }
 
     private CollisionType checkCollision() {
