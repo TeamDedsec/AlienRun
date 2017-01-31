@@ -64,7 +64,7 @@ public class MainActivity extends Activity {
                 SceneManager.ACTIVE_SCENE = 1;
                 exitButton.setVisibility(View.INVISIBLE);
                 startButton.setVisibility(View.INVISIBLE);
-                pauseButton.setVisibility(View.VISIBLE);
+                //pauseButton.setVisibility(View.VISIBLE);
                 cartButton.setVisibility(View.GONE);
             }
         });
@@ -121,15 +121,23 @@ public class MainActivity extends Activity {
     @Override
     public void onPause() {
         super.onPause();
+
+        System.out.println("kPause");
     }
 
     @Override
     protected void onResume() {
+
         super.onResume();
+        System.out.println("Resume");
+
     }
 
     @Override
     protected void onStop() {
+
         super.onStop();
+        System.out.println("Stop");
+
     }
 }

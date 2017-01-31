@@ -1,7 +1,6 @@
 package com.example.kaloyanit.alienrun.Core;
 
 import android.content.Context;
-import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
@@ -9,12 +8,7 @@ import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 
 import com.example.kaloyanit.alienrun.GameObjects.Background;
-import com.example.kaloyanit.alienrun.PauseView;
-import com.example.kaloyanit.alienrun.R;
 import com.example.kaloyanit.alienrun.Utils.BasicConstants;
-import com.example.kaloyanit.alienrun.Utils.GameConstants;
-
-import org.w3c.dom.Attr;
 
 /**
  * Created by KaloyanIT on 1/25/2017.
@@ -40,8 +34,9 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
         manager = new SceneManager();
 
         setFocusable(true);
-
+        //TODO: Ask doncho for help with canvas bug #1
         //setWillNotDraw(false);
+        //setWillNotDraw(true);
 
     }
 
