@@ -26,6 +26,7 @@ public class PlayerFactory {
                         GameConstants.JUMP_VELOCITY,
                         GameConstants.WALK_FRAMES,
                         GameConstants.JUMP_FRAMES,
+                        GameConstants.HIGH_POINT_FRAMES,
                         GameConstants.DUCK_FRAMES,
                         1, 1);
             case Blue:
@@ -39,6 +40,7 @@ public class PlayerFactory {
                         GameConstants.JUMP_VELOCITY,
                         GameConstants.WALK_FRAMES,
                         GameConstants.JUMP_FRAMES,
+                        GameConstants.HIGH_POINT_FRAMES,
                         GameConstants.DUCK_FRAMES,
                         1, 2);
             case Pink:
@@ -52,6 +54,7 @@ public class PlayerFactory {
                         GameConstants.JUMP_VELOCITY,
                         GameConstants.WALK_FRAMES,
                         GameConstants.JUMP_FRAMES,
+                        GameConstants.HIGH_POINT_FRAMES,
                         GameConstants.DUCK_FRAMES,
                         2, 1);
             default:

@@ -22,6 +22,8 @@ public class Player extends GameObject {
     private int gravity;
     private int jumpVelocity;
     private int jumpFrames;
+    private int highPointFrames;
+    private int highPointCount = 0;
     private int duckFrames;
     private int jump = 0;
     private Animation animation;
@@ -34,7 +36,7 @@ public class Player extends GameObject {
 
     public Player(Bitmap walksheet, Bitmap jumpImage, Bitmap duckImage, Bitmap hurtImage,
                   int x, int y, int moveSpeed, int gravity, int jumpVelocity, int walkFrames, int jumpFrames,
-                  int duckFrames, int jumpCount, int lives) {
+                  int highPointFrames, int duckFrames, int jumpCount, int lives) {
         this.walksheet = walksheet;
         this.jumpImage = jumpImage;
         this.duckImage = duckImage;
@@ -48,6 +50,7 @@ public class Player extends GameObject {
         this.gravity = gravity;
         this.jumpVelocity = jumpVelocity;
         this.jumpFrames = jumpFrames;
+        this.highPointFrames = highPointFrames;
         this.duckFrames = duckFrames;
         this.animation = new Animation();
         this.jumpCount = jumpCount;
@@ -121,6 +124,9 @@ public class Player extends GameObject {
                     canvas.drawBitmap(this.jumpImage, this.x, this.y, null);
                 }
                 break;
+            case HighPoint:
+                canvas.drawBitmap(this.jumpImage, this.x, this.y, null);
+                break;
             case Falling:
                 canvas.drawBitmap(this.jumpImage, this.x, this.y, null);
                 break;
@@ -129,6 +135,7 @@ public class Player extends GameObject {
                 break;
             case HitWall:
                 canvas.drawBitmap(this.hurtImage, this.x, this.y, null);
+                break;
         }
     }
 
@@ -139,6 +146,13 @@ public class Player extends GameObject {
                 this.y += this.jumpVelocity;
                 jump--;
                 if (jump == 0) {
+                    highPointCount = highPointFrames;
+                    state = PlayerState.HighPoint;
+                }
+                break;
+            case HighPoint:
+                highPointCount--;
+                if (highPointCount == 0) {
                     state = PlayerState.Falling;
                 }
                 break;

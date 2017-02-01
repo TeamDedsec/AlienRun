@@ -57,7 +57,7 @@ public class GameplayScene implements IScene {
         background = BackgroundFactory.createBackground(BackgroundType.Desert);
         pause = BitmapFactory.decodeResource(BasicConstants.CURRENT_CONTEXT.getResources(), R.drawable.pause);
         playerPoint = new Point(162, BasicConstants.BG_HEIGHT - 162);
-        player = PlayerFactory.createPlayer(PlayerType.Pink, playerPoint.x, playerPoint.y);
+        player = PlayerFactory.createPlayer(PlayerType.Pink, playerPoint.x, playerPoint.y - 15);
         moduleFacotry = new LevelModuleFacotry(BlockSetType.Snow);
         modules = new ArrayList<>();
         modules.add(moduleFacotry.getLevelModule(0));
@@ -82,6 +82,13 @@ public class GameplayScene implements IScene {
                             break;
                     }
                 case Jumping:
+                    switch (checkCollision()) {
+                        case Wall:
+                            player.setState(PlayerState.HitWall);
+                            break;
+                    }
+                    break;
+                case HighPoint:
                     switch (checkCollision()) {
                         case Wall:
                             player.setState(PlayerState.HitWall);
@@ -235,6 +242,13 @@ public class GameplayScene implements IScene {
                             break;
                         case Jumping:
                             if (player.getJumps() < player.getJumpCount()) {
+                                player.resetJump();
+                                player.setJumps(player.getJumps() + 1);
+                            }
+                            break;
+                        case HighPoint:
+                            if (player.getJumps() < player.getJumpCount()) {
+                                player.setState(PlayerState.Jumping);
                                 player.resetJump();
                                 player.setJumps(player.getJumps() + 1);
                             }
