@@ -104,6 +104,10 @@ public class Player extends GameObject {
         this.drownFrames = GameConstants.DROWN_FRAMES;
     }
 
+    public void increaseSpeed() {
+        this.moveSpeed--;
+    }
+
     public boolean isAlive() {
         return isAlive;
     }

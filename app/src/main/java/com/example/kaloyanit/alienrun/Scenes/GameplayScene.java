@@ -4,9 +4,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Point;
-import android.graphics.RadialGradient;
 import android.graphics.Rect;
-import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 
@@ -14,16 +12,13 @@ import com.example.kaloyanit.alienrun.Contracts.IScene;
 import com.example.kaloyanit.alienrun.Core.SceneManager;
 import com.example.kaloyanit.alienrun.Enums.BackgroundType;
 import com.example.kaloyanit.alienrun.Enums.BlockSetType;
-import com.example.kaloyanit.alienrun.Enums.BlockType;
 import com.example.kaloyanit.alienrun.Enums.CollisionType;
 import com.example.kaloyanit.alienrun.Enums.PlayerState;
 import com.example.kaloyanit.alienrun.Enums.PlayerType;
 import com.example.kaloyanit.alienrun.Factories.BackgroundFactory;
-import com.example.kaloyanit.alienrun.Factories.BlockFactory;
-import com.example.kaloyanit.alienrun.Factories.LevelModuleFacotry;
+import com.example.kaloyanit.alienrun.Factories.LevelModuleFactory;
 import com.example.kaloyanit.alienrun.Factories.PlayerFactory;
 import com.example.kaloyanit.alienrun.GameObjects.Background;
-import com.example.kaloyanit.alienrun.GameObjects.GameObject;
 import com.example.kaloyanit.alienrun.GameObjects.Block;
 import com.example.kaloyanit.alienrun.GameObjects.LevelModule;
 import com.example.kaloyanit.alienrun.GameObjects.Player;
@@ -32,11 +27,8 @@ import com.example.kaloyanit.alienrun.Utils.BasicConstants;
 import com.example.kaloyanit.alienrun.Utils.GameConstants;
 
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.Map;
-import java.util.Random;
 import java.util.TreeMap;
-import java.util.concurrent.ThreadLocalRandom;
 
 /**
  * Created by KaloyanIT on 1/25/2017.
@@ -48,7 +40,7 @@ public class GameplayScene implements IScene {
     private Point playerPoint;
     private Bitmap pause;
     private View pauseView;
-    LevelModuleFacotry moduleFacotry;
+    LevelModuleFactory moduleFacotry;
     private ArrayList<LevelModule> modules;
     private int frameCounter = 0;
 
@@ -57,7 +49,7 @@ public class GameplayScene implements IScene {
         pause = BitmapFactory.decodeResource(BasicConstants.CURRENT_CONTEXT.getResources(), R.drawable.pause);
         playerPoint = new Point(162, BasicConstants.BG_HEIGHT - 162);
         player = PlayerFactory.createPlayer(PlayerType.Pink, playerPoint.x, playerPoint.y);
-        moduleFacotry = new LevelModuleFacotry(BlockSetType.Snow);
+        moduleFacotry = new LevelModuleFactory(BlockSetType.Snow);
         modules = new ArrayList<>();
         modules.add(moduleFacotry.getLevelModule());
         modules.add(moduleFacotry.getLevelModule());
@@ -112,6 +104,10 @@ public class GameplayScene implements IScene {
             if(frameCounter == 25) {
                 Player.SCORE++;
                 frameCounter = 0;
+            }
+
+            if(Player.SCORE % 10 == 0) {
+                player.increaseSpeed();
             }
 
             player.update();

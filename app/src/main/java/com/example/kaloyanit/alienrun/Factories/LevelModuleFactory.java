@@ -12,11 +12,11 @@ import java.util.Random;
  * Created by julian.teofilov on 31/1/2017.
  */
 
-public class LevelModuleFacotry {
+public class LevelModuleFactory {
     private BlockSetType type;
     private int startPosition = 0;
 
-    public LevelModuleFacotry(BlockSetType type) {
+    public LevelModuleFactory(BlockSetType type) {
         this.type = type;
     }
 
