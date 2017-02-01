@@ -51,6 +51,7 @@ public class GameplayScene implements IScene {
     LevelModuleFacotry moduleFacotry;
     private ArrayList<LevelModule> modules;
     private int frameCounter = 0;
+    private int coinCount = 0;
 
     public GameplayScene() {
         background = BackgroundFactory.createBackground(BackgroundType.Desert);
@@ -59,8 +60,8 @@ public class GameplayScene implements IScene {
         player = PlayerFactory.createPlayer(PlayerType.Pink, playerPoint.x, playerPoint.y);
         moduleFacotry = new LevelModuleFacotry(BlockSetType.Snow);
         modules = new ArrayList<>();
-        modules.add(moduleFacotry.getLevelModule());
-        modules.add(moduleFacotry.getLevelModule());
+        modules.add(moduleFacotry.getLevelModule(0));
+        modules.add(moduleFacotry.getLevelModule(4));
     }
 
     @Override
@@ -137,6 +138,10 @@ public class GameplayScene implements IScene {
         }
     }
 
+    private boolean checkCollision(Rect a, Rect b) {
+        return Rect.intersects(a, b);
+    }
+
     private CollisionType checkCollision() {
         //Store all found collisions in a sorted list by their priority
         Map<Integer, CollisionType> types = new TreeMap<>();
@@ -148,12 +153,23 @@ public class GameplayScene implements IScene {
                     //Skip blocks that are not in the width of the player, because they don't have collision anyway
                     if (currBlock.getX() >= this.player.getX() || currBlock.getX() <= this.player.getX() + this.player.getWidth()) {
                         if (Rect.intersects(player.getRectangle(), currBlock.getRectangle())) {
+                            if (currBlock.getCollisionType() == CollisionType.Coin) {
+                                //Lower the collision radius if it's a coin
+                                if (checkCollision(player.getRectangle(),
+                                        new Rect(currBlock.getX() + 5,
+                                                currBlock.getY() + 5,
+                                                currBlock.getX() + currBlock.getWidth() - 5,
+                                                currBlock.getY() + currBlock.getHeight() - 5))) {
+                                    coinCount++;
+                                    module.getBlocks().remove(i);
+                                }
+                            }
                             //If the block's collision is Ground, check which side the player is hitting it from
                             if (currBlock.getCollisionType() == CollisionType.Ground) {
                                 if (this.player.getY() + this.player.getHeight() - GameConstants.GRAVITY <= currBlock.getY()) {
                                     //This checks if the player is above the block, and tells him he can run on it
                                     types.put(CollisionType.Ground.ordinal(), CollisionType.Ground);
-                                } else if (this.player.getY() > currBlock.getY() + (currBlock.getHeight() / 2)) {
+                                } else if (this.player.getY() > currBlock.getY() + (currBlock.getHeight())) {
                                     //This checks if the player is below the block and triggers collision at the middle of the block;
                                     types.put(CollisionType.None.ordinal(), CollisionType.None);
                                 } else if (this.player.getX() + this.player.getWidth() >= currBlock.getX()) {

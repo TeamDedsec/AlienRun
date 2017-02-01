@@ -11,5 +11,6 @@ public enum BlockType {
     AirMid,
     AirRight,
     AirLeft,
-    Water
+    Water,
+    Coin
 }

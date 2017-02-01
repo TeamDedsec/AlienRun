@@ -64,6 +64,13 @@ public class BlockFactory {
                         x, y, GameConstants.BLOCK_WIDTH, GameConstants.BLOCK_HEIGHT,
                         GameConstants.GAME_SPEED,
                         CollisionType.Water);
+            case Coin:
+                return new Block(BitmapFactory.decodeResource(
+                        BasicConstants.CURRENT_CONTEXT.getResources(),
+                        R.drawable.coingold),
+                        x, y, GameConstants.BLOCK_WIDTH, GameConstants.BLOCK_HEIGHT,
+                        GameConstants.GAME_SPEED,
+                        CollisionType.Coin);
             default:
                 throw new RuntimeException();
         }
