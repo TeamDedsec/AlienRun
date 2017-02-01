@@ -32,6 +32,9 @@ public class LevelModule {
 
     public void update ()
     {
+        for (int i = 0; i < blocks.size(); i++) {
+            blocks.get(i).update();
+        }
         this.startX += GameConstants.GAME_SPEED;
         this.endX += GameConstants.GAME_SPEED;
     }

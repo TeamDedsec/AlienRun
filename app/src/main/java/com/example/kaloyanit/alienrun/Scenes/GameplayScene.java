@@ -46,12 +46,14 @@ public class GameplayScene implements IScene {
     private int frameCounter = 0;
     private int coinCount = 0;
 
+    //TODO: JT: Add enemies
+
     public GameplayScene() {
-        background = BackgroundFactory.createBackground(BackgroundType.Desert);
+        background = BackgroundFactory.createBackground(BackgroundType.Grass);
         pause = BitmapFactory.decodeResource(BasicConstants.CURRENT_CONTEXT.getResources(), R.drawable.pause);
         playerPoint = new Point(162, BasicConstants.BG_HEIGHT - 162);
-        player = PlayerFactory.createPlayer(PlayerType.Pink, playerPoint.x, playerPoint.y - 20);
-        moduleFacotry = new LevelModuleFactory(BlockSetType.Snow);
+        player = PlayerFactory.createPlayer(PlayerType.Green, playerPoint.x, playerPoint.y - 20);
+        moduleFacotry = new LevelModuleFactory(BlockSetType.Rock);
         modules = new ArrayList<>();
         modules.add(moduleFacotry.getLevelModule(0));
         modules.add(moduleFacotry.getLevelModule(4));
@@ -62,21 +64,20 @@ public class GameplayScene implements IScene {
         if (player.isAlive()) {
             player.update();
             background.update();
+            moduleFacotry.update();
 
+            //TODO: JT: Check why it pushes the blocks with a few pixels sometimes.
             for (int j = 0; j < modules.size(); j++) {
                 LevelModule mod = modules.get(j);
-                if (mod.getEndX() < -100) {
+                mod.update();
+
+                if (mod.getEndX() < 0) {
                     modules.remove(mod);
-                } else {
-                    mod.update();
-                    for (int i = 0; i < mod.getBlocks().size(); i++) {
-                        mod.getBlocks().get(i).update();
-                    }
-                    if (j == modules.size() - 1) {
-                        moduleFacotry.updateStartPosition(mod.getEndX());
-                        if (mod.getEndX() < BasicConstants.BG_WIDTH) {
-                            modules.add(moduleFacotry.getLevelModule());
-                        }
+                }
+
+                if (j == modules.size() - 1) {
+                    if (mod.getEndX() < BasicConstants.BG_WIDTH) {
+                        modules.add(moduleFacotry.getLevelModule());
                     }
                 }
             }
@@ -146,6 +147,7 @@ public class GameplayScene implements IScene {
     }
 
     private CollisionType checkCollision() {
+        //TODO: JT: Update and refactor collision
         //Store all found collisions in a sorted list by their priority
         Map<Integer, CollisionType> types = new TreeMap<>();
         for (int j = 0; j < modules.size(); j++) {

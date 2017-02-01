@@ -2,6 +2,7 @@ package com.example.kaloyanit.alienrun.Factories;
 
 import com.example.kaloyanit.alienrun.Enums.BlockSetType;
 import com.example.kaloyanit.alienrun.Enums.BlockType;
+import com.example.kaloyanit.alienrun.GameObjects.Block;
 import com.example.kaloyanit.alienrun.GameObjects.LevelModule;
 import com.example.kaloyanit.alienrun.Utils.BasicConstants;
 import com.example.kaloyanit.alienrun.Utils.GameConstants;
@@ -20,10 +21,18 @@ public class LevelModuleFactory {
         this.type = type;
     }
 
-
-    public void updateStartPosition(int startPosition) {
-        this.startPosition = startPosition;
+    public int resetEndPosition(LevelModule module) {
+        int length = module.getBlocks().size();
+        Block last = module.getBlocks().get(length - 1);
+        return last.getX() + last.getWidth();
     }
+
+    public void update() {
+        this.startPosition += GameConstants.GAME_SPEED;
+    }
+/*    public void updateStartPosition(int startPosition) {
+        this.startPosition = startPosition;
+    }*/
 
     public LevelModule getLevelModule() {
         int index = getRandomNumber(0, 3);
@@ -37,23 +46,23 @@ public class LevelModuleFactory {
         switch (index) {
             case 0:
                 module = createStraightLine();
-                startPosition = module.getEndX() + 1;
+                startPosition = module.getEndX();
                 return module;
             case 1:
                 module = createWaterPool();
-                startPosition = module.getEndX() + 1;
+                startPosition = module.getEndX();
                 return module;
             case 2:
                 module = createFloatingLevel();
-                startPosition = module.getEndX() + 1;
+                startPosition = module.getEndX();
                 return module;
             case 3:
                 module = createBigHole();
-                startPosition = module.getEndX() + 1;
+                startPosition = module.getEndX();
                 return module;
             case 4:
                 module = createStraightLineWithCoins();
-                startPosition = module.getEndX() + 1;
+                startPosition = module.getEndX();
                 return module;
             default:
                 throw new RuntimeException();
@@ -71,6 +80,8 @@ public class LevelModuleFactory {
         for (int i = 0; i < 11; i++) {
             module.addBlock(BlockType.GroundMid, startPosition + (i * GameConstants.BLOCK_WIDTH), BasicConstants.BG_HEIGHT - GameConstants.BLOCK_HEIGHT);
         }
+
+        module.setEndX(resetEndPosition(module));
         return module;
     }
 
@@ -81,7 +92,10 @@ public class LevelModuleFactory {
                 module.addBlock(BlockType.Coin, startPosition + (i * GameConstants.BLOCK_WIDTH), BasicConstants.BG_HEIGHT - (GameConstants.BLOCK_HEIGHT * 2));
             }
             module.addBlock(BlockType.GroundMid, startPosition + (i * GameConstants.BLOCK_WIDTH), BasicConstants.BG_HEIGHT - GameConstants.BLOCK_HEIGHT);
+            module.setEndX((i * GameConstants.BLOCK_WIDTH) + GameConstants.BLOCK_WIDTH);
         }
+
+        module.setEndX(resetEndPosition(module));
         return module;
     }
 
@@ -110,6 +124,7 @@ public class LevelModuleFactory {
             currentX += GameConstants.BLOCK_WIDTH;
         }
 
+        module.setEndX(resetEndPosition(module));
         return module;
     }
 
@@ -143,6 +158,7 @@ public class LevelModuleFactory {
             currentX += GameConstants.BLOCK_WIDTH;
         }
 
+        module.setEndX(resetEndPosition(module));
         return module;
     }
 
@@ -167,6 +183,7 @@ public class LevelModuleFactory {
             currentX += GameConstants.BLOCK_WIDTH;
         }
 
+        module.setEndX(resetEndPosition(module));
         return module;
     }
 }
