@@ -4,7 +4,6 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Point;
-import android.graphics.RadialGradient;
 import android.graphics.Rect;
 import android.util.Log;
 import android.view.MotionEvent;
@@ -14,16 +13,13 @@ import com.example.kaloyanit.alienrun.Contracts.IScene;
 import com.example.kaloyanit.alienrun.Core.SceneManager;
 import com.example.kaloyanit.alienrun.Enums.BackgroundType;
 import com.example.kaloyanit.alienrun.Enums.BlockSetType;
-import com.example.kaloyanit.alienrun.Enums.BlockType;
 import com.example.kaloyanit.alienrun.Enums.CollisionType;
 import com.example.kaloyanit.alienrun.Enums.PlayerState;
 import com.example.kaloyanit.alienrun.Enums.PlayerType;
 import com.example.kaloyanit.alienrun.Factories.BackgroundFactory;
-import com.example.kaloyanit.alienrun.Factories.BlockFactory;
-import com.example.kaloyanit.alienrun.Factories.LevelModuleFacotry;
+import com.example.kaloyanit.alienrun.Factories.LevelModuleFactory;
 import com.example.kaloyanit.alienrun.Factories.PlayerFactory;
 import com.example.kaloyanit.alienrun.GameObjects.Background;
-import com.example.kaloyanit.alienrun.GameObjects.GameObject;
 import com.example.kaloyanit.alienrun.GameObjects.Block;
 import com.example.kaloyanit.alienrun.GameObjects.LevelModule;
 import com.example.kaloyanit.alienrun.GameObjects.Player;
@@ -32,11 +28,8 @@ import com.example.kaloyanit.alienrun.Utils.BasicConstants;
 import com.example.kaloyanit.alienrun.Utils.GameConstants;
 
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.Map;
-import java.util.Random;
 import java.util.TreeMap;
-import java.util.concurrent.ThreadLocalRandom;
 
 /**
  * Created by KaloyanIT on 1/25/2017.
@@ -48,7 +41,7 @@ public class GameplayScene implements IScene {
     private Point playerPoint;
     private Bitmap pause;
     private View pauseView;
-    LevelModuleFacotry moduleFacotry;
+    LevelModuleFactory moduleFacotry;
     private ArrayList<LevelModule> modules;
     private int frameCounter = 0;
     private int coinCount = 0;
@@ -57,8 +50,8 @@ public class GameplayScene implements IScene {
         background = BackgroundFactory.createBackground(BackgroundType.Desert);
         pause = BitmapFactory.decodeResource(BasicConstants.CURRENT_CONTEXT.getResources(), R.drawable.pause);
         playerPoint = new Point(162, BasicConstants.BG_HEIGHT - 162);
-        player = PlayerFactory.createPlayer(PlayerType.Pink, playerPoint.x, playerPoint.y - 15);
-        moduleFacotry = new LevelModuleFacotry(BlockSetType.Snow);
+        player = PlayerFactory.createPlayer(PlayerType.Pink, playerPoint.x, playerPoint.y - 20);
+        moduleFacotry = new LevelModuleFactory(BlockSetType.Snow);
         modules = new ArrayList<>();
         modules.add(moduleFacotry.getLevelModule(0));
         modules.add(moduleFacotry.getLevelModule(4));
@@ -67,6 +60,27 @@ public class GameplayScene implements IScene {
     @Override
     public void update() {
         if (player.isAlive()) {
+            player.update();
+            background.update();
+
+            for (int j = 0; j < modules.size(); j++) {
+                LevelModule mod = modules.get(j);
+                if (mod.getEndX() < -100) {
+                    modules.remove(mod);
+                } else {
+                    mod.update();
+                    for (int i = 0; i < mod.getBlocks().size(); i++) {
+                        mod.getBlocks().get(i).update();
+                    }
+                    if (j == modules.size() - 1) {
+                        moduleFacotry.updateStartPosition(mod.getEndX());
+                        if (mod.getEndX() < BasicConstants.BG_WIDTH) {
+                            modules.add(moduleFacotry.getLevelModule());
+                        }
+                    }
+                }
+            }
+
             switch (player.getState()) {
                 case Running:
                     switch (checkCollision()) {
@@ -81,6 +95,7 @@ public class GameplayScene implements IScene {
                             player.setState(PlayerState.HitWall);
                             break;
                     }
+                    break;
                 case Jumping:
                     switch (checkCollision()) {
                         case Wall:
@@ -108,39 +123,20 @@ public class GameplayScene implements IScene {
                             player.setState(PlayerState.HitWall);
                             break;
                     }
+                    break;
                 case Drowning:
                     switch (checkCollision()) {
                         case Wall:
                             player.setState(PlayerState.HitWall);
                             break;
                     }
+                    break;
             }
 
             frameCounter++;
             if(frameCounter == 25) {
                 Player.SCORE++;
                 frameCounter = 0;
-            }
-
-            player.update();
-            background.update();
-
-            for (int j = 0; j < modules.size(); j++) {
-                LevelModule mod = modules.get(j);
-                if (mod.getEndX() < -100) {
-                    modules.remove(mod);
-                } else {
-                    mod.update();
-                    for (int i = 0; i < mod.getBlocks().size(); i++) {
-                        mod.getBlocks().get(i).update();
-                    }
-                    if (j == modules.size() - 1) {
-                        moduleFacotry.updateStartPosition(mod.getEndX());
-                        if (mod.getEndX() < BasicConstants.BG_WIDTH) {
-                            modules.add(moduleFacotry.getLevelModule());
-                        }
-                    }
-                }
             }
         }
     }
@@ -158,15 +154,15 @@ public class GameplayScene implements IScene {
                 for (int i = 0; i < module.getBlocks().size(); i++) {
                     Block currBlock = module.getBlocks().get(i);
                     //Skip blocks that are not in the width of the player, because they don't have collision anyway
-                    if (currBlock.getX() >= this.player.getX() || currBlock.getX() <= this.player.getX() + this.player.getWidth()) {
+                    if (true) {//(currBlock.getX() >= this.player.getX() || currBlock.getX() <= this.player.getX() + this.player.getWidth()) {
                         if (Rect.intersects(player.getRectangle(), currBlock.getRectangle())) {
                             if (currBlock.getCollisionType() == CollisionType.Coin) {
                                 //Lower the collision radius if it's a coin
                                 if (checkCollision(player.getRectangle(),
-                                        new Rect(currBlock.getX() + 5,
-                                                currBlock.getY() + 5,
-                                                currBlock.getX() + currBlock.getWidth() - 5,
-                                                currBlock.getY() + currBlock.getHeight() - 5))) {
+                                        new Rect(currBlock.getX() + 20,
+                                                currBlock.getY() + 20,
+                                                currBlock.getX() + currBlock.getWidth() - 20,
+                                                currBlock.getY() + currBlock.getHeight() - 20))) {
                                     coinCount++;
                                     module.getBlocks().remove(i);
                                 }
@@ -228,7 +224,7 @@ public class GameplayScene implements IScene {
     }
 
     @Override
-    public void recieveTouch(MotionEvent event) {
+    public void receiveTouch(MotionEvent event) {
         float x = event.getX();
         float y = event.getY();
         //Sample event

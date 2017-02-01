@@ -21,32 +21,32 @@ public class BlockFactory {
 
         switch (blockType) {
             case GroundMid:
-                return new Block(blockSet.getMiddleGround(),
+                return new Block(blockSet.getMiddleGround(), "GroundMid",
                         x, y, GameConstants.BLOCK_WIDTH, GameConstants.BLOCK_HEIGHT,
                         GameConstants.GAME_SPEED,
                         CollisionType.Ground);
             case GroundLeft:
-                return new Block(blockSet.getLeftGround(),
+                return new Block(blockSet.getLeftGround(), "GroundLeft",
                         x, y, GameConstants.BLOCK_WIDTH, GameConstants.BLOCK_HEIGHT,
                         GameConstants.GAME_SPEED,
                         CollisionType.Ground);
             case GroundRight:
-                return new Block(blockSet.getRightGround(),
+                return new Block(blockSet.getRightGround(), "GroundRight,",
                         x, y, GameConstants.BLOCK_WIDTH, GameConstants.BLOCK_HEIGHT,
                         GameConstants.GAME_SPEED,
                         CollisionType.Ground);
             case AirMid:
-                return new Block(blockSet.getMiddleAir(),
+                return new Block(blockSet.getMiddleAir(), "AirMid",
                         x, y, GameConstants.BLOCK_WIDTH, GameConstants.BLOCK_HEIGHT / 2,
                         GameConstants.GAME_SPEED,
                         CollisionType.Ground);
             case AirRight:
-                return new Block(blockSet.getRightAir(),
+                return new Block(blockSet.getRightAir(), "AirRight",
                         x, y, GameConstants.BLOCK_WIDTH, GameConstants.BLOCK_HEIGHT / 2,
                         GameConstants.GAME_SPEED,
                         CollisionType.Ground);
             case AirLeft:
-                return new Block(blockSet.getLeftAir(),
+                return new Block(blockSet.getLeftAir(), "AirLeft",
                         x, y, GameConstants.BLOCK_WIDTH, GameConstants.BLOCK_HEIGHT / 2,
                         GameConstants.GAME_SPEED,
                         CollisionType.Ground);
@@ -61,6 +61,7 @@ public class BlockFactory {
                 return new Block(BitmapFactory.decodeResource(
                         BasicConstants.CURRENT_CONTEXT.getResources(),
                         R.drawable.liquidwatertop),
+                        "Water",
                         x, y, GameConstants.BLOCK_WIDTH, GameConstants.BLOCK_HEIGHT,
                         GameConstants.GAME_SPEED,
                         CollisionType.Water);
@@ -68,6 +69,7 @@ public class BlockFactory {
                 return new Block(BitmapFactory.decodeResource(
                         BasicConstants.CURRENT_CONTEXT.getResources(),
                         R.drawable.coingold),
+                        "Coin",
                         x, y, GameConstants.BLOCK_WIDTH, GameConstants.BLOCK_HEIGHT,
                         GameConstants.GAME_SPEED,
                         CollisionType.Coin);

@@ -13,11 +13,13 @@ import com.example.kaloyanit.alienrun.Scenes.GameplayScene;
 
 public class Block extends GameObject {
     private Bitmap image;
+    private String name;
     private int speed;
     private CollisionType collisionType;
 
-    public Block(Bitmap image, int x, int y, int width, int height, int speed, CollisionType collisionType) {
+    public Block(Bitmap image, String name, int x, int y, int width, int height, int speed, CollisionType collisionType) {
         this.image = image;
+        this.name = name;
         this.x = x;
         this.y = y;
         this.width = width;
@@ -28,6 +30,11 @@ public class Block extends GameObject {
 
     public CollisionType getCollisionType() {
         return collisionType;
+    }
+
+
+    public String getName() {
+        return name;
     }
 
     @Override

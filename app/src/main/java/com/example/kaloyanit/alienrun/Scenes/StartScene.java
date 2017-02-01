@@ -56,7 +56,7 @@ public class StartScene implements IScene {
     }
 
     @Override
-    public void recieveTouch(MotionEvent event) {
+    public void receiveTouch(MotionEvent event) {
 //        switch (event.getAction()) {
 //            case MotionEvent.ACTION_DOWN:
 //                SceneManager.ACTIVE_SCENE = 1;
