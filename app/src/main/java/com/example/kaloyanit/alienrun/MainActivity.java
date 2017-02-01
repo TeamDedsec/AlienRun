@@ -7,6 +7,7 @@ import android.media.Image;
 import android.os.Bundle;
 import android.os.Handler;
 import android.provider.ContactsContract;
+import android.support.v7.app.AppCompatActivity;
 import android.text.InputType;
 import android.transition.Scene;
 import android.util.DisplayMetrics;
@@ -35,7 +36,7 @@ import static com.example.kaloyanit.alienrun.R.id.refreshButton;
 import static com.example.kaloyanit.alienrun.R.id.scoreView;
 import static com.example.kaloyanit.alienrun.R.id.startView;
 
-public class MainActivity extends Activity {
+public class MainActivity extends AppCompatActivity{
 
     private ImageView pauseButton;
     private ImageView startButton;
@@ -117,22 +118,24 @@ public class MainActivity extends Activity {
             }
         });
 
-        exitButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if(SceneManager.ACTIVE_SCENE == 0) {
-                    finish();
-                    System.exit(0);
-                }
-                SceneManager.ACTIVE_SCENE = 0;
-                pauseButton.setVisibility(View.GONE);
-                refreshButton.setVisibility(View.GONE);
-                pauseText.setVisibility(View.GONE);
+//        exitButton.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                if(SceneManager.ACTIVE_SCENE == 0) {
+//                    finish();
+//                    System.exit(0);
+//                }
+//                SceneManager.ACTIVE_SCENE = 0;
+//                pauseButton.setVisibility(View.GONE);
+//                refreshButton.setVisibility(View.GONE);
+//                pauseText.setVisibility(View.GONE);
+//            }
+//        });
 
+        exitButton.setOnClickListener(view -> {
+            Intent intent = new Intent(this, StartUpActivity.class);
 
-
-
-            }
+            this.startActivity(intent);
         });
 
 
