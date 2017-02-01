@@ -6,6 +6,7 @@ import android.graphics.Canvas;
 import com.example.kaloyanit.alienrun.Contracts.IGameObject;
 import com.example.kaloyanit.alienrun.Core.GamePanel;
 import com.example.kaloyanit.alienrun.Utils.BasicConstants;
+import com.example.kaloyanit.alienrun.Utils.GameConstants;
 
 /**
  * Created by julian.teofilov on 26/1/2017.
@@ -15,11 +16,9 @@ public class Background implements IGameObject {
     private Bitmap image;
     private int x;
     private int y;
-    private int deltaX;
 
-    public Background(Bitmap image, int speed) {
+    public Background(Bitmap image) {
         this.image = image;
-        deltaX = speed / 2;
     }
 
     public void draw(Canvas canvas) {
@@ -31,7 +30,7 @@ public class Background implements IGameObject {
     }
 
     public void update() {
-        x += deltaX;
+        x += GameConstants.GAME_SPEED;
         if (x < -BasicConstants.BG_WIDTH) {
             x = 0;
         }

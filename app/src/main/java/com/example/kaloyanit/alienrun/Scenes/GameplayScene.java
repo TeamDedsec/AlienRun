@@ -142,9 +142,6 @@ public class GameplayScene implements IScene {
                     this.increaseSpeed();
                 }
             }
-
-
-
         }
     }
 

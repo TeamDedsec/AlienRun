@@ -6,6 +6,7 @@ import android.view.MotionEvent;
 
 import com.example.kaloyanit.alienrun.Contracts.IScene;
 import com.example.kaloyanit.alienrun.Core.SceneManager;
+import com.example.kaloyanit.alienrun.Enums.BackgroundType;
 import com.example.kaloyanit.alienrun.Factories.BackgroundFactory;
 import com.example.kaloyanit.alienrun.GameObjects.Background;
 import com.example.kaloyanit.alienrun.R;
@@ -20,7 +21,7 @@ public class PauseScene implements IScene {
     private Background background;
 
     public PauseScene() {
-        background = BackgroundFactory.createStaticBackground();
+        background = BackgroundFactory.createBackground(BackgroundType.Grass);
     }
 
     @Override

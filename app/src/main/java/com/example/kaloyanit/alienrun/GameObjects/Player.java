@@ -18,9 +18,6 @@ public class Player extends GameObject {
     private Bitmap duckImage;
     private Bitmap hurtImage;
     private PlayerState state;
-    private int moveSpeed;
-    private int gravity;
-    private int jumpVelocity;
     private int jumpFrames;
     private int highPointFrames;
     private int highPointCount = 0;
@@ -35,7 +32,7 @@ public class Player extends GameObject {
     public static Integer SCORE = 0;
 
     public Player(Bitmap walksheet, Bitmap jumpImage, Bitmap duckImage, Bitmap hurtImage,
-                  int x, int y, int moveSpeed, int gravity, int jumpVelocity, int walkFrames, int jumpFrames,
+                  int x, int y, int walkFrames, int jumpFrames,
                   int highPointFrames, int duckFrames, int jumpCount, int lives) {
         this.walksheet = walksheet;
         this.jumpImage = jumpImage;
@@ -46,9 +43,6 @@ public class Player extends GameObject {
         this.y = y;
         this.width = GameConstants.PLAYER_WIDTH;
         this.height = GameConstants.PLAYER_HEIGHT;
-        this.moveSpeed = moveSpeed;
-        this.gravity = gravity;
-        this.jumpVelocity = jumpVelocity;
         this.jumpFrames = jumpFrames;
         this.highPointFrames = highPointFrames;
         this.duckFrames = duckFrames;
@@ -143,7 +137,7 @@ public class Player extends GameObject {
     public void update() {
         switch (state) {
             case Jumping:
-                this.y += this.jumpVelocity;
+                this.y += GameConstants.JUMP_VELOCITY;
                 jump--;
                 if (jump == 0) {
                     highPointCount = highPointFrames;
@@ -157,20 +151,20 @@ public class Player extends GameObject {
                 }
                 break;
             case Falling:
-                this.y += this.gravity;
+                this.y += GameConstants.GRAVITY;
                 if (this.y > BasicConstants.BG_HEIGHT)
                     isAlive = false;
                 break;
             case Drowning:
-                this.y += this.gravity;
+                this.y += GameConstants.GRAVITY;
                 drownFrames--;
                 if (drownFrames == 0) {
                     isAlive = false;
                 }
                 break;
             case HitWall:
-                this.y += this.gravity;
-                this.x += this.moveSpeed;
+                this.y += GameConstants.GRAVITY;
+                this.x += GameConstants.GAME_SPEED;
                 if (this.y > BasicConstants.BG_HEIGHT)
                     isAlive = false;
                 break;

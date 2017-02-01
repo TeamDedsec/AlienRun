@@ -6,6 +6,7 @@ import android.graphics.Canvas;
 import com.example.kaloyanit.alienrun.Contracts.IGameObject;
 import com.example.kaloyanit.alienrun.Enums.CollisionType;
 import com.example.kaloyanit.alienrun.Scenes.GameplayScene;
+import com.example.kaloyanit.alienrun.Utils.GameConstants;
 
 /**
  * Created by julian.teofilov on 26/1/2017.
@@ -14,17 +15,15 @@ import com.example.kaloyanit.alienrun.Scenes.GameplayScene;
 public class Block extends GameObject {
     private Bitmap image;
     private String name;
-    private int speed;
     private CollisionType collisionType;
 
-    public Block(Bitmap image, String name, int x, int y, int width, int height, int speed, CollisionType collisionType) {
+    public Block(Bitmap image, String name, int x, int y, int width, int height, CollisionType collisionType) {
         this.image = image;
         this.name = name;
         this.x = x;
         this.y = y;
         this.width = width;
         this.height = height;
-        this.speed = speed;
         this.collisionType = collisionType;
     }
 
@@ -44,6 +43,6 @@ public class Block extends GameObject {
 
     @Override
     public void update() {
-        this.x += speed;
+        this.x += GameConstants.GAME_SPEED;
     }
 }
