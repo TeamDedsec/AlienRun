@@ -107,13 +107,6 @@ public class Player extends GameObject {
         this.drownFrames = GameConstants.DROWN_FRAMES;
     }
 
-    public void increaseSpeed() {
-        // this.moveSpeed doesn't work cause the background and blocks don't speed up
-        this.moveSpeed -= 20;
-        //TODO: Must change block logic
-        //GameConstants.GAME_SPEED -= 5;
-    }
-
     public boolean isAlive() {
         return isAlive;
     }

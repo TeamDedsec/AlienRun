@@ -138,14 +138,18 @@ public class GameplayScene implements IScene {
             if(frameCounter == 25) {
                 Player.SCORE++;
                 frameCounter = 0;
-                if(Player.SCORE % 10 == 0) {
-                    player.increaseSpeed();
+                if (Player.SCORE % 10 == 0) {
+                    this.increaseSpeed();
                 }
             }
 
 
 
         }
+    }
+
+    private void increaseSpeed() {
+            GameConstants.GAME_SPEED -= 2;
     }
 
     private boolean checkCollision(Rect a, Rect b) {
