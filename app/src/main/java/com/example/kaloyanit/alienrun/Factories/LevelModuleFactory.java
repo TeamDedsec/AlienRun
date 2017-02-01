@@ -27,6 +27,11 @@ public class LevelModuleFactory {
 
     public LevelModule getLevelModule() {
         int index = getRandomNumber(0, 3);
+        return getLevelModule(index);
+    }
+
+
+    public LevelModule getLevelModule(int index) {
         LevelModule module;
 
         switch (index) {
@@ -46,6 +51,10 @@ public class LevelModuleFactory {
                 module = createBigHole();
                 startPosition = module.getEndX() + 1;
                 return module;
+            case 4:
+                module = createStraightLineWithCoins();
+                startPosition = module.getEndX() + 1;
+                return module;
             default:
                 throw new RuntimeException();
         }
@@ -60,6 +69,17 @@ public class LevelModuleFactory {
     private LevelModule createStraightLine() {
         LevelModule module = new LevelModule(type, startPosition);
         for (int i = 0; i < 11; i++) {
+            module.addBlock(BlockType.GroundMid, startPosition + (i * GameConstants.BLOCK_WIDTH), BasicConstants.BG_HEIGHT - GameConstants.BLOCK_HEIGHT);
+        }
+        return module;
+    }
+
+    private LevelModule createStraightLineWithCoins() {
+        LevelModule module = new LevelModule(type, startPosition);
+        for (int i = 0; i < 11; i++) {
+            if (i > 3 && i < 7) {
+                module.addBlock(BlockType.Coin, startPosition + (i * GameConstants.BLOCK_WIDTH), BasicConstants.BG_HEIGHT - (GameConstants.BLOCK_HEIGHT * 2));
+            }
             module.addBlock(BlockType.GroundMid, startPosition + (i * GameConstants.BLOCK_WIDTH), BasicConstants.BG_HEIGHT - GameConstants.BLOCK_HEIGHT);
         }
         return module;

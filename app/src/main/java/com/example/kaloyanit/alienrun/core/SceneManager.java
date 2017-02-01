@@ -33,7 +33,7 @@ public class SceneManager implements IManager {
     }
 
     public void recieveTouch(MotionEvent event) {
-        scenes.get(ACTIVE_SCENE).recieveTouch(event);
+        scenes.get(ACTIVE_SCENE).receiveTouch(event);
     }
 
     public void update() {

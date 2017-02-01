@@ -5,11 +5,11 @@ package com.example.kaloyanit.alienrun.Enums;
  */
 
 public enum CollisionType {
-    Coin,
     PowerUp,
     Enemy,
     Wall,
     Ground,
     Water,
-    None
+    None,
+    Coin
 }

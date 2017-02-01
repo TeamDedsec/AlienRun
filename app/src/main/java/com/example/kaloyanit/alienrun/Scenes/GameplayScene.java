@@ -5,6 +5,7 @@ import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Point;
 import android.graphics.Rect;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 
@@ -43,73 +44,22 @@ public class GameplayScene implements IScene {
     LevelModuleFactory moduleFacotry;
     private ArrayList<LevelModule> modules;
     private int frameCounter = 0;
+    private int coinCount = 0;
 
     public GameplayScene() {
         background = BackgroundFactory.createBackground(BackgroundType.Desert);
         pause = BitmapFactory.decodeResource(BasicConstants.CURRENT_CONTEXT.getResources(), R.drawable.pause);
         playerPoint = new Point(162, BasicConstants.BG_HEIGHT - 162);
-        player = PlayerFactory.createPlayer(PlayerType.Pink, playerPoint.x, playerPoint.y);
+        player = PlayerFactory.createPlayer(PlayerType.Pink, playerPoint.x, playerPoint.y - 20);
         moduleFacotry = new LevelModuleFactory(BlockSetType.Snow);
         modules = new ArrayList<>();
-        modules.add(moduleFacotry.getLevelModule());
-        modules.add(moduleFacotry.getLevelModule());
+        modules.add(moduleFacotry.getLevelModule(0));
+        modules.add(moduleFacotry.getLevelModule(4));
     }
 
     @Override
     public void update() {
         if (player.isAlive()) {
-            switch (player.getState()) {
-                case Running:
-                    switch (checkCollision()) {
-                        case None:
-                            player.setState(PlayerState.Falling);
-                            break;
-                        case Water:
-                            player.setState(PlayerState.Drowning);
-                            player.resetDrownFrames();
-                            break;
-                        case Wall:
-                            player.setState(PlayerState.HitWall);
-                            break;
-                    }
-                case Jumping:
-                    switch (checkCollision()) {
-                        case Wall:
-                            player.setState(PlayerState.HitWall);
-                            break;
-                    }
-                    break;
-                case Falling:
-                    switch (checkCollision()) {
-                        case Water:
-                            player.setState(PlayerState.Drowning);
-                            break;
-                        case Ground:
-                            player.setState(PlayerState.Running);
-                            player.setJumps(0);
-                            break;
-                        case Wall:
-                            player.setState(PlayerState.HitWall);
-                            break;
-                    }
-                case Drowning:
-                    switch (checkCollision()) {
-                        case Wall:
-                            player.setState(PlayerState.HitWall);
-                            break;
-                    }
-            }
-
-            frameCounter++;
-            if(frameCounter == 25) {
-                Player.SCORE++;
-                frameCounter = 0;
-            }
-
-            if(Player.SCORE % 10 == 0) {
-                player.increaseSpeed();
-            }
-
             player.update();
             background.update();
 
@@ -130,7 +80,69 @@ public class GameplayScene implements IScene {
                     }
                 }
             }
+
+            switch (player.getState()) {
+                case Running:
+                    switch (checkCollision()) {
+                        case None:
+                            player.setState(PlayerState.Falling);
+                            break;
+                        case Water:
+                            player.setState(PlayerState.Drowning);
+                            player.resetDrownFrames();
+                            break;
+                        case Wall:
+                            player.setState(PlayerState.HitWall);
+                            break;
+                    }
+                    break;
+                case Jumping:
+                    switch (checkCollision()) {
+                        case Wall:
+                            player.setState(PlayerState.HitWall);
+                            break;
+                    }
+                    break;
+                case HighPoint:
+                    switch (checkCollision()) {
+                        case Wall:
+                            player.setState(PlayerState.HitWall);
+                            break;
+                    }
+                    break;
+                case Falling:
+                    switch (checkCollision()) {
+                        case Water:
+                            player.setState(PlayerState.Drowning);
+                            break;
+                        case Ground:
+                            player.setState(PlayerState.Running);
+                            player.setJumps(0);
+                            break;
+                        case Wall:
+                            player.setState(PlayerState.HitWall);
+                            break;
+                    }
+                    break;
+                case Drowning:
+                    switch (checkCollision()) {
+                        case Wall:
+                            player.setState(PlayerState.HitWall);
+                            break;
+                    }
+                    break;
+            }
+
+            frameCounter++;
+            if(frameCounter == 25) {
+                Player.SCORE++;
+                frameCounter = 0;
+            }
         }
+    }
+
+    private boolean checkCollision(Rect a, Rect b) {
+        return Rect.intersects(a, b);
     }
 
     private CollisionType checkCollision() {
@@ -142,14 +154,25 @@ public class GameplayScene implements IScene {
                 for (int i = 0; i < module.getBlocks().size(); i++) {
                     Block currBlock = module.getBlocks().get(i);
                     //Skip blocks that are not in the width of the player, because they don't have collision anyway
-                    if (currBlock.getX() >= this.player.getX() || currBlock.getX() <= this.player.getX() + this.player.getWidth()) {
+                    if (true) {//(currBlock.getX() >= this.player.getX() || currBlock.getX() <= this.player.getX() + this.player.getWidth()) {
                         if (Rect.intersects(player.getRectangle(), currBlock.getRectangle())) {
+                            if (currBlock.getCollisionType() == CollisionType.Coin) {
+                                //Lower the collision radius if it's a coin
+                                if (checkCollision(player.getRectangle(),
+                                        new Rect(currBlock.getX() + 20,
+                                                currBlock.getY() + 20,
+                                                currBlock.getX() + currBlock.getWidth() - 20,
+                                                currBlock.getY() + currBlock.getHeight() - 20))) {
+                                    coinCount++;
+                                    module.getBlocks().remove(i);
+                                }
+                            }
                             //If the block's collision is Ground, check which side the player is hitting it from
                             if (currBlock.getCollisionType() == CollisionType.Ground) {
                                 if (this.player.getY() + this.player.getHeight() - GameConstants.GRAVITY <= currBlock.getY()) {
                                     //This checks if the player is above the block, and tells him he can run on it
                                     types.put(CollisionType.Ground.ordinal(), CollisionType.Ground);
-                                } else if (this.player.getY() > currBlock.getY() + (currBlock.getHeight() / 2)) {
+                                } else if (this.player.getY() > currBlock.getY() + (currBlock.getHeight())) {
                                     //This checks if the player is below the block and triggers collision at the middle of the block;
                                     types.put(CollisionType.None.ordinal(), CollisionType.None);
                                 } else if (this.player.getX() + this.player.getWidth() >= currBlock.getX()) {
@@ -201,7 +224,7 @@ public class GameplayScene implements IScene {
     }
 
     @Override
-    public void recieveTouch(MotionEvent event) {
+    public void receiveTouch(MotionEvent event) {
         float x = event.getX();
         float y = event.getY();
         //Sample event
@@ -215,6 +238,13 @@ public class GameplayScene implements IScene {
                             break;
                         case Jumping:
                             if (player.getJumps() < player.getJumpCount()) {
+                                player.resetJump();
+                                player.setJumps(player.getJumps() + 1);
+                            }
+                            break;
+                        case HighPoint:
+                            if (player.getJumps() < player.getJumpCount()) {
+                                player.setState(PlayerState.Jumping);
                                 player.resetJump();
                                 player.setJumps(player.getJumps() + 1);
                             }
