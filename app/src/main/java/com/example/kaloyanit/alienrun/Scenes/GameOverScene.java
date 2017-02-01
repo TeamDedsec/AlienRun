@@ -26,7 +26,7 @@ public class GameOverScene implements IScene {
     }
 
     @Override
-    public void recieveTouch(MotionEvent event) {
+    public void receiveTouch(MotionEvent event) {
 
     }
 }

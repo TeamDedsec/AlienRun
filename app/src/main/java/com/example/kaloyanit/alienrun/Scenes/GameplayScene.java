@@ -137,7 +137,13 @@ public class GameplayScene implements IScene {
             if(frameCounter == 25) {
                 Player.SCORE++;
                 frameCounter = 0;
+                if(Player.SCORE % 10 == 0) {
+                    player.increaseSpeed();
+                }
             }
+
+
+
         }
     }
 

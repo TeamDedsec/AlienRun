@@ -108,7 +108,10 @@ public class Player extends GameObject {
     }
 
     public void increaseSpeed() {
-        this.moveSpeed--;
+        // this.moveSpeed doesn't work cause the background and blocks don't speed up
+        this.moveSpeed -= 20;
+        //TODO: Must change block logic
+        //GameConstants.GAME_SPEED -= 5;
     }
 
     public boolean isAlive() {
@@ -179,7 +182,6 @@ public class Player extends GameObject {
                     isAlive = false;
                 break;
         }
-
         animation.update();
     }
 }
