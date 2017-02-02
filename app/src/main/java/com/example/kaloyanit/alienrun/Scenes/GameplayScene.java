@@ -142,7 +142,6 @@ public class GameplayScene implements IScene {
                 }
 
                 if (Player.SCORE % 40 == 0) {
-                    background.changeImage(BackgroundFactory.getBackgroundImage());
                     background = BackgroundFactory.createBackground(BackgroundType.Mushroom);
                     moduleFacotry.changeBlockType();
                 }
