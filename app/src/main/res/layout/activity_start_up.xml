@@ -8,11 +8,31 @@
     tools:context="com.example.kaloyanit.alienrun.StartUpActivity">
 
     <ImageView
-        android:id="@+id/button_players"
+        android:id="@+id/startView"
+        android:layout_centerVertical="true"
         android:layout_width="wrap_content"
-        android:layout_height="match_parent"
-        android:src="@drawable/pause"/>
+        android:layout_height="wrap_content"
+        android:src="@drawable/start_button"
+        android:layout_centerHorizontal="true"/>
+    <ImageView
+        android:id="@+id/shopView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:layout_toRightOf="@id/startView"
+        android:src="@drawable/shopping_cart"/>
 
+    <ImageView
+        android:id="@+id/exitView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@id/scoreView"
+        android:src="@drawable/exit_button"/>
 
+    <!--Heroes-->
+
+    <!--Settings-->
+
+    <!--Achievements-->
 
 </RelativeLayout>

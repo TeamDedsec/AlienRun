@@ -4,12 +4,18 @@ import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.ImageView;
 
+import com.example.kaloyanit.alienrun.Core.SceneManager;
+
 public class StartUpActivity extends AppCompatActivity {
+
+    private ImageView startButton;
+    private ImageView pauseButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -20,28 +26,49 @@ public class StartUpActivity extends AppCompatActivity {
 
         setContentView(R.layout.activity_start_up);
 
-        ImageView playersOn = (ImageView)findViewById(R.id.button_players) ;
-        playersOn.setOnClickListener(view -> {
-            Intent intent = new Intent(this, PlayersActivity.class);
+        System.out.println("Start Start Up Activity");
+        Intent startGameActivity = new Intent(this, MainActivity.class);
 
-            this.startActivity(intent);
+        //ImageView playersOn = (ImageView)findViewById(R.id.button_players) ;
+        //System.out.println(playersOn.getX());
+//        playersOn.setOnClickListener(view -> {
+//            Intent playersIntent = new Intent(this, PlayersActivity.class);
+//
+//            startActivity(playersIntent);
+//        });
+
+        pauseButton = (ImageView) findViewById(R.id.pauseView);
+        startButton = (ImageView) findViewById(R.id.startView);
+        pauseButton.setVisibility(View.GONE);
+        //Events
+        startButton.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v) {
+                startActivity(startGameActivity);
+                SceneManager.ACTIVE_SCENE = 1;
+                //exitButton.setVisibility(View.INVISIBLE);
+                startButton.setVisibility(View.INVISIBLE);
+                pauseButton.setVisibility(View.VISIBLE);
+                //cartButton.setVisibility(View.GONE);
+                //scoreView.setVisibility(View.VISIBLE);
+                //pauseText.setVisibility(View.GONE);
+                //refreshButton.setVisibility(View.GONE);
+            }
         });
-
-
     }
 
     @Override
     public void onPause() {
         super.onPause();
 
-        System.out.println("kPause");
+        System.out.println("StartActivity Pause");
     }
 
     @Override
     protected void onResume() {
 
         super.onResume();
-        System.out.println("Resume");
+        System.out.println("StartActivity Resume");
 
     }
 
@@ -49,7 +76,7 @@ public class StartUpActivity extends AppCompatActivity {
     protected void onStop() {
 
         super.onStop();
-        System.out.println("Stop");
+        System.out.println("StartActivity Stop");
 
     }
 }

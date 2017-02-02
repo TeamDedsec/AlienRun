@@ -22,6 +22,7 @@ import java.util.zip.Inflater;
 public class PlayersActivity extends AppCompatActivity {
 
     public PlayersActivity() {
+        super();
         //this(new Data());
     }
 

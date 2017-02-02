@@ -32,21 +32,17 @@ import com.example.kaloyanit.alienrun.Views.ScoreView;
 
 import org.w3c.dom.Text;
 
-import static com.example.kaloyanit.alienrun.R.id.refreshButton;
-import static com.example.kaloyanit.alienrun.R.id.scoreView;
-import static com.example.kaloyanit.alienrun.R.id.startView;
 
 public class MainActivity extends AppCompatActivity{
 
     private ImageView pauseButton;
-    private ImageView startButton;
     private ImageView exitButton;
     private GamePanel gameView;
-    private ImageView cartButton;
     private TextView scoreView;
-    private TextView gameOverView;
-    private TextView pauseText;
-    private ImageView refreshButton;
+    private ImageView startView;
+    //private ImageView refreshButton;
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,24 +55,19 @@ public class MainActivity extends AppCompatActivity{
         getWindowManager().getDefaultDisplay().getMetrics(dm);
         BasicConstants.SCREEN_WIDTH = dm.widthPixels;
         BasicConstants.SCREEN_HEIGHT = dm.heightPixels;
-        SceneManager.ACTIVE_SCENE = 0;
+        //SceneManager.ACTIVE_SCENE = 1;
         setContentView(R.layout.activity_main);
 
         //Initialize elements
         gameView = (GamePanel)findViewById(R.id.gameView);
         pauseButton = (ImageView) findViewById(R.id.pauseView);
-        startButton = (ImageView) findViewById(R.id.startView);
         exitButton = (ImageView) findViewById(R.id.exitView);
-        cartButton = (ImageView) findViewById(R.id.shopView);
-        refreshButton = (ImageView) findViewById(R.id.refreshButton);
+        //refreshButton = (ImageView) findViewById(R.id.refreshButton);
         scoreView = (TextView) findViewById(R.id.scoreView);
-        gameOverView = (TextView) findViewById(R.id.gameOver);
-        pauseText = (TextView) findViewById(R.id.pauseText);
         scoreView.setText(Integer.toString(Player.SCORE));
         scoreView.setVisibility(View.GONE);
-        pauseText.setVisibility(View.GONE);
-        refreshButton.setVisibility(View.GONE);
-        gameOverView.setVisibility(View.GONE);
+        //refreshButton.setVisibility(View.GONE);
+        //pauseButton.setVisibility(View.GONE);
 
         final Handler handler = new Handler();
         handler.post(new Runnable() {
@@ -87,36 +78,20 @@ public class MainActivity extends AppCompatActivity{
             }
         });
 
-        pauseButton.setVisibility(View.GONE);
-        //Events
-        startButton.setOnClickListener(new View.OnClickListener(){
-            @Override
-            public void onClick(View v) {
-                SceneManager.ACTIVE_SCENE = 1;
-                exitButton.setVisibility(View.INVISIBLE);
-                startButton.setVisibility(View.INVISIBLE);
-                pauseButton.setVisibility(View.VISIBLE);
-                cartButton.setVisibility(View.GONE);
-                scoreView.setVisibility(View.VISIBLE);
-                pauseText.setVisibility(View.GONE);
-                refreshButton.setVisibility(View.GONE);
-            }
-        });
-
         pauseButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                SceneManager.ACTIVE_SCENE = 2;
-                startButton.setVisibility(View.VISIBLE);
-                refreshButton.setVisibility(View.VISIBLE);
-                exitButton.setVisibility(View.VISIBLE);
+                //refreshButton.setVisibility(View.VISIBLE);
+                //exitButton.setVisibility(View.VISIBLE);
                 pauseButton.setVisibility(View.GONE);
-                cartButton.setVisibility(View.GONE);
-                pauseText.setVisibility(View.VISIBLE);
+                //cartButton.setVisibility(View.GONE);
+                //pauseText.setVisibility(View.VISIBLE);
                 //pauseButton.setWillNotDraw(true);
 
             }
         });
+
+
 
 //        exitButton.setOnClickListener(new View.OnClickListener() {
 //            @Override
@@ -133,10 +108,13 @@ public class MainActivity extends AppCompatActivity{
 //        });
 
         exitButton.setOnClickListener(view -> {
+            System.out.println("Exit event");
             Intent intent = new Intent(this, StartUpActivity.class);
-
-            this.startActivity(intent);
+            startActivity(intent);
         });
+
+
+
 
 
 
@@ -175,7 +153,6 @@ public class MainActivity extends AppCompatActivity{
 
     @Override
     protected void onResume() {
-
         super.onResume();
         System.out.println("Resume");
 

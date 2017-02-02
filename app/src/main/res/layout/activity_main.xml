@@ -5,32 +5,11 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="com.example.kaloyanit.alienrun.MainActivity">
-
-    <!--android:paddingBottom="@dimen/activity_vertical_margin"-->
-    <!--android:paddingLeft="@dimen/activity_horizontal_margin"-->
-    <!--android:paddingRight="@dimen/activity_horizontal_margin"-->
-    <!--android:paddingTop="@dimen/activity_vertical_margin"-->
-
-    <!--<Button-->
-        <!--android:layout_width="wrap_content"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--android:text="Button"-->
-        <!--android:id="@+id/button" />-->
-
-    <!--<com.AlienRun.GamePanel-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="match_parent"-->
-        <!--android:id="@+id/gameView"/>-->
-    <!--</com.example.kaloyanit.alienrun.Core.GamePanel>-->
-
     <com.example.kaloyanit.alienrun.Core.GamePanel
         xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:id="@+id/gameView"/>
-        <!--</com.example.kaloyanit.alienrun.Core.GamePanel>-->
-
-
 
     <ImageView
     android:id="@+id/pauseView"
@@ -39,82 +18,19 @@
     android:src="@drawable/pause" />
 
     <ImageView
-        android:id="@+id/startView"
-        android:layout_centerVertical="true"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:src="@drawable/start_button"
-        android:layout_centerHorizontal="true"/>
-
-    <ImageView
         android:id="@+id/exitView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentRight="true"
         android:src="@drawable/exit_button"/>
 
-    <ImageView
-        android:id="@+id/shopView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_toLeftOf="@id/exitView"
-        android:src="@drawable/shopping_cart"/>
-
     <TextView
-        android:id="@+id/gameOver"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true"
-        android:layout_centerInParent="true"
-        android:text="GameOver"/>
-
-    <TextView
-        android:id="@+id/pauseText"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true"
-        android:layout_centerInParent="true"
-        android:text="Pause"/>
-
-    <ImageView
-        android:id="@+id/refreshButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerVertical="true"
-        android:src="@drawable/refresh_button"
-        android:layout_toRightOf="@id/startView"
-        />
-
-    <RelativeLayout
         xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:tools="http://schemas.android.com/tools"
+        android:id="@+id/scoreView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_toLeftOf="@id/shopView">
-
-
-
-            <ImageView
-            android:id="@+id/scoreBar"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:src="@drawable/points"
-            />
-            <TextView
-                xmlns:android="http://schemas.android.com/apk/res/android"
-                android:id="@+id/scoreView"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textColor="@color/colorRed"
-                android:layout_toRightOf="@+id/scoreBar"
-                android:text="0"/>
-
-
-
-
-    </RelativeLayout>
-
-
+        android:textColor="@color/colorRed"
+        android:layout_toRightOf="@+id/exitView"
+        android:text="0"/>
 
 </RelativeLayout>
