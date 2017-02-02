@@ -54,7 +54,7 @@ public class GameplayScene implements IScene {
         pause = BitmapFactory.decodeResource(BasicConstants.CURRENT_CONTEXT.getResources(), R.drawable.pause);
         playerPoint = new Point(162, BasicConstants.BG_HEIGHT - 162);
         player = PlayerFactory.createPlayer(PlayerType.Green, playerPoint.x, playerPoint.y - 20);
-        moduleFacotry = new LevelModuleFactory(BlockSetType.Rock);
+        moduleFacotry = new LevelModuleFactory(BlockSetType.Grass);
         modules = new ArrayList<>();
         modules.add(moduleFacotry.getLevelModule(0));
         modules.add(moduleFacotry.getLevelModule(4));
@@ -141,6 +141,11 @@ public class GameplayScene implements IScene {
                 frameCounter = 0;
                 if (Player.SCORE % 10 == 0) {
                     this.increaseSpeed();
+                }
+
+                if (Player.SCORE % 40 == 0) {
+                    background = BackgroundFactory.createBackground(BackgroundType.Mushroom);
+                    moduleFacotry = new LevelModuleFactory(BlockSetType.Rock);
                 }
             }
         }
