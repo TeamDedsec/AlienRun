@@ -40,6 +40,7 @@ public class MainActivity extends AppCompatActivity{
     private GamePanel gameView;
     private TextView scoreView;
     private ImageView startView;
+    private Intent pauseIntent;
     //private ImageView refreshButton;
 
 
@@ -59,15 +60,12 @@ public class MainActivity extends AppCompatActivity{
         setContentView(R.layout.activity_main);
 
         //Initialize elements
+        pauseIntent = new Intent(this, PlayersActivity.class);
         gameView = (GamePanel)findViewById(R.id.gameView);
         pauseButton = (ImageView) findViewById(R.id.pauseView);
         exitButton = (ImageView) findViewById(R.id.exitView);
-        //refreshButton = (ImageView) findViewById(R.id.refreshButton);
         scoreView = (TextView) findViewById(R.id.scoreView);
         scoreView.setText(Integer.toString(Player.SCORE));
-        scoreView.setVisibility(View.GONE);
-        //refreshButton.setVisibility(View.GONE);
-        //pauseButton.setVisibility(View.GONE);
 
         final Handler handler = new Handler();
         handler.post(new Runnable() {
@@ -84,6 +82,7 @@ public class MainActivity extends AppCompatActivity{
                 //refreshButton.setVisibility(View.VISIBLE);
                 //exitButton.setVisibility(View.VISIBLE);
                 pauseButton.setVisibility(View.GONE);
+                startActivity(pauseIntent);
                 //cartButton.setVisibility(View.GONE);
                 //pauseText.setVisibility(View.VISIBLE);
                 //pauseButton.setWillNotDraw(true);

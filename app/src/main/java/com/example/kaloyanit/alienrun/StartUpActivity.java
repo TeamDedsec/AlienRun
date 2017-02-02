@@ -15,7 +15,7 @@ import com.example.kaloyanit.alienrun.Core.SceneManager;
 public class StartUpActivity extends AppCompatActivity {
 
     private ImageView startButton;
-    private ImageView pauseButton;
+    private Intent startGameActivity;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -26,34 +26,13 @@ public class StartUpActivity extends AppCompatActivity {
 
         setContentView(R.layout.activity_start_up);
 
-        System.out.println("Start Start Up Activity");
-        Intent startGameActivity = new Intent(this, MainActivity.class);
-
-        //ImageView playersOn = (ImageView)findViewById(R.id.button_players) ;
-        //System.out.println(playersOn.getX());
-//        playersOn.setOnClickListener(view -> {
-//            Intent playersIntent = new Intent(this, PlayersActivity.class);
-//
-//            startActivity(playersIntent);
-//        });
-
-        pauseButton = (ImageView) findViewById(R.id.pauseView);
+        startGameActivity = new Intent(this, MainActivity.class);
         startButton = (ImageView) findViewById(R.id.startView);
-        pauseButton.setVisibility(View.GONE);
         //Events
-        startButton.setOnClickListener(new View.OnClickListener(){
-            @Override
-            public void onClick(View v) {
+        startButton.setOnClickListener(view -> {
                 startActivity(startGameActivity);
                 SceneManager.ACTIVE_SCENE = 1;
-                //exitButton.setVisibility(View.INVISIBLE);
                 startButton.setVisibility(View.INVISIBLE);
-                pauseButton.setVisibility(View.VISIBLE);
-                //cartButton.setVisibility(View.GONE);
-                //scoreView.setVisibility(View.VISIBLE);
-                //pauseText.setVisibility(View.GONE);
-                //refreshButton.setVisibility(View.GONE);
-            }
         });
     }
 
