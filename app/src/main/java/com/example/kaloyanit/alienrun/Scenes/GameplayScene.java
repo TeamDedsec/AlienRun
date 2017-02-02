@@ -26,6 +26,7 @@ import com.example.kaloyanit.alienrun.GameObjects.Player;
 import com.example.kaloyanit.alienrun.R;
 import com.example.kaloyanit.alienrun.Utils.BasicConstants;
 import com.example.kaloyanit.alienrun.Utils.GameConstants;
+import com.example.kaloyanit.alienrun.Utils.GameGlobalNumbers;
 
 import java.util.ArrayList;
 import java.util.Map;
@@ -53,7 +54,7 @@ public class GameplayScene implements IScene {
         pause = BitmapFactory.decodeResource(BasicConstants.CURRENT_CONTEXT.getResources(), R.drawable.pause);
         playerPoint = new Point(162, BasicConstants.BG_HEIGHT - 162);
         player = PlayerFactory.createPlayer(PlayerType.Green, playerPoint.x, playerPoint.y - 20);
-        moduleFacotry = new LevelModuleFactory(BlockSetType.Rock);
+        moduleFacotry = new LevelModuleFactory(BlockSetType.Grass);
         modules = new ArrayList<>();
         modules.add(moduleFacotry.getLevelModule(0));
         modules.add(moduleFacotry.getLevelModule(4));
@@ -66,12 +67,10 @@ public class GameplayScene implements IScene {
             background.update();
             moduleFacotry.update();
 
-            //TODO: JT: Check why it pushes the blocks with a few pixels sometimes.
             for (int j = 0; j < modules.size(); j++) {
                 LevelModule mod = modules.get(j);
                 mod.update();
-
-                if (mod.getEndX() < 0) {
+                if (mod.getEndX() < mod.getLength() * -1) {
                     modules.remove(mod);
                 }
 
@@ -141,12 +140,19 @@ public class GameplayScene implements IScene {
                 if (Player.SCORE % 10 == 0) {
                     this.increaseSpeed();
                 }
+
+                if (Player.SCORE % 40 == 0) {
+                    background = BackgroundFactory.createBackground(BackgroundType.Mushroom);
+                    moduleFacotry.changeBlockType();
+                }
             }
         }
     }
 
     private void increaseSpeed() {
-            GameConstants.GAME_SPEED -= 2;
+        GameGlobalNumbers.GAME_SPEED -= 2;
+        GameGlobalNumbers.GRAVITY += 2;
+        GameGlobalNumbers.JUMP_VELOCITY -= 2;
     }
 
     private boolean checkCollision(Rect a, Rect b) {
@@ -159,11 +165,10 @@ public class GameplayScene implements IScene {
         Map<Integer, CollisionType> types = new TreeMap<>();
         for (int j = 0; j < modules.size(); j++) {
             LevelModule module = modules.get(j);
-            if (true) {//module.getStartX() <= this.player.getX() && module.getEndX() >= this.player.getX() + this.player.getWidth()) {
+            //skip modules that the player is not in
+            if (Rect.intersects(player.getRectangle(), new Rect(module.getStartX(), 0, module.getEndX(), BasicConstants.BG_HEIGHT))) {
                 for (int i = 0; i < module.getBlocks().size(); i++) {
                     Block currBlock = module.getBlocks().get(i);
-                    //Skip blocks that are not in the width of the player, because they don't have collision anyway
-                    if (true) {//(currBlock.getX() >= this.player.getX() || currBlock.getX() <= this.player.getX() + this.player.getWidth()) {
                         if (Rect.intersects(player.getRectangle(), currBlock.getRectangle())) {
                             if (currBlock.getCollisionType() == CollisionType.Coin) {
                                 //Lower the collision radius if it's a coin
@@ -178,7 +183,7 @@ public class GameplayScene implements IScene {
                             }
                             //If the block's collision is Ground, check which side the player is hitting it from
                             if (currBlock.getCollisionType() == CollisionType.Ground) {
-                                if (this.player.getY() + this.player.getHeight() - GameConstants.GRAVITY <= currBlock.getY()) {
+                                if (this.player.getY() + this.player.getHeight() - GameGlobalNumbers.GRAVITY <= currBlock.getY()) {
                                     //This checks if the player is above the block, and tells him he can run on it
                                     types.put(CollisionType.Ground.ordinal(), CollisionType.Ground);
                                 } else if (this.player.getY() > currBlock.getY() + (currBlock.getHeight())) {
@@ -192,7 +197,6 @@ public class GameplayScene implements IScene {
                             //If it is anything other than Ground, just add it
                             types.put(currBlock.getCollisionType().ordinal(), currBlock.getCollisionType());
                         }
-                    }
                 }
             }
         }

@@ -7,6 +7,7 @@ import com.example.kaloyanit.alienrun.Contracts.IGameObject;
 import com.example.kaloyanit.alienrun.Enums.CollisionType;
 import com.example.kaloyanit.alienrun.Scenes.GameplayScene;
 import com.example.kaloyanit.alienrun.Utils.GameConstants;
+import com.example.kaloyanit.alienrun.Utils.GameGlobalNumbers;
 
 /**
  * Created by julian.teofilov on 26/1/2017.
@@ -43,6 +44,6 @@ public class Block extends GameObject {
 
     @Override
     public void update() {
-        this.x += GameConstants.GAME_SPEED;
+        this.x += GameGlobalNumbers.GAME_SPEED;
     }
 }

@@ -1,11 +1,14 @@
 package com.example.kaloyanit.alienrun.Factories;
 
+import com.example.kaloyanit.alienrun.Enums.BackgroundType;
 import com.example.kaloyanit.alienrun.Enums.BlockSetType;
 import com.example.kaloyanit.alienrun.Enums.BlockType;
 import com.example.kaloyanit.alienrun.GameObjects.Block;
 import com.example.kaloyanit.alienrun.GameObjects.LevelModule;
 import com.example.kaloyanit.alienrun.Utils.BasicConstants;
 import com.example.kaloyanit.alienrun.Utils.GameConstants;
+import com.example.kaloyanit.alienrun.Utils.GameGlobalNumbers;
+import com.example.kaloyanit.alienrun.Utils.Helpers;
 
 import java.util.Random;
 
@@ -28,14 +31,31 @@ public class LevelModuleFactory {
     }
 
     public void update() {
-        this.startPosition += GameConstants.GAME_SPEED;
+        this.startPosition += GameGlobalNumbers.GAME_SPEED;
     }
-/*    public void updateStartPosition(int startPosition) {
-        this.startPosition = startPosition;
-    }*/
+
+    public void changeBlockType() {
+        int rand = Helpers.getRandomNumber(0, 3);
+        switch (rand) {
+            case 0:
+                this.type = BlockSetType.Grass;
+                break;
+            case 1:
+                this.type = BlockSetType.Sand;
+                break;
+            case 2:
+                this.type = BlockSetType.Rock;
+                break;
+            case 3:
+                this.type = BlockSetType.Snow;
+                break;
+            default:
+                throw new RuntimeException();
+        }
+    }
 
     public LevelModule getLevelModule() {
-        int index = getRandomNumber(0, 3);
+        int index = Helpers.getRandomNumber(0, 3);
         return getLevelModule(index);
     }
 
@@ -67,12 +87,6 @@ public class LevelModuleFactory {
             default:
                 throw new RuntimeException();
         }
-    }
-
-    private int getRandomNumber(int min, int max) {
-        Random rand = new Random();
-        int random = rand.nextInt((max - min) + 1) + min;
-        return random;
     }
 
     private LevelModule createStraightLine() {
