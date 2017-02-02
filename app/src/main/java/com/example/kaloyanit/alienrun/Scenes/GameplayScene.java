@@ -67,12 +67,10 @@ public class GameplayScene implements IScene {
             background.update();
             moduleFacotry.update();
 
-            //TODO: JT: Check why it pushes the blocks with a few pixels sometimes.
             for (int j = 0; j < modules.size(); j++) {
                 LevelModule mod = modules.get(j);
                 mod.update();
-
-                if (mod.getEndX() < 0) {
+                if (mod.getEndX() < mod.getLength() * -1) {
                     modules.remove(mod);
                 }
 
@@ -144,8 +142,9 @@ public class GameplayScene implements IScene {
                 }
 
                 if (Player.SCORE % 40 == 0) {
+                    background.changeImage(BackgroundFactory.getBackgroundImage());
                     background = BackgroundFactory.createBackground(BackgroundType.Mushroom);
-                    moduleFacotry = new LevelModuleFactory(BlockSetType.Rock);
+                    moduleFacotry.changeBlockType();
                 }
             }
         }
@@ -167,11 +166,10 @@ public class GameplayScene implements IScene {
         Map<Integer, CollisionType> types = new TreeMap<>();
         for (int j = 0; j < modules.size(); j++) {
             LevelModule module = modules.get(j);
-            if (true) {//module.getStartX() <= this.player.getX() && module.getEndX() >= this.player.getX() + this.player.getWidth()) {
+            //skip modules that the player is not in
+            if (Rect.intersects(player.getRectangle(), new Rect(module.getStartX(), 0, module.getEndX(), BasicConstants.BG_HEIGHT))) {
                 for (int i = 0; i < module.getBlocks().size(); i++) {
                     Block currBlock = module.getBlocks().get(i);
-                    //Skip blocks that are not in the width of the player, because they don't have collision anyway
-                    if (true) {//(currBlock.getX() >= this.player.getX() || currBlock.getX() <= this.player.getX() + this.player.getWidth()) {
                         if (Rect.intersects(player.getRectangle(), currBlock.getRectangle())) {
                             if (currBlock.getCollisionType() == CollisionType.Coin) {
                                 //Lower the collision radius if it's a coin
@@ -200,7 +198,6 @@ public class GameplayScene implements IScene {
                             //If it is anything other than Ground, just add it
                             types.put(currBlock.getCollisionType().ordinal(), currBlock.getCollisionType());
                         }
-                    }
                 }
             }
         }
