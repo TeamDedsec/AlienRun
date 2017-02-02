@@ -4,6 +4,7 @@ import com.example.kaloyanit.alienrun.Enums.BlockSetType;
 import com.example.kaloyanit.alienrun.Enums.BlockType;
 import com.example.kaloyanit.alienrun.Factories.BlockFactory;
 import com.example.kaloyanit.alienrun.Utils.GameConstants;
+import com.example.kaloyanit.alienrun.Utils.GameGlobalNumbers;
 
 import java.util.ArrayList;
 
@@ -35,8 +36,8 @@ public class LevelModule {
         for (int i = 0; i < blocks.size(); i++) {
             blocks.get(i).update();
         }
-        this.startX += GameConstants.GAME_SPEED;
-        this.endX += GameConstants.GAME_SPEED;
+        this.startX += GameGlobalNumbers.GAME_SPEED;
+        this.endX += GameGlobalNumbers.GAME_SPEED;
     }
 
     public ArrayList<Block> getBlocks() {

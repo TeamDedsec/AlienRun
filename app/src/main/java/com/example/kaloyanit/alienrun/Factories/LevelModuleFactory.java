@@ -6,6 +6,7 @@ import com.example.kaloyanit.alienrun.GameObjects.Block;
 import com.example.kaloyanit.alienrun.GameObjects.LevelModule;
 import com.example.kaloyanit.alienrun.Utils.BasicConstants;
 import com.example.kaloyanit.alienrun.Utils.GameConstants;
+import com.example.kaloyanit.alienrun.Utils.GameGlobalNumbers;
 
 import java.util.Random;
 
@@ -28,7 +29,7 @@ public class LevelModuleFactory {
     }
 
     public void update() {
-        this.startPosition += GameConstants.GAME_SPEED;
+        this.startPosition += GameGlobalNumbers.GAME_SPEED;
     }
 /*    public void updateStartPosition(int startPosition) {
         this.startPosition = startPosition;

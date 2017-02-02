@@ -26,6 +26,7 @@ import com.example.kaloyanit.alienrun.GameObjects.Player;
 import com.example.kaloyanit.alienrun.R;
 import com.example.kaloyanit.alienrun.Utils.BasicConstants;
 import com.example.kaloyanit.alienrun.Utils.GameConstants;
+import com.example.kaloyanit.alienrun.Utils.GameGlobalNumbers;
 
 import java.util.ArrayList;
 import java.util.Map;
@@ -146,7 +147,9 @@ public class GameplayScene implements IScene {
     }
 
     private void increaseSpeed() {
-            GameConstants.GAME_SPEED -= 2;
+        GameGlobalNumbers.GAME_SPEED -= 2;
+        GameGlobalNumbers.GRAVITY += 2;
+        GameGlobalNumbers.JUMP_VELOCITY -= 2;
     }
 
     private boolean checkCollision(Rect a, Rect b) {
@@ -178,7 +181,7 @@ public class GameplayScene implements IScene {
                             }
                             //If the block's collision is Ground, check which side the player is hitting it from
                             if (currBlock.getCollisionType() == CollisionType.Ground) {
-                                if (this.player.getY() + this.player.getHeight() - GameConstants.GRAVITY <= currBlock.getY()) {
+                                if (this.player.getY() + this.player.getHeight() - GameGlobalNumbers.GRAVITY <= currBlock.getY()) {
                                     //This checks if the player is above the block, and tells him he can run on it
                                     types.put(CollisionType.Ground.ordinal(), CollisionType.Ground);
                                 } else if (this.player.getY() > currBlock.getY() + (currBlock.getHeight())) {

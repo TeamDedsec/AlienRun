@@ -7,6 +7,7 @@ import com.example.kaloyanit.alienrun.Core.Animation;
 import com.example.kaloyanit.alienrun.Enums.PlayerState;
 import com.example.kaloyanit.alienrun.Utils.BasicConstants;
 import com.example.kaloyanit.alienrun.Utils.GameConstants;
+import com.example.kaloyanit.alienrun.Utils.GameGlobalNumbers;
 
 /**
  * Created by KaloyanIT on 1/25/2017.
@@ -18,13 +19,11 @@ public class Player extends GameObject {
     private Bitmap duckImage;
     private Bitmap hurtImage;
     private PlayerState state;
-    private int jumpFrames;
-    private int highPointFrames;
     private int highPointCount = 0;
-    private int duckFrames;
-    private int jump = 0;
+    private int jumpDelta = GameConstants.JUMP_DELTA;
     private Animation animation;
     private int jumpCount;
+    private int duckCount;
     private int lives;
     private int jumps;
     private int drownFrames;
@@ -32,8 +31,8 @@ public class Player extends GameObject {
     public static Integer SCORE = 0;
 
     public Player(Bitmap walksheet, Bitmap jumpImage, Bitmap duckImage, Bitmap hurtImage,
-                  int x, int y, int walkFrames, int jumpFrames,
-                  int highPointFrames, int duckFrames, int jumpCount, int lives) {
+                  int x, int y, int walkFrames,
+                  int jumpCount, int lives) {
         this.walksheet = walksheet;
         this.jumpImage = jumpImage;
         this.duckImage = duckImage;
@@ -43,11 +42,9 @@ public class Player extends GameObject {
         this.y = y;
         this.width = GameConstants.PLAYER_WIDTH;
         this.height = GameConstants.PLAYER_HEIGHT;
-        this.jumpFrames = jumpFrames;
-        this.highPointFrames = highPointFrames;
-        this.duckFrames = duckFrames;
         this.animation = new Animation();
         this.jumpCount = jumpCount;
+        this.duckCount = GameConstants.DUCK_FRAMES;
         this.lives = lives;
         this.jumps = 0;
 
@@ -90,7 +87,8 @@ public class Player extends GameObject {
     }
 
     public void resetJump() {
-        this.jump = jumpFrames;
+        this.jumpDelta = GameConstants.JUMP_DELTA;
+        this.duckCount = GameConstants.DUCK_FRAMES;
     }
 
     public int getDrownFrames() {
@@ -112,8 +110,9 @@ public class Player extends GameObject {
                 canvas.drawBitmap(animation.getImage(), this.x, this.y, null);
                 break;
             case Jumping:
-                if (jump > jumpFrames - duckFrames) {
+                if (duckCount > 0) {
                     canvas.drawBitmap(this.duckImage, this.x, this.y + GameConstants.DUCK_CORRECTION, null);
+                    duckCount--;
                 } else {
                     canvas.drawBitmap(this.jumpImage, this.x, this.y, null);
                 }
@@ -137,11 +136,13 @@ public class Player extends GameObject {
     public void update() {
         switch (state) {
             case Jumping:
-                this.y += GameConstants.JUMP_VELOCITY;
-                jump--;
-                if (jump == 0) {
-                    highPointCount = highPointFrames;
+                jumpDelta += GameGlobalNumbers.JUMP_VELOCITY;
+
+                if (jumpDelta <= 0) {
+                    highPointCount = GameConstants.HIGH_POINT_FRAMES;
                     state = PlayerState.HighPoint;
+                } else {
+                    this.y += GameGlobalNumbers.JUMP_VELOCITY;
                 }
                 break;
             case HighPoint:
@@ -151,20 +152,20 @@ public class Player extends GameObject {
                 }
                 break;
             case Falling:
-                this.y += GameConstants.GRAVITY;
+                this.y += GameGlobalNumbers.GRAVITY;
                 if (this.y > BasicConstants.BG_HEIGHT)
                     isAlive = false;
                 break;
             case Drowning:
-                this.y += GameConstants.GRAVITY;
+                this.y += GameGlobalNumbers.GRAVITY;
                 drownFrames--;
                 if (drownFrames == 0) {
                     isAlive = false;
                 }
                 break;
             case HitWall:
-                this.y += GameConstants.GRAVITY;
-                this.x += GameConstants.GAME_SPEED;
+                this.y += GameGlobalNumbers.GRAVITY;
+                this.x += GameGlobalNumbers.GAME_SPEED;
                 if (this.y > BasicConstants.BG_HEIGHT)
                     isAlive = false;
                 break;

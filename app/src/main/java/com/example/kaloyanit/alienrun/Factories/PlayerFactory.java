@@ -22,9 +22,6 @@ public class PlayerFactory {
                         BitmapFactory.decodeResource(BasicConstants.CURRENT_CONTEXT.getResources(), R.drawable.p1_hurt),
                         x, y,
                         GameConstants.WALK_FRAMES,
-                        GameConstants.JUMP_FRAMES,
-                        GameConstants.HIGH_POINT_FRAMES,
-                        GameConstants.DUCK_FRAMES,
                         1, 1);
             case Blue:
                 return new Player(BitmapFactory.decodeResource(BasicConstants.CURRENT_CONTEXT.getResources(), R.drawable.p2_walk),
@@ -33,9 +30,6 @@ public class PlayerFactory {
                         BitmapFactory.decodeResource(BasicConstants.CURRENT_CONTEXT.getResources(), R.drawable.p2_hurt),
                         x, y,
                         GameConstants.WALK_FRAMES,
-                        GameConstants.JUMP_FRAMES,
-                        GameConstants.HIGH_POINT_FRAMES,
-                        GameConstants.DUCK_FRAMES,
                         1, 2);
             case Pink:
                 return new Player(BitmapFactory.decodeResource(BasicConstants.CURRENT_CONTEXT.getResources(), R.drawable.p3_walk),
@@ -44,9 +38,6 @@ public class PlayerFactory {
                         BitmapFactory.decodeResource(BasicConstants.CURRENT_CONTEXT.getResources(), R.drawable.p3_hurt),
                         x, y,
                         GameConstants.WALK_FRAMES,
-                        GameConstants.JUMP_FRAMES,
-                        GameConstants.HIGH_POINT_FRAMES,
-                        GameConstants.DUCK_FRAMES,
                         2, 1);
             default:
                 throw new RuntimeException();
