@@ -153,6 +153,9 @@ public class GameplayScene implements IScene {
         GameGlobalNumbers.GAME_SPEED -= 2;
         GameGlobalNumbers.GRAVITY += 2;
         GameGlobalNumbers.JUMP_VELOCITY -= 2;
+        if (GameGlobalNumbers.DELAY > 0) {
+            GameGlobalNumbers.DELAY -=2;
+        }
     }
 
     private boolean checkCollision(Rect a, Rect b) {

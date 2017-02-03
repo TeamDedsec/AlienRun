@@ -8,4 +8,5 @@ public class GameGlobalNumbers {
     public static int GAME_SPEED = GameConstants.GAME_SPEED;
     public static int GRAVITY = GameConstants.GRAVITY;
     public static int JUMP_VELOCITY = GameConstants.JUMP_VELOCITY;
+    public static int DELAY = GameConstants.PLAYER_ANIMATION_DELAY;
 }

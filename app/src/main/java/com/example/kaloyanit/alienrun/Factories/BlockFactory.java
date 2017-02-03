@@ -1,5 +1,6 @@
 package com.example.kaloyanit.alienrun.Factories;
 
+import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 
 import com.example.kaloyanit.alienrun.Enums.BlockSetType;
@@ -21,27 +22,27 @@ public class BlockFactory {
 
         switch (blockType) {
             case GroundMid:
-                return new Block(blockSet.getMiddleGround(), "GroundMid",
+                return new Block(blockSet.getMiddleGround(), 1, "GroundMid",
                         x, y, GameConstants.BLOCK_WIDTH, GameConstants.BLOCK_HEIGHT,
                         CollisionType.Ground);
             case GroundLeft:
-                return new Block(blockSet.getLeftGround(), "GroundLeft",
+                return new Block(blockSet.getLeftGround(), 1, "GroundLeft",
                         x, y, GameConstants.BLOCK_WIDTH, GameConstants.BLOCK_HEIGHT,
                         CollisionType.Ground);
             case GroundRight:
-                return new Block(blockSet.getRightGround(), "GroundRight,",
+                return new Block(blockSet.getRightGround(), 1, "GroundRight,",
                         x, y, GameConstants.BLOCK_WIDTH, GameConstants.BLOCK_HEIGHT,
                         CollisionType.Ground);
             case AirMid:
-                return new Block(blockSet.getMiddleAir(), "AirMid",
+                return new Block(blockSet.getMiddleAir(), 1, "AirMid",
                         x, y, GameConstants.BLOCK_WIDTH, GameConstants.BLOCK_HEIGHT / 2,
                         CollisionType.Ground);
             case AirRight:
-                return new Block(blockSet.getRightAir(), "AirRight",
+                return new Block(blockSet.getRightAir(), 1, "AirRight",
                         x, y, GameConstants.BLOCK_WIDTH, GameConstants.BLOCK_HEIGHT / 2,
                         CollisionType.Ground);
             case AirLeft:
-                return new Block(blockSet.getLeftAir(), "AirLeft",
+                return new Block(blockSet.getLeftAir(), 1, "AirLeft",
                         x, y, GameConstants.BLOCK_WIDTH, GameConstants.BLOCK_HEIGHT / 2,
                         CollisionType.Ground);
             default:
@@ -50,18 +51,26 @@ public class BlockFactory {
     }
 
     public static Block createBlock(BlockType blockType, int x, int y) {
+        Bitmap[] anim;
         switch (blockType) {
             case Water:
-                return new Block(BitmapFactory.decodeResource(
+                anim = new Bitmap[2];
+                anim[0] = BitmapFactory.decodeResource(
                         BasicConstants.CURRENT_CONTEXT.getResources(),
-                        R.drawable.liquidwatertop),
+                        R.drawable.liquidwatertop);
+                anim[1] = BitmapFactory.decodeResource(
+                        BasicConstants.CURRENT_CONTEXT.getResources(),
+                        R.drawable.liquidwatertop2);
+                return new Block(anim, 2,
                         "Water",
                         x, y, GameConstants.BLOCK_WIDTH, GameConstants.BLOCK_HEIGHT,
                         CollisionType.Water);
             case Coin:
-                return new Block(BitmapFactory.decodeResource(
+                anim = new Bitmap[1];
+                anim[0] = BitmapFactory.decodeResource(
                         BasicConstants.CURRENT_CONTEXT.getResources(),
-                        R.drawable.coingold),
+                        R.drawable.coingold);
+                return new Block(anim, 1,
                         "Coin",
                         x, y, GameConstants.BLOCK_WIDTH, GameConstants.BLOCK_HEIGHT,
                         CollisionType.Coin);

@@ -55,7 +55,7 @@ public class Player extends GameObject {
         }
 
         animation.setFrames(walk, walkFrames);
-        animation.setDelay(GameConstants.DELAY);
+        animation.setDelay(GameGlobalNumbers.DELAY);
     }
 
     public PlayerState getState() {
@@ -170,6 +170,7 @@ public class Player extends GameObject {
                     isAlive = false;
                 break;
         }
+        animation.setDelay(GameGlobalNumbers.DELAY);
         animation.update();
     }
 }

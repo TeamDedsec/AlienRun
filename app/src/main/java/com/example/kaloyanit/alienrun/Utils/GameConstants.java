@@ -12,7 +12,8 @@ public class GameConstants {
     public static final int HIGH_POINT_FRAMES = 4;
     public static final int WALK_FRAMES = 5;
     public static final int DUCK_FRAMES = 5;
-    public static final int DELAY = 50;
+    public static final int PLAYER_ANIMATION_DELAY = 50;
+    public static final int BLOCK_ANIMATION_DELAY = 300;
     public static final int PLAYER_WIDTH = 66;
     public static final int PLAYER_HEIGHT = 92;
     public static final int DUCK_CORRECTION = 20;
