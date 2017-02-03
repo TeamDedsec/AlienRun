@@ -36,7 +36,7 @@ import java.util.TreeMap;
  * Created by KaloyanIT on 1/25/2017.
  */
 
-public class GameplayScene implements IScene {
+public class GamePlayScene implements IScene {
     private Player player;
     private Background background;
     private Point playerPoint;
@@ -47,9 +47,12 @@ public class GameplayScene implements IScene {
     private int frameCounter = 0;
     private int coinCount = 0;
 
-    //TODO: JT: Add enemies
+    //TODO: JT: Make the game reset upon dying
+    //TODO: JT: Add flying enemies
+    //TODO: JT: Make player not die upon colliding with a wall
+    //TODO: JT: Change collision with obstacle/enemy to something specific, not wall
 
-    public GameplayScene() {
+    public GamePlayScene() {
         background = BackgroundFactory.createBackground(BackgroundType.Grass);
         pause = BitmapFactory.decodeResource(BasicConstants.CURRENT_CONTEXT.getResources(), R.drawable.pause);
         playerPoint = new Point(162, BasicConstants.BG_HEIGHT - 162);
@@ -58,6 +61,7 @@ public class GameplayScene implements IScene {
         modules = new ArrayList<>();
         modules.add(moduleFacotry.getLevelModule(0));
         modules.add(moduleFacotry.getLevelModule(4));
+        modules.add(moduleFacotry.getLevelModule(5));
     }
 
     @Override
@@ -94,6 +98,9 @@ public class GameplayScene implements IScene {
                         case Wall:
                             player.setState(PlayerState.HitWall);
                             break;
+                        case Enemy:
+                            player.setState(PlayerState.HitWall);
+                            break;
                     }
                     break;
                 case Jumping:
@@ -101,11 +108,17 @@ public class GameplayScene implements IScene {
                         case Wall:
                             player.setState(PlayerState.HitWall);
                             break;
+                        case Enemy:
+                            player.setState(PlayerState.HitWall);
+                            break;
                     }
                     break;
                 case HighPoint:
                     switch (checkCollision()) {
                         case Wall:
+                            player.setState(PlayerState.HitWall);
+                            break;
+                        case Enemy:
                             player.setState(PlayerState.HitWall);
                             break;
                     }
@@ -122,11 +135,17 @@ public class GameplayScene implements IScene {
                         case Wall:
                             player.setState(PlayerState.HitWall);
                             break;
+                        case Enemy:
+                            player.setState(PlayerState.HitWall);
+                            break;
                     }
                     break;
                 case Drowning:
                     switch (checkCollision()) {
                         case Wall:
+                            player.setState(PlayerState.HitWall);
+                            break;
+                        case Enemy:
                             player.setState(PlayerState.HitWall);
                             break;
                     }

@@ -61,8 +61,7 @@ public class BlockFactory {
                 anim[1] = BitmapFactory.decodeResource(
                         BasicConstants.CURRENT_CONTEXT.getResources(),
                         R.drawable.liquidwatertop2);
-                return new Block(anim, 2,
-                        "Water",
+                return new Block(anim, 2, "Water",
                         x, y, GameConstants.BLOCK_WIDTH, GameConstants.BLOCK_HEIGHT,
                         CollisionType.Water);
             case Coin:
@@ -70,10 +69,20 @@ public class BlockFactory {
                 anim[0] = BitmapFactory.decodeResource(
                         BasicConstants.CURRENT_CONTEXT.getResources(),
                         R.drawable.coingold);
-                return new Block(anim, 1,
-                        "Coin",
+                return new Block(anim, 1, "Coin",
                         x, y, GameConstants.BLOCK_WIDTH, GameConstants.BLOCK_HEIGHT,
                         CollisionType.Coin);
+            case Spinner:
+                anim = new Bitmap[2];
+                anim[0] = BitmapFactory.decodeResource(
+                        BasicConstants.CURRENT_CONTEXT.getResources(),
+                        R.drawable.spinnerhalf);
+                anim[1] = BitmapFactory.decodeResource(
+                        BasicConstants.CURRENT_CONTEXT.getResources(),
+                        R.drawable.spinnerhalf_spin);
+                return new Block(anim, 2, "Spinner",
+                        x, y, GameConstants.BLOCK_WIDTH, GameConstants.BLOCK_HEIGHT / 2,
+                        CollisionType.Enemy);
             default:
                 throw new RuntimeException();
         }
