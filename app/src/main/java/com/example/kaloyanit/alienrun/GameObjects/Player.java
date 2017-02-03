@@ -2,8 +2,10 @@ package com.example.kaloyanit.alienrun.GameObjects;
 
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
+import android.transition.Scene;
 
 import com.example.kaloyanit.alienrun.Core.Animation;
+import com.example.kaloyanit.alienrun.Core.SceneManager;
 import com.example.kaloyanit.alienrun.Enums.PlayerState;
 import com.example.kaloyanit.alienrun.Utils.BasicConstants;
 import com.example.kaloyanit.alienrun.Utils.GameConstants;
@@ -14,7 +16,7 @@ import com.example.kaloyanit.alienrun.Utils.GameGlobalNumbers;
  */
 
 public class Player extends GameObject {
-    private Bitmap walksheet;
+    private Bitmap walkSheet;
     private Bitmap jumpImage;
     private Bitmap duckImage;
     private Bitmap hurtImage;
@@ -28,12 +30,11 @@ public class Player extends GameObject {
     private int jumps;
     private int drownFrames;
     private boolean isAlive = true;
-    public static Integer SCORE = 0;
 
-    public Player(Bitmap walksheet, Bitmap jumpImage, Bitmap duckImage, Bitmap hurtImage,
+    public Player(Bitmap walkSheet, Bitmap jumpImage, Bitmap duckImage, Bitmap hurtImage,
                   int x, int y, int walkFrames,
                   int jumpCount, int lives) {
-        this.walksheet = walksheet;
+        this.walkSheet = walkSheet;
         this.jumpImage = jumpImage;
         this.duckImage = duckImage;
         this.hurtImage = hurtImage;
@@ -51,7 +52,7 @@ public class Player extends GameObject {
         Bitmap[] walk = new Bitmap[walkFrames];
 
         for (int i = 0; i < walkFrames; i++) {
-            walk[i] = Bitmap.createBitmap(this.walksheet, (i % 3) * width, (i / 3) * height, width, height);
+            walk[i] = Bitmap.createBitmap(this.walkSheet, (i % 3) * width, (i / 3) * height, width, height);
         }
 
         animation.setFrames(walk, walkFrames);

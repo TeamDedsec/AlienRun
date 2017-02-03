@@ -45,7 +45,17 @@ public class GamePlayScene implements IScene {
     LevelModuleFactory moduleFacotry;
     private ArrayList<LevelModule> modules;
     private int frameCounter = 0;
+    private static int score = 0;
     private int coinCount = 0;
+    private int resetCounter = 120;
+
+    public static int getScore() {
+        return score;
+    }
+
+    public static void setScore(int score) {
+        GamePlayScene.score = score;
+    }
 
     //TODO: JT: Make the game reset upon dying
     //TODO: JT: Add flying enemies
@@ -154,16 +164,21 @@ public class GamePlayScene implements IScene {
 
             frameCounter++;
             if(frameCounter == 25) {
-                Player.SCORE++;
+                this.score++;
                 frameCounter = 0;
-                if (Player.SCORE % 10 == 0) {
+                if (this.score % 10 == 0) {
                     this.increaseSpeed();
                 }
 
-                if (Player.SCORE % 40 == 0) {
+                if (this.score % 40 == 0) {
                     background = BackgroundFactory.createBackground(BackgroundType.Mushroom);
                     moduleFacotry.changeBlockType();
                 }
+            }
+        } else {
+            resetCounter--;
+            if (resetCounter <= 0) {
+                SceneManager.resetGame();
             }
         }
     }
