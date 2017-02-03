@@ -12,6 +12,9 @@ public class PlayerModel {
     }
 
     public String getName() {
+        if(this.name == null) {
+            return "No name";
+        }
         return this.name;
     }
 }

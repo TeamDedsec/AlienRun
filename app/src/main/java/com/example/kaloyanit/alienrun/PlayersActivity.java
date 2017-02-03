@@ -10,6 +10,7 @@ import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.ArrayAdapter;
+import android.widget.GridView;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -36,13 +37,15 @@ public class PlayersActivity extends AppCompatActivity {
 
         System.out.println("PlayesActivity");
 
-        ListView lvPlayers = (ListView) this.findViewById(R.id.players_list);
+        GridView lvPlayers = (GridView) findViewById(R.id.players_list);
 
-        List<PlayerModel> players = new ArrayList<PlayerModel>(){
-            { new PlayerModel("Pesho"); }
-            { new PlayerModel("Ivan"); }
-            { new PlayerModel("Dragan"); }
-        };
+        List<PlayerModel> players = new ArrayList<PlayerModel>();
+
+
+        players.add(new PlayerModel("Pesho"));
+        players.add(new PlayerModel("Pesho"));
+        players.add(new PlayerModel("Pesho"));
+
 
         ArrayAdapter<PlayerModel> playersAdapter = new ArrayAdapter<PlayerModel>(this, -1, players) {
             @NonNull
@@ -51,15 +54,19 @@ public class PlayersActivity extends AppCompatActivity {
                 View view = convertView;
                 if(view == null) {
                     LayoutInflater inflater = LayoutInflater.from(this.getContext());
-                    view = inflater.inflate(R.layout.item_player, parent);
+                    view = inflater.inflate(R.layout.item_player, parent, false);
                 }
 
                 TextView tvTitle = (TextView) view.findViewById(R.id.tv_title);
+                //tvTitle.setTextColor(getColor(R.color.colorRed));
                 String title = this.getItem(position).getName();
+                System.out.println(title);
                 tvTitle.setText(title);
 
                 return view;
             }
         };
+
+        lvPlayers.setAdapter(playersAdapter);
     }
 }
