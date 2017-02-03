@@ -15,7 +15,9 @@
         android:id="@+id/players_list"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:numColumns="3">
+        android:numColumns="3"
+        >
+
     </GridView>
 
 </RelativeLayout>
