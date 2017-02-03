@@ -26,6 +26,7 @@ import android.widget.Toast;
 import com.example.kaloyanit.alienrun.Core.GamePanel;
 import com.example.kaloyanit.alienrun.Core.SceneManager;
 import com.example.kaloyanit.alienrun.GameObjects.Player;
+import com.example.kaloyanit.alienrun.Scenes.GamePlayScene;
 import com.example.kaloyanit.alienrun.Utils.BasicConstants;
 import com.example.kaloyanit.alienrun.Views.ScoreView;
 
@@ -71,7 +72,7 @@ public class MainActivity extends Activity {
         scoreView = (TextView) findViewById(R.id.scoreView);
         gameOverView = (TextView) findViewById(R.id.gameOver);
         pauseText = (TextView) findViewById(R.id.pauseText);
-        scoreView.setText(Integer.toString(Player.SCORE));
+        scoreView.setText(Integer.toString(GamePlayScene.getScore()));
         scoreView.setVisibility(View.GONE);
         pauseText.setVisibility(View.GONE);
         refreshButton.setVisibility(View.GONE);
@@ -81,7 +82,7 @@ public class MainActivity extends Activity {
         handler.post(new Runnable() {
             @Override
             public void run() {
-                scoreView.setText(Integer.toString(Player.SCORE));
+                scoreView.setText(Integer.toString(GamePlayScene.getScore()));
                 handler.postDelayed(this, 500);
             }
         });

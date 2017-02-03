@@ -9,10 +9,8 @@ import android.view.SurfaceView;
 import android.widget.TextView;
 
 import com.example.kaloyanit.alienrun.GameObjects.Background;
-import com.example.kaloyanit.alienrun.GameObjects.Player;
 import com.example.kaloyanit.alienrun.R;
 import com.example.kaloyanit.alienrun.Utils.BasicConstants;
-import com.example.kaloyanit.alienrun.Views.ScoreView;
 
 /**
  * Created by KaloyanIT on 1/25/2017.
@@ -119,7 +117,7 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
 
     @Override
     public boolean onTouchEvent(MotionEvent event) {
-        manager.recieveTouch(event);
+        manager.receiveTouch(event);
         //resume();
         return true;
         //return super.onTouchEvent(event);
