@@ -1,40 +1,24 @@
 package com.example.kaloyanit.alienrun;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
-import android.media.Image;
 import android.os.Bundle;
 import android.os.Handler;
-import android.provider.ContactsContract;
 import android.support.v7.app.AppCompatActivity;
-import android.text.InputType;
-import android.transition.Scene;
 import android.util.DisplayMetrics;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
-import android.view.SurfaceView;
 import android.view.View;
-import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.example.kaloyanit.alienrun.Core.GamePanel;
 import com.example.kaloyanit.alienrun.Core.SceneManager;
-import com.example.kaloyanit.alienrun.GameObjects.Player;
 import com.example.kaloyanit.alienrun.Scenes.GamePlayScene;
 import com.example.kaloyanit.alienrun.Utils.BasicConstants;
-import com.example.kaloyanit.alienrun.Views.ScoreView;
-
-import org.w3c.dom.Text;
 
 
-public class MainActivity extends AppCompatActivity{
+public class GameActivity extends AppCompatActivity{
 
     private ImageView pauseButton;
     private ImageView exitButton;
@@ -58,7 +42,7 @@ public class MainActivity extends AppCompatActivity{
         BasicConstants.SCREEN_WIDTH = dm.widthPixels;
         BasicConstants.SCREEN_HEIGHT = dm.heightPixels;
         //SceneManager.ACTIVE_SCENE = 1;
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_game);
 
         //Initialize elements
         pauseIntent = new Intent(this, PlayersActivity.class);

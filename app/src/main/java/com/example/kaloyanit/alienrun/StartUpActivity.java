@@ -7,7 +7,6 @@ import android.os.Bundle;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
-import android.widget.Button;
 import android.widget.ImageView;
 
 import com.example.kaloyanit.alienrun.Core.SceneManager;
@@ -15,7 +14,9 @@ import com.example.kaloyanit.alienrun.Core.SceneManager;
 public class StartUpActivity extends AppCompatActivity {
 
     private ImageView startButton;
+    private ImageView playersButton;
     private Intent startGameActivity;
+    private Intent playersActivity;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -26,13 +27,20 @@ public class StartUpActivity extends AppCompatActivity {
 
         setContentView(R.layout.activity_start_up);
 
-        startGameActivity = new Intent(this, MainActivity.class);
+        startGameActivity = new Intent(this, GameActivity.class);
+        playersActivity = new Intent(this, PlayersActivity.class);
         startButton = (ImageView) findViewById(R.id.startView);
+        playersButton = (ImageView) findViewById(R.id.players_button);
+
         //Events
         startButton.setOnClickListener(view -> {
                 startActivity(startGameActivity);
                 SceneManager.ACTIVE_SCENE = 1;
                 startButton.setVisibility(View.INVISIBLE);
+        });
+
+        playersButton.setOnClickListener(view -> {
+                startActivity(playersActivity);
         });
     }
 
