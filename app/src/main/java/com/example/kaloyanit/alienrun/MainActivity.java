@@ -27,6 +27,7 @@ import android.widget.Toast;
 import com.example.kaloyanit.alienrun.Core.GamePanel;
 import com.example.kaloyanit.alienrun.Core.SceneManager;
 import com.example.kaloyanit.alienrun.GameObjects.Player;
+import com.example.kaloyanit.alienrun.Scenes.GamePlayScene;
 import com.example.kaloyanit.alienrun.Utils.BasicConstants;
 import com.example.kaloyanit.alienrun.Views.ScoreView;
 
@@ -41,7 +42,7 @@ public class MainActivity extends AppCompatActivity{
     private TextView scoreView;
     private ImageView startView;
     private Intent pauseIntent;
-    //private ImageView refreshButton;
+    private ImageView refreshButton;
 
 
 
@@ -63,15 +64,17 @@ public class MainActivity extends AppCompatActivity{
         pauseIntent = new Intent(this, PlayersActivity.class);
         gameView = (GamePanel)findViewById(R.id.gameView);
         pauseButton = (ImageView) findViewById(R.id.pauseView);
+        refreshButton = (ImageView) findViewById(R.id.refreshButton);
+        refreshButton.setVisibility(View.GONE);
         exitButton = (ImageView) findViewById(R.id.exitView);
         scoreView = (TextView) findViewById(R.id.scoreView);
-        scoreView.setText(Integer.toString(Player.SCORE));
+        scoreView.setText(Integer.toString(GamePlayScene.getScore()));
 
         final Handler handler = new Handler();
         handler.post(new Runnable() {
             @Override
             public void run() {
-                scoreView.setText(Integer.toString(Player.SCORE));
+                scoreView.setText(Integer.toString(GamePlayScene.getScore()));
                 handler.postDelayed(this, 500);
             }
         });
@@ -79,10 +82,11 @@ public class MainActivity extends AppCompatActivity{
         pauseButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //refreshButton.setVisibility(View.VISIBLE);
+                refreshButton.setVisibility(View.VISIBLE);
                 //exitButton.setVisibility(View.VISIBLE);
                 pauseButton.setVisibility(View.GONE);
-                startActivity(pauseIntent);
+                SceneManager.ACTIVE_SCENE = 0;
+                //startActivity(pauseIntent);
                 //cartButton.setVisibility(View.GONE);
                 //pauseText.setVisibility(View.VISIBLE);
                 //pauseButton.setWillNotDraw(true);
@@ -90,58 +94,12 @@ public class MainActivity extends AppCompatActivity{
             }
         });
 
-
-
-//        exitButton.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                if(SceneManager.ACTIVE_SCENE == 0) {
-//                    finish();
-//                    System.exit(0);
-//                }
-//                SceneManager.ACTIVE_SCENE = 0;
-//                pauseButton.setVisibility(View.GONE);
-//                refreshButton.setVisibility(View.GONE);
-//                pauseText.setVisibility(View.GONE);
-//            }
-//        });
-
         exitButton.setOnClickListener(view -> {
             System.out.println("Exit event");
             Intent intent = new Intent(this, StartUpActivity.class);
             startActivity(intent);
         });
-
-
-
-
-
-
     }
-
-//    @Override
-//    public boolean onCreateOptionsMenu(Menu menu) {
-//
-//        MenuInflater inflater = getMenuInflater();
-//        inflater.inflate(R.menu.menu, menu);
-//        return super.onCreateOptionsMenu(menu);
-//        //return true;
-//    }
-//
-//    public boolean onOptionsItemSelected(MenuItem item) {
-//        switch (item.getItemId()) {
-//            case R.id.about:
-//                //startActivity(new Intent(this, About.class));
-//                return true;
-//            case R.id.help:
-//                //startActivity(new Intent(this, Help.class));
-//                return true;
-//            default:
-//                return super.onOptionsItemSelected(item);
-//        }
-//    }
-
-
 
     @Override
     public void onPause() {

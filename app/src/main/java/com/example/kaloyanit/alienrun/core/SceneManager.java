@@ -26,13 +26,13 @@ public class SceneManager implements IManager {
     private File[] files;
 
     public SceneManager() {
-        ACTIVE_SCENE = 0;
+        ACTIVE_SCENE = 1;
         root = new File("Scenes");
         files = root.listFiles();
         //TODO: Add all scenes with reflection
-        scenes.add(new StartScene());
-        scenes.add(new GamePlayScene());
+        //scenes.add(new StartScene());
         scenes.add(new PauseScene());
+        scenes.add(new GamePlayScene());
     }
 
     public void receiveTouch(MotionEvent event) {
