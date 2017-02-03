@@ -84,6 +84,10 @@ public class LevelModuleFactory {
                 module = createStraightLineWithCoins();
                 startPosition = module.getEndX();
                 return module;
+            case 5:
+                module = createFloatingLevelWithSpinner();
+                startPosition = module.getEndX();
+                return module;
             default:
                 throw new RuntimeException();
         }
@@ -176,7 +180,7 @@ public class LevelModuleFactory {
         return module;
     }
 
-    private LevelModule createBigHole() {
+    private LevelModule createFloatingLevelWithSpinner() {
         LevelModule module = new LevelModule(type, startPosition);
         int currentX = startPosition;
         int positionY = BasicConstants.BG_HEIGHT - GameConstants.BLOCK_HEIGHT;
@@ -187,12 +191,48 @@ public class LevelModuleFactory {
         }
 
         module.addBlock(BlockType.GroundRight, currentX, positionY);
-        currentX += GameConstants.BLOCK_WIDTH * 4;
+        module.addBlock(BlockType.Spinner, currentX, positionY - (GameConstants.BLOCK_HEIGHT / 2) + 5);
+        currentX += GameConstants.BLOCK_WIDTH;
+
+        positionY -= 150;
+        module.addBlock(BlockType.AirLeft, currentX, positionY);
+        currentX += GameConstants.BLOCK_WIDTH;
+        module.addBlock(BlockType.AirMid, currentX, positionY);
+        currentX += GameConstants.BLOCK_WIDTH;
+        module.addBlock(BlockType.AirRight, currentX, positionY);
+        currentX += GameConstants.BLOCK_WIDTH;
+        positionY += 150;
+
+        module.addBlock(BlockType.GroundLeft, currentX, positionY);
+        module.addBlock(BlockType.Spinner, currentX, positionY - (GameConstants.BLOCK_HEIGHT / 2) + 5);
+        currentX += GameConstants.BLOCK_WIDTH;
+
+        for (int i = 0; i < 3; i++) {
+            module.addBlock(BlockType.GroundMid, currentX, positionY);
+            currentX += GameConstants.BLOCK_WIDTH;
+        }
+
+        module.setEndX(resetEndPosition(module));
+        return module;
+    }
+
+    private LevelModule createBigHole() {
+        LevelModule module = new LevelModule(type, startPosition);
+        int currentX = startPosition;
+        int positionY = BasicConstants.BG_HEIGHT - GameConstants.BLOCK_HEIGHT;
+
+        for (int i = 0; i < 2; i++) {
+            module.addBlock(BlockType.GroundMid, currentX, positionY);
+            currentX += GameConstants.BLOCK_WIDTH;
+        }
+
+        module.addBlock(BlockType.GroundRight, currentX, positionY);
+        currentX += GameConstants.BLOCK_WIDTH * 6;
 
         module.addBlock(BlockType.GroundLeft, currentX, positionY);
         currentX += GameConstants.BLOCK_WIDTH;
 
-        for (int i = 0; i < 3; i++) {
+        for (int i = 0; i < 2; i++) {
             module.addBlock(BlockType.GroundMid, currentX, positionY);
             currentX += GameConstants.BLOCK_WIDTH;
         }

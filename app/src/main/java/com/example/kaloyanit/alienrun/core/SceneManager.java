@@ -5,19 +5,22 @@ package com.example.kaloyanit.alienrun.Core;
  */
 
 import android.graphics.Canvas;
+import android.transition.Scene;
 import android.view.MotionEvent;
 
 import com.example.kaloyanit.alienrun.Contracts.IManager;
 import com.example.kaloyanit.alienrun.Contracts.IScene;
 import com.example.kaloyanit.alienrun.Scenes.PauseScene;
-import com.example.kaloyanit.alienrun.Scenes.GameplayScene;
+import com.example.kaloyanit.alienrun.Scenes.GamePlayScene;
 import com.example.kaloyanit.alienrun.Scenes.StartScene;
+import com.example.kaloyanit.alienrun.Utils.GameConstants;
+import com.example.kaloyanit.alienrun.Utils.GameGlobalNumbers;
 
 import java.io.File;
 import java.util.ArrayList;
 
 public class SceneManager implements IManager {
-    private ArrayList<IScene> scenes = new ArrayList<>();
+    private static ArrayList<IScene> scenes = new ArrayList<>();
     public static int ACTIVE_SCENE;
     private File root;
     private File[] files;
@@ -27,12 +30,12 @@ public class SceneManager implements IManager {
         root = new File("Scenes");
         files = root.listFiles();
         //TODO: Add all scenes with reflection
-        //scenes.add(new StartScene());
-        scenes.add(new GameplayScene());
-        //scenes.add(new PauseScene());
+        scenes.add(new StartScene());
+        scenes.add(new GamePlayScene());
+        scenes.add(new PauseScene());
     }
 
-    public void recieveTouch(MotionEvent event) {
+    public void receiveTouch(MotionEvent event) {
         scenes.get(ACTIVE_SCENE).receiveTouch(event);
     }
 
@@ -44,6 +47,16 @@ public class SceneManager implements IManager {
         scenes.get(ACTIVE_SCENE).draw(canvas);
     }
 
+    public static void resetGame() {
+        GameGlobalNumbers.GAME_SPEED = GameConstants.GAME_SPEED;
+        GameGlobalNumbers.GRAVITY = GameConstants.GRAVITY;
+        GameGlobalNumbers.JUMP_VELOCITY = GameConstants.JUMP_VELOCITY;
+        GameGlobalNumbers.DELAY = GameConstants.PLAYER_ANIMATION_DELAY;
+        GamePlayScene.setScore(0);
+        scenes.set(1, new GamePlayScene());
+        ACTIVE_SCENE = 1;
+    }
+
     private void LoadScenes(File[] files) {
         for(File file: files) {
             if(file.isDirectory()) {
@@ -52,4 +65,3 @@ public class SceneManager implements IManager {
         }
     }
 }
-

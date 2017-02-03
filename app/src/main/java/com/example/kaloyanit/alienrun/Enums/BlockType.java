@@ -12,5 +12,6 @@ public enum BlockType {
     AirRight,
     AirLeft,
     Water,
-    Coin
+    Coin,
+    Spinner
 }
