@@ -3,6 +3,7 @@ package com.example.kaloyanit.alienrun.Scenes;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
+import android.graphics.Path;
 import android.graphics.Point;
 import android.graphics.Rect;
 import android.media.AudioManager;
@@ -44,6 +45,8 @@ import java.util.TreeMap;
  */
 
 public class GamePlayScene implements IScene {
+    private float touchX;
+    private float touchY;
     private Player player;
     private Background background;
     private Point playerPoint;
@@ -322,8 +325,45 @@ public class GamePlayScene implements IScene {
     public void receiveTouch(MotionEvent event) {
         float x = event.getX();
         float y = event.getY();
+
+        switch (event.getAction()) {
+            case MotionEvent.ACTION_DOWN:
+                touchX = event.getX();
+                touchY = event.getY();
+                break;
+            case MotionEvent.ACTION_UP:
+                //TODO: JT: Fix this shit
+                int length;
+                int height;
+
+                if (x < touchX) {
+                    float temp = x;
+                    x = touchX;
+                    touchX = temp;
+                }
+
+                if (y < touchY) {
+                    float temp = y;
+                    y = touchY;
+                    touchY = temp;
+                }
+
+                length = (int) (x - touchX);
+                height = (int) (y - touchY);
+
+                Rect shit = new Rect((int) touchX, (int) touchY, (int) touchX + length, (int) touchY + height);
+                for (int i = 0; i < enemies.size(); i++) {
+                    Enemy enemy = enemies.get(i);
+                    if (checkTouchCollision(shit, enemy.getRectangle())) {//; Rect.intersects(shit, enemy.getRectangle())) {
+                        enemies.remove(i);
+                        this.score += 5;
+                    }
+                }
+        }
+
+
         //Sample event
-        if (player.isAlive()) {
+        if (player.isAlive() && x < BasicConstants.BG_WIDTH / 2 && y > BasicConstants.BG_HEIGHT / 2) {
             switch (event.getAction()) {
                 case MotionEvent.ACTION_DOWN: {
                     switch (player.getState()) {
@@ -379,6 +419,12 @@ public class GamePlayScene implements IScene {
                 }
             }
         }
+    }
+
+    private boolean checkTouchCollision(Rect a, Rect b) {
+        boolean shit = false;
+        shit = Rect.intersects(a, b);
+        return shit;
     }
 
     private void playSound() {
