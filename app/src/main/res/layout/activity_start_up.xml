@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/activity_start_up"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/colorRed"
+    tools:context="com.example.kaloyanit.alienrun.StartUpActivity">
+
+
+    <ImageView
+        android:id="@+id/shopView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:src="@drawable/shopping_cart"
+        android:layout_centerHorizontal="true"/>
+
+    <ImageView
+        android:id="@+id/startView"
+        android:layout_centerVertical="true"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/start_button"
+        android:layout_toLeftOf="@+id/shopView"/>
+
+
+
+    <!--Heroes-->
+    <ImageView
+        android:id="@+id/players_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:layout_toRightOf="@+id/shopView"
+        android:src="@drawable/players_button"/>
+
+    <!--Settings-->
+
+    <ImageView
+        android:id="@+id/settings_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:layout_toRightOf="@+id/players_button"
+        android:src="@drawable/settings_button"/>
+    <!--Achievements-->
+    <ImageView
+        android:id="@+id/achievements_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:layout_toRightOf="@+id/shopView"
+        android:src="@drawable/achievements_button"/>
+
+</RelativeLayout>
