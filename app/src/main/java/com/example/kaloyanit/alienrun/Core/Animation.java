@@ -28,17 +28,21 @@ public class Animation {
         this.currentFrame = i;
     }
 
-    public void update() {
+    public boolean update() {
+        boolean updated = false;
         long elapsed = (System.nanoTime() - startTime) / 1000000;
 
         if (elapsed > delay) {
             currentFrame++;
             startTime = System.nanoTime();
+            updated = true;
         }
 
         if (currentFrame == frameCount) {
             currentFrame = 0;
         }
+
+        return updated;
     }
 
     public Bitmap getImage() {

@@ -43,7 +43,7 @@ public class EnemyFactory {
 
     public static Enemy createEnemy(EnemyType type, int x, int y) {
         Bitmap[] anim;
-        int randSpeed = (Helpers.getRandomNumber(0, 10)) * -1;
+        int randSpeed = (Helpers.getRandomNumber(5, 10)) * -1;
 
         switch (type) {
             case Bat:
@@ -54,7 +54,7 @@ public class EnemyFactory {
                 anim[1] = BitmapFactory.decodeResource(
                         BasicConstants.CURRENT_CONTEXT.getResources(),
                         R.drawable.bat_fly);
-                return new Enemy(anim, 2, "Bat", x, y, 70, 47, randSpeed);
+                return new Enemy(anim, 2, "Bat", x, y, 70, 47, randSpeed, 9, 10);
             case Fly:
                 anim = new Bitmap[2];
                 anim[0] = BitmapFactory.decodeResource(
@@ -63,7 +63,7 @@ public class EnemyFactory {
                 anim[1] = BitmapFactory.decodeResource(
                         BasicConstants.CURRENT_CONTEXT.getResources(),
                         R.drawable.fly_fly);
-                return new Enemy(anim, 2, "Fly", x, y, 57, 45, randSpeed);
+                return new Enemy(anim, 2, "Fly", x, y, 57, 45, randSpeed, 5, 6);
             default:
                 throw new RuntimeException();
         }
