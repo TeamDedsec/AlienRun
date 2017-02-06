@@ -1,6 +1,5 @@
 package com.example.kaloyanit.alienrun.Factories;
 
-import com.example.kaloyanit.alienrun.Enums.BackgroundType;
 import com.example.kaloyanit.alienrun.Enums.BlockSetType;
 import com.example.kaloyanit.alienrun.Enums.BlockType;
 import com.example.kaloyanit.alienrun.GameObjects.Block;
@@ -9,8 +8,6 @@ import com.example.kaloyanit.alienrun.Utils.BasicConstants;
 import com.example.kaloyanit.alienrun.Utils.GameConstants;
 import com.example.kaloyanit.alienrun.Utils.GameGlobalNumbers;
 import com.example.kaloyanit.alienrun.Utils.Helpers;
-
-import java.util.Random;
 
 /**
  * Created by julian.teofilov on 31/1/2017.
@@ -191,7 +188,7 @@ public class LevelModuleFactory {
         }
 
         module.addBlock(BlockType.GroundRight, currentX, positionY);
-        module.addBlock(BlockType.Spinner, currentX, positionY - (GameConstants.BLOCK_HEIGHT / 2) + 5);
+        module.addBlock(BlockType.SpinnerHalf, currentX, positionY - (GameConstants.BLOCK_HEIGHT / 2) + 5);
         currentX += GameConstants.BLOCK_WIDTH;
 
         positionY -= 150;
@@ -204,7 +201,7 @@ public class LevelModuleFactory {
         positionY += 150;
 
         module.addBlock(BlockType.GroundLeft, currentX, positionY);
-        module.addBlock(BlockType.Spinner, currentX, positionY - (GameConstants.BLOCK_HEIGHT / 2) + 5);
+        module.addBlock(BlockType.SpinnerHalf, currentX, positionY - (GameConstants.BLOCK_HEIGHT / 2) + 5);
         currentX += GameConstants.BLOCK_WIDTH;
 
         for (int i = 0; i < 3; i++) {

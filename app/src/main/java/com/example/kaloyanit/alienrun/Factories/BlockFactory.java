@@ -72,7 +72,7 @@ public class BlockFactory {
                 return new Block(anim, 1, "Coin",
                         x, y, GameConstants.BLOCK_WIDTH, GameConstants.BLOCK_HEIGHT,
                         CollisionType.Coin);
-            case Spinner:
+            case SpinnerHalf:
                 anim = new Bitmap[2];
                 anim[0] = BitmapFactory.decodeResource(
                         BasicConstants.CURRENT_CONTEXT.getResources(),
@@ -80,8 +80,19 @@ public class BlockFactory {
                 anim[1] = BitmapFactory.decodeResource(
                         BasicConstants.CURRENT_CONTEXT.getResources(),
                         R.drawable.spinnerhalf_spin);
-                return new Block(anim, 2, "Spinner",
+                return new Block(anim, 2, "SpinnerHalf",
                         x, y, GameConstants.BLOCK_WIDTH, GameConstants.BLOCK_HEIGHT / 2,
+                        CollisionType.Enemy);
+            case Spinner:
+                anim = new Bitmap[2];
+                anim[0] = BitmapFactory.decodeResource(
+                        BasicConstants.CURRENT_CONTEXT.getResources(),
+                        R.drawable.spinner);
+                anim[1] = BitmapFactory.decodeResource(
+                        BasicConstants.CURRENT_CONTEXT.getResources(),
+                        R.drawable.spinner_spin);
+                return new Block(anim, 2, "Spinner",
+                        x, y, GameConstants.BLOCK_WIDTH, GameConstants.BLOCK_HEIGHT,
                         CollisionType.Enemy);
             default:
                 throw new RuntimeException();
