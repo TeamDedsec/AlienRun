@@ -30,9 +30,9 @@ public class SceneManager implements IManager {
         root = new File("Scenes");
         files = root.listFiles();
         //TODO: Add all scenes with reflection
-        //scenes.add(new StartScene());
-        scenes.add(new PauseScene());
+        scenes.add(new StartScene());
         scenes.add(new GamePlayScene());
+        scenes.add(new PauseScene());
     }
 
     public void receiveTouch(MotionEvent event) {
@@ -56,6 +56,7 @@ public class SceneManager implements IManager {
         scenes.set(1, new GamePlayScene());
         ACTIVE_SCENE = 1;
     }
+
 
     private void LoadScenes(File[] files) {
         for(File file: files) {

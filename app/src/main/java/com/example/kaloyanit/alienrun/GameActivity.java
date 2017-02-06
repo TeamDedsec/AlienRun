@@ -10,6 +10,7 @@ import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.example.kaloyanit.alienrun.Core.GamePanel;
@@ -27,7 +28,10 @@ public class GameActivity extends AppCompatActivity{
     private ImageView startView;
     private Intent pauseIntent;
     private ImageView refreshButton;
-
+    private RelativeLayout startLayout;
+    private ImageView startButton;
+    private RelativeLayout pauseLayout;
+    private ImageView continueButton;
 
 
     @Override
@@ -41,19 +45,58 @@ public class GameActivity extends AppCompatActivity{
         getWindowManager().getDefaultDisplay().getMetrics(dm);
         BasicConstants.SCREEN_WIDTH = dm.widthPixels;
         BasicConstants.SCREEN_HEIGHT = dm.heightPixels;
-        //SceneManager.ACTIVE_SCENE = 1;
+        SceneManager.ACTIVE_SCENE = 0;
         setContentView(R.layout.activity_game);
 
-        //Initialize elements
-        pauseIntent = new Intent(this, PlayersActivity.class);
+        startLayout();
+
+    }
+
+    public void startLayout() {
+        startLayout = (RelativeLayout) findViewById(R.id.startPage);
+        startButton = (ImageView) findViewById(R.id.startView);
+
+        startButton.setOnClickListener(view -> {
+            SceneManager.ACTIVE_SCENE = 1;
+            startLayout.setVisibility(View.GONE);
+            gameEngine();
+        });
+    }
+
+    public void pauseLayout() {
+        pauseLayout = (RelativeLayout) findViewById(R.id.pauseScene);
+        pauseLayout.setVisibility(View.VISIBLE);
+
+        refreshButton = (ImageView) findViewById(R.id.refreshButton);
+        continueButton = (ImageView) findViewById(R.id.resumeButton);
+
+        continueButton.setOnClickListener(view -> {
+            SceneManager.ACTIVE_SCENE = 1;
+            pauseButton.setVisibility(View.VISIBLE);
+            pauseLayout.setVisibility(View.INVISIBLE);
+        });
+
+        refreshButton.setOnClickListener(view -> {
+            SceneManager.ACTIVE_SCENE = 1;
+            pauseButton.setVisibility(View.VISIBLE);
+            pauseLayout.setVisibility(View.INVISIBLE);
+            SceneManager.resetGame();
+        });
+    }
+
+    public void gameEngine() {
         gameView = (GamePanel)findViewById(R.id.gameView);
         pauseButton = (ImageView) findViewById(R.id.pauseView);
-        refreshButton = (ImageView) findViewById(R.id.refreshButton);
-        refreshButton.setVisibility(View.GONE);
-        exitButton = (ImageView) findViewById(R.id.exitView);
+        pauseButton.setVisibility(View.VISIBLE);
+        pauseButton.setOnClickListener(view -> {
+            pauseButton.setVisibility(View.INVISIBLE);
+            SceneManager.ACTIVE_SCENE = 2;
+            pauseLayout();
+        });
+
         scoreView = (TextView) findViewById(R.id.scoreView);
         scoreView.setText(Integer.toString(GamePlayScene.getScore()));
-
+//
         final Handler handler = new Handler();
         handler.post(new Runnable() {
             @Override
@@ -62,28 +105,11 @@ public class GameActivity extends AppCompatActivity{
                 handler.postDelayed(this, 500);
             }
         });
-
-        pauseButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                refreshButton.setVisibility(View.VISIBLE);
-                //exitButton.setVisibility(View.VISIBLE);
-                pauseButton.setVisibility(View.GONE);
-                SceneManager.ACTIVE_SCENE = 0;
-                //startActivity(pauseIntent);
-                //cartButton.setVisibility(View.GONE);
-                //pauseText.setVisibility(View.VISIBLE);
-                //pauseButton.setWillNotDraw(true);
-
-            }
-        });
-
-        exitButton.setOnClickListener(view -> {
-            System.out.println("Exit event");
-            Intent intent = new Intent(this, StartUpActivity.class);
-            startActivity(intent);
-        });
     }
+
+
+
+
 
     @Override
     public void onPause() {

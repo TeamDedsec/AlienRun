@@ -1,10 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/activity_main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="com.example.kaloyanit.alienrun.GameActivity">
+    <!--Game Activity-->
     <com.example.kaloyanit.alienrun.Core.GamePanel
         xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
@@ -12,31 +13,143 @@
         android:id="@+id/gameView"/>
 
     <ImageView
-    android:id="@+id/pauseView"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:src="@drawable/pause" />
-
-    <ImageView
-        android:id="@+id/exitView"
+        android:id="@+id/pauseView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentRight="true"
-        android:src="@drawable/home_button"/>
+        android:src="@drawable/pause"
+        android:visibility="invisible"/>
 
-    <ImageView
-        android:id="@+id/refreshButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:src="@drawable/refresh_button"/>
+    <!--StartScene-->
+    <RelativeLayout
+        android:id="@+id/startPage"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/colorRed">
 
-    <TextView
-        xmlns:android="http://schemas.android.com/apk/res/android"
-        android:id="@+id/scoreView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textColor="@color/colorRed"
-        android:layout_toRightOf="@+id/exitView"
-        android:text="0"/>
 
-</RelativeLayout>
+
+        <!--<ImageView-->
+            <!--android:id="@+id/exitView"-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_alignParentRight="true"-->
+
+            <!--android:src="@drawable/home_button"/>-->
+
+
+
+        <TextView
+            xmlns:android="http://schemas.android.com/apk/res/android"
+            android:id="@+id/scoreView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/colorRed"
+            android:text="0"/>
+
+
+        <!--Heroes-->
+        <ImageView
+            android:id="@+id/players_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_toRightOf="@+id/shopView"
+            android:adjustViewBounds="true"
+            android:scaleType="fitXY"
+            android:src="@drawable/players_button"/>
+
+        <!--Settings-->
+
+        <ImageView
+            android:id="@+id/settings_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_toRightOf="@+id/players_button"
+            android:adjustViewBounds="true"
+            android:scaleType="fitXY"
+            android:src="@drawable/settings_button"/>
+        <!--Achievements-->
+        <ImageView
+            android:id="@+id/achievements_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_toRightOf="@+id/shopView"
+            android:adjustViewBounds="true"
+            android:scaleType="fitXY"
+            android:src="@drawable/achievements_button"/>
+
+        <ImageView
+            android:id="@+id/startView"
+            android:layout_height="wrap_content"
+            android:src="@drawable/start_button"
+            android:scaleType="fitXY"
+            android:layout_width="wrap_content"
+            android:cropToPadding="false"
+            android:layout_marginStart="118dp"
+            android:layout_alignTop="@+id/shopView"
+            android:layout_alignParentStart="true" />
+
+        <ImageView
+            android:id="@+id/shopView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/shopping_cart"
+            android:adjustViewBounds="true"
+            android:scaleType="fitXY"
+            android:layout_alignTop="@+id/achievements_button"
+            android:layout_toEndOf="@+id/startView" />
+
+    </RelativeLayout>
+
+    <!--Players Scene-->
+
+    <RelativeLayout
+        android:id="@+id/players_layout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="gone">
+
+        <GridView
+            android:id="@+id/players_list"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:numColumns="3"
+            >
+
+        </GridView>
+
+    </RelativeLayout>
+
+    <!--Pause Scene-->
+    <RelativeLayout
+        android:id="@+id/pauseScene"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="invisible">
+
+        <ImageView
+            android:id="@+id/resumeButton"
+            android:layout_height="wrap_content"
+            android:src="@drawable/start_button"
+            android:scaleType="fitXY"
+            android:layout_width="wrap_content"
+            android:cropToPadding="false"
+            android:layout_marginStart="118dp"
+            android:layout_alignParentStart="true" />
+
+        <ImageView
+            android:id="@+id/refreshButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:src="@drawable/refresh_button"/>
+
+
+
+    </RelativeLayout>
+
+
+
+</FrameLayout>

@@ -5,6 +5,7 @@ package com.example.kaloyanit.alienrun.Utils;
  */
 
 public class GameGlobalNumbers {
+    public static int GAME_START_SPEED = 0;
     public static int GAME_SPEED = GameConstants.GAME_SPEED;
     public static int GRAVITY = GameConstants.GRAVITY;
     public static int JUMP_VELOCITY = GameConstants.JUMP_VELOCITY;
