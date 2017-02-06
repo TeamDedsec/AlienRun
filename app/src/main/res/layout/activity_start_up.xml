@@ -14,6 +14,8 @@
         android:layout_height="wrap_content"
         android:layout_centerVertical="true"
         android:src="@drawable/shopping_cart"
+        android:adjustViewBounds="true"
+        android:scaleType="fitXY"
         android:layout_centerHorizontal="true"/>
 
     <ImageView
@@ -22,6 +24,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:src="@drawable/start_button"
+        android:adjustViewBounds="true"
+        android:scaleType="fitXY"
         android:layout_toLeftOf="@+id/shopView"/>
 
 
@@ -33,6 +37,8 @@
         android:layout_height="wrap_content"
         android:layout_centerVertical="true"
         android:layout_toRightOf="@+id/shopView"
+        android:adjustViewBounds="true"
+        android:scaleType="fitXY"
         android:src="@drawable/players_button"/>
 
     <!--Settings-->
@@ -43,6 +49,8 @@
         android:layout_height="wrap_content"
         android:layout_centerVertical="true"
         android:layout_toRightOf="@+id/players_button"
+        android:adjustViewBounds="true"
+        android:scaleType="fitXY"
         android:src="@drawable/settings_button"/>
     <!--Achievements-->
     <ImageView
@@ -51,6 +59,8 @@
         android:layout_height="wrap_content"
         android:layout_centerVertical="true"
         android:layout_toRightOf="@+id/shopView"
+        android:adjustViewBounds="true"
+        android:scaleType="fitXY"
         android:src="@drawable/achievements_button"/>
 
 </RelativeLayout>
