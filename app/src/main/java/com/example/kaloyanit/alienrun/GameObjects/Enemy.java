@@ -17,8 +17,11 @@ public class Enemy extends GameObject {
     private String name;
     private int moveSpeed;
     private CollisionType collisionType = CollisionType.Enemy;
+    private boolean animationFix = false;
+    private int xCorrection;
+    private int yCorrection;
 
-    public Enemy(Bitmap[] images, int frames, String name, int x, int y, int width, int height, int moveSpeed) {
+    public Enemy(Bitmap[] images, int frames, String name, int x, int y, int width, int height, int moveSpeed, int xCorrection, int yCorrection) {
         this.animation = new Animation();
         this.frames = frames;
         this.name = name;
@@ -27,6 +30,8 @@ public class Enemy extends GameObject {
         this.width = width;
         this.height = height;
         this.moveSpeed = moveSpeed;
+        this.xCorrection = xCorrection;
+        this.yCorrection = yCorrection;
 
         this.animation.setFrames(images, frames);
         this.animation.setDelay(GameGlobalNumbers.DELAY);
@@ -39,7 +44,16 @@ public class Enemy extends GameObject {
 
     @Override
     public void draw(Canvas canvas) {
-        animation.update();
+        if (animation.update()) {
+            if (!this.animationFix) {
+                this.y += yCorrection;
+                this.x -= xCorrection;
+            } else {
+                this.y -= yCorrection;
+                this.x += xCorrection;
+            }
+            this.animationFix = !this.animationFix;
+        }
         canvas.drawBitmap(animation.getImage(), this.x, this.y, null);
     }
 
