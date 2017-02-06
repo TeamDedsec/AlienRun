@@ -13,5 +13,6 @@ public enum BlockType {
     AirLeft,
     Water,
     Coin,
+    SpinnerHalf,
     Spinner
 }

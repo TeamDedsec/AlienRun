@@ -5,7 +5,6 @@ import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Point;
 import android.graphics.Rect;
-import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 
@@ -17,15 +16,16 @@ import com.example.kaloyanit.alienrun.Enums.CollisionType;
 import com.example.kaloyanit.alienrun.Enums.PlayerState;
 import com.example.kaloyanit.alienrun.Enums.PlayerType;
 import com.example.kaloyanit.alienrun.Factories.BackgroundFactory;
+import com.example.kaloyanit.alienrun.Factories.EnemyFactory;
 import com.example.kaloyanit.alienrun.Factories.LevelModuleFactory;
 import com.example.kaloyanit.alienrun.Factories.PlayerFactory;
 import com.example.kaloyanit.alienrun.GameObjects.Background;
 import com.example.kaloyanit.alienrun.GameObjects.Block;
+import com.example.kaloyanit.alienrun.GameObjects.Enemy;
 import com.example.kaloyanit.alienrun.GameObjects.LevelModule;
 import com.example.kaloyanit.alienrun.GameObjects.Player;
 import com.example.kaloyanit.alienrun.R;
 import com.example.kaloyanit.alienrun.Utils.BasicConstants;
-import com.example.kaloyanit.alienrun.Utils.GameConstants;
 import com.example.kaloyanit.alienrun.Utils.GameGlobalNumbers;
 
 import java.util.ArrayList;
@@ -42,8 +42,9 @@ public class GamePlayScene implements IScene {
     private Point playerPoint;
     private Bitmap pause;
     private View pauseView;
-    LevelModuleFactory moduleFacotry;
+    private LevelModuleFactory moduleFactory;
     private ArrayList<LevelModule> modules;
+    private ArrayList<Enemy> enemies;
     private int frameCounter = 0;
     private static int score = 0;
     private int coinCount = 0;
@@ -67,11 +68,12 @@ public class GamePlayScene implements IScene {
         pause = BitmapFactory.decodeResource(BasicConstants.CURRENT_CONTEXT.getResources(), R.drawable.pause);
         playerPoint = new Point(162, BasicConstants.BG_HEIGHT - 162);
         player = PlayerFactory.createPlayer(PlayerType.Green, playerPoint.x, playerPoint.y - 20);
-        moduleFacotry = new LevelModuleFactory(BlockSetType.Grass);
+        moduleFactory = new LevelModuleFactory(BlockSetType.Grass);
         modules = new ArrayList<>();
-        modules.add(moduleFacotry.getLevelModule(0));
-        modules.add(moduleFacotry.getLevelModule(4));
-        modules.add(moduleFacotry.getLevelModule(5));
+        enemies = new ArrayList<>();
+        modules.add(moduleFactory.getLevelModule(0));
+        modules.add(moduleFactory.getLevelModule(4));
+        modules.add(moduleFactory.getLevelModule(5));
     }
 
     @Override
@@ -79,7 +81,7 @@ public class GamePlayScene implements IScene {
         if (player.isAlive()) {
             player.update();
             background.update();
-            moduleFacotry.update();
+            moduleFactory.update();
 
             for (int j = 0; j < modules.size(); j++) {
                 LevelModule mod = modules.get(j);
@@ -90,7 +92,20 @@ public class GamePlayScene implements IScene {
 
                 if (j == modules.size() - 1) {
                     if (mod.getEndX() < BasicConstants.BG_WIDTH) {
-                        modules.add(moduleFacotry.getLevelModule());
+                        modules.add(moduleFactory.getLevelModule());
+                    }
+                }
+            }
+
+
+            for (int i = 0; i < enemies.size(); i++) {
+                Enemy enemy = enemies.get(0);
+                enemy.update();
+                if (enemy.getX() < -100) {
+                    enemies.remove(i);
+                } else {
+                    if (checkCollision(player.getRectangle(), enemy.getRectangle())) {
+                        player.setState(PlayerState.HitWall);
                     }
                 }
             }
@@ -166,13 +181,19 @@ public class GamePlayScene implements IScene {
             if(frameCounter == 25) {
                 this.score++;
                 frameCounter = 0;
+
+                //TODO: JT: think of a better way to spawn enemies
+                if (this.score % 5 == 0) {
+                    enemies.add(EnemyFactory.createEnemy(BasicConstants.BG_WIDTH, BasicConstants.BG_HEIGHT / 2));
+                }
+
                 if (this.score % 10 == 0) {
                     this.increaseSpeed();
                 }
 
                 if (this.score % 40 == 0) {
                     background = BackgroundFactory.createBackground(BackgroundType.Mushroom);
-                    moduleFacotry.changeBlockType();
+                    moduleFactory.changeBlockType();
                 }
             }
         } else {
@@ -263,6 +284,10 @@ public class GamePlayScene implements IScene {
             for (int i = 0; i < mod.getBlocks().size(); i++) {
                 mod.getBlocks().get(i).draw(canvas);
             }
+        }
+
+        for (int i = 0; i < enemies.size(); i++) {
+            enemies.get(0).draw(canvas);
         }
 
         canvas.restoreToCount(savedState);
