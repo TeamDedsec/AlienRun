@@ -4,19 +4,28 @@ import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 import android.os.Handler;
+import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.util.DisplayMetrics;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.ArrayAdapter;
+import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.example.kaloyanit.alienrun.Core.GamePanel;
 import com.example.kaloyanit.alienrun.Core.SceneManager;
+import com.example.kaloyanit.alienrun.Models.PlayerModel;
 import com.example.kaloyanit.alienrun.Scenes.GamePlayScene;
 import com.example.kaloyanit.alienrun.Utils.BasicConstants;
+
+import java.util.ArrayList;
+import java.util.List;
 
 
 public class GameActivity extends AppCompatActivity{
@@ -105,6 +114,40 @@ public class GameActivity extends AppCompatActivity{
                 handler.postDelayed(this, 500);
             }
         });
+    }
+
+    public void loadPlayersLayout() {
+        GridView lvPlayers = (GridView) findViewById(R.id.players_list);
+
+        List<PlayerModel> players = new ArrayList<PlayerModel>();
+
+
+        players.add(new PlayerModel("Pesho"));
+        players.add(new PlayerModel("Pesho"));
+        players.add(new PlayerModel("Pesho"));
+
+
+        ArrayAdapter<PlayerModel> playersAdapter = new ArrayAdapter<PlayerModel>(this, -1, players) {
+            @NonNull
+            @Override
+            public View getView(int position, View convertView, ViewGroup parent) {
+                View view = convertView;
+                if(view == null) {
+                    LayoutInflater inflater = LayoutInflater.from(this.getContext());
+                    view = inflater.inflate(R.layout.item_player, parent, false);
+                }
+
+                TextView tvTitle = (TextView) view.findViewById(R.id.tv_title);
+                //tvTitle.setTextColor(getColor(R.color.colorRed));
+                String title = this.getItem(position).getName();
+                System.out.println(title);
+                tvTitle.setText(title);
+
+                return view;
+            }
+        };
+
+        lvPlayers.setAdapter(playersAdapter);
     }
 
 
