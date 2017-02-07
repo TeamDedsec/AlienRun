@@ -250,38 +250,38 @@ public class Player extends GameObject {
         }
     }
 
-    public void tryJump() {
+    public boolean tryJump() {
         switch (state) {
             case Running:
                 state = PlayerState.Jumping;
                 resetJump();
-                break;
+                return true;
             case Jumping:
                 if (jumps < jumpCount) {
                     resetJump();
                     jumps++;
+                    return true;
                 }
-                break;
+                return false;
             case HighPoint:
-                jump();
-                break;
+                return jump();
             case HitWall:
-                jump();
-                break;
+                return jump();
             case Falling:
-                jump();
-                break;
+                return jump();
             case Drowning:
-                jump();
-                break;
+                return jump();
         }
+        return false;
     }
 
-    private void jump() {
+    private boolean jump() {
         if (jumps < jumpCount) {
             state = PlayerState.Jumping;
             resetJump();
             jumps++;
+            return true;
         }
+        return false;
     }
 }

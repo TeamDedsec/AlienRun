@@ -7,6 +7,7 @@ import com.example.kaloyanit.alienrun.GameObjects.Block;
 import com.example.kaloyanit.alienrun.GameObjects.GameObject;
 import com.example.kaloyanit.alienrun.GameObjects.LevelModule;
 import com.example.kaloyanit.alienrun.GameObjects.Player;
+import com.example.kaloyanit.alienrun.GameObjects.SoundPlayer;
 import com.example.kaloyanit.alienrun.Scenes.GamePlayScene;
 
 import java.util.ArrayList;
@@ -80,6 +81,12 @@ public class Helpers {
                             } else { //if (player.getY() > currBlock.getY() + (currBlock.getHeight())) {
                                 //This checks if the player is below the block and triggers collision at the middle of the block;
                                 types.put(CollisionType.Roof.ordinal(), CollisionType.Roof);
+                            }
+                        }
+
+                        if (currBlock.getCollisionType() == CollisionType.Water) {
+                            if (player.getY() + player.getHeight() >= currBlock.getY() + 30) {
+                                SoundPlayer.playSplashSound();
                             }
                         }
                         //If it is anything other than Ground, just add it

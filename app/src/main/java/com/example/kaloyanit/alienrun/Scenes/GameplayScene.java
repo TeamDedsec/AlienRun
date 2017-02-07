@@ -5,6 +5,8 @@ import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Point;
 import android.graphics.Rect;
+import android.media.MediaPlayer;
+import android.provider.MediaStore;
 import android.view.MotionEvent;
 import android.view.View;
 
@@ -22,6 +24,7 @@ import com.example.kaloyanit.alienrun.GameObjects.Background;
 import com.example.kaloyanit.alienrun.GameObjects.Enemy;
 import com.example.kaloyanit.alienrun.GameObjects.LevelModule;
 import com.example.kaloyanit.alienrun.GameObjects.Player;
+import com.example.kaloyanit.alienrun.GameObjects.SoundPlayer;
 import com.example.kaloyanit.alienrun.R;
 import com.example.kaloyanit.alienrun.Utils.BasicConstants;
 import com.example.kaloyanit.alienrun.Utils.GameConstants;
@@ -49,9 +52,6 @@ public class GamePlayScene implements IScene {
     public static int score = 0;
     public static int coinCount = 0;
     private int resetCounter = 120;
-/*    private SoundPool soundPool;
-    private int music;
-    private int tryJump;*/
 
     public static int getScore() {
         return score;
@@ -71,7 +71,7 @@ public class GamePlayScene implements IScene {
         tryJump = soundPool.load(BasicConstants.CURRENT_CONTEXT, R.raw.tryJump, 1);
 
         soundPool.play(music, 0.8f, 0.8f, 1, 1, 1.0f);*/
-
+        SoundPlayer.playBackgroundMusic();
         background = BackgroundFactory.createBackground(BackgroundType.Grass);
         pause = BitmapFactory.decodeResource(BasicConstants.CURRENT_CONTEXT.getResources(), R.drawable.pause);
         playerPoint = new Point(162, BasicConstants.BG_HEIGHT - 162);
@@ -233,7 +233,12 @@ public class GamePlayScene implements IScene {
         if (player.isAlive() && x < BasicConstants.BG_WIDTH / 2 && y > BasicConstants.BG_HEIGHT / 2) {
             switch (event.getAction()) {
                 case MotionEvent.ACTION_DOWN: {
-                    player.tryJump();
+                    if (player.isAlive()) {
+                        if (player.tryJump()) {
+                            SoundPlayer.playJumpSound();
+                        }
+                    }
+
                     //if(pause.getWidth())
                     //SceneManager.ACTIVE_SCENE = 2;
                 }
@@ -246,14 +251,5 @@ public class GamePlayScene implements IScene {
         boolean shit = false;
         shit = Rect.intersects(a, b);
         return shit;
-    }
-
-    private void playSound() {
-/*        soundPool.play(tryJump, 1.0f, 1.0f, 1, 0, 1.0f);*/
-        // This makes the player not tryJump sometimes
-/*        if (jumpSound.isPlaying()) {
-            jumpSound = MediaPlayer.create(BasicConstants.CURRENT_CONTEXT, R.raw.tryJump);
-        }
-        jumpSound.start();*/
     }
 }
