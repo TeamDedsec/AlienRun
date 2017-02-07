@@ -8,58 +8,51 @@ import android.graphics.Paint;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.view.View;
-import android.widget.Toast;
 
-import com.example.kaloyanit.alienrun.Core.SceneManager;
-import com.example.kaloyanit.alienrun.GameObjects.LevelModule;
 import com.example.kaloyanit.alienrun.R;
 import com.example.kaloyanit.alienrun.Utils.BasicConstants;
 
 /**
- * Created by KaloyanIT on 1/27/2017.
+ * Created by KaloyanIT on 1/31/2017.
  */
 
-public class PauseView extends View implements View.OnTouchListener{
+public class ScalableView extends View {
 
     private final Paint paint;
     private Bitmap image;
 
-    public PauseView(Context context) {
+    public ScalableView(Context context) {
         super(context);
         paint = new Paint();
-        //image = this.getDrawingCache();
         image = BitmapFactory.decodeResource(getResources(), R.drawable.pause);
     }
 
-    public PauseView(Context context, AttributeSet attrs) {
+    public ScalableView(Context context, AttributeSet attrs) {
         super(context, attrs);
         paint = new Paint();
-        image = BitmapFactory.decodeResource(getResources(), R.drawable.pause);
-        //image = this.getDrawingCache();
-
+        System.out.println(attrs);
+        int src_recources = attrs.getAttributeResourceValue("http://schemas.android.com/apk/res/android", "src", 0);
+        image = BitmapFactory.decodeResource(getResources(), src_recources);
     }
 
     @Override
     public void onDraw(Canvas canvas) {
+        super.onDraw(canvas);
         final float scaleFactorX = BasicConstants.SCREEN_HEIGHT / (BasicConstants.BG_HEIGHT * 1.0f);
         final float scaleFactorY = BasicConstants.SCREEN_HEIGHT / (BasicConstants.BG_HEIGHT * 1.0f);
 
         final int savedState = canvas.save();
         canvas.scale(scaleFactorX, scaleFactorY);
-        canvas.drawBitmap(image, this.getX(), this.getY(), paint);
+        canvas.drawBitmap(image, 0, 0, paint);
         canvas.restoreToCount(savedState);
-        super.onDraw(canvas);
     }
 
     @Override
-    public boolean onTouch(View v, MotionEvent event) {
-        switch (event.getAction()) {
-            case MotionEvent.ACTION_DOWN:
-                System.out.println("PauseView");
-                break;
-        }
+    public boolean onTouchEvent(final MotionEvent event) {
+        super.onTouchEvent(event);
+//        if(event.getAction() == MotionEvent.ACTION_UP){
+//            return performClick();
+//        }
         return true;
     }
-
-
 }

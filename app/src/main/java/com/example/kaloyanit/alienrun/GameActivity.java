@@ -23,6 +23,7 @@ import com.example.kaloyanit.alienrun.Core.SceneManager;
 import com.example.kaloyanit.alienrun.Models.PlayerModel;
 import com.example.kaloyanit.alienrun.Scenes.GamePlayScene;
 import com.example.kaloyanit.alienrun.Utils.BasicConstants;
+import com.example.kaloyanit.alienrun.Views.ScalableView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -30,17 +31,17 @@ import java.util.List;
 
 public class GameActivity extends AppCompatActivity{
 
-    private ImageView pauseButton;
-    private ImageView exitButton;
+    private ScalableView pauseButton;
+    private ScalableView exitButton;
     private GamePanel gameView;
     private TextView scoreView;
-    private ImageView startView;
+    private ScalableView startView;
     private Intent pauseIntent;
-    private ImageView refreshButton;
+    private ScalableView refreshButton;
     private RelativeLayout startLayout;
-    private ImageView startButton;
+    private ScalableView startButton;
     private RelativeLayout pauseLayout;
-    private ImageView continueButton;
+    private ScalableView continueButton;
 
 
     @Override
@@ -63,7 +64,7 @@ public class GameActivity extends AppCompatActivity{
 
     public void startLayout() {
         startLayout = (RelativeLayout) findViewById(R.id.startPage);
-        startButton = (ImageView) findViewById(R.id.startView);
+        startButton = (ScalableView) findViewById(R.id.startView);
 
         startButton.setOnClickListener(view -> {
             SceneManager.ACTIVE_SCENE = 1;
@@ -76,8 +77,8 @@ public class GameActivity extends AppCompatActivity{
         pauseLayout = (RelativeLayout) findViewById(R.id.pauseScene);
         pauseLayout.setVisibility(View.VISIBLE);
 
-        refreshButton = (ImageView) findViewById(R.id.refreshButton);
-        continueButton = (ImageView) findViewById(R.id.resumeButton);
+        refreshButton = (ScalableView) findViewById(R.id.refreshButton);
+        continueButton = (ScalableView) findViewById(R.id.resumeButton);
 
         continueButton.setOnClickListener(view -> {
             SceneManager.ACTIVE_SCENE = 1;
@@ -95,7 +96,7 @@ public class GameActivity extends AppCompatActivity{
 
     public void gameEngine() {
         gameView = (GamePanel)findViewById(R.id.gameView);
-        pauseButton = (ImageView) findViewById(R.id.pauseView);
+        pauseButton = (ScalableView) findViewById(R.id.pauseView);
         pauseButton.setVisibility(View.VISIBLE);
         pauseButton.setOnClickListener(view -> {
             pauseButton.setVisibility(View.INVISIBLE);
