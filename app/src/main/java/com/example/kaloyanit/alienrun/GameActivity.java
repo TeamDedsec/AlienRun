@@ -101,8 +101,8 @@ public class GameActivity extends AppCompatActivity{
     }
 
     public void gameEngine() {
-        //pauseButton = (ScalableView) findViewById(R.id.pauseView);
-        //pauseButton.setVisibility(View.VISIBLE);
+//        pauseButton = (ScalableView) findViewById(R.id.pauseView);
+//        pauseButton.setVisibility(View.VISIBLE);
 //        pauseButton.setOnClickListener(view -> {
 //            pauseButton.setVisibility(View.INVISIBLE);
 //            SceneManager.ACTIVE_SCENE = 2;

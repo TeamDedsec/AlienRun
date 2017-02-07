@@ -52,38 +52,9 @@ public class ScalableView extends View implements View.OnClickListener{
         canvas.restoreToCount(savedState);
     }
 
-//    @Override
-//    public boolean dispatchKeyEvent(KeyEvent event) {
-//        if(event.getAction() == KeyEvent.ACTION_UP &&
-//                (event.getKeyCode() == KeyEvent.KEYCODE_DPAD_CENTER || event.getKeyCode() == KeyEvent.KEYCODE_ENTER)) {
-//            if(onClickListener != null) onClickListener.onClick(this);
-//        }
-//        return super.dispatchKeyEvent(event);
-//    }
-//
-//    @Override
-//    public boolean dispatchTouchEvent(MotionEvent event) {
-//        if (event.getAction() == MotionEvent.ACTION_DOWN) {
-//            setPressed(true);
-//        }
-//        else if(event.getAction() == MotionEvent.ACTION_UP) {
-//            if(onClickListener != null) onClickListener.onClick(this);
-//            setPressed(false);
-//        }
-//        else {
-//            setPressed(false);
-//        }
-//        return super.dispatchTouchEvent(event);
-//    }
-//
-//    @Override
-//    public void setOnClickListener(OnClickListener l) {
-//        onClickListener = l;
-//    }
-
 
     @Override
     public void onClick(View v) {
-
+//  Set
     }
 }

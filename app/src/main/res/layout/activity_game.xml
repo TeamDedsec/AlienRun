@@ -5,6 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="com.example.kaloyanit.alienrun.GameActivity">
+
     <!--Game Activity-->
     <com.example.kaloyanit.alienrun.Core.GamePanel
         xmlns:android="http://schemas.android.com/apk/res/android"
@@ -13,13 +14,13 @@
         android:id="@+id/gameView"
         android:clickable="true"/>
 
-    <!--<com.example.kaloyanit.alienrun.Views.ScalableView-->
-        <!--android:id="@+id/pauseView"-->
-        <!--android:layout_width="wrap_content"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--android:src="@drawable/pause"-->
-        <!--android:clickable="true"-->
-        <!--android:visibility="invisible"/>-->
+    <TextView
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/scoreView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@color/colorPrimaryDark"
+        android:text="0"/>
 
     <!--StartScene-->
     <RelativeLayout
@@ -28,13 +29,7 @@
         android:layout_height="match_parent"
         android:background="@color/colorRed">
 
-        <TextView
-            xmlns:android="http://schemas.android.com/apk/res/android"
-            android:id="@+id/scoreView"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textColor="@color/colorPrimaryDark"
-            android:text="0"/>
+
 
         <com.example.kaloyanit.alienrun.Views.ScalableView
             android:id="@+id/shopView"
@@ -93,8 +88,6 @@
             android:layout_alignTop="@+id/shopView"
             android:layout_alignParentStart="true" />
 
-
-
     </RelativeLayout>
 
     <!--Players Scene-->
@@ -148,9 +141,15 @@
             android:src="@drawable/refresh_button"
             android:clickable="true"/>
 
-
-
     </RelativeLayout>
+
+    <!--<com.example.kaloyanit.alienrun.Views.ScalableView-->
+        <!--android:id="@+id/pauseView"-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:src="@drawable/pause"-->
+        <!--android:clickable="true"-->
+        <!--android:visibility="invisible"/>-->
 
 
 
