@@ -54,7 +54,7 @@ public class Helpers {
                         }
                         if (currBlock.getCollisionType() == CollisionType.Enemy) {
                             //Lower the collision radius if it's an enemy
-                            if (checkCollision(player, currBlock)) {
+                            if (!player.isInvulnerable() && checkCollision(player, currBlock)) {
                                 types.put(currBlock.getCollisionType().ordinal(), currBlock.getCollisionType());
                                 continue;
                             }
@@ -62,7 +62,7 @@ public class Helpers {
                         }
                         //If the block's collision is Ground, check which side the player is hitting it from
                         if (currBlock.getCollisionType() == CollisionType.Wall) {
-                            if (player.getY() + player.getHeight() - GameGlobalNumbers.GRAVITY <= currBlock.getY()) {
+                            if (player.getY() + player.getHeight() - GlobalVariables.GRAVITY <= currBlock.getY()) {
                                 //This checks if the player is above the block, and tells him he can run on it
                                 types.put(CollisionType.Ground.ordinal(), CollisionType.Ground);
                             } else if (player.getY() > currBlock.getY() + (currBlock.getHeight())) {
@@ -75,7 +75,7 @@ public class Helpers {
                         }
 
                         if (currBlock.getCollisionType() == CollisionType.Ground) {
-                            if (player.getY() + player.getHeight() - GameGlobalNumbers.GRAVITY <= currBlock.getY()) {
+                            if (player.getY() + player.getHeight() - GlobalVariables.GRAVITY <= currBlock.getY()) {
                                 //This checks if the player is above the block, and tells him he can run on it
                                 types.put(CollisionType.Ground.ordinal(), CollisionType.Ground);
                             } else { //if (player.getY() > currBlock.getY() + (currBlock.getHeight())) {

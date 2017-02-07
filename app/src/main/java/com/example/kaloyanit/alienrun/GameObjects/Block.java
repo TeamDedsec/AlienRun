@@ -6,7 +6,7 @@ import android.graphics.Canvas;
 import com.example.kaloyanit.alienrun.Core.Animation;
 import com.example.kaloyanit.alienrun.Enums.CollisionType;
 import com.example.kaloyanit.alienrun.Utils.GameConstants;
-import com.example.kaloyanit.alienrun.Utils.GameGlobalNumbers;
+import com.example.kaloyanit.alienrun.Utils.GlobalVariables;
 
 /**
  * Created by julian.teofilov on 26/1/2017.
@@ -53,6 +53,6 @@ public class Block extends GameObject {
 
     @Override
     public void update() {
-        this.x += GameGlobalNumbers.GAME_SPEED;
+        this.x += GlobalVariables.GAME_SPEED;
     }
 }

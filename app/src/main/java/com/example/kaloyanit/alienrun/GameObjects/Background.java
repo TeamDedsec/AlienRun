@@ -4,10 +4,8 @@ import android.graphics.Bitmap;
 import android.graphics.Canvas;
 
 import com.example.kaloyanit.alienrun.Contracts.IGameObject;
-import com.example.kaloyanit.alienrun.Core.GamePanel;
 import com.example.kaloyanit.alienrun.Utils.BasicConstants;
-import com.example.kaloyanit.alienrun.Utils.GameConstants;
-import com.example.kaloyanit.alienrun.Utils.GameGlobalNumbers;
+import com.example.kaloyanit.alienrun.Utils.GlobalVariables;
 
 /**
  * Created by julian.teofilov on 26/1/2017.
@@ -35,7 +33,7 @@ public class Background implements IGameObject {
     }
 
     public void update() {
-        x += GameGlobalNumbers.GAME_SPEED;
+        x += GlobalVariables.GAME_SPEED;
         if (x < -BasicConstants.BG_WIDTH) {
             x = 0;
         }

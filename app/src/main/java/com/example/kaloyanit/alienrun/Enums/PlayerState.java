@@ -11,5 +11,6 @@ public enum PlayerState {
     Falling,
     Drowning,
     HitWall,
-    HitRoof
+    HitRoof,
+    Dead
 }

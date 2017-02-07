@@ -6,7 +6,7 @@ import com.example.kaloyanit.alienrun.GameObjects.Block;
 import com.example.kaloyanit.alienrun.GameObjects.LevelModule;
 import com.example.kaloyanit.alienrun.Utils.BasicConstants;
 import com.example.kaloyanit.alienrun.Utils.GameConstants;
-import com.example.kaloyanit.alienrun.Utils.GameGlobalNumbers;
+import com.example.kaloyanit.alienrun.Utils.GlobalVariables;
 import com.example.kaloyanit.alienrun.Utils.Helpers;
 
 /**
@@ -28,7 +28,7 @@ public class LevelModuleFactory {
     }
 
     public void update() {
-        this.startPosition += GameGlobalNumbers.GAME_SPEED;
+        this.startPosition += GlobalVariables.GAME_SPEED;
     }
 
     public void changeBlockType() {

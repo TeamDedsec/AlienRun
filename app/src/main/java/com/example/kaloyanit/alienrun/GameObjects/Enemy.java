@@ -5,7 +5,7 @@ import android.graphics.Canvas;
 
 import com.example.kaloyanit.alienrun.Core.Animation;
 import com.example.kaloyanit.alienrun.Enums.CollisionType;
-import com.example.kaloyanit.alienrun.Utils.GameGlobalNumbers;
+import com.example.kaloyanit.alienrun.Utils.GlobalVariables;
 
 /**
  * Created by julian.teofilov on 3/2/2017.
@@ -34,7 +34,7 @@ public class Enemy extends GameObject {
         this.yCorrection = yCorrection;
 
         this.animation.setFrames(images, frames);
-        this.animation.setDelay(GameGlobalNumbers.DELAY);
+        this.animation.setDelay(GlobalVariables.DELAY);
     }
 
 
@@ -59,6 +59,6 @@ public class Enemy extends GameObject {
 
     @Override
     public void update() {
-        this.x += GameGlobalNumbers.GAME_SPEED + this.moveSpeed;
+        this.x += GlobalVariables.GAME_SPEED + this.moveSpeed;
     }
 }
