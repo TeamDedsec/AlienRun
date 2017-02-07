@@ -3,13 +3,8 @@ package com.example.kaloyanit.alienrun.Scenes;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
-import android.graphics.Path;
 import android.graphics.Point;
 import android.graphics.Rect;
-import android.media.AudioManager;
-import android.media.MediaPlayer;
-import android.media.SoundPool;
-import android.provider.MediaStore;
 import android.view.MotionEvent;
 import android.view.View;
 
@@ -17,7 +12,6 @@ import com.example.kaloyanit.alienrun.Contracts.IScene;
 import com.example.kaloyanit.alienrun.Core.SceneManager;
 import com.example.kaloyanit.alienrun.Enums.BackgroundType;
 import com.example.kaloyanit.alienrun.Enums.BlockSetType;
-import com.example.kaloyanit.alienrun.Enums.CollisionType;
 import com.example.kaloyanit.alienrun.Enums.PlayerState;
 import com.example.kaloyanit.alienrun.Enums.PlayerType;
 import com.example.kaloyanit.alienrun.Factories.BackgroundFactory;
@@ -25,11 +19,11 @@ import com.example.kaloyanit.alienrun.Factories.EnemyFactory;
 import com.example.kaloyanit.alienrun.Factories.LevelModuleFactory;
 import com.example.kaloyanit.alienrun.Factories.PlayerFactory;
 import com.example.kaloyanit.alienrun.GameObjects.Background;
-import com.example.kaloyanit.alienrun.GameObjects.Block;
 import com.example.kaloyanit.alienrun.GameObjects.Enemy;
-import com.example.kaloyanit.alienrun.GameObjects.GameObject;
 import com.example.kaloyanit.alienrun.GameObjects.LevelModule;
+import com.example.kaloyanit.alienrun.GameObjects.MusicPlayer;
 import com.example.kaloyanit.alienrun.GameObjects.Player;
+import com.example.kaloyanit.alienrun.GameObjects.SoundPlayer;
 import com.example.kaloyanit.alienrun.R;
 import com.example.kaloyanit.alienrun.Utils.BasicConstants;
 import com.example.kaloyanit.alienrun.Utils.GameConstants;
@@ -37,8 +31,6 @@ import com.example.kaloyanit.alienrun.Utils.GameGlobalNumbers;
 import com.example.kaloyanit.alienrun.Utils.Helpers;
 
 import java.util.ArrayList;
-import java.util.Map;
-import java.util.TreeMap;
 
 /**
  * Created by KaloyanIT on 1/25/2017.
@@ -56,10 +48,10 @@ public class GamePlayScene implements IScene {
     private ArrayList<LevelModule> modules;
     private ArrayList<Enemy> enemies;
     private int frameCounter = 0;
-    private static int score = 0;
-    private int coinCount = 0;
+    public static int score = 0;
+    public static int coinCount = 0;
     private int resetCounter = 120;
-    private MediaPlayer jumpSound;
+    private boolean isScoreChecked = false;
 
     public static int getScore() {
         return score;
@@ -69,15 +61,17 @@ public class GamePlayScene implements IScene {
         GamePlayScene.score = score;
     }
 
-    //TODO: JT: Make the game reset upon dying
-    //TODO: JT: Add flying enemies
-    //TODO: JT: Make player not die upon colliding with a wall
-    //TODO: JT: Change collision with obstacle/enemy to something specific, not wall
+    //TODO: JT: Change collision with obstacle/enemy to something specific, not wall!!! This is more important now, as enemies don't kill you!!
+    //TODO: JT: Think of a way to make the player to be able to jump while colliding with a wall
 
     public GamePlayScene() {
+/*        soundPool = new SoundPool(2, AudioManager.STREAM_MUSIC, 0);
 
-        this.jumpSound = MediaPlayer.create(BasicConstants.CURRENT_CONTEXT, R.raw.jump);
+        music = soundPool.load(BasicConstants.CURRENT_CONTEXT, R.raw.music, 1);
+        tryJump = soundPool.load(BasicConstants.CURRENT_CONTEXT, R.raw.tryJump, 1);
 
+        soundPool.play(music, 0.8f, 0.8f, 1, 1, 1.0f);*/
+        MusicPlayer.playBackgroundMusic();
         background = BackgroundFactory.createBackground(BackgroundType.Grass);
         pause = BitmapFactory.decodeResource(BasicConstants.CURRENT_CONTEXT.getResources(), R.drawable.pause);
         playerPoint = new Point(162, BasicConstants.BG_HEIGHT - 162);
@@ -92,7 +86,7 @@ public class GamePlayScene implements IScene {
 
     @Override
     public void update() {
-        if (player.isAlive()) {
+        if (player.isInBounds()) {
             player.update();
             background.update();
             moduleFactory.update();
@@ -102,6 +96,7 @@ public class GamePlayScene implements IScene {
                 mod.update();
                 if (mod.getEndX() < mod.getLength() * -1) {
                     modules.remove(mod);
+                    score++;
                 }
 
                 if (j == modules.size() - 1) {
@@ -111,105 +106,34 @@ public class GamePlayScene implements IScene {
                 }
             }
 
-
             for (int i = 0; i < enemies.size(); i++) {
                 Enemy enemy = enemies.get(0);
                 enemy.update();
                 if (enemy.getX() < -100) {
                     enemies.remove(i);
                 } else {
-                    if (checkPreciseCollision(player, enemy)) {
+                    if (Helpers.checkPreciseCollision(player, enemy)) {
                         player.setState(PlayerState.HitWall);
                     }
                 }
             }
 
-            switch (player.getState()) {
-                case Running:
-                    switch (checkCollision()) {
-                        case None:
-                            player.setState(PlayerState.Falling);
-                            break;
-                        case Water:
-                            player.setState(PlayerState.Drowning);
-                            player.resetDrownFrames();
-                            break;
-                        case Wall:
-                            player.setState(PlayerState.HitWall);
-                            break;
-                        case Enemy:
-                            player.setState(PlayerState.HitWall);
-                            break;
-                    }
-                    break;
-                case Jumping:
-                    switch (checkCollision()) {
-                        case Wall:
-                            player.setState(PlayerState.HitWall);
-                            break;
-                        case Enemy:
-                            player.setState(PlayerState.HitWall);
-                            break;
-                    }
-                    break;
-                case HighPoint:
-                    switch (checkCollision()) {
-                        case Wall:
-                            player.setState(PlayerState.HitWall);
-                            break;
-                        case Enemy:
-                            player.setState(PlayerState.HitWall);
-                            break;
-                    }
-                    break;
-                case Falling:
-                    switch (checkCollision()) {
-                        case Water:
-                            player.setState(PlayerState.Drowning);
-                            break;
-                        case Ground:
-                            player.setState(PlayerState.Running);
-                            player.setJumps(0);
-                            break;
-                        case Wall:
-                            player.setState(PlayerState.HitWall);
-                            break;
-                        case Enemy:
-                            player.setState(PlayerState.HitWall);
-                            break;
-                    }
-                    break;
-                case Drowning:
-                    switch (checkCollision()) {
-                        case Wall:
-                            player.setState(PlayerState.HitWall);
-                            break;
-                        case Enemy:
-                            player.setState(PlayerState.HitWall);
-                            break;
-                    }
-                    break;
-            }
-
-            frameCounter++;
-            if (frameCounter == 25) {
-                this.score++;
-                frameCounter = 0;
-
-                //TODO: JT: think of a better way to spawn enemies
-                if (this.score % 5 == 0) {
-                    int rand = Helpers.getRandomNumber(GameConstants.BLOCK_HEIGHT * 2, BasicConstants.BG_HEIGHT - GameConstants.BLOCK_HEIGHT * 2);
-                    enemies.add(EnemyFactory.createEnemy(BasicConstants.BG_WIDTH, rand));
-                }
-
-                if (this.score % 10 == 0) {
+            player.updateState(Helpers.checkCollision(player, modules));
+            //TODO: JT: think of a better way to spawn enemies
+            if (score % 5 == 0 && score > 0 && !isScoreChecked) {
+                int rand = Helpers.getRandomNumber(GameConstants.BLOCK_HEIGHT * 2, BasicConstants.BG_HEIGHT - GameConstants.BLOCK_HEIGHT * 2);
+                enemies.add(EnemyFactory.createEnemy(BasicConstants.BG_WIDTH, rand));
+                if (score % 10 == 0) {
                     this.increaseSpeed();
                 }
 
-                if (this.score % 40 == 0) {
-                    background = BackgroundFactory.createBackground(BackgroundType.Mushroom);
+                if (score % 40 == 0) {
+                    background.setImage(BackgroundFactory.getBackgroundImage());
                     moduleFactory.changeBlockType();
                 }
+                isScoreChecked = true;
+            } else if (score % 5 != 0) {
+                isScoreChecked = false;
             }
         } else {
             resetCounter--;
@@ -226,67 +150,6 @@ public class GamePlayScene implements IScene {
         if (GameGlobalNumbers.DELAY > 0) {
             GameGlobalNumbers.DELAY -= 2;
         }
-    }
-
-    private boolean checkCollision(GameObject a, GameObject b) {
-        return Rect.intersects(a.getRectangle(), b.getRectangle());
-    }
-
-    private boolean checkPreciseCollision(GameObject a, GameObject b) {
-        return Rect.intersects(a.getRectangle(), new Rect(b.getX() + 20, b.getY() + 20, b.getX() + b.getWidth() - 20, b.getY() + b.getHeight() - 20));
-    }
-
-    private CollisionType checkCollision() {
-        //TODO: JT: Update and refactor collision
-        //Store all found collisions in a sorted list by their priority
-        Map<Integer, CollisionType> types = new TreeMap<>();
-        for (int j = 0; j < modules.size(); j++) {
-            LevelModule module = modules.get(j);
-            //skip modules that the player is not in
-            if (Rect.intersects(player.getRectangle(), new Rect(module.getStartX(), 0, module.getEndX(), BasicConstants.BG_HEIGHT))) {
-                for (int i = 0; i < module.getBlocks().size(); i++) {
-                    Block currBlock = module.getBlocks().get(i);
-                    if (Rect.intersects(player.getRectangle(), currBlock.getRectangle())) {
-                        if (currBlock.getCollisionType() == CollisionType.Coin) {
-                            //Lower the collision radius if it's a coin
-                            if (checkPreciseCollision(player, currBlock)) {
-                                coinCount++;
-                                module.getBlocks().remove(i);
-                            }
-                        }
-                        if (currBlock.getCollisionType() == CollisionType.Enemy) {
-                            //Lower the collision radius if it's an enemy
-                            if (checkCollision(player, currBlock)) {
-                                types.put(currBlock.getCollisionType().ordinal(), currBlock.getCollisionType());
-                                continue;
-                            }
-                            continue;
-                        }
-                        //If the block's collision is Ground, check which side the player is hitting it from
-                        if (currBlock.getCollisionType() == CollisionType.Ground) {
-                            if (this.player.getY() + this.player.getHeight() - GameGlobalNumbers.GRAVITY <= currBlock.getY()) {
-                                //This checks if the player is above the block, and tells him he can run on it
-                                types.put(CollisionType.Ground.ordinal(), CollisionType.Ground);
-                            } else if (this.player.getY() > currBlock.getY() + (currBlock.getHeight())) {
-                                //This checks if the player is below the block and triggers collision at the middle of the block;
-                                types.put(CollisionType.None.ordinal(), CollisionType.None);
-                            } else if (this.player.getX() + this.player.getWidth() >= currBlock.getX()) {
-                                //This checks if the player is on the left side of the block
-                                types.put(CollisionType.Wall.ordinal(), CollisionType.Wall);
-                            }
-                        }
-                        //If it is anything other than Ground, just add it
-                        types.put(currBlock.getCollisionType().ordinal(), currBlock.getCollisionType());
-                    }
-                }
-            }
-        }
-
-        //Always add the default collision, which has the lowest priority
-        types.put(CollisionType.None.ordinal(), CollisionType.None);
-        //Get the first item in the list, which has the highest priority
-        Map.Entry<Integer, CollisionType> entry = types.entrySet().iterator().next();
-        return entry.getValue();
     }
 
     @Override
@@ -363,55 +226,13 @@ public class GamePlayScene implements IScene {
 
 
         //Sample event
-        if (player.isAlive() && x < BasicConstants.BG_WIDTH / 2 && y > BasicConstants.BG_HEIGHT / 2) {
+        if (player.isInBounds() && x < BasicConstants.BG_WIDTH / 2 && y > BasicConstants.BG_HEIGHT / 2) {
             switch (event.getAction()) {
                 case MotionEvent.ACTION_DOWN: {
-                    switch (player.getState()) {
-                        case Running:
-                            player.setState(PlayerState.Jumping);
-
-                            playSound();
-
-                            player.resetJump();
-                            break;
-                        case Jumping:
-                            if (player.getJumps() < player.getJumpCount()) {
-
-                                playSound();
-
-                                player.resetJump();
-                                player.setJumps(player.getJumps() + 1);
-                            }
-                            break;
-                        case HighPoint:
-                            if (player.getJumps() < player.getJumpCount()) {
-                                player.setState(PlayerState.Jumping);
-
-                                playSound();
-
-                                player.resetJump();
-                                player.setJumps(player.getJumps() + 1);
-                            }
-                            break;
-                        case Falling:
-                            if (player.getJumps() < player.getJumpCount()) {
-                                player.setState(PlayerState.Jumping);
-
-                                playSound();
-
-                                player.resetJump();
-                                player.setJumps(player.getJumps() + 1);
-                            }
-                            break;
-                        case Drowning:
-                            if (player.getJumps() < player.getJumpCount()) {
-                                player.setState(PlayerState.Jumping);
-
-                                playSound();
-
-                                player.resetJump();
-                                player.setJumps(player.getJumps() + 1);
-                            }
+                    if (player.isInBounds()) {
+                        if (player.tryJump()) {
+                            SoundPlayer.playJumpSound();
+                        }
                     }
 
                     //if(pause.getWidth())
@@ -421,17 +242,10 @@ public class GamePlayScene implements IScene {
         }
     }
 
+    //TODO: JT: Fix this shit and extract it
     private boolean checkTouchCollision(Rect a, Rect b) {
         boolean shit = false;
         shit = Rect.intersects(a, b);
         return shit;
-    }
-
-    private void playSound() {
-        // This makes the player not jump sometimes
-        if (jumpSound.isPlaying()) {
-            jumpSound = MediaPlayer.create(BasicConstants.CURRENT_CONTEXT, R.raw.jump);
-        }
-        jumpSound.start();
     }
 }
