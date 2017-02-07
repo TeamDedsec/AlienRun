@@ -268,6 +268,7 @@ public class Player extends GameObject {
     public void hitIntoEnemy() {
         if (invulnerabilityFrames <= 0) {
             lives--;
+            SoundPlayer.playImpactSound();
             if (lives <= 0) {
                 state = PlayerState.Dead;
             } else {
