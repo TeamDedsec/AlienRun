@@ -28,7 +28,7 @@ public class BlockFactory {
             case GroundLeft:
                 return new Block(blockSet.getLeftGround(), 1, "GroundLeft",
                         x, y, GameConstants.BLOCK_WIDTH, GameConstants.BLOCK_HEIGHT,
-                        CollisionType.Ground);
+                        CollisionType.Wall);
             case GroundRight:
                 return new Block(blockSet.getRightGround(), 1, "GroundRight,",
                         x, y, GameConstants.BLOCK_WIDTH, GameConstants.BLOCK_HEIGHT,
@@ -44,7 +44,7 @@ public class BlockFactory {
             case AirLeft:
                 return new Block(blockSet.getLeftAir(), 1, "AirLeft",
                         x, y, GameConstants.BLOCK_WIDTH, GameConstants.BLOCK_HEIGHT / 2,
-                        CollisionType.Ground);
+                        CollisionType.Wall);
             default:
                 return createBlock(blockType, x, y);
         }

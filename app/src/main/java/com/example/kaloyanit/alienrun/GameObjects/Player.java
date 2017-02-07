@@ -6,6 +6,7 @@ import android.transition.Scene;
 
 import com.example.kaloyanit.alienrun.Core.Animation;
 import com.example.kaloyanit.alienrun.Core.SceneManager;
+import com.example.kaloyanit.alienrun.Enums.CollisionType;
 import com.example.kaloyanit.alienrun.Enums.PlayerState;
 import com.example.kaloyanit.alienrun.Utils.BasicConstants;
 import com.example.kaloyanit.alienrun.Utils.GameConstants;
@@ -30,6 +31,10 @@ public class Player extends GameObject {
     private int jumps;
     private int drownFrames;
     private boolean isAlive = true;
+
+    public void setState(PlayerState state) {
+        this.state = state;
+    }
 
     public Player(Bitmap walkSheet, Bitmap jumpImage, Bitmap duckImage, Bitmap hurtImage,
                   int x, int y, int walkFrames,
@@ -59,35 +64,11 @@ public class Player extends GameObject {
         animation.setDelay(GameGlobalNumbers.DELAY);
     }
 
-    public PlayerState getState() {
-        return state;
-    }
-
-    public void setState(PlayerState state) {
-        this.state = state;
-    }
-
     public int getLives() {
         return lives;
     }
 
-    public void setLives(int lives) {
-        this.lives = lives;
-    }
-
-    public int getJumpCount() {
-        return jumpCount;
-    }
-
-    public int getJumps() {
-        return jumps;
-    }
-
-    public void setJumps(int jumps) {
-        this.jumps = jumps;
-    }
-
-    public void resetJump() {
+    private void resetJump() {
         this.jumpDelta = GameConstants.JUMP_DELTA;
         this.duckCount = GameConstants.DUCK_FRAMES;
     }
@@ -138,7 +119,6 @@ public class Player extends GameObject {
         switch (state) {
             case Jumping:
                 jumpDelta += GameGlobalNumbers.JUMP_VELOCITY;
-
                 if (jumpDelta <= 0) {
                     highPointCount = GameConstants.HIGH_POINT_FRAMES;
                     state = PlayerState.HighPoint;
@@ -167,11 +147,141 @@ public class Player extends GameObject {
             case HitWall:
                 this.y += GameGlobalNumbers.GRAVITY;
                 this.x += GameGlobalNumbers.GAME_SPEED;
-                if (this.y > BasicConstants.BG_HEIGHT)
-                    isAlive = false;
                 break;
+        }
+
+        if (this.x + this.width < 0 || this.y > BasicConstants.BG_HEIGHT) {
+            isAlive = false;
         }
         animation.setDelay(GameGlobalNumbers.DELAY);
         animation.update();
+    }
+
+    public void updateState(CollisionType collisionType) {
+        switch (state) {
+            case Running:
+                switch (collisionType) {
+                    case None:
+                        state = PlayerState.Falling;
+                        break;
+                    case Water:
+                        state = PlayerState.Drowning;
+                        resetDrownFrames();
+                        break;
+                    case Wall:
+                        state = PlayerState.HitWall;
+                        break;
+                    case Enemy:
+                        state = PlayerState.HitWall;
+                        break;
+                }
+                break;
+            case Jumping:
+                switch (collisionType) {
+                    case Wall:
+                        state = PlayerState.HitWall;
+                        break;
+                    case Roof:
+                        state = PlayerState.Falling;
+                        break;
+                    case Enemy:
+                        state = PlayerState.HitWall;
+                        break;
+                }
+                break;
+            case HighPoint:
+                switch (collisionType) {
+                    case Wall:
+                        state = PlayerState.HitWall;
+                        break;
+                    case Enemy:
+                        state = PlayerState.HitWall;
+                        break;
+                }
+                break;
+            case HitWall:
+                switch (collisionType) {
+                    case None: {
+                        state = PlayerState.Falling;
+                        break;
+                    }
+                    case Water:
+                        state = PlayerState.Drowning;
+                        break;
+                    case Ground:
+                        state = PlayerState.Running;
+                        jumps = 0;
+                        break;
+                    case Enemy:
+                        state = PlayerState.HitWall;
+                        break;
+                }
+                break;
+            case HitRoof:
+                state = PlayerState.Falling;
+                break;
+            case Falling:
+                switch (collisionType) {
+                    case Water:
+                        state = PlayerState.Drowning;
+                        break;
+                    case Ground:
+                        state = PlayerState.Running;
+                        jumps = 0;
+                        break;
+                    case Wall:
+                        state = PlayerState.HitWall;
+                        break;
+                    case Enemy:
+                        state = PlayerState.HitWall;
+                        break;
+                }
+                break;
+            case Drowning:
+                switch (collisionType) {
+                    case Wall:
+                        state = PlayerState.HitWall;
+                        break;
+                    case Enemy:
+                        state = PlayerState.HitWall;
+                        break;
+                }
+                break;
+        }
+    }
+
+    public void tryJump() {
+        switch (state) {
+            case Running:
+                state = PlayerState.Jumping;
+                resetJump();
+                break;
+            case Jumping:
+                if (jumps < jumpCount) {
+                    resetJump();
+                    jumps++;
+                }
+                break;
+            case HighPoint:
+                jump();
+                break;
+            case HitWall:
+                jump();
+                break;
+            case Falling:
+                jump();
+                break;
+            case Drowning:
+                jump();
+                break;
+        }
+    }
+
+    private void jump() {
+        if (jumps < jumpCount) {
+            state = PlayerState.Jumping;
+            resetJump();
+            jumps++;
+        }
     }
 }
