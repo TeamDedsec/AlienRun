@@ -24,4 +24,14 @@ public class SoundPlayer {
         mediaPlayer = MediaPlayer.create(BasicConstants.CURRENT_CONTEXT, R.raw.watersplash);
         mediaPlayer.start();
     }
+
+    public static void playCoinSound() {
+        mediaPlayer = MediaPlayer.create(BasicConstants.CURRENT_CONTEXT, R.raw.coin);
+        mediaPlayer.start();
+    }
+
+    public static void playImpactSound() {
+        mediaPlayer = MediaPlayer.create(BasicConstants.CURRENT_CONTEXT, R.raw.impact);
+        mediaPlayer.start();
+    }
 }

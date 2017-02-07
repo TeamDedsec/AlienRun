@@ -27,7 +27,7 @@ import com.example.kaloyanit.alienrun.GameObjects.SoundPlayer;
 import com.example.kaloyanit.alienrun.R;
 import com.example.kaloyanit.alienrun.Utils.BasicConstants;
 import com.example.kaloyanit.alienrun.Utils.GameConstants;
-import com.example.kaloyanit.alienrun.Utils.GameGlobalNumbers;
+import com.example.kaloyanit.alienrun.Utils.GlobalVariables;
 import com.example.kaloyanit.alienrun.Utils.Helpers;
 
 import java.util.ArrayList;
@@ -106,14 +106,16 @@ public class GamePlayScene implements IScene {
                 }
             }
 
-            for (int i = 0; i < enemies.size(); i++) {
-                Enemy enemy = enemies.get(0);
-                enemy.update();
-                if (enemy.getX() < -100) {
-                    enemies.remove(i);
-                } else {
-                    if (Helpers.checkPreciseCollision(player, enemy)) {
-                        player.setState(PlayerState.HitWall);
+            if (!player.isInvulnerable()) {
+                for (int i = 0; i < enemies.size(); i++) {
+                    Enemy enemy = enemies.get(0);
+                    enemy.update();
+                    if (enemy.getX() < -100) {
+                        enemies.remove(i);
+                    } else {
+                        if (Helpers.checkPreciseCollision(player, enemy)) {
+                            player.hitIntoEnemy();
+                        }
                     }
                 }
             }
@@ -144,11 +146,11 @@ public class GamePlayScene implements IScene {
     }
 
     private void increaseSpeed() {
-        GameGlobalNumbers.GAME_SPEED -= 2;
-        GameGlobalNumbers.GRAVITY += 2;
-        GameGlobalNumbers.JUMP_VELOCITY -= 2;
-        if (GameGlobalNumbers.DELAY > 0) {
-            GameGlobalNumbers.DELAY -= 2;
+        GlobalVariables.GAME_SPEED -= 2;
+        GlobalVariables.GRAVITY += 2;
+        GlobalVariables.JUMP_VELOCITY -= 2;
+        if (GlobalVariables.DELAY > 0) {
+            GlobalVariables.DELAY -= 2;
         }
     }
 

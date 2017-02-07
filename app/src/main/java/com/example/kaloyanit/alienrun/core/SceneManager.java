@@ -5,7 +5,6 @@ package com.example.kaloyanit.alienrun.Core;
  */
 
 import android.graphics.Canvas;
-import android.transition.Scene;
 import android.view.MotionEvent;
 
 import com.example.kaloyanit.alienrun.Contracts.IManager;
@@ -14,7 +13,7 @@ import com.example.kaloyanit.alienrun.Scenes.PauseScene;
 import com.example.kaloyanit.alienrun.Scenes.GamePlayScene;
 import com.example.kaloyanit.alienrun.Scenes.StartScene;
 import com.example.kaloyanit.alienrun.Utils.GameConstants;
-import com.example.kaloyanit.alienrun.Utils.GameGlobalNumbers;
+import com.example.kaloyanit.alienrun.Utils.GlobalVariables;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -48,10 +47,10 @@ public class SceneManager implements IManager {
     }
 
     public static void resetGame() {
-        GameGlobalNumbers.GAME_SPEED = GameConstants.GAME_SPEED;
-        GameGlobalNumbers.GRAVITY = GameConstants.GRAVITY;
-        GameGlobalNumbers.JUMP_VELOCITY = GameConstants.JUMP_VELOCITY;
-        GameGlobalNumbers.DELAY = GameConstants.PLAYER_ANIMATION_DELAY;
+        GlobalVariables.GAME_SPEED = GameConstants.GAME_SPEED;
+        GlobalVariables.GRAVITY = GameConstants.GRAVITY;
+        GlobalVariables.JUMP_VELOCITY = GameConstants.JUMP_VELOCITY;
+        GlobalVariables.DELAY = GameConstants.PLAYER_ANIMATION_DELAY;
         GamePlayScene.setScore(0);
         scenes.set(1, new GamePlayScene());
         ACTIVE_SCENE = 1;

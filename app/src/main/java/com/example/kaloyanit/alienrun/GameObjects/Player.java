@@ -8,7 +8,7 @@ import com.example.kaloyanit.alienrun.Enums.CollisionType;
 import com.example.kaloyanit.alienrun.Enums.PlayerState;
 import com.example.kaloyanit.alienrun.Utils.BasicConstants;
 import com.example.kaloyanit.alienrun.Utils.GameConstants;
-import com.example.kaloyanit.alienrun.Utils.GameGlobalNumbers;
+import com.example.kaloyanit.alienrun.Utils.GlobalVariables;
 
 /**
  * Created by KaloyanIT on 1/25/2017.
@@ -29,6 +29,7 @@ public class Player extends GameObject {
     private int jumps;
     private int drownFrames;
     private boolean isInBounds = true;
+    private int invulnerabilityFrames = 0;
 
     public void setState(PlayerState state) {
         this.state = state;
@@ -59,7 +60,7 @@ public class Player extends GameObject {
         }
 
         animation.setFrames(walk, walkFrames);
-        animation.setDelay(GameGlobalNumbers.DELAY);
+        animation.setDelay(GlobalVariables.DELAY);
     }
 
     public int getLives() {
@@ -81,6 +82,14 @@ public class Player extends GameObject {
 
     public boolean isInBounds() {
         return isInBounds;
+    }
+
+    public boolean isInvulnerable() {
+        if (invulnerabilityFrames > 0) {
+            return true;
+        } else {
+            return false;
+        }
     }
 
     @Override
@@ -109,19 +118,24 @@ public class Player extends GameObject {
             case HitWall:
                 canvas.drawBitmap(this.hurtImage, this.x, this.y, null);
                 break;
+            case Dead:
+                canvas.drawBitmap(this.hurtImage, this.x, this.y, null);
         }
     }
 
     @Override
     public void update() {
+        if (invulnerabilityFrames > 0) {
+            invulnerabilityFrames--;
+        }
         switch (state) {
             case Jumping:
-                jumpDelta += GameGlobalNumbers.JUMP_VELOCITY;
+                jumpDelta += GlobalVariables.JUMP_VELOCITY;
                 if (jumpDelta <= 0) {
                     highPointCount = GameConstants.HIGH_POINT_FRAMES;
                     state = PlayerState.HighPoint;
                 } else {
-                    this.y += GameGlobalNumbers.JUMP_VELOCITY;
+                    this.y += GlobalVariables.JUMP_VELOCITY;
                 }
                 break;
             case HighPoint:
@@ -131,27 +145,30 @@ public class Player extends GameObject {
                 }
                 break;
             case Falling:
-                this.y += GameGlobalNumbers.GRAVITY;
+                this.y += GlobalVariables.GRAVITY;
                 if (this.y > BasicConstants.BG_HEIGHT)
                     isInBounds = false;
                 break;
             case Drowning:
-                this.y += GameGlobalNumbers.GRAVITY;
+                this.y += GlobalVariables.GRAVITY;
                 drownFrames--;
                 if (drownFrames == 0) {
                     isInBounds = false;
                 }
                 break;
             case HitWall:
-                this.y += GameGlobalNumbers.GRAVITY;
-                this.x += GameGlobalNumbers.GAME_SPEED;
+                this.y += GlobalVariables.GRAVITY;
+                this.x += GlobalVariables.GAME_SPEED;
                 break;
+            case Dead:
+                GlobalVariables.GAME_SPEED = 0;
+                this.y += GlobalVariables.GRAVITY;
         }
 
         if (this.x + this.width < 0 || this.y > BasicConstants.BG_HEIGHT) {
             isInBounds = false;
         }
-        animation.setDelay(GameGlobalNumbers.DELAY);
+        animation.setDelay(GlobalVariables.DELAY);
         animation.update();
     }
 
@@ -170,7 +187,7 @@ public class Player extends GameObject {
                         state = PlayerState.HitWall;
                         break;
                     case Enemy:
-                        state = PlayerState.HitWall;
+                        hitIntoEnemy();
                         break;
                 }
                 break;
@@ -183,7 +200,7 @@ public class Player extends GameObject {
                         state = PlayerState.Falling;
                         break;
                     case Enemy:
-                        state = PlayerState.HitWall;
+                        hitIntoEnemy();
                         break;
                 }
                 break;
@@ -193,7 +210,7 @@ public class Player extends GameObject {
                         state = PlayerState.HitWall;
                         break;
                     case Enemy:
-                        state = PlayerState.HitWall;
+                        hitIntoEnemy();
                         break;
                 }
                 break;
@@ -211,7 +228,7 @@ public class Player extends GameObject {
                         jumps = 0;
                         break;
                     case Enemy:
-                        state = PlayerState.HitWall;
+                        hitIntoEnemy();
                         break;
                 }
                 break;
@@ -231,7 +248,7 @@ public class Player extends GameObject {
                         state = PlayerState.HitWall;
                         break;
                     case Enemy:
-                        state = PlayerState.HitWall;
+                        hitIntoEnemy();
                         break;
                 }
                 break;
@@ -241,10 +258,22 @@ public class Player extends GameObject {
                         state = PlayerState.HitWall;
                         break;
                     case Enemy:
-                        state = PlayerState.HitWall;
+                        hitIntoEnemy();
                         break;
                 }
                 break;
+        }
+    }
+
+    public void hitIntoEnemy() {
+        if (invulnerabilityFrames <= 0) {
+            lives--;
+            SoundPlayer.playImpactSound();
+            if (lives <= 0) {
+                state = PlayerState.Dead;
+            } else {
+                invulnerabilityFrames = 120;
+            }
         }
     }
 
