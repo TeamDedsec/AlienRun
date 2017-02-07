@@ -18,6 +18,10 @@ public class Background implements IGameObject {
     private int x;
     private int y;
 
+    public void setImage(Bitmap image) {
+        this.image = image;
+    }
+
     public Background(Bitmap image) {
         this.image = image;
     }

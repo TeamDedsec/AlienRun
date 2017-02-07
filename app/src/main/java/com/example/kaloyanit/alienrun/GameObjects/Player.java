@@ -2,10 +2,8 @@ package com.example.kaloyanit.alienrun.GameObjects;
 
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
-import android.transition.Scene;
 
 import com.example.kaloyanit.alienrun.Core.Animation;
-import com.example.kaloyanit.alienrun.Core.SceneManager;
 import com.example.kaloyanit.alienrun.Enums.CollisionType;
 import com.example.kaloyanit.alienrun.Enums.PlayerState;
 import com.example.kaloyanit.alienrun.Utils.BasicConstants;
@@ -30,7 +28,7 @@ public class Player extends GameObject {
     private int lives;
     private int jumps;
     private int drownFrames;
-    private boolean isAlive = true;
+    private boolean isInBounds = true;
 
     public void setState(PlayerState state) {
         this.state = state;
@@ -81,8 +79,8 @@ public class Player extends GameObject {
         this.drownFrames = GameConstants.DROWN_FRAMES;
     }
 
-    public boolean isAlive() {
-        return isAlive;
+    public boolean isInBounds() {
+        return isInBounds;
     }
 
     @Override
@@ -135,13 +133,13 @@ public class Player extends GameObject {
             case Falling:
                 this.y += GameGlobalNumbers.GRAVITY;
                 if (this.y > BasicConstants.BG_HEIGHT)
-                    isAlive = false;
+                    isInBounds = false;
                 break;
             case Drowning:
                 this.y += GameGlobalNumbers.GRAVITY;
                 drownFrames--;
                 if (drownFrames == 0) {
-                    isAlive = false;
+                    isInBounds = false;
                 }
                 break;
             case HitWall:
@@ -151,7 +149,7 @@ public class Player extends GameObject {
         }
 
         if (this.x + this.width < 0 || this.y > BasicConstants.BG_HEIGHT) {
-            isAlive = false;
+            isInBounds = false;
         }
         animation.setDelay(GameGlobalNumbers.DELAY);
         animation.update();

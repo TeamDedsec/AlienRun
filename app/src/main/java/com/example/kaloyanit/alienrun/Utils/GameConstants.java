@@ -20,4 +20,5 @@ public class GameConstants {
     public static final int DROWN_FRAMES = 10;
     public static final int BLOCK_WIDTH = 70;
     public static final int BLOCK_HEIGHT = 70;
+    public static final int FPS = 60;
 }

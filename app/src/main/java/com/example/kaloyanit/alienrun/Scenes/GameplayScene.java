@@ -51,6 +51,7 @@ public class GamePlayScene implements IScene {
     public static int score = 0;
     public static int coinCount = 0;
     private int resetCounter = 120;
+    private boolean isScoreChecked = false;
 
     public static int getScore() {
         return score;
@@ -85,7 +86,7 @@ public class GamePlayScene implements IScene {
 
     @Override
     public void update() {
-        if (player.isAlive()) {
+        if (player.isInBounds()) {
             player.update();
             background.update();
             moduleFactory.update();
@@ -95,6 +96,7 @@ public class GamePlayScene implements IScene {
                 mod.update();
                 if (mod.getEndX() < mod.getLength() * -1) {
                     modules.remove(mod);
+                    score++;
                 }
 
                 if (j == modules.size() - 1) {
@@ -117,26 +119,21 @@ public class GamePlayScene implements IScene {
             }
 
             player.updateState(Helpers.checkCollision(player, modules));
-
-            frameCounter++;
-            if (frameCounter == 25) {
-                this.score++;
-                frameCounter = 0;
-
-                //TODO: JT: think of a better way to spawn enemies
-                if (this.score % 5 == 0) {
-                    int rand = Helpers.getRandomNumber(GameConstants.BLOCK_HEIGHT * 2, BasicConstants.BG_HEIGHT - GameConstants.BLOCK_HEIGHT * 2);
-                    enemies.add(EnemyFactory.createEnemy(BasicConstants.BG_WIDTH, rand));
-                }
-
-                if (this.score % 10 == 0) {
+            //TODO: JT: think of a better way to spawn enemies
+            if (score % 5 == 0 && score > 0 && !isScoreChecked) {
+                int rand = Helpers.getRandomNumber(GameConstants.BLOCK_HEIGHT * 2, BasicConstants.BG_HEIGHT - GameConstants.BLOCK_HEIGHT * 2);
+                enemies.add(EnemyFactory.createEnemy(BasicConstants.BG_WIDTH, rand));
+                if (score % 10 == 0) {
                     this.increaseSpeed();
                 }
 
-                if (this.score % 40 == 0) {
-                    background = BackgroundFactory.createBackground(BackgroundType.Mushroom);
+                if (score % 40 == 0) {
+                    background.setImage(BackgroundFactory.getBackgroundImage());
                     moduleFactory.changeBlockType();
                 }
+                isScoreChecked = true;
+            } else if (score % 5 != 0) {
+                isScoreChecked = false;
             }
         } else {
             resetCounter--;
@@ -229,10 +226,10 @@ public class GamePlayScene implements IScene {
 
 
         //Sample event
-        if (player.isAlive() && x < BasicConstants.BG_WIDTH / 2 && y > BasicConstants.BG_HEIGHT / 2) {
+        if (player.isInBounds() && x < BasicConstants.BG_WIDTH / 2 && y > BasicConstants.BG_HEIGHT / 2) {
             switch (event.getAction()) {
                 case MotionEvent.ACTION_DOWN: {
-                    if (player.isAlive()) {
+                    if (player.isInBounds()) {
                         if (player.tryJump()) {
                             SoundPlayer.playJumpSound();
                         }
