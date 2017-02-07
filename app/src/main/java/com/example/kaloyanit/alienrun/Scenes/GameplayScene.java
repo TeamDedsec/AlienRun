@@ -5,8 +5,6 @@ import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Point;
 import android.graphics.Rect;
-import android.media.MediaPlayer;
-import android.provider.MediaStore;
 import android.view.MotionEvent;
 import android.view.View;
 
@@ -23,6 +21,7 @@ import com.example.kaloyanit.alienrun.Factories.PlayerFactory;
 import com.example.kaloyanit.alienrun.GameObjects.Background;
 import com.example.kaloyanit.alienrun.GameObjects.Enemy;
 import com.example.kaloyanit.alienrun.GameObjects.LevelModule;
+import com.example.kaloyanit.alienrun.GameObjects.MusicPlayer;
 import com.example.kaloyanit.alienrun.GameObjects.Player;
 import com.example.kaloyanit.alienrun.GameObjects.SoundPlayer;
 import com.example.kaloyanit.alienrun.R;
@@ -71,7 +70,7 @@ public class GamePlayScene implements IScene {
         tryJump = soundPool.load(BasicConstants.CURRENT_CONTEXT, R.raw.tryJump, 1);
 
         soundPool.play(music, 0.8f, 0.8f, 1, 1, 1.0f);*/
-        SoundPlayer.playBackgroundMusic();
+        MusicPlayer.playBackgroundMusic();
         background = BackgroundFactory.createBackground(BackgroundType.Grass);
         pause = BitmapFactory.decodeResource(BasicConstants.CURRENT_CONTEXT.getResources(), R.drawable.pause);
         playerPoint = new Point(162, BasicConstants.BG_HEIGHT - 162);
