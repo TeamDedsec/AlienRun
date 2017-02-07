@@ -24,6 +24,8 @@ public class ScalableView extends View implements View.OnClickListener{
     private Bitmap image;
     private OnClickListener onClickListener;
 
+    //TODO: Add listview where add all buttons and then center them in the middle of the screen - implements some Layout
+
     public ScalableView(Context context) {
         super(context);
         paint = new Paint();

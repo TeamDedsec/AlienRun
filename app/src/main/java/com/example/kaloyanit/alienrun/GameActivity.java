@@ -16,6 +16,7 @@ import android.view.WindowManager;
 import android.widget.ArrayAdapter;
 import android.widget.GridView;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -39,7 +40,7 @@ public class GameActivity extends AppCompatActivity{
     private ScalableView startView;
     private Intent pauseIntent;
     private ScalableView refreshButton;
-    private RelativeLayout startLayout;
+    private LinearLayout startLayout;
     private ScalableView startButton;
     private RelativeLayout pauseLayout;
     private ScalableView continueButton;
@@ -68,7 +69,7 @@ public class GameActivity extends AppCompatActivity{
     }
 
     public void startLayout() {
-        startLayout = (RelativeLayout) findViewById(R.id.startPage);
+        startLayout = (LinearLayout) findViewById(R.id.startPage);
         startButton = (ScalableView) findViewById(R.id.startView);
 
         startButton.setOnClickListener(view -> {
