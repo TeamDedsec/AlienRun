@@ -51,9 +51,5 @@ public class PauseScene implements IScene {
 
     @Override
     public void receiveTouch(MotionEvent event) {
-        switch (event.getAction()) {
-            case MotionEvent.ACTION_DOWN:
-                //SceneManager.resetGame();
-        }
     }
 }

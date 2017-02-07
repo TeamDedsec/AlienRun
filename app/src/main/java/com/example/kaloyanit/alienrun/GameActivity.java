@@ -2,6 +2,7 @@ package com.example.kaloyanit.alienrun;
 
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.NonNull;
@@ -57,8 +58,12 @@ public class GameActivity extends AppCompatActivity{
         BasicConstants.SCREEN_HEIGHT = dm.heightPixels;
         SceneManager.ACTIVE_SCENE = 0;
         setContentView(R.layout.activity_game);
+        gameView = (GamePanel)findViewById(R.id.gameView);
+
 
         startLayout();
+
+
 
     }
 
@@ -69,6 +74,7 @@ public class GameActivity extends AppCompatActivity{
         startButton.setOnClickListener(view -> {
             SceneManager.ACTIVE_SCENE = 1;
             startLayout.setVisibility(View.GONE);
+            System.out.println("Shibaniqt event raboti");
             gameEngine();
         });
     }
@@ -95,14 +101,14 @@ public class GameActivity extends AppCompatActivity{
     }
 
     public void gameEngine() {
-        gameView = (GamePanel)findViewById(R.id.gameView);
-        pauseButton = (ScalableView) findViewById(R.id.pauseView);
-        pauseButton.setVisibility(View.VISIBLE);
-        pauseButton.setOnClickListener(view -> {
-            pauseButton.setVisibility(View.INVISIBLE);
-            SceneManager.ACTIVE_SCENE = 2;
-            pauseLayout();
-        });
+        //pauseButton = (ScalableView) findViewById(R.id.pauseView);
+        //pauseButton.setVisibility(View.VISIBLE);
+//        pauseButton.setOnClickListener(view -> {
+//            pauseButton.setVisibility(View.INVISIBLE);
+//            SceneManager.ACTIVE_SCENE = 2;
+//            System.out.println("Pause event");
+//            pauseLayout();
+//        });
 
         scoreView = (TextView) findViewById(R.id.scoreView);
         scoreView.setText(Integer.toString(GamePlayScene.getScore()));

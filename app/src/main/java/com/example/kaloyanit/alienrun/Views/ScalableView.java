@@ -1,11 +1,13 @@
 package com.example.kaloyanit.alienrun.Views;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.util.AttributeSet;
+import android.view.KeyEvent;
 import android.view.MotionEvent;
 import android.view.View;
 
@@ -16,10 +18,11 @@ import com.example.kaloyanit.alienrun.Utils.BasicConstants;
  * Created by KaloyanIT on 1/31/2017.
  */
 
-public class ScalableView extends View {
+public class ScalableView extends View implements View.OnClickListener{
 
     private final Paint paint;
     private Bitmap image;
+    private OnClickListener onClickListener;
 
     public ScalableView(Context context) {
         super(context);
@@ -33,6 +36,8 @@ public class ScalableView extends View {
         System.out.println(attrs);
         int src_recources = attrs.getAttributeResourceValue("http://schemas.android.com/apk/res/android", "src", 0);
         image = BitmapFactory.decodeResource(getResources(), src_recources);
+
+        this.setOnClickListener(this);
     }
 
     @Override
@@ -47,12 +52,38 @@ public class ScalableView extends View {
         canvas.restoreToCount(savedState);
     }
 
-    @Override
-    public boolean onTouchEvent(final MotionEvent event) {
-        super.onTouchEvent(event);
-//        if(event.getAction() == MotionEvent.ACTION_UP){
-//            return performClick();
+//    @Override
+//    public boolean dispatchKeyEvent(KeyEvent event) {
+//        if(event.getAction() == KeyEvent.ACTION_UP &&
+//                (event.getKeyCode() == KeyEvent.KEYCODE_DPAD_CENTER || event.getKeyCode() == KeyEvent.KEYCODE_ENTER)) {
+//            if(onClickListener != null) onClickListener.onClick(this);
 //        }
-        return true;
+//        return super.dispatchKeyEvent(event);
+//    }
+//
+//    @Override
+//    public boolean dispatchTouchEvent(MotionEvent event) {
+//        if (event.getAction() == MotionEvent.ACTION_DOWN) {
+//            setPressed(true);
+//        }
+//        else if(event.getAction() == MotionEvent.ACTION_UP) {
+//            if(onClickListener != null) onClickListener.onClick(this);
+//            setPressed(false);
+//        }
+//        else {
+//            setPressed(false);
+//        }
+//        return super.dispatchTouchEvent(event);
+//    }
+//
+//    @Override
+//    public void setOnClickListener(OnClickListener l) {
+//        onClickListener = l;
+//    }
+
+
+    @Override
+    public void onClick(View v) {
+
     }
 }

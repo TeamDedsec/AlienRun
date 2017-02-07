@@ -189,6 +189,7 @@ public class GamePlayScene implements IScene {
         float x = event.getX();
         float y = event.getY();
 
+
         switch (event.getAction()) {
             case MotionEvent.ACTION_DOWN:
                 touchX = event.getX();
