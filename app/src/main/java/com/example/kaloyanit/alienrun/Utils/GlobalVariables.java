@@ -4,7 +4,7 @@ package com.example.kaloyanit.alienrun.Utils;
  * Created by julian.teofilov on 2/2/2017.
  */
 
-public class GameGlobalNumbers {
+public class GlobalVariables {
     public static int GAME_START_SPEED = 0;
     public static int GAME_SPEED = GameConstants.GAME_SPEED;
     public static int GRAVITY = GameConstants.GRAVITY;
