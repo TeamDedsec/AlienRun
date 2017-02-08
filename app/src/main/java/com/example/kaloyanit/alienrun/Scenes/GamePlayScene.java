@@ -4,6 +4,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Point;
+import android.graphics.Rect;
 import android.view.MotionEvent;
 import android.view.View;
 
@@ -96,7 +97,7 @@ public class GamePlayScene implements IScene {
             if (bomb != null) {
                 bomb.update();
                 for (int i = 0; i < enemies.size(); i++) {
-                    if (bomb.getRectangle().intersect(enemies.get(i).getRectangle())) {
+                    if (Rect.intersects(bomb.getRectangle(), enemies.get(i).getRectangle())) {
                         bomb = null;
                         enemies.remove(i);
                         break;

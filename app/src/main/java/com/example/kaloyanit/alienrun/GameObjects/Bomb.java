@@ -3,6 +3,8 @@ package com.example.kaloyanit.alienrun.GameObjects;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
+import android.graphics.Color;
+import android.graphics.Paint;
 
 import com.example.kaloyanit.alienrun.Core.Animation;
 import com.example.kaloyanit.alienrun.R;
@@ -27,21 +29,26 @@ public class Bomb extends GameObject {
     };
 
     private Animation animation = new Animation();
-    private int width = 70;
-    private int height = 70;
     private int moveSpeed = 30;
-    private int rotation = 50;
 
     public Bomb(int x, int y) {
         animation.setFrames(frames, 8);
         animation.setDelay(GlobalVariables.DELAY);
         this.x = x;
         this.y = y;
+        this.width = 70;
+        this.height = 70;
     }
 
     @Override
     public void draw(Canvas canvas) {
         canvas.drawBitmap(animation.getImage(), this.x, this.y, null);
+        Paint paint = new Paint();
+        paint.setColor(Color.RED);
+        canvas.drawLine(this.x, this.y, this.x + this.width, this.y, paint);
+        canvas.drawLine(this.x + this.width, this.y, this.x + this.width, this.y + this.height, paint);
+        canvas.drawLine(this.x + this.width, this.y + this.height, this.x, this.y + this.height, paint);
+        canvas.drawLine(this.x, this.y + this.width, this.x, this.y, paint);
     }
 
     @Override
