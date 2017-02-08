@@ -31,6 +31,8 @@ import com.example.kaloyanit.alienrun.Views.ScalableView;
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.example.kaloyanit.alienrun.R.id.resumeButton;
+
 
 public class GameActivity extends AppCompatActivity{
 
@@ -45,6 +47,7 @@ public class GameActivity extends AppCompatActivity{
     private ScalableView startButton;
     private RelativeLayout pauseLayout;
     private ScalableView continueButton;
+    private ScalableView homeMenuButton;
 
 
     @Override
@@ -76,8 +79,8 @@ public class GameActivity extends AppCompatActivity{
 
         startButton.setOnClickListener(view -> {
             SceneManager.ACTIVE_SCENE = 1;
+            SceneManager.resetGame();
             startLayout.setVisibility(View.GONE);
-            System.out.println("Shibaniqt event raboti");
             gameEngine();
         });
     }
@@ -88,6 +91,7 @@ public class GameActivity extends AppCompatActivity{
 
         refreshButton = (ScalableView) findViewById(R.id.refreshButton);
         continueButton = (ScalableView) findViewById(R.id.resumeButton);
+        homeMenuButton = (ScalableView) findViewById(R.id.home_menu_button);
 
         continueButton.setOnClickListener(view -> {
             SceneManager.ACTIVE_SCENE = 1;
@@ -101,6 +105,15 @@ public class GameActivity extends AppCompatActivity{
             pauseLayout.setVisibility(View.INVISIBLE);
             SceneManager.resetGame();
         });
+
+        homeMenuButton.setOnClickListener(view -> {
+            SceneManager.ACTIVE_SCENE = 0;
+            pauseButton.setVisibility(View.INVISIBLE);
+            pauseLayout.setVisibility(View.INVISIBLE);
+            startLayout.setVisibility(View.VISIBLE);
+        });
+
+
     }
 
     public void gameEngine() {

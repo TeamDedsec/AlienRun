@@ -126,11 +126,7 @@
         android:layout_height="match_parent"
         android:visibility="invisible">
 
-        <!--<com.example.kaloyanit.alienrun.Views.ScalableView-->
-            <!--android:layout_width="wrap_content"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:src="@drawable/home_button"-->
-            <!--android:clickable="true"/>-->
+
 
         <com.example.kaloyanit.alienrun.Views.ScalableView
             android:id="@+id/resumeButton"
@@ -148,6 +144,15 @@
             android:layout_centerVertical="true"
             android:layout_toRightOf="@id/resumeButton"
             android:src="@drawable/refresh_button"
+            android:clickable="true"/>
+
+        <com.example.kaloyanit.alienrun.Views.ScalableView
+            android:id="@+id/home_menu_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/home_button"
+            android:layout_centerVertical="true"
+            android:layout_toLeftOf="@id/resumeButton"
             android:clickable="true"/>
 
     </RelativeLayout>
