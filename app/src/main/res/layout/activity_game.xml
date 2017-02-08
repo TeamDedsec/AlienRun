@@ -72,35 +72,36 @@
 
         <!--&lt;!&ndash;Settings&ndash;&gt;-->
 
-        <!--<com.example.kaloyanit.alienrun.Views.ScalableView-->
-            <!--android:id="@+id/settings_button"-->
-            <!--android:layout_width="wrap_content"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:layout_centerVertical="true"-->
-            <!--android:layout_toRightOf="@+id/players_button"-->
-            <!--android:adjustViewBounds="true"-->
-            <!--android:scaleType="fitXY"-->
-            <!--android:src="@drawable/settings_button"/>-->
+        <com.example.kaloyanit.alienrun.Views.ScalableView
+            android:id="@+id/settings_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_toRightOf="@+id/players_button"
+            android:adjustViewBounds="true"
+            android:scaleType="fitXY"
+            android:src="@drawable/settings_button"/>
 
         <!--&lt;!&ndash;Achievements&ndash;&gt;-->
-        <!--<com.example.kaloyanit.alienrun.Views.ScalableView-->
-            <!--android:id="@+id/achievements_button"-->
-            <!--android:layout_width="wrap_content"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:layout_toEndOf="@+id/shopView"-->
-            <!--android:adjustViewBounds="true"-->
-            <!--android:scaleType="fitXY"-->
-            <!--android:src="@drawable/achievements_button"/>-->
+        <com.example.kaloyanit.alienrun.Views.ScalableView
+            android:id="@+id/achievements_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toEndOf="@+id/shopView"
+            android:adjustViewBounds="true"
+            android:scaleType="fitCenter"
+            android:src="@drawable/achievements_button"/>
 
         <com.example.kaloyanit.alienrun.Views.ScalableView
             android:id="@+id/startView"
             android:layout_height="wrap_content"
             android:src="@drawable/start_button"
-            android:scaleType="fitXY"
             android:layout_width="wrap_content"
             android:cropToPadding="false"
             android:layout_marginStart="118dp"
             android:clickable="true"
+            android:adjustViewBounds="true"
+            android:scaleType="fitXY"
             android:layout_alignTop="@+id/shopView"
             android:layout_alignParentStart="true" />
 
