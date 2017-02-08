@@ -36,15 +36,6 @@ public class Helpers {
         return Rect.intersects(a.getRectangle(), new Rect(b.getX() + 20, b.getY() + 20, b.getX() + b.getWidth() - 20, b.getY() + b.getHeight() - 20));
     }
 
-    public static Bitmap rotateImage(Bitmap src, float degree, int width, int height)
-    {
-        //TODO: Replace this retarded thing with an animation!
-        Matrix matrix = new Matrix();
-        matrix.postRotate(degree);
-        Bitmap bmp = Bitmap.createBitmap(src, 0, 0, width, height, matrix, true);
-        return bmp;
-    }
-
     public static CollisionType checkCollision(Player player, ArrayList<LevelModule> modules) {
         //TODO: JT: Update and refactor collision
         //Store all found collisions in a sorted list by their priority
