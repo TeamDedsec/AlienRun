@@ -14,6 +14,7 @@ import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -171,6 +172,25 @@ public class GameActivity extends AppCompatActivity{
 
                 TextView tvTitle = (TextView) view.findViewById(R.id.tv_title);
                 ScalableView plImage = (ScalableView) view.findViewById(R.id.pl_image) ;
+                Button buyButton = (Button) view.findViewById(R.id.buy_button);
+
+                if(this.getItem(position).isSold()) {
+                    buyButton.setText("Select");
+                    buyButton.setOnClickListener(view1 -> {
+                        //TODO: buy hero
+                        buyButton.setText("Selected");
+                    });
+                } else {
+                    buyButton.setOnClickListener(view1 -> {
+                        //TODO: add another shop class
+                        this.getItem(position).buyPlayer();
+                        buyButton.setText("Select");
+                    });
+                    buyButton.setText("Buy");
+                }
+
+
+
                 plImage.setImageResource(this.getItem(position).getImage());
                 //plImage.setBitmapImage(this.getItem(position).getImage());
                 String title = this.getItem(position).getName();
