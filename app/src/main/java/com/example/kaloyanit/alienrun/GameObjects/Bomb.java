@@ -43,12 +43,12 @@ public class Bomb extends GameObject {
     @Override
     public void draw(Canvas canvas) {
         canvas.drawBitmap(animation.getImage(), this.x, this.y, null);
-        Paint paint = new Paint();
+/*        Paint paint = new Paint();
         paint.setColor(Color.RED);
         canvas.drawLine(this.x, this.y, this.x + this.width, this.y, paint);
         canvas.drawLine(this.x + this.width, this.y, this.x + this.width, this.y + this.height, paint);
         canvas.drawLine(this.x + this.width, this.y + this.height, this.x, this.y + this.height, paint);
-        canvas.drawLine(this.x, this.y + this.width, this.x, this.y, paint);
+        canvas.drawLine(this.x, this.y + this.width, this.x, this.y, paint);*/
     }
 
     @Override

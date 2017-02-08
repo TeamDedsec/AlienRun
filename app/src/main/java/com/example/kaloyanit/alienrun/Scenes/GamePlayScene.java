@@ -100,6 +100,7 @@ public class GamePlayScene implements IScene {
                     if (Rect.intersects(bomb.getRectangle(), enemies.get(i).getRectangle())) {
                         bomb = null;
                         enemies.remove(i);
+                        //score += 4;
                         break;
                     }
                 }
@@ -155,6 +156,13 @@ public class GamePlayScene implements IScene {
                 isScoreChecked = false;
             }
         } else {
+            GlobalVariables.GAME_SPEED = 0;
+            if (bomb != null) {
+                bomb.update();
+            }
+            for (int i = 0; i < enemies.size(); i++) {
+                enemies.get(i).update();
+            }
             resetCounter--;
             if (resetCounter <= 0) {
                 SceneManager.resetGame();
@@ -221,7 +229,7 @@ public class GamePlayScene implements IScene {
     @Override
     public void receiveTouch(MotionEvent event) {
         GlobalVariables.xRATIO = BasicConstants.SCREEN_WIDTH / (BasicConstants.BG_WIDTH * 1.0f);
-        GlobalVariables.yRATIO =BasicConstants.SCREEN_HEIGHT / (BasicConstants.BG_HEIGHT * 1.0f);
+        GlobalVariables.yRATIO = BasicConstants.SCREEN_HEIGHT / (BasicConstants.BG_HEIGHT * 1.0f);
 
         float x = event.getX();
         float y = event.getY();
@@ -232,7 +240,7 @@ public class GamePlayScene implements IScene {
                     touchX = x;
                     touchY = y;
 
-                    if (x > BasicConstants.BG_WIDTH / 2 && y > BasicConstants.BG_HEIGHT / 2) {
+                    if (x > BasicConstants.SCREEN_WIDTH / 2 && y > BasicConstants.SCREEN_HEIGHT / 2) {
                         if (player.tryJump()) {
                             SoundPlayer.playJumpSound();
                         }
@@ -240,7 +248,7 @@ public class GamePlayScene implements IScene {
                     break;
                 case MotionEvent.ACTION_UP:
                     if (touchX < BasicConstants.BG_WIDTH / 2 && touchX < x && bomb == null) {
-                        bomb = new Bomb(0, (int)(touchY / GlobalVariables.yRATIO));
+                        bomb = new Bomb(0, (int) (touchY / GlobalVariables.yRATIO));
                     }
                     break;
 /*                length = (int) (x - touchX);
