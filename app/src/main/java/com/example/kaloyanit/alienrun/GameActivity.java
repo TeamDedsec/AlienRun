@@ -40,7 +40,7 @@ public class GameActivity extends AppCompatActivity{
     private ScalableView startView;
     private Intent pauseIntent;
     private ScalableView refreshButton;
-    private LinearLayout startLayout;
+    private RelativeLayout startLayout;
     private ScalableView startButton;
     private RelativeLayout pauseLayout;
     private ScalableView continueButton;
@@ -69,7 +69,7 @@ public class GameActivity extends AppCompatActivity{
     }
 
     public void startLayout() {
-        startLayout = (LinearLayout) findViewById(R.id.startPage);
+        startLayout = (RelativeLayout) findViewById(R.id.startPage);
         startButton = (ScalableView) findViewById(R.id.startView);
 
         startButton.setOnClickListener(view -> {

@@ -20,13 +20,10 @@ import com.example.kaloyanit.alienrun.Utils.GameConstants;
 
 public class StartScene implements IScene {
     private Background background;
-    private Bitmap startButton;
 
     public StartScene() {
         background = BackgroundFactory.createBackground(BackgroundType.Grass);
-        startButton = BitmapFactory.decodeResource(BasicConstants.CURRENT_CONTEXT.getResources(), R.drawable.start_button);
     }
-
 
     @Override
     public void update() {
@@ -44,8 +41,6 @@ public class StartScene implements IScene {
         canvas.scale(scaleFactorX, scaleFactorY);
 
         background.draw(canvas);
-        //canvas.drawBitmap(startButton, (BasicConstants.BG_WIDTH / 2) - ((startButton.getWidth() / 2) * 3), (BasicConstants.BG_HEIGHT / 2) - (startButton.getHeight() / 2), null);
-
         canvas.restoreToCount(savedState);
 
     }
@@ -56,10 +51,5 @@ public class StartScene implements IScene {
     }
 
     @Override
-    public void receiveTouch(MotionEvent event) {
-//        switch (event.getAction()) {
-//            case MotionEvent.ACTION_DOWN:
-//                SceneManager.ACTIVE_SCENE = 1;
-//        }
-    }
+    public void receiveTouch(MotionEvent event) { }
 }
