@@ -5,6 +5,7 @@ import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Point;
 import android.graphics.Rect;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 
@@ -20,6 +21,7 @@ import com.example.kaloyanit.alienrun.Factories.EnemyFactory;
 import com.example.kaloyanit.alienrun.Factories.LevelModuleFactory;
 import com.example.kaloyanit.alienrun.Factories.PlayerFactory;
 import com.example.kaloyanit.alienrun.GameObjects.Background;
+import com.example.kaloyanit.alienrun.GameObjects.Bomb;
 import com.example.kaloyanit.alienrun.GameObjects.Enemy;
 import com.example.kaloyanit.alienrun.GameObjects.LevelModule;
 import com.example.kaloyanit.alienrun.GameObjects.MusicPlayer;
@@ -54,6 +56,7 @@ public class GamePlayScene implements IScene {
     public static int coinCount = 0;
     private int resetCounter = 120;
     private boolean isScoreChecked = false;
+    private Bomb bomb = null;
 
     public static int getScore() {
         return score;
@@ -93,6 +96,20 @@ public class GamePlayScene implements IScene {
             player.update();
             background.update();
             moduleFactory.update();
+
+            if (bomb != null) {
+                bomb.update();
+                for (int i = 0; i < enemies.size(); i++) {
+                    if (bomb.getRectangle().intersect(enemies.get(i).getRectangle())) {
+                        bomb = null;
+                        enemies.remove(i);
+                        break;
+                    }
+                }
+                if (bomb != null && (bomb.getX() > BasicConstants.BG_WIDTH || bomb.getY() > BasicConstants.BG_HEIGHT)) {
+                    bomb = null;
+                }
+            }
 
             for (int j = 0; j < modules.size(); j++) {
                 LevelModule mod = modules.get(j);
@@ -173,11 +190,14 @@ public class GamePlayScene implements IScene {
             LevelModule mod = modules.get(j);
             for (int i = 0; i < mod.getBlocks().size(); i++) {
                 if (mod.getBlocks().get(i).getCollisionType() != CollisionType.Water)
-                mod.getBlocks().get(i).draw(canvas);
+                    mod.getBlocks().get(i).draw(canvas);
             }
         }
 
         player.draw(canvas);
+        if (bomb != null) {
+            bomb.draw(canvas);
+        }
 
         for (int i = 0; i < modules.size(); i++) {
             LevelModule mod = modules.get(i);
@@ -205,30 +225,24 @@ public class GamePlayScene implements IScene {
         float x = event.getX();
         float y = event.getY();
 
+        if (player.isInBounds()) {
+            switch (event.getAction()) {
+                case MotionEvent.ACTION_DOWN:
+                    touchX = x;
+                    touchY = y;
 
-        switch (event.getAction()) {
-            case MotionEvent.ACTION_DOWN:
-                touchX = event.getX();
-                touchY = event.getY();
-                break;
-            case MotionEvent.ACTION_UP:
-                //TODO: JT: Fix this shit
-                int length;
-                int height;
-
-                if (x < touchX) {
-                    float temp = x;
-                    x = touchX;
-                    touchX = temp;
-                }
-
-                if (y < touchY) {
-                    float temp = y;
-                    y = touchY;
-                    touchY = temp;
-                }
-
-                length = (int) (x - touchX);
+                    if (x > BasicConstants.BG_WIDTH / 2 && y > BasicConstants.BG_HEIGHT / 2) {
+                        if (player.tryJump()) {
+                            SoundPlayer.playJumpSound();
+                        }
+                    }
+                    break;
+                case MotionEvent.ACTION_UP:
+                    if (touchX < BasicConstants.BG_WIDTH / 2 && touchX < x && bomb == null) {
+                        bomb = new Bomb(0, (int)y);
+                    }
+                    break;
+/*                length = (int) (x - touchX);
                 height = (int) (y - touchY);
 
                 Rect shit = new Rect((int) touchX, (int) touchY, (int) touchX + length, (int) touchY + height);
@@ -238,31 +252,14 @@ public class GamePlayScene implements IScene {
                         enemies.remove(i);
                         this.score += 5;
                     }
-                }
-        }
-
-
-        //Sample event
-        if (player.isInBounds() && x > BasicConstants.BG_WIDTH / 2 && y > BasicConstants.BG_HEIGHT / 2) {
-            switch (event.getAction()) {
-                case MotionEvent.ACTION_DOWN: {
-                    if (player.isInBounds()) {
-                        if (player.tryJump()) {
-                            SoundPlayer.playJumpSound();
-                        }
-                    }
-
-                    //if(pause.getWidth())
-                    //SceneManager.ACTIVE_SCENE = 2;
-                }
+                }*/
             }
         }
     }
-
-    //TODO: JT: Fix this shit and extract it
+/*    //Fix this and extract it
     private boolean checkTouchCollision(Rect a, Rect b) {
-        boolean shit = false;
-        shit = Rect.intersects(a, b);
-        return shit;
-    }
+        boolean hit = false;
+        hit = Rect.intersects(a, b);
+        return hit;
+    }*/
 }

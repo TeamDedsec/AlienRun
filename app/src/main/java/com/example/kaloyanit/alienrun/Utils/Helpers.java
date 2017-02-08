@@ -1,5 +1,7 @@
 package com.example.kaloyanit.alienrun.Utils;
 
+import android.graphics.Bitmap;
+import android.graphics.Matrix;
 import android.graphics.Rect;
 
 import com.example.kaloyanit.alienrun.Enums.CollisionType;
@@ -32,6 +34,14 @@ public class Helpers {
 
     public static boolean checkPreciseCollision(GameObject a, GameObject b) {
         return Rect.intersects(a.getRectangle(), new Rect(b.getX() + 20, b.getY() + 20, b.getX() + b.getWidth() - 20, b.getY() + b.getHeight() - 20));
+    }
+
+    public static Bitmap rotateImage(Bitmap src, float degree, int width, int height)
+    {
+        Matrix matrix = new Matrix();
+        matrix.postRotate(degree);
+        Bitmap bmp = Bitmap.createBitmap(src, 0, 0, width, height, matrix, true);
+        return bmp;
     }
 
     public static CollisionType checkCollision(Player player, ArrayList<LevelModule> modules) {
