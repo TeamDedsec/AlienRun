@@ -63,15 +63,12 @@ public class Helpers {
                         }
                         //If the block's collision is Ground, check which side the player is hitting it from
                         if (currBlock.getCollisionType() == CollisionType.Wall) {
-                            if (player.getY() + player.getHeight() - GlobalVariables.GRAVITY <= currBlock.getY()) {
-                                //This checks if the player is above the block, and tells him he can run on it
+                            if (player.getX() + player.getWidth() - GlobalVariables.GRAVITY <= currBlock.getX()) {
+                                player.setNextToWall(true);
+                            } else if (player.getY() + player.getHeight() - GlobalVariables.GRAVITY <= currBlock.getY()) {
                                 types.put(CollisionType.Ground.ordinal(), CollisionType.Ground);
-                            } else if (player.getY() > currBlock.getY() + (currBlock.getHeight())) {
-                                //This checks if the player is below the block and triggers collision at the middle of the block;
-                                types.put(CollisionType.None.ordinal(), CollisionType.None);
-                            } else if (player.getX() + player.getWidth() >= currBlock.getX()) {
-                                //This checks if the player is on the left side of the block
-                                types.put(CollisionType.Wall.ordinal(), CollisionType.Wall);
+                            } else {
+                                types.put(CollisionType.Roof.ordinal(), CollisionType.Roof);
                             }
                         }
 
@@ -99,6 +96,9 @@ public class Helpers {
 
         //Always add the default collision, which has the lowest priority
         types.put(CollisionType.None.ordinal(), CollisionType.None);
+        if (!types.containsValue(CollisionType.Wall)) {
+            player.setNextToWall(false);
+        }
         //Get the first item in the list, which has the highest priority
         Map.Entry<Integer, CollisionType> entry = types.entrySet().iterator().next();
         return entry.getValue();

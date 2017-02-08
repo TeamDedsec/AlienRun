@@ -21,7 +21,8 @@ public class Player extends GameObject {
     private Bitmap hurtImage;
     private PlayerState state;
     private int highPointCount = 0;
-    private int jumpDelta = GameConstants.JUMP_DELTA;
+    private int yDelta = GameConstants.JUMP_DELTA;
+    private int xDelta = 0;
     private Animation animation;
     private int jumpCount;
     private int duckCount;
@@ -29,10 +30,16 @@ public class Player extends GameObject {
     private int jumps;
     private int drownFrames;
     private boolean isInBounds = true;
+    private boolean isNextToWall = false;
     private int invulnerabilityFrames = 0;
 
-    public void setState(PlayerState state) {
-        this.state = state;
+    public void setNextToWall(boolean nextToWall) {
+        isNextToWall = nextToWall;
+        if (isNextToWall == true) {
+            xDelta = GlobalVariables.GAME_SPEED;
+        } else {
+            xDelta = 0;
+        }
     }
 
     public Player(Bitmap walkSheet, Bitmap jumpImage, Bitmap duckImage, Bitmap hurtImage,
@@ -63,17 +70,9 @@ public class Player extends GameObject {
         animation.setDelay(GlobalVariables.DELAY);
     }
 
-    public int getLives() {
-        return lives;
-    }
-
     private void resetJump() {
-        this.jumpDelta = GameConstants.JUMP_DELTA;
+        this.yDelta = GameConstants.JUMP_DELTA;
         this.duckCount = GameConstants.DUCK_FRAMES;
-    }
-
-    public int getDrownFrames() {
-        return drownFrames;
     }
 
     public void resetDrownFrames() {
@@ -128,10 +127,13 @@ public class Player extends GameObject {
         if (invulnerabilityFrames > 0) {
             invulnerabilityFrames--;
         }
+
+        this.x += xDelta;
+
         switch (state) {
             case Jumping:
-                jumpDelta += GlobalVariables.JUMP_VELOCITY;
-                if (jumpDelta <= 0) {
+                yDelta += GlobalVariables.JUMP_VELOCITY;
+                if (yDelta <= 0) {
                     highPointCount = GameConstants.HIGH_POINT_FRAMES;
                     state = PlayerState.HighPoint;
                 } else {

@@ -1,5 +1,7 @@
 package com.example.kaloyanit.alienrun.Utils;
 
+import com.example.kaloyanit.alienrun.Enums.PlayerType;
+
 /**
  * Created by julian.teofilov on 2/2/2017.
  */
@@ -10,4 +12,5 @@ public class GlobalVariables {
     public static int GRAVITY = GameConstants.GRAVITY;
     public static int JUMP_VELOCITY = GameConstants.JUMP_VELOCITY;
     public static int DELAY = GameConstants.PLAYER_ANIMATION_DELAY;
+    public static PlayerType ACTIVE_PLAYER = PlayerType.Green;
 }

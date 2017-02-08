@@ -9,8 +9,8 @@ public enum CollisionType {
     Enemy,
     Roof,
     Ground,
-    Wall,
     Water,
     None,
-    Coin
+    Coin,
+    Wall
 }

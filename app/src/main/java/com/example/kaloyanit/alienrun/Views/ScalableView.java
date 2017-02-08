@@ -55,7 +55,7 @@ public class ScalableView extends ImageView implements View.OnClickListener{
         matrix.postScale(scalex, scaley);
         matrix.postRotate(0);
         Bitmap scaled =  Bitmap.createBitmap(bitmap, 0, 0, bitmap.getWidth(), bitmap.getHeight(), matrix, true);
-        bitmap.recycle();
+        //bitmap.recycle();
         return scaled;
     }
 
