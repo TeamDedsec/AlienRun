@@ -83,7 +83,6 @@ public class GamePlayScene implements IScene {
         enemies = new ArrayList<>();
         modules.add(moduleFactory.getLevelModule(0));
         modules.add(moduleFactory.getLevelModule(4));
-        modules.add(moduleFactory.getLevelModule(5));
     }
 
     @Override
@@ -242,7 +241,7 @@ public class GamePlayScene implements IScene {
 
 
         //Sample event
-        if (player.isInBounds() && x < BasicConstants.BG_WIDTH / 2 && y > BasicConstants.BG_HEIGHT / 2) {
+        if (player.isInBounds() && x > BasicConstants.BG_WIDTH / 2 && y > BasicConstants.BG_HEIGHT / 2) {
             switch (event.getAction()) {
                 case MotionEvent.ACTION_DOWN: {
                     if (player.isInBounds()) {

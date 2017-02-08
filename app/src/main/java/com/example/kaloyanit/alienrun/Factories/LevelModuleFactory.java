@@ -52,7 +52,7 @@ public class LevelModuleFactory {
     }
 
     public LevelModule getLevelModule() {
-        int index = Helpers.getRandomNumber(0, 3);
+        int index = Helpers.getRandomNumber(0, 5);
         return getLevelModule(index);
     }
 
@@ -125,12 +125,13 @@ public class LevelModuleFactory {
 
         module.addBlock(BlockType.GroundRight, currentX, positionY);
         currentX += GameConstants.BLOCK_WIDTH;
-        module.addBlock(BlockType.Water, currentX, positionY);
-        currentX += GameConstants.BLOCK_WIDTH;
-        module.addBlock(BlockType.Water, currentX, positionY);
-        currentX += GameConstants.BLOCK_WIDTH;
-        module.addBlock(BlockType.Water, currentX, positionY);
-        currentX += GameConstants.BLOCK_WIDTH;
+
+        for (int i = 0; i < 3; i++) {
+            module.addBlock(BlockType.Coin, currentX, positionY - (GameConstants.BLOCK_HEIGHT * 2));
+            module.addBlock(BlockType.Water, currentX, positionY);
+            currentX += GameConstants.BLOCK_WIDTH;
+        }
+
         module.addBlock(BlockType.GroundLeft, currentX, positionY);
         currentX += GameConstants.BLOCK_WIDTH;
 
@@ -165,10 +166,16 @@ public class LevelModuleFactory {
         currentX += GameConstants.BLOCK_WIDTH;
         positionY += 150;
 
+        int coinAdjust = 170;
         module.addBlock(BlockType.GroundLeft, currentX, positionY);
+        module.addBlock(BlockType.Coin, currentX, positionY - (GameConstants.BLOCK_HEIGHT) - coinAdjust);
         currentX += GameConstants.BLOCK_WIDTH;
 
         for (int i = 0; i < 3; i++) {
+            if (i != 2) {
+                coinAdjust += GameConstants.BLOCK_HEIGHT / 2;
+                module.addBlock(BlockType.Coin, currentX, positionY - (GameConstants.BLOCK_HEIGHT) - coinAdjust);
+            }
             module.addBlock(BlockType.GroundMid, currentX, positionY);
             currentX += GameConstants.BLOCK_WIDTH;
         }
@@ -182,30 +189,34 @@ public class LevelModuleFactory {
         int currentX = startPosition;
         int positionY = BasicConstants.BG_HEIGHT - GameConstants.BLOCK_HEIGHT;
 
-        for (int i = 0; i < 3; i++) {
-            module.addBlock(BlockType.GroundMid, currentX, positionY);
-            currentX += GameConstants.BLOCK_WIDTH;
-        }
-
-        module.addBlock(BlockType.GroundRight, currentX, positionY);
-        module.addBlock(BlockType.SpinnerHalf, currentX, positionY - (GameConstants.BLOCK_HEIGHT / 2) + 5);
+        module.addBlock(BlockType.GroundMid, currentX, positionY);
         currentX += GameConstants.BLOCK_WIDTH;
-
+        module.addBlock(BlockType.GroundRight, currentX, positionY);
+        currentX += GameConstants.BLOCK_WIDTH;
         positionY -= 150;
         module.addBlock(BlockType.AirLeft, currentX, positionY);
         currentX += GameConstants.BLOCK_WIDTH;
-        module.addBlock(BlockType.AirMid, currentX, positionY);
-        currentX += GameConstants.BLOCK_WIDTH;
+
+        for (int i = 0; i < 6; i++) {
+            module.addBlock(BlockType.AirMid, currentX, positionY);
+            currentX += GameConstants.BLOCK_WIDTH;
+            if (i == 2) {
+                module.addBlock(BlockType.SpinnerHalf, currentX, positionY - (GameConstants.BLOCK_HEIGHT / 2) + 5);
+            }
+        }
+
         module.addBlock(BlockType.AirRight, currentX, positionY);
         currentX += GameConstants.BLOCK_WIDTH;
         positionY += 150;
 
+        int coinAdjust = 170;
         module.addBlock(BlockType.GroundLeft, currentX, positionY);
-        module.addBlock(BlockType.SpinnerHalf, currentX, positionY - (GameConstants.BLOCK_HEIGHT / 2) + 5);
+        module.addBlock(BlockType.Coin, currentX, positionY - (GameConstants.BLOCK_HEIGHT) - coinAdjust);
         currentX += GameConstants.BLOCK_WIDTH;
-
-        for (int i = 0; i < 3; i++) {
+        for (int i = 0; i < 2; i++) {
+            coinAdjust += GameConstants.BLOCK_HEIGHT / 2;
             module.addBlock(BlockType.GroundMid, currentX, positionY);
+            module.addBlock(BlockType.Coin, currentX, positionY - (GameConstants.BLOCK_HEIGHT) - coinAdjust);
             currentX += GameConstants.BLOCK_WIDTH;
         }
 
@@ -224,7 +235,13 @@ public class LevelModuleFactory {
         }
 
         module.addBlock(BlockType.GroundRight, currentX, positionY);
-        currentX += GameConstants.BLOCK_WIDTH * 6;
+        currentX += GameConstants.BLOCK_WIDTH * 2;
+
+        for (int i = 0; i < 3; i++) {
+            module.addBlock(BlockType.Coin, currentX, positionY - GameConstants.BLOCK_HEIGHT - 200);
+            currentX += GameConstants.BLOCK_WIDTH;
+        }
+        currentX += GameConstants.BLOCK_WIDTH;
 
         module.addBlock(BlockType.GroundLeft, currentX, positionY);
         currentX += GameConstants.BLOCK_WIDTH;
