@@ -48,6 +48,8 @@ public class GameActivity extends AppCompatActivity{
     private RelativeLayout pauseLayout;
     private ScalableView continueButton;
     private ScalableView homeMenuButton;
+    private ScalableView playersButton;
+    private RelativeLayout playersLayout;
 
 
     @Override
@@ -76,6 +78,7 @@ public class GameActivity extends AppCompatActivity{
     public void startLayout() {
         startLayout = (RelativeLayout) findViewById(R.id.startPage);
         startButton = (ScalableView) findViewById(R.id.startView);
+        playersButton = (ScalableView) findViewById(R.id.players_button);
 
         startButton.setOnClickListener(view -> {
             SceneManager.ACTIVE_SCENE = 1;
@@ -83,6 +86,18 @@ public class GameActivity extends AppCompatActivity{
             startLayout.setVisibility(View.GONE);
             gameEngine();
         });
+
+        playersButton.setOnClickListener(view -> {
+            playersLayout = (RelativeLayout) findViewById(R.id.players_layout);
+            gameView.setVisibility(View.INVISIBLE);
+            SceneManager.ACTIVE_SCENE = 0;
+            playersLayout.setVisibility(View.VISIBLE);
+            startLayout.setVisibility(View.INVISIBLE);
+
+            loadPlayersLayout();
+        });
+
+
     }
 
     public void pauseLayout() {
@@ -144,15 +159,7 @@ public class GameActivity extends AppCompatActivity{
     public void loadPlayersLayout() {
         GridView lvPlayers = (GridView) findViewById(R.id.players_list);
 
-        List<PlayerModel> players = new ArrayList<PlayerModel>();
-
-
-        players.add(new PlayerModel("Pesho"));
-        players.add(new PlayerModel("Pesho"));
-        players.add(new PlayerModel("Pesho"));
-
-
-        ArrayAdapter<PlayerModel> playersAdapter = new ArrayAdapter<PlayerModel>(this, -1, players) {
+        ArrayAdapter<PlayerModel> playersAdapter = new ArrayAdapter<PlayerModel>(this, -1, PlayerModel.getPlayers()) {
             @NonNull
             @Override
             public View getView(int position, View convertView, ViewGroup parent) {
@@ -163,7 +170,9 @@ public class GameActivity extends AppCompatActivity{
                 }
 
                 TextView tvTitle = (TextView) view.findViewById(R.id.tv_title);
-                //tvTitle.setTextColor(getColor(R.color.colorRed));
+                ScalableView plImage = (ScalableView) view.findViewById(R.id.pl_image) ;
+                plImage.setImageResource(this.getItem(position).getImage());
+                //plImage.setBitmapImage(this.getItem(position).getImage());
                 String title = this.getItem(position).getName();
                 System.out.println(title);
                 tvTitle.setText(title);

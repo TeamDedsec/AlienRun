@@ -26,6 +26,8 @@ public class ScalableView extends ImageView implements View.OnClickListener{
     private final Paint paint;
     private Bitmap image;
     private OnClickListener onClickListener;
+    private final float scaleFactorX = BasicConstants.SCREEN_HEIGHT / (BasicConstants.BG_HEIGHT * 1.0f);
+    private final float scaleFactorY = BasicConstants.SCREEN_HEIGHT / (BasicConstants.BG_HEIGHT * 1.0f);
 
     //TODO: Add listview where add all buttons and then center them in the middle of the screen - implements some Layout
 
@@ -37,13 +39,12 @@ public class ScalableView extends ImageView implements View.OnClickListener{
 
     public ScalableView(Context context, AttributeSet attrs) {
         super(context, attrs);
-        final float scaleFactorX = BasicConstants.SCREEN_HEIGHT / (BasicConstants.BG_HEIGHT * 1.0f);
-        final float scaleFactorY = BasicConstants.SCREEN_HEIGHT / (BasicConstants.BG_HEIGHT * 1.0f);
+
         paint = new Paint();
         System.out.println(attrs);
         int src_resources = attrs.getAttributeResourceValue("http://schemas.android.com/apk/res/android", "src", 0);
         //image = BitmapFactory.decodeResource(getResources(), src_resources);
-        image = getScaledBitmap(context, scaleFactorX, scaleFactorY, src_resources);
+        setBitmapImage(src_resources);
         this.setImageBitmap(image);
 
         this.setOnClickListener(this);
@@ -57,6 +58,10 @@ public class ScalableView extends ImageView implements View.OnClickListener{
         Bitmap scaled =  Bitmap.createBitmap(bitmap, 0, 0, bitmap.getWidth(), bitmap.getHeight(), matrix, true);
         //bitmap.recycle();
         return scaled;
+    }
+
+    public void setBitmapImage(int id) {
+        image = getScaledBitmap(getContext(), scaleFactorX, scaleFactorY, id);
     }
 
 
