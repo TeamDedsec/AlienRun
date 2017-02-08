@@ -42,7 +42,6 @@ public class StartScene implements IScene {
 
         background.draw(canvas);
         canvas.restoreToCount(savedState);
-
     }
 
     @Override
