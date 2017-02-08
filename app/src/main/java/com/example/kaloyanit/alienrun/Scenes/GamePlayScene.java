@@ -83,6 +83,7 @@ public class GamePlayScene implements IScene {
         enemies = new ArrayList<>();
         modules.add(moduleFactory.getLevelModule(0));
         modules.add(moduleFactory.getLevelModule(4));
+        modules.add(moduleFactory.getLevelModule(1));
         modules.add(moduleFactory.getLevelModule(2));
     }
 

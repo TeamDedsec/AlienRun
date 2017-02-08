@@ -24,27 +24,27 @@ public class BlockFactory {
             case GroundMid:
                 return new Block(blockSet.getMiddleGround(), 1, "GroundMid",
                         x, y, GameConstants.BLOCK_WIDTH, GameConstants.BLOCK_HEIGHT,
-                        CollisionType.Ground);
+                        CollisionType.Ground, false);
             case GroundLeft:
                 return new Block(blockSet.getLeftGround(), 1, "GroundLeft",
                         x, y, GameConstants.BLOCK_WIDTH, GameConstants.BLOCK_HEIGHT,
-                        CollisionType.Wall);
+                        CollisionType.Wall, false);
             case GroundRight:
                 return new Block(blockSet.getRightGround(), 1, "GroundRight,",
                         x, y, GameConstants.BLOCK_WIDTH, GameConstants.BLOCK_HEIGHT,
-                        CollisionType.Ground);
+                        CollisionType.Ground, false);
             case AirMid:
                 return new Block(blockSet.getMiddleAir(), 1, "AirMid",
                         x, y, GameConstants.BLOCK_WIDTH, GameConstants.BLOCK_HEIGHT / 2,
-                        CollisionType.Ground);
+                        CollisionType.Ground, false);
             case AirRight:
                 return new Block(blockSet.getRightAir(), 1, "AirRight",
                         x, y, GameConstants.BLOCK_WIDTH, GameConstants.BLOCK_HEIGHT / 2,
-                        CollisionType.Ground);
+                        CollisionType.Ground, false);
             case AirLeft:
                 return new Block(blockSet.getLeftAir(), 1, "AirLeft",
                         x, y, GameConstants.BLOCK_WIDTH, GameConstants.BLOCK_HEIGHT / 2,
-                        CollisionType.Wall);
+                        CollisionType.Wall, false);
             default:
                 return createBlock(blockType, x, y);
         }
@@ -63,7 +63,7 @@ public class BlockFactory {
                         R.drawable.liquidwatertop2);
                 return new Block(anim, 2, "Water",
                         x, y, GameConstants.BLOCK_WIDTH, GameConstants.BLOCK_HEIGHT,
-                        CollisionType.Water);
+                        CollisionType.Water, true);
             case Coin:
                 anim = new Bitmap[1];
                 anim[0] = BitmapFactory.decodeResource(
@@ -71,7 +71,7 @@ public class BlockFactory {
                         R.drawable.coingold);
                 return new Block(anim, 1, "Coin",
                         x, y, GameConstants.BLOCK_WIDTH, GameConstants.BLOCK_HEIGHT,
-                        CollisionType.Coin);
+                        CollisionType.Coin, false);
             case SpinnerHalf:
                 anim = new Bitmap[2];
                 anim[0] = BitmapFactory.decodeResource(
@@ -82,7 +82,7 @@ public class BlockFactory {
                         R.drawable.spinnerhalf_spin);
                 return new Block(anim, 2, "SpinnerHalf",
                         x, y, GameConstants.BLOCK_WIDTH, GameConstants.BLOCK_HEIGHT / 2,
-                        CollisionType.Enemy);
+                        CollisionType.Enemy, false);
             case Spinner:
                 anim = new Bitmap[2];
                 anim[0] = BitmapFactory.decodeResource(
@@ -93,7 +93,7 @@ public class BlockFactory {
                         R.drawable.spinner_spin);
                 return new Block(anim, 2, "Spinner",
                         x, y, GameConstants.BLOCK_WIDTH, GameConstants.BLOCK_HEIGHT,
-                        CollisionType.Enemy);
+                        CollisionType.Enemy, false);
             default:
                 throw new RuntimeException();
         }
