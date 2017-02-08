@@ -34,79 +34,71 @@
 
 
     <!--StartScene-->
-    <LinearLayout
+    <RelativeLayout
         xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:tools="http://schemas.android.com/tools"
         android:id="@+id/startPage"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/colorRed"
-        android:orientation="horizontal"
         android:layout_gravity="center">
 
-        <!--<com.example.kaloyanit.alienrun.Views.ScalableView-->
-            <!--android:id="@+id/shopView"-->
-            <!--android:layout_width="wrap_content"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:src="@drawable/shopping_cart"-->
-            <!--android:layout_centerHorizontal="true"-->
-            <!--android:layout_centerVertical="true"-->
-            <!--android:layout_centerInParent="true"-->
-            <!--android:clickable="true"/>-->
-            <!--&lt;!&ndash;android:layout_alignTop="@+id/achievements_button"&ndash;&gt;-->
-            <!--&lt;!&ndash;android:layout_toEndOf="@+id/startView" />&ndash;&gt;-->
-
-
-        <!--Heroes-->
-        <!--<com.example.kaloyanit.alienrun.Views.ScalableView-->
-            <!--android:id="@+id/players_button"-->
-            <!--android:layout_width="wrap_content"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:layout_centerVertical="true"-->
-            <!--android:layout_toRightOf="@+id/shopView"-->
-            <!--android:layout_alignParentRight="true"-->
-
-            <!--android:adjustViewBounds="true"-->
-            <!--android:scaleType="fitXY"-->
-            <!--android:src="@drawable/players_button"/>-->
-
-        <!--&lt;!&ndash;Settings&ndash;&gt;-->
-
-        <!--<com.example.kaloyanit.alienrun.Views.ScalableView-->
-            <!--android:id="@+id/settings_button"-->
-            <!--android:layout_width="wrap_content"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:layout_centerVertical="true"-->
-            <!--android:layout_toRightOf="@+id/players_button"-->
-            <!--android:adjustViewBounds="true"-->
-            <!--android:scaleType="fitXY"-->
-            <!--android:src="@drawable/settings_button"/>-->
-
-        <!--&lt;!&ndash;Achievements&ndash;&gt;-->
-        <!--<com.example.kaloyanit.alienrun.Views.ScalableView-->
-            <!--android:id="@+id/achievements_button"-->
-            <!--android:layout_width="wrap_content"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:layout_toEndOf="@+id/shopView"-->
-            <!--android:adjustViewBounds="true"-->
-            <!--android:scaleType="fitXY"-->
-            <!--android:src="@drawable/achievements_button"/>-->
-
+        <!--Start-->
         <com.example.kaloyanit.alienrun.Views.ScalableView
             android:id="@+id/startView"
             android:layout_height="wrap_content"
-            android:src="@drawable/start_button"
-            android:scaleType="fitXY"
             android:layout_width="wrap_content"
-            android:cropToPadding="false"
-            android:layout_marginStart="118dp"
-            android:clickable="true"
-            android:layout_alignTop="@+id/shopView"
-            android:layout_alignParentStart="true" />
+            android:src="@drawable/start_button"
+            android:layout_centerInParent="true"
+            android:clickable="true"/>
+
+        <!--Shop View-->
+        <com.example.kaloyanit.alienrun.Views.ScalableView
+            android:id="@+id/shopView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/shopping_cart"
+            android:layout_centerHorizontal="true"
+            android:layout_above="@id/startView"
+            android:layout_alignParentTop="true"
+            android:clickable="true"/>
+
+
+        <!--Heroes-->
+        <com.example.kaloyanit.alienrun.Views.ScalableView
+            android:id="@+id/players_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_toLeftOf="@+id/startView"
+            android:layout_alignParentLeft="true"
+            android:src="@drawable/players_button"/>
+
+        <!--Settings-->
+
+        <com.example.kaloyanit.alienrun.Views.ScalableView
+            android:id="@+id/settings_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_toRightOf="@+id/startView"
+            android:layout_alignParentRight="true"
+            android:src="@drawable/settings_button"/>
+
+        <!--Achievements-->
+        <com.example.kaloyanit.alienrun.Views.ScalableView
+            android:id="@+id/achievements_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true"
+            android:layout_below="@id/startView"
+            android:src="@drawable/achievements_button"/>
 
 
 
-    </LinearLayout>
+
+
+    </RelativeLayout>
 
     <!--Players Scene-->
 
@@ -134,40 +126,44 @@
         android:layout_height="match_parent"
         android:visibility="invisible">
 
-        <com.example.kaloyanit.alienrun.Views.ScalableView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@drawable/home_button"
-            android:clickable="true"/>
+
 
         <com.example.kaloyanit.alienrun.Views.ScalableView
             android:id="@+id/resumeButton"
             android:layout_height="wrap_content"
             android:src="@drawable/start_button"
-            android:scaleType="fitXY"
             android:layout_width="wrap_content"
-            android:cropToPadding="false"
-            android:layout_marginStart="118dp"
-            android:layout_alignParentStart="true"
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true"
             android:clickable="true"/>
 
         <com.example.kaloyanit.alienrun.Views.ScalableView
             android:id="@+id/refreshButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true"
+            android:layout_toRightOf="@id/resumeButton"
             android:src="@drawable/refresh_button"
+            android:clickable="true"/>
+
+        <com.example.kaloyanit.alienrun.Views.ScalableView
+            android:id="@+id/home_menu_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/home_button"
+            android:layout_centerVertical="true"
+            android:layout_toLeftOf="@id/resumeButton"
             android:clickable="true"/>
 
     </RelativeLayout>
 
-    <!--<com.example.kaloyanit.alienrun.Views.ScalableView-->
-        <!--android:id="@+id/pauseView"-->
-        <!--android:layout_width="wrap_content"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--android:src="@drawable/pause"-->
-        <!--android:clickable="true"-->
-        <!--android:visibility="invisible"/>-->
+    <com.example.kaloyanit.alienrun.Views.ScalableView
+        android:id="@+id/pauseView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/pause"
+        android:clickable="true"
+        android:visibility="invisible"/>
 
 
 

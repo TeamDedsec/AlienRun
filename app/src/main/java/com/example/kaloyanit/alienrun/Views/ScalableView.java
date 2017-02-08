@@ -5,11 +5,14 @@ import android.content.DialogInterface;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
+import android.graphics.Matrix;
 import android.graphics.Paint;
+import android.graphics.drawable.Drawable;
 import android.util.AttributeSet;
 import android.view.KeyEvent;
 import android.view.MotionEvent;
 import android.view.View;
+import android.widget.ImageView;
 
 import com.example.kaloyanit.alienrun.R;
 import com.example.kaloyanit.alienrun.Utils.BasicConstants;
@@ -18,7 +21,7 @@ import com.example.kaloyanit.alienrun.Utils.BasicConstants;
  * Created by KaloyanIT on 1/31/2017.
  */
 
-public class ScalableView extends View implements View.OnClickListener{
+public class ScalableView extends ImageView implements View.OnClickListener{
 
     private final Paint paint;
     private Bitmap image;
@@ -34,29 +37,43 @@ public class ScalableView extends View implements View.OnClickListener{
 
     public ScalableView(Context context, AttributeSet attrs) {
         super(context, attrs);
+        final float scaleFactorX = BasicConstants.SCREEN_HEIGHT / (BasicConstants.BG_HEIGHT * 1.0f);
+        final float scaleFactorY = BasicConstants.SCREEN_HEIGHT / (BasicConstants.BG_HEIGHT * 1.0f);
         paint = new Paint();
         System.out.println(attrs);
-        int src_recources = attrs.getAttributeResourceValue("http://schemas.android.com/apk/res/android", "src", 0);
-        image = BitmapFactory.decodeResource(getResources(), src_recources);
+        int src_resources = attrs.getAttributeResourceValue("http://schemas.android.com/apk/res/android", "src", 0);
+        //image = BitmapFactory.decodeResource(getResources(), src_resources);
+        image = getScaledBitmap(context, scaleFactorX, scaleFactorY, src_resources);
+        this.setImageBitmap(image);
 
         this.setOnClickListener(this);
     }
 
-    @Override
-    public void onDraw(Canvas canvas) {
-        super.onDraw(canvas);
-        final float scaleFactorX = BasicConstants.SCREEN_HEIGHT / (BasicConstants.BG_HEIGHT * 1.0f);
-        final float scaleFactorY = BasicConstants.SCREEN_HEIGHT / (BasicConstants.BG_HEIGHT * 1.0f);
-
-        final int savedState = canvas.save();
-        canvas.scale(scaleFactorX, scaleFactorY);
-        canvas.drawBitmap(image, 0, 0, paint);
-        canvas.restoreToCount(savedState);
+    public Bitmap getScaledBitmap(Context context, float scalex, float scaley, int id) {
+        Bitmap bitmap = BitmapFactory.decodeResource(context.getResources(), id);
+        Matrix matrix = new Matrix();
+        matrix.postScale(scalex, scaley);
+        matrix.postRotate(0);
+        Bitmap scaled =  Bitmap.createBitmap(bitmap, 0, 0, bitmap.getWidth(), bitmap.getHeight(), matrix, true);
+        bitmap.recycle();
+        return scaled;
     }
+
+
+//    @Override
+//    public void onDraw(Canvas canvas) {
+//        super.onDraw(canvas);
+////        final float scaleFactorX = BasicConstants.SCREEN_HEIGHT / (BasicConstants.BG_HEIGHT * 1.0f);
+////        final float scaleFactorY = BasicConstants.SCREEN_HEIGHT / (BasicConstants.BG_HEIGHT * 1.0f);
+////        final int savedState = canvas.save();
+////        canvas.scale(scaleFactorX, scaleFactorY);
+//        canvas.drawBitmap(image, 0, 0, paint);
+//        //canvas.restoreToCount(savedState);
+//    }
 
 
     @Override
     public void onClick(View v) {
-//  Set
+    //  Set
     }
 }
