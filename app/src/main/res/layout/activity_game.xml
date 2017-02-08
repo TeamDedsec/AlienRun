@@ -153,13 +153,13 @@
 
     </RelativeLayout>
 
-    <!--<com.example.kaloyanit.alienrun.Views.ScalableView-->
-        <!--android:id="@+id/pauseView"-->
-        <!--android:layout_width="wrap_content"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--android:src="@drawable/pause"-->
-        <!--android:clickable="true"-->
-        <!--android:visibility="invisible"/>-->
+    <com.example.kaloyanit.alienrun.Views.ScalableView
+        android:id="@+id/pauseView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/pause"
+        android:clickable="true"
+        android:visibility="invisible"/>
 
 
 

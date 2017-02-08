@@ -60,6 +60,7 @@ public class GameActivity extends AppCompatActivity{
         SceneManager.ACTIVE_SCENE = 0;
         setContentView(R.layout.activity_game);
         gameView = (GamePanel)findViewById(R.id.gameView);
+        gameView.setVisibility(View.GONE);
 
 
         startLayout();
@@ -102,14 +103,16 @@ public class GameActivity extends AppCompatActivity{
     }
 
     public void gameEngine() {
-//        pauseButton = (ScalableView) findViewById(R.id.pauseView);
-//        pauseButton.setVisibility(View.VISIBLE);
-//        pauseButton.setOnClickListener(view -> {
-//            pauseButton.setVisibility(View.INVISIBLE);
-//            SceneManager.ACTIVE_SCENE = 2;
-//            System.out.println("Pause event");
-//            pauseLayout();
-//        });
+        pauseButton = (ScalableView) findViewById(R.id.pauseView);
+        pauseButton.setVisibility(View.VISIBLE);
+        pauseButton.setOnClickListener(view -> {
+            pauseButton.setVisibility(View.INVISIBLE);
+            SceneManager.ACTIVE_SCENE = 2;
+            System.out.println("Pause event");
+            pauseLayout();
+        });
+
+        gameView.setVisibility(View.VISIBLE);
 
         scoreView = (TextView) findViewById(R.id.scoreView);
         scoreView.setText(Integer.toString(GamePlayScene.getScore()));
