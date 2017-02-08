@@ -19,6 +19,7 @@ public class Player extends GameObject {
     private Bitmap jumpImage;
     private Bitmap duckImage;
     private Bitmap hurtImage;
+    private Bitmap standImage;
     private PlayerState state;
     private int highPointCount = 0;
     private int yDelta = GameConstants.JUMP_DELTA;
@@ -42,13 +43,14 @@ public class Player extends GameObject {
         }
     }
 
-    public Player(Bitmap walkSheet, Bitmap jumpImage, Bitmap duckImage, Bitmap hurtImage,
+    public Player(Bitmap walkSheet, Bitmap jumpImage, Bitmap duckImage, Bitmap hurtImage, Bitmap standImage,
                   int x, int y, int walkFrames,
                   int jumpCount, int lives) {
         this.walkSheet = walkSheet;
         this.jumpImage = jumpImage;
         this.duckImage = duckImage;
         this.hurtImage = hurtImage;
+        this.standImage = standImage;
         this.state = PlayerState.Running;
         this.x = x;
         this.y = y;
@@ -95,7 +97,11 @@ public class Player extends GameObject {
     public void draw(Canvas canvas) {
         switch (state) {
             case Running:
-                canvas.drawBitmap(animation.getImage(), this.x, this.y, null);
+                if (isNextToWall) {
+                    canvas.drawBitmap(standImage, this.x, this.y, null);
+                } else {
+                    canvas.drawBitmap(animation.getImage(), this.x, this.y, null);
+                }
                 break;
             case Jumping:
                 if (duckCount > 0) {
