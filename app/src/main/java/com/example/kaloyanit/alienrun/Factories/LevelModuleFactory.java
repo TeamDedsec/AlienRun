@@ -151,6 +151,9 @@ public class LevelModuleFactory {
 
         for (int i = 0; i < 3; i++) {
             module.addBlock(BlockType.GroundMid, currentX, positionY);
+            if (i == 2) {
+                module.addBlock(BlockType.SpinnerHalf, currentX, positionY - (GameConstants.BLOCK_HEIGHT / 2) + 5);
+            }
             currentX += GameConstants.BLOCK_WIDTH;
         }
 
