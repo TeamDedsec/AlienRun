@@ -11,34 +11,43 @@ import com.example.kaloyanit.alienrun.Utils.BasicConstants;
 
 public class SoundPlayer {
     private static MediaPlayer mediaPlayer;
-
-    public static void releaseSounds() {
-        if (mediaPlayer != null && !mediaPlayer.isPlaying()) {
-            mediaPlayer.release();
-            mediaPlayer = null;
-        }
-    }
+    private static boolean isSplashPlaying = false;
 
     public static void playJumpSound() {
         mediaPlayer = MediaPlayer.create(BasicConstants.CURRENT_CONTEXT, R.raw.jump);
-        mediaPlayer.start();
+        playAndRelease(false);
     }
 
     public static void playSplashSound() {
-        if (mediaPlayer != null && mediaPlayer.isPlaying()) {
+        if (isSplashPlaying) {
             return;
         }
+        isSplashPlaying = true;
         mediaPlayer = MediaPlayer.create(BasicConstants.CURRENT_CONTEXT, R.raw.watersplash);
-        mediaPlayer.start();
+        playAndRelease(true);
     }
 
     public static void playCoinSound() {
         mediaPlayer = MediaPlayer.create(BasicConstants.CURRENT_CONTEXT, R.raw.coin);
-        mediaPlayer.start();
+        playAndRelease(false);
     }
 
     public static void playImpactSound() {
         mediaPlayer = MediaPlayer.create(BasicConstants.CURRENT_CONTEXT, R.raw.impact);
+        playAndRelease(false);
+    }
+
+    public static void playAndRelease (boolean splash) {
         mediaPlayer.start();
+        mediaPlayer.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
+            @Override
+            public void onCompletion(MediaPlayer mp) {
+                mp.release();
+                mp = null;
+                if (splash) {
+                    isSplashPlaying = false;
+                }
+            }
+        });
     }
 }

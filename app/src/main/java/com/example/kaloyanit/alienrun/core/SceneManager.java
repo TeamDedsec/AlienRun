@@ -9,6 +9,8 @@ import android.view.MotionEvent;
 
 import com.example.kaloyanit.alienrun.Contracts.IManager;
 import com.example.kaloyanit.alienrun.Contracts.IScene;
+import com.example.kaloyanit.alienrun.GameObjects.MusicPlayer;
+import com.example.kaloyanit.alienrun.GameObjects.SoundPlayer;
 import com.example.kaloyanit.alienrun.Scenes.PauseScene;
 import com.example.kaloyanit.alienrun.Scenes.GamePlayScene;
 import com.example.kaloyanit.alienrun.Scenes.StartScene;
@@ -47,6 +49,7 @@ public class SceneManager implements IManager {
     }
 
     public static void resetGame() {
+        MusicPlayer.stopMusic();
         GlobalVariables.GAME_SPEED = GameConstants.GAME_SPEED;
         GlobalVariables.GRAVITY = GameConstants.GRAVITY;
         GlobalVariables.JUMP_VELOCITY = GameConstants.JUMP_VELOCITY;

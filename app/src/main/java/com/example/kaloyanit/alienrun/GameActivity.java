@@ -165,8 +165,8 @@ public class GameActivity extends AppCompatActivity{
 
     @Override
     public void onPause() {
-        super.onPause();
         MusicPlayer.stopMusic();
+        super.onPause();
 
         System.out.println("kPause");
     }
@@ -180,6 +180,7 @@ public class GameActivity extends AppCompatActivity{
 
     @Override
     protected void onStop() {
+        MusicPlayer.stopMusic();
 
         super.onStop();
         System.out.println("Stop");

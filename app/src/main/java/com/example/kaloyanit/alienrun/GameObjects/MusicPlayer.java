@@ -13,8 +13,10 @@ public class MusicPlayer {
     private static MediaPlayer mediaPlayer;
 
     public static void stopMusic() {
-        mediaPlayer.release();
-        mediaPlayer = null;
+        if (mediaPlayer != null) {
+            mediaPlayer.release();
+            mediaPlayer = null;
+        }
     }
 
     public static void playBackgroundMusic() {

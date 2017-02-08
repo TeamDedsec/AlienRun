@@ -12,6 +12,7 @@ import com.example.kaloyanit.alienrun.Contracts.IScene;
 import com.example.kaloyanit.alienrun.Core.SceneManager;
 import com.example.kaloyanit.alienrun.Enums.BackgroundType;
 import com.example.kaloyanit.alienrun.Enums.BlockSetType;
+import com.example.kaloyanit.alienrun.Enums.CollisionType;
 import com.example.kaloyanit.alienrun.Enums.PlayerState;
 import com.example.kaloyanit.alienrun.Enums.PlayerType;
 import com.example.kaloyanit.alienrun.Factories.BackgroundFactory;
@@ -31,6 +32,7 @@ import com.example.kaloyanit.alienrun.Utils.GlobalVariables;
 import com.example.kaloyanit.alienrun.Utils.Helpers;
 
 import java.util.ArrayList;
+import java.util.logging.Level;
 
 /**
  * Created by KaloyanIT on 1/25/2017.
@@ -86,7 +88,6 @@ public class GamePlayScene implements IScene {
 
     @Override
     public void update() {
-        SoundPlayer.releaseSounds();
         if (player.isInBounds()) {
             player.update();
             background.update();
@@ -166,12 +167,23 @@ public class GamePlayScene implements IScene {
 
         background.draw(canvas);
         //canvas.drawBitmap(pause, 10, 0, null);
-        player.draw(canvas);
 
         for (int j = 0; j < modules.size(); j++) {
             LevelModule mod = modules.get(j);
             for (int i = 0; i < mod.getBlocks().size(); i++) {
+                if (mod.getBlocks().get(i).getCollisionType() != CollisionType.Water)
                 mod.getBlocks().get(i).draw(canvas);
+            }
+        }
+
+        player.draw(canvas);
+
+        for (int i = 0; i < modules.size(); i++) {
+            LevelModule mod = modules.get(i);
+            for (int j = 0; j < mod.getBlocks().size(); j++) {
+                if (mod.getBlocks().get(j).getCollisionType() == CollisionType.Water) {
+                    mod.getBlocks().get(j).draw(canvas);
+                }
             }
         }
 
