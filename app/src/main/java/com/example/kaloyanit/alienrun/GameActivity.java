@@ -22,6 +22,7 @@ import android.widget.TextView;
 
 import com.example.kaloyanit.alienrun.Core.GamePanel;
 import com.example.kaloyanit.alienrun.Core.SceneManager;
+import com.example.kaloyanit.alienrun.GameObjects.MusicPlayer;
 import com.example.kaloyanit.alienrun.Models.PlayerModel;
 import com.example.kaloyanit.alienrun.Scenes.GamePlayScene;
 import com.example.kaloyanit.alienrun.Utils.BasicConstants;
@@ -168,6 +169,7 @@ public class GameActivity extends AppCompatActivity{
     @Override
     public void onPause() {
         super.onPause();
+        MusicPlayer.stopMusic();
 
         System.out.println("kPause");
     }

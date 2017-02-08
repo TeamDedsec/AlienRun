@@ -86,6 +86,7 @@ public class GamePlayScene implements IScene {
 
     @Override
     public void update() {
+        SoundPlayer.releaseSounds();
         if (player.isInBounds()) {
             player.update();
             background.update();

@@ -12,6 +12,11 @@ import com.example.kaloyanit.alienrun.Utils.BasicConstants;
 public class MusicPlayer {
     private static MediaPlayer mediaPlayer;
 
+    public static void stopMusic() {
+        mediaPlayer.release();
+        mediaPlayer = null;
+    }
+
     public static void playBackgroundMusic() {
         mediaPlayer = MediaPlayer.create(BasicConstants.CURRENT_CONTEXT, R.raw.bgmusic);
         mediaPlayer.setLooping(true);

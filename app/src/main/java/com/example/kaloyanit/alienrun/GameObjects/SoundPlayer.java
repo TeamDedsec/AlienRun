@@ -12,13 +12,20 @@ import com.example.kaloyanit.alienrun.Utils.BasicConstants;
 public class SoundPlayer {
     private static MediaPlayer mediaPlayer;
 
+    public static void releaseSounds() {
+        if (mediaPlayer != null && !mediaPlayer.isPlaying()) {
+            mediaPlayer.release();
+            mediaPlayer = null;
+        }
+    }
+
     public static void playJumpSound() {
         mediaPlayer = MediaPlayer.create(BasicConstants.CURRENT_CONTEXT, R.raw.jump);
         mediaPlayer.start();
     }
 
     public static void playSplashSound() {
-        if (mediaPlayer.isPlaying()) {
+        if (mediaPlayer != null && mediaPlayer.isPlaying()) {
             return;
         }
         mediaPlayer = MediaPlayer.create(BasicConstants.CURRENT_CONTEXT, R.raw.watersplash);
