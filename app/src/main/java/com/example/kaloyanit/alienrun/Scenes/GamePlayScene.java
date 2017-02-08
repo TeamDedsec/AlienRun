@@ -4,8 +4,6 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Point;
-import android.graphics.Rect;
-import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 
@@ -14,8 +12,6 @@ import com.example.kaloyanit.alienrun.Core.SceneManager;
 import com.example.kaloyanit.alienrun.Enums.BackgroundType;
 import com.example.kaloyanit.alienrun.Enums.BlockSetType;
 import com.example.kaloyanit.alienrun.Enums.CollisionType;
-import com.example.kaloyanit.alienrun.Enums.PlayerState;
-import com.example.kaloyanit.alienrun.Enums.PlayerType;
 import com.example.kaloyanit.alienrun.Factories.BackgroundFactory;
 import com.example.kaloyanit.alienrun.Factories.EnemyFactory;
 import com.example.kaloyanit.alienrun.Factories.LevelModuleFactory;
@@ -34,7 +30,6 @@ import com.example.kaloyanit.alienrun.Utils.GlobalVariables;
 import com.example.kaloyanit.alienrun.Utils.Helpers;
 
 import java.util.ArrayList;
-import java.util.logging.Level;
 
 /**
  * Created by KaloyanIT on 1/25/2017.
@@ -76,6 +71,7 @@ public class GamePlayScene implements IScene {
         tryJump = soundPool.load(BasicConstants.CURRENT_CONTEXT, R.raw.tryJump, 1);
 
         soundPool.play(music, 0.8f, 0.8f, 1, 1, 1.0f);*/
+
         MusicPlayer.playBackgroundMusic();
         background = BackgroundFactory.createBackground(BackgroundType.Grass);
         pause = BitmapFactory.decodeResource(BasicConstants.CURRENT_CONTEXT.getResources(), R.drawable.pause);
@@ -195,6 +191,7 @@ public class GamePlayScene implements IScene {
         }
 
         player.draw(canvas);
+
         if (bomb != null) {
             bomb.draw(canvas);
         }
@@ -222,6 +219,9 @@ public class GamePlayScene implements IScene {
 
     @Override
     public void receiveTouch(MotionEvent event) {
+        GlobalVariables.xRATIO = BasicConstants.SCREEN_WIDTH / (BasicConstants.BG_WIDTH * 1.0f);
+        GlobalVariables.yRATIO =BasicConstants.SCREEN_HEIGHT / (BasicConstants.BG_HEIGHT * 1.0f);
+
         float x = event.getX();
         float y = event.getY();
 
@@ -239,7 +239,7 @@ public class GamePlayScene implements IScene {
                     break;
                 case MotionEvent.ACTION_UP:
                     if (touchX < BasicConstants.BG_WIDTH / 2 && touchX < x && bomb == null) {
-                        bomb = new Bomb(0, (int)y);
+                        bomb = new Bomb(0, (int)(touchY / GlobalVariables.yRATIO));
                     }
                     break;
 /*                length = (int) (x - touchX);

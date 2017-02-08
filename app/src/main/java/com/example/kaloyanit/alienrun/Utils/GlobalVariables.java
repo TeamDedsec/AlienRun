@@ -13,4 +13,6 @@ public class GlobalVariables {
     public static int JUMP_VELOCITY = GameConstants.JUMP_VELOCITY;
     public static int DELAY = GameConstants.PLAYER_ANIMATION_DELAY;
     public static PlayerType ACTIVE_PLAYER = PlayerType.Green;
+    public static float xRATIO = BasicConstants.SCREEN_WIDTH / (BasicConstants.BG_WIDTH * 1.0f);
+    public static float yRATIO =BasicConstants.SCREEN_HEIGHT / (BasicConstants.BG_HEIGHT * 1.0f);
 }

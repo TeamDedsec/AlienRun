@@ -38,6 +38,7 @@ public class Helpers {
 
     public static Bitmap rotateImage(Bitmap src, float degree, int width, int height)
     {
+        //TODO: Replace this retarded thing with an animation!
         Matrix matrix = new Matrix();
         matrix.postRotate(degree);
         Bitmap bmp = Bitmap.createBitmap(src, 0, 0, width, height, matrix, true);
@@ -64,10 +65,12 @@ public class Helpers {
                             }
                         }
                         if (currBlock.getCollisionType() == CollisionType.Enemy) {
-                            //Lower the collision radius if it's an enemy
-                            if (!player.isInvulnerable() && checkCollision(player, currBlock)) {
-                                types.put(currBlock.getCollisionType().ordinal(), currBlock.getCollisionType());
-                                continue;
+                            if (checkPreciseCollision(player, currBlock)) {
+                                //Lower the collision radius if it's an enemy
+                                if (!player.isInvulnerable() && checkCollision(player, currBlock)) {
+                                    types.put(currBlock.getCollisionType().ordinal(), currBlock.getCollisionType());
+                                    continue;
+                                }
                             }
                             continue;
                         }
