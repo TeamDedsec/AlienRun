@@ -93,9 +93,6 @@ public class GamePlayScene implements IScene {
         moduleFactory = new LevelModuleFactory(BlockSetType.Grass);
         modules = new ArrayList<>();
         enemies = new ArrayList<>();
-        for (int i = 0; i < 10; i++) {
-            modules.add(moduleFactory.getLevelModule(0));
-        }
         modules.add(moduleFactory.getLevelModule(0));
         modules.add(moduleFactory.getLevelModule(4));
         modules.add(moduleFactory.getLevelModule(1));
