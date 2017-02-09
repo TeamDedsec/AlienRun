@@ -70,7 +70,13 @@ public class GamePlayScene implements IScene {
         MusicPlayer.playBackgroundMusic();
         background = BackgroundFactory.createBackground(BackgroundType.Grass);
         paint = new Paint();
-        paint.setAlpha(200);
+        if (GlobalVariables.GAMES_PLAYED > 15) {
+            paint.setAlpha(0);
+        } else if (GlobalVariables.GAMES_PLAYED > 5) {
+            paint.setAlpha(100);
+        } else {
+            paint.setAlpha(200);
+        }
         jumpButton = BitmapFactory.decodeResource(BasicConstants.CURRENT_CONTEXT.getResources(), R.drawable.jump_button);
         jumpButton = Bitmap.createScaledBitmap(jumpButton, 100, 100, false);
         //pause = BitmapFactory.decodeResource(BasicConstants.CURRENT_CONTEXT.getResources(), R.drawable.pause);
@@ -217,9 +223,12 @@ public class GamePlayScene implements IScene {
             enemies.get(0).draw(canvas);
         }
 
-        if (modulesPassed == 5 || GlobalVariables.GAMES_PLAYED > 5) {
+        if (GlobalVariables.GAMES_PLAYED > 15) {
+        } else if (GlobalVariables.GAMES_PLAYED > 5 && modulesPassed == 5) {
+            paint.setAlpha(0);
+        } else if (GlobalVariables.GAMES_PLAYED < 5 && modulesPassed == 5) {
             paint.setAlpha(100);
-        } else if (modulesPassed == 15 || GlobalVariables.GAMES_PLAYED > 15) {
+        } else if (GlobalVariables.GAMES_PLAYED < 5 && modulesPassed == 15) {
             paint.setAlpha(0);
         }
         canvas.drawBitmap(jumpButton, (BasicConstants.SCREEN_WIDTH / GlobalVariables.xRATIO) - 480, (BasicConstants.SCREEN_HEIGHT / GlobalVariables.yRATIO) - 120, paint);
