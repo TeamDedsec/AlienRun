@@ -6,7 +6,10 @@ import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.Point;
 import android.graphics.Rect;
+import android.net.wifi.WifiManager;
+import android.util.Log;
 import android.view.MotionEvent;
+import android.view.ScaleGestureDetector;
 import android.view.View;
 
 import com.example.kaloyanit.alienrun.Contracts.IScene;
@@ -30,6 +33,7 @@ import com.example.kaloyanit.alienrun.Utils.BasicConstants;
 import com.example.kaloyanit.alienrun.Utils.GameConstants;
 import com.example.kaloyanit.alienrun.Utils.GlobalVariables;
 import com.example.kaloyanit.alienrun.Utils.Helpers;
+import com.example.kaloyanit.alienrun.Utils.ScaleDetector;
 
 import java.util.ArrayList;
 
@@ -89,6 +93,9 @@ public class GamePlayScene implements IScene {
         moduleFactory = new LevelModuleFactory(BlockSetType.Grass);
         modules = new ArrayList<>();
         enemies = new ArrayList<>();
+        for (int i = 0; i < 10; i++) {
+            modules.add(moduleFactory.getLevelModule(0));
+        }
         modules.add(moduleFactory.getLevelModule(0));
         modules.add(moduleFactory.getLevelModule(4));
         modules.add(moduleFactory.getLevelModule(1));
@@ -251,6 +258,7 @@ public class GamePlayScene implements IScene {
 
     @Override
     public void receiveTouch(MotionEvent event) {
+        ScaleDetector.scaleDetector.onTouchEvent(event);
         GlobalVariables.xRATIO = BasicConstants.SCREEN_WIDTH / (BasicConstants.BG_WIDTH * 1.0f);
         GlobalVariables.yRATIO = BasicConstants.SCREEN_HEIGHT / (BasicConstants.BG_HEIGHT * 1.0f);
 
@@ -270,10 +278,19 @@ public class GamePlayScene implements IScene {
                         }
                     }
                     break;
+
                 case MotionEvent.ACTION_UP:
                     isJumpButtonPressed = false;
-                    if (touchX < BasicConstants.SCREEN_WIDTH / 2 && touchX < x && bomb == null) {
-                        bomb = new Bomb(0, (int) (touchY / GlobalVariables.yRATIO));
+                    if (ScaleDetector.scaleFactor > 1) {
+                        player.becomeBig();
+                        ScaleDetector.scaleFactor = 1.0f;
+                    } else if (ScaleDetector.scaleFactor < 1) {
+                        player.becomeSmall();
+                        ScaleDetector.scaleFactor = 1.0f;
+                    } else {
+                        if (touchX < BasicConstants.SCREEN_WIDTH / 2 && touchX < x && bomb == null) {
+                            bomb = new Bomb(0, (int) (touchY / GlobalVariables.yRATIO));
+                        }
                     }
                     break;
 /*                length = (int) (x - touchX);
