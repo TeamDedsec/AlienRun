@@ -2,6 +2,7 @@ package com.example.kaloyanit.alienrun.GameObjects;
 
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
+import android.util.Log;
 
 import com.example.kaloyanit.alienrun.Core.Animation;
 import com.example.kaloyanit.alienrun.Enums.CollisionType;
@@ -32,6 +33,7 @@ public class Player extends GameObject {
     private int drownFrames;
     private boolean isInBounds = true;
     private boolean isNextToWall = false;
+    private boolean isBig = true;
     private int invulnerabilityFrames = 0;
 
     public void setNextToWall(boolean nextToWall) {
@@ -93,6 +95,27 @@ public class Player extends GameObject {
         }
     }
 
+    public void becomeBig() {
+        if (isBig) {
+            return;
+        } else {
+            this.y -= 25;
+            this.width += 18;
+            this.height += 25;
+            isBig = true;
+        }
+    }
+
+    public void becomeSmall() {
+        if (!isBig) {
+            return;
+        } else {
+            this.width -= 18;
+            this.height -= 25;
+            isBig = false;
+        }
+    }
+
     @Override
     public void draw(Canvas canvas) {
         switch (state) {
@@ -100,7 +123,11 @@ public class Player extends GameObject {
                 if (isNextToWall) {
                     canvas.drawBitmap(standImage, this.x, this.y, null);
                 } else {
-                    canvas.drawBitmap(animation.getImage(), this.x, this.y, null);
+                    if (isBig) {
+                        canvas.drawBitmap(animation.getImage(), this.x, this.y, null);
+                    } else {
+                        canvas.drawBitmap(Bitmap.createScaledBitmap(animation.getImage(), this.width, this.height, false), this.x, this.y, null);
+                    }
                 }
                 break;
             case Jumping:
@@ -125,6 +152,7 @@ public class Player extends GameObject {
                 break;
             case Dead:
                 canvas.drawBitmap(this.hurtImage, this.x, this.y, null);
+                break;
         }
     }
 

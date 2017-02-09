@@ -50,7 +50,7 @@ public class Helpers {
                         if (currBlock.getCollisionType() == CollisionType.Coin) {
                             //Lower the collision radius if it's a coin
                             if (checkPreciseCollision(player, currBlock)) {
-                                GamePlayScene.coinCount++;
+                                GlobalVariables.COIN_COUNT++;
                                 SoundPlayer.playCoinSound();
                                 module.getBlocks().remove(i);
                             }

@@ -3,9 +3,13 @@ package com.example.kaloyanit.alienrun.Scenes;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
+import android.graphics.Paint;
 import android.graphics.Point;
 import android.graphics.Rect;
+import android.net.wifi.WifiManager;
+import android.util.Log;
 import android.view.MotionEvent;
+import android.view.ScaleGestureDetector;
 import android.view.View;
 
 import com.example.kaloyanit.alienrun.Contracts.IScene;
@@ -29,6 +33,7 @@ import com.example.kaloyanit.alienrun.Utils.BasicConstants;
 import com.example.kaloyanit.alienrun.Utils.GameConstants;
 import com.example.kaloyanit.alienrun.Utils.GlobalVariables;
 import com.example.kaloyanit.alienrun.Utils.Helpers;
+import com.example.kaloyanit.alienrun.Utils.ScaleDetector;
 
 import java.util.ArrayList;
 
@@ -42,25 +47,20 @@ public class GamePlayScene implements IScene {
     private Player player;
     private Background background;
     private Point playerPoint;
+    private Bitmap jumpButton;
+    private Bitmap jumpButtonHighlighted;
     private Bitmap pause;
     private View pauseView;
     private LevelModuleFactory moduleFactory;
     private ArrayList<LevelModule> modules;
     private ArrayList<Enemy> enemies;
     private int frameCounter = 0;
-    public static int score = 0;
-    public static int coinCount = 0;
+    private int modulesPassed;
     private int resetCounter = 120;
     private boolean isScoreChecked = false;
+    private boolean isJumpButtonPressed = false;
     private Bomb bomb = null;
-
-    public static int getScore() {
-        return score;
-    }
-
-    public static void setScore(int score) {
-        GamePlayScene.score = score;
-    }
+    private Paint paint;
 
     //TODO: JT: Change collision with obstacle/enemy to something specific, not wall!!! This is more important now, as enemies don't kill you!!
     //TODO: JT: Think of a way to make the player to be able to jump while colliding with a wall
@@ -75,7 +75,19 @@ public class GamePlayScene implements IScene {
 
         MusicPlayer.playBackgroundMusic();
         background = BackgroundFactory.createBackground(BackgroundType.Grass);
-        pause = BitmapFactory.decodeResource(BasicConstants.CURRENT_CONTEXT.getResources(), R.drawable.pause);
+        paint = new Paint();
+        if (GlobalVariables.GAMES_PLAYED > 15) {
+            paint.setAlpha(0);
+        } else if (GlobalVariables.GAMES_PLAYED > 5) {
+            paint.setAlpha(100);
+        } else {
+            paint.setAlpha(200);
+        }
+        jumpButton = BitmapFactory.decodeResource(BasicConstants.CURRENT_CONTEXT.getResources(), R.drawable.jump_button);
+        jumpButtonHighlighted = BitmapFactory.decodeResource(BasicConstants.CURRENT_CONTEXT.getResources(), R.drawable.jump_button_highlighted);
+        jumpButton = Bitmap.createScaledBitmap(jumpButton, 100, 100, false);
+        jumpButtonHighlighted = Bitmap.createScaledBitmap(jumpButtonHighlighted, 100, 100, false);
+        //pause = BitmapFactory.decodeResource(BasicConstants.CURRENT_CONTEXT.getResources(), R.drawable.pause);
         playerPoint = new Point(162, BasicConstants.BG_HEIGHT - 162);
         player = PlayerFactory.createPlayer(GlobalVariables.ACTIVE_PLAYER, playerPoint.x, playerPoint.y - 20);
         moduleFactory = new LevelModuleFactory(BlockSetType.Grass);
@@ -100,7 +112,7 @@ public class GamePlayScene implements IScene {
                     if (Rect.intersects(bomb.getRectangle(), enemies.get(i).getRectangle())) {
                         bomb = null;
                         enemies.remove(i);
-                        //score += 4;
+                        GlobalVariables.SCORE += 5;
                         break;
                     }
                 }
@@ -114,7 +126,8 @@ public class GamePlayScene implements IScene {
                 mod.update();
                 if (mod.getEndX() < mod.getLength() * -1) {
                     modules.remove(mod);
-                    score++;
+                    modulesPassed++;
+                    GlobalVariables.SCORE++;
                 }
 
                 if (j == modules.size() - 1) {
@@ -140,19 +153,19 @@ public class GamePlayScene implements IScene {
 
             player.updateState(Helpers.checkCollision(player, modules));
             //TODO: JT: think of a better way to spawn enemies
-            if (score % 5 == 0 && score > 0 && !isScoreChecked) {
+            if (modulesPassed % 5 == 0 && modulesPassed > 0 && !isScoreChecked) {
                 int rand = Helpers.getRandomNumber(GameConstants.BLOCK_HEIGHT * 2, BasicConstants.BG_HEIGHT - GameConstants.BLOCK_HEIGHT * 2);
                 enemies.add(EnemyFactory.createEnemy(BasicConstants.BG_WIDTH, rand));
-                if (score % 10 == 0) {
+                if (modulesPassed % 10 == 0) {
                     this.increaseSpeed();
                 }
 
-                if (score % 40 == 0) {
+                if (modulesPassed % 40 == 0) {
                     background.setImage(BackgroundFactory.getBackgroundImage());
                     moduleFactory.changeBlockType();
                 }
                 isScoreChecked = true;
-            } else if (score % 5 != 0) {
+            } else if (modulesPassed % 5 != 0) {
                 isScoreChecked = false;
             }
         } else {
@@ -218,6 +231,20 @@ public class GamePlayScene implements IScene {
             enemies.get(0).draw(canvas);
         }
 
+        if (GlobalVariables.GAMES_PLAYED > 15) {
+        } else if (GlobalVariables.GAMES_PLAYED > 5 && modulesPassed == 5) {
+            paint.setAlpha(0);
+        } else if (GlobalVariables.GAMES_PLAYED < 5 && modulesPassed == 5) {
+            paint.setAlpha(100);
+        } else if (GlobalVariables.GAMES_PLAYED < 5 && modulesPassed == 15) {
+            paint.setAlpha(0);
+        }
+        if (isJumpButtonPressed) {
+            canvas.drawBitmap(jumpButtonHighlighted, (BasicConstants.SCREEN_WIDTH / GlobalVariables.xRATIO) - 480, (BasicConstants.SCREEN_HEIGHT / GlobalVariables.yRATIO) - 120, paint);
+        } else {
+            canvas.drawBitmap(jumpButton, (BasicConstants.SCREEN_WIDTH / GlobalVariables.xRATIO) - 480, (BasicConstants.SCREEN_HEIGHT / GlobalVariables.yRATIO) - 120, paint);
+        }
+
         canvas.restoreToCount(savedState);
     }
 
@@ -228,6 +255,7 @@ public class GamePlayScene implements IScene {
 
     @Override
     public void receiveTouch(MotionEvent event) {
+        ScaleDetector.scaleDetector.onTouchEvent(event);
         GlobalVariables.xRATIO = BasicConstants.SCREEN_WIDTH / (BasicConstants.BG_WIDTH * 1.0f);
         GlobalVariables.yRATIO = BasicConstants.SCREEN_HEIGHT / (BasicConstants.BG_HEIGHT * 1.0f);
 
@@ -241,14 +269,25 @@ public class GamePlayScene implements IScene {
                     touchY = y;
 
                     if (x > BasicConstants.SCREEN_WIDTH / 2 && y > BasicConstants.SCREEN_HEIGHT / 2) {
+                        isJumpButtonPressed = true;
                         if (player.tryJump()) {
                             SoundPlayer.playJumpSound();
                         }
                     }
                     break;
+
                 case MotionEvent.ACTION_UP:
-                    if (touchX < BasicConstants.BG_WIDTH / 2 && touchX < x && bomb == null) {
-                        bomb = new Bomb(0, (int) (touchY / GlobalVariables.yRATIO));
+                    isJumpButtonPressed = false;
+                    if (ScaleDetector.scaleFactor > 1) {
+                        player.becomeBig();
+                        ScaleDetector.scaleFactor = 1.0f;
+                    } else if (ScaleDetector.scaleFactor < 1) {
+                        player.becomeSmall();
+                        ScaleDetector.scaleFactor = 1.0f;
+                    } else {
+                        if (touchX < BasicConstants.SCREEN_WIDTH / 2 && touchX < x && bomb == null) {
+                            bomb = new Bomb(0, (int) (touchY / GlobalVariables.yRATIO));
+                        }
                     }
                     break;
 /*                length = (int) (x - touchX);
