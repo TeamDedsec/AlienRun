@@ -44,6 +44,7 @@ public class GamePlayScene implements IScene {
     private Background background;
     private Point playerPoint;
     private Bitmap jumpButton;
+    private Bitmap jumpButtonHighlighted;
     private Bitmap pause;
     private View pauseView;
     private LevelModuleFactory moduleFactory;
@@ -53,6 +54,7 @@ public class GamePlayScene implements IScene {
     private int modulesPassed;
     private int resetCounter = 120;
     private boolean isScoreChecked = false;
+    private boolean isJumpButtonPressed = false;
     private Bomb bomb = null;
     private Paint paint;
 
@@ -78,7 +80,9 @@ public class GamePlayScene implements IScene {
             paint.setAlpha(200);
         }
         jumpButton = BitmapFactory.decodeResource(BasicConstants.CURRENT_CONTEXT.getResources(), R.drawable.jump_button);
+        jumpButtonHighlighted = BitmapFactory.decodeResource(BasicConstants.CURRENT_CONTEXT.getResources(), R.drawable.jump_button_highlighted);
         jumpButton = Bitmap.createScaledBitmap(jumpButton, 100, 100, false);
+        jumpButtonHighlighted = Bitmap.createScaledBitmap(jumpButtonHighlighted, 100, 100, false);
         //pause = BitmapFactory.decodeResource(BasicConstants.CURRENT_CONTEXT.getResources(), R.drawable.pause);
         playerPoint = new Point(162, BasicConstants.BG_HEIGHT - 162);
         player = PlayerFactory.createPlayer(GlobalVariables.ACTIVE_PLAYER, playerPoint.x, playerPoint.y - 20);
@@ -231,7 +235,11 @@ public class GamePlayScene implements IScene {
         } else if (GlobalVariables.GAMES_PLAYED < 5 && modulesPassed == 15) {
             paint.setAlpha(0);
         }
-        canvas.drawBitmap(jumpButton, (BasicConstants.SCREEN_WIDTH / GlobalVariables.xRATIO) - 480, (BasicConstants.SCREEN_HEIGHT / GlobalVariables.yRATIO) - 120, paint);
+        if (isJumpButtonPressed) {
+            canvas.drawBitmap(jumpButtonHighlighted, (BasicConstants.SCREEN_WIDTH / GlobalVariables.xRATIO) - 480, (BasicConstants.SCREEN_HEIGHT / GlobalVariables.yRATIO) - 120, paint);
+        } else {
+            canvas.drawBitmap(jumpButton, (BasicConstants.SCREEN_WIDTH / GlobalVariables.xRATIO) - 480, (BasicConstants.SCREEN_HEIGHT / GlobalVariables.yRATIO) - 120, paint);
+        }
 
         canvas.restoreToCount(savedState);
     }
@@ -256,12 +264,14 @@ public class GamePlayScene implements IScene {
                     touchY = y;
 
                     if (x > BasicConstants.SCREEN_WIDTH / 2 && y > BasicConstants.SCREEN_HEIGHT / 2) {
+                        isJumpButtonPressed = true;
                         if (player.tryJump()) {
                             SoundPlayer.playJumpSound();
                         }
                     }
                     break;
                 case MotionEvent.ACTION_UP:
+                    isJumpButtonPressed = false;
                     if (touchX < BasicConstants.SCREEN_WIDTH / 2 && touchX < x && bomb == null) {
                         bomb = new Bomb(0, (int) (touchY / GlobalVariables.yRATIO));
                     }
