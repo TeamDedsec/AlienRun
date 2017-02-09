@@ -17,19 +17,22 @@ public class PlayerModel {
     private boolean isActive;
     private static ArrayList<PlayerModel> playerModels = new ArrayList<>();
 
+    //TODO: Add active player - change background
+
     static {
-        playerModels.add(new PlayerModel("Green Player", R.drawable.p1_stand, 100, "No special skill", true));
-        playerModels.add(new PlayerModel("Pink Player", R.drawable.p3_stand, 2000, "Bonus jump", false));
-        playerModels.add(new PlayerModel("Blue Player", R.drawable.p2_stand, 8000, "Extra life", false));
+        playerModels.add(new PlayerModel("Green Player", R.drawable.p1_stand, 100, "No special skill", true, true));
+        playerModels.add(new PlayerModel("Pink Player", R.drawable.p3_stand, 2000, "Bonus jump", false, false));
+        playerModels.add(new PlayerModel("Blue Player", R.drawable.p2_stand, 8000, "Extra life", false, false));
     }
 
 
-    public PlayerModel(String name, int id, int price, String specialSkill, boolean isSold) {
+    public PlayerModel(String name, int id, int price, String specialSkill, boolean isSold, boolean isActive) {
         this.name = name;
         this.id = id;
         this.price = price;
         this.specialSkill = specialSkill;
         this.isSold = isSold;
+        this.isActive = isActive;
     }
 
     public String getName() {
@@ -53,6 +56,10 @@ public class PlayerModel {
 
     public boolean isSold() {
         return this.isSold;
+    }
+
+    public boolean isActive() {
+        return this.isActive;
     }
 
     public static ArrayList getPlayers() {

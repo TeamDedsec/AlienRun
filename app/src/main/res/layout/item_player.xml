@@ -18,6 +18,13 @@
         android:layout_height="wrap_content"
         android:src="@drawable/bat"/>
 
+    <TextView
+        android:id="@+id/tv_skills"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
+
+
     <Button
         android:id="@+id/buy_button"
         android:layout_width="wrap_content"

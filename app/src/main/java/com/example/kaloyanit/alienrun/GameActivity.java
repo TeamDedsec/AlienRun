@@ -52,6 +52,8 @@ public class GameActivity extends AppCompatActivity{
     private ScalableView playersButton;
     private RelativeLayout playersLayout;
 
+    //TODO: Add AsyncTask to pause thread - should fix canvas null problem
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -80,7 +82,7 @@ public class GameActivity extends AppCompatActivity{
         startLayout = (RelativeLayout) findViewById(R.id.startPage);
         startButton = (ScalableView) findViewById(R.id.startView);
         playersButton = (ScalableView) findViewById(R.id.players_button);
-
+        playersLayout = (RelativeLayout) findViewById(R.id.players_layout);
         startButton.setOnClickListener(view -> {
             SceneManager.ACTIVE_SCENE = 1;
             SceneManager.resetGame();
@@ -89,7 +91,6 @@ public class GameActivity extends AppCompatActivity{
         });
 
         playersButton.setOnClickListener(view -> {
-            playersLayout = (RelativeLayout) findViewById(R.id.players_layout);
             gameView.setVisibility(View.INVISIBLE);
             SceneManager.ACTIVE_SCENE = 0;
             playersLayout.setVisibility(View.VISIBLE);
@@ -159,6 +160,8 @@ public class GameActivity extends AppCompatActivity{
 
     public void loadPlayersLayout() {
         GridView lvPlayers = (GridView) findViewById(R.id.players_list);
+        ScalableView backButton = (ScalableView) findViewById(R.id.home_button);
+
 
         ArrayAdapter<PlayerModel> playersAdapter = new ArrayAdapter<PlayerModel>(this, -1, PlayerModel.getPlayers()) {
             @NonNull
@@ -171,15 +174,29 @@ public class GameActivity extends AppCompatActivity{
                 }
 
                 TextView tvTitle = (TextView) view.findViewById(R.id.tv_title);
+                TextView tvSkill = (TextView) view.findViewById(R.id.tv_skills);
                 ScalableView plImage = (ScalableView) view.findViewById(R.id.pl_image) ;
                 Button buyButton = (Button) view.findViewById(R.id.buy_button);
 
+
+                backButton.setOnClickListener(view1 -> {
+                    playersLayout.setVisibility(View.INVISIBLE);
+                    startLayout.setVisibility(View.VISIBLE);
+                });
+
+
+                tvSkill.setText(this.getItem(position).getSpecialSkill());
+
                 if(this.getItem(position).isSold()) {
-                    buyButton.setText("Select");
-                    buyButton.setOnClickListener(view1 -> {
-                        //TODO: buy hero
+                    if(this.getItem(position).isActive()) {
                         buyButton.setText("Selected");
-                    });
+                    } else {
+                        buyButton.setText("Select");
+                        buyButton.setOnClickListener(view1 -> {
+                            //TODO: buy hero
+                            buyButton.setText("Selected");
+                        });
+                    }
                 } else {
                     buyButton.setOnClickListener(view1 -> {
                         //TODO: add another shop class
