@@ -98,8 +98,6 @@ public class GameActivity extends AppCompatActivity{
 
             loadPlayersLayout();
         });
-
-
     }
 
     public void pauseLayout() {
