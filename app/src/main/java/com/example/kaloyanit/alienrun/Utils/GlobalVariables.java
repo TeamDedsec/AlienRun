@@ -15,4 +15,7 @@ public class GlobalVariables {
     public static PlayerType ACTIVE_PLAYER = PlayerType.Green;
     public static float xRATIO = BasicConstants.SCREEN_WIDTH / (BasicConstants.BG_WIDTH * 1.0f);
     public static float yRATIO =BasicConstants.SCREEN_HEIGHT / (BasicConstants.BG_HEIGHT * 1.0f);
+    public static int SCORE = 0;
+    public static int COIN_COUNT = 0;
+    public static int GAMES_PLAYED = 0;
 }

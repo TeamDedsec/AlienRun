@@ -27,6 +27,7 @@ import com.example.kaloyanit.alienrun.GameObjects.MusicPlayer;
 import com.example.kaloyanit.alienrun.Models.PlayerModel;
 import com.example.kaloyanit.alienrun.Scenes.GamePlayScene;
 import com.example.kaloyanit.alienrun.Utils.BasicConstants;
+import com.example.kaloyanit.alienrun.Utils.GlobalVariables;
 import com.example.kaloyanit.alienrun.Views.ScalableView;
 
 import java.util.ArrayList;
@@ -145,13 +146,13 @@ public class GameActivity extends AppCompatActivity{
         gameView.setVisibility(View.VISIBLE);
 
         scoreView = (TextView) findViewById(R.id.scoreView);
-        scoreView.setText(Integer.toString(GamePlayScene.getScore()));
+        scoreView.setText(Integer.toString(GlobalVariables.SCORE));
 //
         final Handler handler = new Handler();
         handler.post(new Runnable() {
             @Override
             public void run() {
-                scoreView.setText(Integer.toString(GamePlayScene.getScore()));
+                scoreView.setText(Integer.toString(GlobalVariables.SCORE));
                 handler.postDelayed(this, 500);
             }
         });

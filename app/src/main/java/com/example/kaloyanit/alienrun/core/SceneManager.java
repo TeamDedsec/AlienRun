@@ -54,7 +54,8 @@ public class SceneManager implements IManager {
         GlobalVariables.GRAVITY = GameConstants.GRAVITY;
         GlobalVariables.JUMP_VELOCITY = GameConstants.JUMP_VELOCITY;
         GlobalVariables.DELAY = GameConstants.PLAYER_ANIMATION_DELAY;
-        GamePlayScene.setScore(0);
+        GlobalVariables.SCORE = 0;
+        GlobalVariables.GAMES_PLAYED++;
         scenes.set(1, new GamePlayScene());
         ACTIVE_SCENE = 1;
     }
