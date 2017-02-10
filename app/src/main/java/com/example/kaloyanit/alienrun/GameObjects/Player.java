@@ -75,7 +75,11 @@ public class Player extends GameObject {
     }
 
     private void resetJump() {
-        this.yDelta = GameConstants.JUMP_DELTA;
+        if (isBig) {
+            this.yDelta = GameConstants.JUMP_DELTA;
+        } else {
+            this.yDelta = GameConstants.JUMP_DELTA / 3;
+        }
         this.duckCount = GameConstants.DUCK_FRAMES;
     }
 
@@ -120,6 +124,7 @@ public class Player extends GameObject {
     public void draw(Canvas canvas) {
         Bitmap image = this.standImage;
         int heightCorrection = 0;
+        int anotherCorrection = 18;
 
         switch (state) {
             case Running:
@@ -130,7 +135,12 @@ public class Player extends GameObject {
             case Jumping:
                 if (duckCount > 0) {
                     image = this.duckImage;
-                    heightCorrection = GameConstants.DUCK_CORRECTION;
+                    if (isBig) {
+                        heightCorrection = GameConstants.DUCK_CORRECTION;
+                    }
+                    else {
+                        heightCorrection = 18;
+                    }
                     duckCount--;
                 } else {
                     image = this.jumpImage;
@@ -156,7 +166,7 @@ public class Player extends GameObject {
         if (isBig) {
             canvas.drawBitmap(image, this.x, this.y + heightCorrection, null);
         } else {
-            canvas.drawBitmap(Bitmap.createScaledBitmap(image, this.width, this.height, false), this.x, this.y + heightCorrection, null);
+            canvas.drawBitmap(Bitmap.createScaledBitmap(image, this.width, this.height - heightCorrection, false), this.x, this.y + heightCorrection, null);
         }
 
     }
