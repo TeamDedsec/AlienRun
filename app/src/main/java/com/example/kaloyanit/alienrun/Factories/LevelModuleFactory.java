@@ -85,6 +85,10 @@ public class LevelModuleFactory {
                 module = createFloatingLevelWithSpinner();
                 startPosition = module.getEndX();
                 return module;
+            case 6:
+                module = createSmallWallHole();
+                startPosition = module.getEndX();
+                return module;
             default:
                 throw new RuntimeException();
         }
@@ -263,8 +267,20 @@ public class LevelModuleFactory {
         int currentX = startPosition;
         int positionY = BasicConstants.BG_HEIGHT - GameConstants.BLOCK_HEIGHT;
 
-        module.addBlock(BlockType.GroundMid, currentX, positionY);
-        currentX += GameConstants.BLOCK_WIDTH;
+        module.addBlock(BlockType.GroundRight, currentX, positionY);
+        currentX += GameConstants.BLOCK_WIDTH * 2;
+
+        for (int i = 0; i < 11; i++) {
+            if (i == 4) {
+                module.addBlock(BlockType.GroundLeft, currentX, positionY - (i * GameConstants.BLOCK_HEIGHT));
+            } else if (i == 5) {
+                continue;
+            } else if (i == 6) {
+                module.addBlock(BlockType.GroundBottomLeft, currentX, positionY - (i * GameConstants.BLOCK_HEIGHT));
+            } else {
+                module.addBlock(BlockType.GroundFullWall, currentX, positionY - (i * GameConstants.BLOCK_HEIGHT));
+            }
+        }
 
 
         return module;

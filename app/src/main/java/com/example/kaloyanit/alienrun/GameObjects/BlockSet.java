@@ -35,7 +35,6 @@ public class BlockSet {
 
     public Bitmap[] getBottomRight() { return bottomRight; }
 
-
     public Bitmap[] getLeftGround() { return leftGround; }
 
     public Bitmap[] getMiddleGround() { return middleGround; }
