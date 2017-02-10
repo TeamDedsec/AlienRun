@@ -42,6 +42,11 @@ public class SoundPlayer {
         playAndRelease();
     }
 
+    public static void playExplosionSound() {
+        mediaPlayer = MediaPlayer.create(BasicConstants.CURRENT_CONTEXT, R.raw.explosion);
+        playAndRelease();
+    }
+
     public static void playAndRelease() {
         mediaPlayer.start();
         mediaPlayer.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {

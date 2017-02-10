@@ -121,6 +121,7 @@ public class GamePlayScene implements IScene {
                     if (Rect.intersects(bomb.getRectangle(), enemies.get(i).getRectangle())) {
                         if (explosion == null) {
                             explosion = new Explosion(bomb.getX() + bomb.getWidth(), bomb.getY() + bomb.getHeight() / 2);
+                            SoundPlayer.playExplosionSound();
                         }
                         bomb = null;
                         enemies.remove(i);
@@ -230,10 +231,6 @@ public class GamePlayScene implements IScene {
 
         player.draw(canvas);
 
-        if (bomb != null) {
-            bomb.draw(canvas);
-        }
-
         for (int i = 0; i < modules.size(); i++) {
             LevelModule mod = modules.get(i);
             for (int j = 0; j < mod.getBlocks().size(); j++) {
@@ -245,6 +242,10 @@ public class GamePlayScene implements IScene {
 
         for (int i = 0; i < enemies.size(); i++) {
             enemies.get(0).draw(canvas);
+        }
+
+        if (bomb != null) {
+            bomb.draw(canvas);
         }
 
         if (GlobalVariables.GAMES_PLAYED > 15) {
