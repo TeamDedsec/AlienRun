@@ -12,6 +12,7 @@ public class Animation {
     private long startTime;
     private long delay;
     private int frameCount;
+    private boolean isPlayedOnce = false;
 
     public void setFrames(Bitmap[] frames, int frameCount) {
         this.frames = frames;
@@ -28,6 +29,10 @@ public class Animation {
         this.currentFrame = i;
     }
 
+    public boolean isPlayedOnce() {
+        return isPlayedOnce;
+    }
+
     public boolean update() {
         boolean updated = false;
         long elapsed = (System.nanoTime() - startTime) / 1000000;
@@ -40,6 +45,7 @@ public class Animation {
 
         if (currentFrame == frameCount) {
             currentFrame = 0;
+            isPlayedOnce = true;
         }
 
         return updated;

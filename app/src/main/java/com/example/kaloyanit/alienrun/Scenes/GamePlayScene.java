@@ -24,6 +24,7 @@ import com.example.kaloyanit.alienrun.Factories.PlayerFactory;
 import com.example.kaloyanit.alienrun.GameObjects.Background;
 import com.example.kaloyanit.alienrun.GameObjects.Bomb;
 import com.example.kaloyanit.alienrun.GameObjects.Enemy;
+import com.example.kaloyanit.alienrun.GameObjects.Explosion;
 import com.example.kaloyanit.alienrun.GameObjects.LevelModule;
 import com.example.kaloyanit.alienrun.GameObjects.MusicPlayer;
 import com.example.kaloyanit.alienrun.GameObjects.Player;
@@ -61,6 +62,7 @@ public class GamePlayScene implements IScene {
     private boolean isJumpButtonPressed = false;
     private Bomb bomb = null;
     private Paint paint;
+    private Explosion explosion = null;
 
     //TODO: JT: Change collision with obstacle/enemy to something specific, not wall!!! This is more important now, as enemies don't kill you!!
     //TODO: JT: Think of a way to make the player to be able to jump while colliding with a wall
@@ -106,10 +108,20 @@ public class GamePlayScene implements IScene {
             background.update();
             moduleFactory.update();
 
+            if (explosion != null) {
+                explosion.update();
+                if (explosion.isFinished()) {
+                    explosion = null;
+                }
+            }
+
             if (bomb != null) {
                 bomb.update();
                 for (int i = 0; i < enemies.size(); i++) {
                     if (Rect.intersects(bomb.getRectangle(), enemies.get(i).getRectangle())) {
+                        if (explosion == null) {
+                            explosion = new Explosion(bomb.getX() + bomb.getWidth(), bomb.getY() + bomb.getHeight() / 2);
+                        }
                         bomb = null;
                         enemies.remove(i);
                         GlobalVariables.SCORE += 5;
@@ -203,6 +215,10 @@ public class GamePlayScene implements IScene {
 
         background.draw(canvas);
         //canvas.drawBitmap(pause, 10, 0, null);
+
+        if (explosion != null) {
+            explosion.draw(canvas);
+        }
 
         for (int j = 0; j < modules.size(); j++) {
             LevelModule mod = modules.get(j);

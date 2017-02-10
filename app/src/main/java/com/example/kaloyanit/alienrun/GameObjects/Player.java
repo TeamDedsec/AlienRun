@@ -124,7 +124,6 @@ public class Player extends GameObject {
     public void draw(Canvas canvas) {
         Bitmap image = this.standImage;
         int heightCorrection = 0;
-        int anotherCorrection = 18;
 
         switch (state) {
             case Running:
