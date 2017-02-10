@@ -9,8 +9,8 @@ import java.util.ArrayList;
  */
 
 public class PointAchievement extends Achievement {
-    private static ArrayList<Achievement> achievements = new ArrayList<>();
-    private static ArrayList<Achievement> unlockedAchievements = new ArrayList<>();
+    public static ArrayList<Achievement> achievements = new ArrayList<>();
+
     static {
         achievements.add(new PointAchievement("Bignner introduction", AchievementType.Point, 15));
         achievements.add(new PointAchievement("Becoming better", AchievementType.Point, 50));
@@ -25,19 +25,7 @@ public class PointAchievement extends Achievement {
         this.isLocked = true;
     }
 
-    public static boolean checkAchievement(int points) {
-        if(points >= achievements.get(0).getPoints()) {
-            for (Achievement ach: achievements) {
-                if (ach.getPoints() <= points) {
-
-                }
-            }
-        } else {
-            return false;
-        }
-    }
-
-    public static String returnMessages(PointAchievement achievement) {
-        return achievement.name + " unlocked!";
+    public static ArrayList getAchievements() {
+        return achievements;
     }
 }

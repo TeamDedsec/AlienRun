@@ -26,6 +26,16 @@ public abstract class Achievement {
 
     public int getPoints() { return this.points; }
 
+    public boolean isLocked() { return this.isLocked;}
+
+    public void lockAchievement() {
+        this.isLocked = true;
+    }
+
+    public String returnMessages() {
+        return this.name + " unlocked!";
+    }
+
     //TODO: Add achievments  and toaster to show them and money to add
     //TODO: Time achievments -
 }

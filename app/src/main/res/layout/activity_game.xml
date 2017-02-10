@@ -115,6 +115,7 @@
             android:layout_height="wrap_content"
             android:numColumns="3"
             >
+
         </GridView>
 
 
@@ -164,6 +165,24 @@
             android:layout_centerVertical="true"
             android:layout_toLeftOf="@id/resumeButton"
             android:clickable="true"/>
+
+    </RelativeLayout>
+
+    <!--Achievements Scene-->
+    <RelativeLayout
+        android:id="@+id/achievements_layout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/colorPrimaryDark"
+        android:visibility="invisible">
+
+        <ListView
+            android:id="@+id/lv_achievements"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+
+        </ListView>
+
 
     </RelativeLayout>
 

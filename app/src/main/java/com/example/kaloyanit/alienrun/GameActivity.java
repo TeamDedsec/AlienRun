@@ -15,12 +15,15 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.example.kaloyanit.alienrun.Achievements.PointAchievement;
 import com.example.kaloyanit.alienrun.Core.GamePanel;
 import com.example.kaloyanit.alienrun.Core.SceneManager;
 import com.example.kaloyanit.alienrun.GameObjects.MusicPlayer;
@@ -33,6 +36,7 @@ import com.example.kaloyanit.alienrun.Views.ScalableView;
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.example.kaloyanit.alienrun.R.id.achievements_button;
 import static com.example.kaloyanit.alienrun.R.id.resumeButton;
 
 
@@ -52,6 +56,9 @@ public class GameActivity extends AppCompatActivity{
     private ScalableView homeMenuButton;
     private ScalableView playersButton;
     private RelativeLayout playersLayout;
+    private RelativeLayout achievementsLayout;
+    private ScalableView achievementsButton;
+    private ListView achievementLv;
 
     //TODO: Add AsyncTask to pause thread - should fix canvas null problem
 
@@ -72,17 +79,15 @@ public class GameActivity extends AppCompatActivity{
         gameView = (GamePanel)findViewById(R.id.gameView);
         gameView.setVisibility(View.GONE);
 
-
+        //  Start loading layout for start menu
         startLayout();
-
-
-
     }
 
     public void startLayout() {
         startLayout = (RelativeLayout) findViewById(R.id.startPage);
         startButton = (ScalableView) findViewById(R.id.startView);
         playersButton = (ScalableView) findViewById(R.id.players_button);
+        achievementsButton = (ScalableView) findViewById(R.id.achievements_button);
         playersLayout = (RelativeLayout) findViewById(R.id.players_layout);
         startButton.setOnClickListener(view -> {
             SceneManager.ACTIVE_SCENE = 1;
@@ -96,8 +101,12 @@ public class GameActivity extends AppCompatActivity{
             SceneManager.ACTIVE_SCENE = 0;
             playersLayout.setVisibility(View.VISIBLE);
             startLayout.setVisibility(View.INVISIBLE);
-
             loadPlayersLayout();
+        });
+
+        achievementsButton.setOnClickListener(view -> {
+            startLayout.setVisibility(View.INVISIBLE);
+            achievementsLayout();
         });
     }
 
@@ -128,8 +137,6 @@ public class GameActivity extends AppCompatActivity{
             pauseLayout.setVisibility(View.INVISIBLE);
             startLayout.setVisibility(View.VISIBLE);
         });
-
-
     }
 
     public void gameEngine() {
@@ -172,12 +179,15 @@ public class GameActivity extends AppCompatActivity{
                     view = inflater.inflate(R.layout.item_player, parent, false);
                 }
 
+                //Initialize item elements
                 TextView tvTitle = (TextView) view.findViewById(R.id.tv_title);
                 TextView tvSkill = (TextView) view.findViewById(R.id.tv_skills);
                 ScalableView plImage = (ScalableView) view.findViewById(R.id.pl_image) ;
                 Button buyButton = (Button) view.findViewById(R.id.buy_button);
 
 
+
+                //Use elements
                 backButton.setOnClickListener(view1 -> {
                     playersLayout.setVisibility(View.INVISIBLE);
                     startLayout.setVisibility(View.VISIBLE);
@@ -213,6 +223,8 @@ public class GameActivity extends AppCompatActivity{
                 System.out.println(title);
                 tvTitle.setText(title);
 
+
+                //Return view
                 return view;
             }
         };
@@ -220,6 +232,51 @@ public class GameActivity extends AppCompatActivity{
         lvPlayers.setAdapter(playersAdapter);
     }
 
+    public void achievementsLayout() {
+        achievementsLayout = (RelativeLayout) findViewById(R.id.achievements_layout);
+        achievementsLayout.setVisibility(View.VISIBLE);
+        achievementLv = (ListView) findViewById(R.id.lv_achievements);
+
+        ArrayAdapter<PointAchievement> achievementsAdapter = new ArrayAdapter<PointAchievement>(this, -1, PointAchievement.getAchievements()) {
+            public TextView tvAchievementPoints;
+            public CheckBox checkBoxAchievement;
+            public TextView tvAchievement;
+
+            @NonNull
+            @Override
+            public View getView(int position, View convertView, ViewGroup parent) {
+                View view = convertView;
+
+                if(view == null) {
+                    LayoutInflater inflater = LayoutInflater.from(this.getContext());
+                    view = inflater.inflate(R.layout.item_achievement, parent, false);
+                }
+
+                //Initialize item elements
+                tvAchievement = (TextView) view.findViewById(R.id.tv_achievement);
+                tvAchievementPoints = (TextView) view.findViewById(R.id.tv_achievement_points);
+                checkBoxAchievement = (CheckBox) view.findViewById(R.id.checkBox_achievement);
+                String name = this.getItem(position).getName();
+                int points = this.getItem(position).getPoints();
+                String pointsToString = String.format(" -  %1$d points", points);
+
+                //Use item elements
+                tvAchievement.setText(name);
+                tvAchievementPoints.setText(pointsToString);
+
+                if(this.getItem(position).isLocked()) {
+                    checkBoxAchievement.setChecked(false);
+                } else {
+                    checkBoxAchievement.setChecked(true);
+                }
+
+
+                return view;
+            }
+        };
+
+        achievementLv.setAdapter(achievementsAdapter);
+    }
 
 
 

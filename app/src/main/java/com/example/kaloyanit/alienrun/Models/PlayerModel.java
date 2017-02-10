@@ -3,6 +3,7 @@ package com.example.kaloyanit.alienrun.Models;
 import com.example.kaloyanit.alienrun.R;
 
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by KaloyanIT on 2/1/2017.
@@ -15,7 +16,7 @@ public class PlayerModel {
     private String specialSkill;
     private boolean isSold;
     private boolean isActive;
-    private static ArrayList<PlayerModel> playerModels = new ArrayList<>();
+    private static List<PlayerModel> playerModels = new ArrayList<>();
 
     //TODO: Add active player - change background
 
@@ -62,7 +63,7 @@ public class PlayerModel {
         return this.isActive;
     }
 
-    public static ArrayList getPlayers() {
+    public static List getPlayers() {
         return playerModels;
     }
 
