@@ -12,7 +12,7 @@ public class PointAchievement extends Achievement {
     public static ArrayList<Achievement> achievements = new ArrayList<>();
 
     static {
-        achievements.add(new PointAchievement("Bignner introduction", AchievementType.Point, 15));
+        achievements.add(new PointAchievement("Bignner introduction", AchievementType.Point, 5));
         achievements.add(new PointAchievement("Becoming better", AchievementType.Point, 50));
         achievements.add(new PointAchievement("Semi pro player", AchievementType.Point, 75));
         achievements.add(new PointAchievement("World class", AchievementType.Point, 105));

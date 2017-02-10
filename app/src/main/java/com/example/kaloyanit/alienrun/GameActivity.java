@@ -22,6 +22,7 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.kaloyanit.alienrun.Achievements.PointAchievement;
 import com.example.kaloyanit.alienrun.Core.GamePanel;
@@ -60,6 +61,9 @@ public class GameActivity extends AppCompatActivity{
     private ScalableView achievementsButton;
     private ListView achievementLv;
 
+
+    private ArrayList<PointAchievement> achievements;
+
     //TODO: Add AsyncTask to pause thread - should fix canvas null problem
 
 
@@ -76,6 +80,7 @@ public class GameActivity extends AppCompatActivity{
         BasicConstants.SCREEN_HEIGHT = dm.heightPixels;
         SceneManager.ACTIVE_SCENE = 0;
         setContentView(R.layout.activity_game);
+        achievements = PointAchievement.getAchievements();
         gameView = (GamePanel)findViewById(R.id.gameView);
         gameView.setVisibility(View.GONE);
 
@@ -156,9 +161,16 @@ public class GameActivity extends AppCompatActivity{
 //
         final Handler handler = new Handler();
         handler.post(new Runnable() {
+            int index = 0;
             @Override
             public void run() {
                 scoreView.setText(Integer.toString(GlobalVariables.SCORE));
+                if(achievements.get(index).getPoints() == GlobalVariables.SCORE) {
+                    achievements.get(index).lockAchievement();
+                    index++;
+                    Toast toast = Toast.makeText(getBaseContext(), achievements.get(index).returnMessages(), Toast.LENGTH_SHORT);
+                    toast.show();
+                }
                 handler.postDelayed(this, 500);
             }
         });
@@ -269,7 +281,6 @@ public class GameActivity extends AppCompatActivity{
                 } else {
                     checkBoxAchievement.setChecked(true);
                 }
-
 
                 return view;
             }
