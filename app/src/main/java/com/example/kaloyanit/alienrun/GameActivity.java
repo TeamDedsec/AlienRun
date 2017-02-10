@@ -2,7 +2,6 @@ package com.example.kaloyanit.alienrun;
 
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.NonNull;
@@ -17,28 +16,21 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.GridView;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.kaloyanit.alienrun.Achievements.PointAchievement;
+import com.example.kaloyanit.alienrun.Models.Achievements.PointAchievement;
 import com.example.kaloyanit.alienrun.Core.GamePanel;
 import com.example.kaloyanit.alienrun.Core.SceneManager;
 import com.example.kaloyanit.alienrun.GameObjects.MusicPlayer;
 import com.example.kaloyanit.alienrun.Models.PlayerModel;
-import com.example.kaloyanit.alienrun.Scenes.GamePlayScene;
 import com.example.kaloyanit.alienrun.Utils.BasicConstants;
 import com.example.kaloyanit.alienrun.Utils.GlobalVariables;
 import com.example.kaloyanit.alienrun.Views.ScalableView;
 
 import java.util.ArrayList;
-import java.util.List;
-
-import static com.example.kaloyanit.alienrun.R.id.achievements_button;
-import static com.example.kaloyanit.alienrun.R.id.resumeButton;
 
 
 public class GameActivity extends AppCompatActivity{

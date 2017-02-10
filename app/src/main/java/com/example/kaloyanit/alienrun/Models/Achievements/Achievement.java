@@ -1,4 +1,4 @@
-package com.example.kaloyanit.alienrun.Achievements;
+package com.example.kaloyanit.alienrun.Models.Achievements;
 
 import com.example.kaloyanit.alienrun.Enums.AchievementType;
 

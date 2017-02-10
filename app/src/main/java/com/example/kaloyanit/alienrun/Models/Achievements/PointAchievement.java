@@ -1,4 +1,4 @@
-package com.example.kaloyanit.alienrun.Achievements;
+package com.example.kaloyanit.alienrun.Models.Achievements;
 
 import com.example.kaloyanit.alienrun.Enums.AchievementType;
 
@@ -9,6 +9,7 @@ import java.util.ArrayList;
  */
 
 public class PointAchievement extends Achievement {
+    //TODO: Replace static list with data form db
     public static ArrayList<Achievement> achievements = new ArrayList<>();
 
     static {
