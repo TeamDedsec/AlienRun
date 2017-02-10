@@ -173,7 +173,7 @@ public class GamePlayScene implements IScene {
                     this.increaseSpeed();
                 }
 
-                if (modulesPassed % 40 == 0) {
+                if (modulesPassed % 20 == 0) {
                     background.setImage(BackgroundFactory.getBackgroundImage());
                     moduleFactory.changeBlockType();
                 }

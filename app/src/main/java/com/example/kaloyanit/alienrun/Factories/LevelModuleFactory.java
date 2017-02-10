@@ -257,4 +257,16 @@ public class LevelModuleFactory {
         module.setEndX(resetEndPosition(module));
         return module;
     }
+
+    public LevelModule createSmallWallHole() {
+        LevelModule module = new LevelModule(type, startPosition);
+        int currentX = startPosition;
+        int positionY = BasicConstants.BG_HEIGHT - GameConstants.BLOCK_HEIGHT;
+
+        module.addBlock(BlockType.GroundMid, currentX, positionY);
+        currentX += GameConstants.BLOCK_WIDTH;
+
+
+        return module;
+    }
 }

@@ -7,6 +7,9 @@ import android.graphics.Bitmap;
  */
 
 public class BlockSet {
+    private Bitmap[] fullGround = new Bitmap[1];
+    private Bitmap[] bottomLeft = new Bitmap[1];
+    private Bitmap[] bottomRight = new Bitmap[1];
     private Bitmap[] leftGround = new Bitmap[1];
     private Bitmap[] middleGround = new Bitmap[1];
     private Bitmap[] rightGround = new Bitmap[1];
@@ -14,7 +17,10 @@ public class BlockSet {
     private Bitmap[] middleAir = new Bitmap[1];
     private Bitmap[] rightAir = new Bitmap[1];
 
-    public BlockSet(Bitmap leftGround, Bitmap middleGround, Bitmap rightGround, Bitmap leftAir, Bitmap middleAir, Bitmap rightAir) {
+    public BlockSet(Bitmap fullGround, Bitmap bottomLeft, Bitmap bottomRight, Bitmap leftGround, Bitmap middleGround, Bitmap rightGround, Bitmap leftAir, Bitmap middleAir, Bitmap rightAir) {
+        this.fullGround[0] = fullGround;
+        this.bottomLeft[0] = bottomLeft;
+        this.bottomRight[0] = bottomRight;
         this.leftGround[0] = leftGround;
         this.middleGround[0] = middleGround;
         this.rightGround[0] = rightGround;
@@ -22,6 +28,13 @@ public class BlockSet {
         this.middleAir[0] = middleAir;
         this.rightAir[0] = rightAir;
     }
+
+    public Bitmap[] getFullGround() { return fullGround; }
+
+    public Bitmap[] getBottomLeft() { return bottomLeft; }
+
+    public Bitmap[] getBottomRight() { return bottomRight; }
+
 
     public Bitmap[] getLeftGround() { return leftGround; }
 

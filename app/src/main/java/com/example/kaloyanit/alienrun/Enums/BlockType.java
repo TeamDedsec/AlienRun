@@ -5,6 +5,9 @@ package com.example.kaloyanit.alienrun.Enums;
  */
 
 public enum BlockType {
+    GroundFull,
+    GroundBottomLeft,
+    GroundBottomRight,
     GroundMid,
     GroundLeft,
     GroundRight,
