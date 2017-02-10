@@ -75,7 +75,11 @@ public class Player extends GameObject {
     }
 
     private void resetJump() {
-        this.yDelta = GameConstants.JUMP_DELTA;
+        if (isBig) {
+            this.yDelta = GameConstants.JUMP_DELTA;
+        } else {
+            this.yDelta = GameConstants.JUMP_DELTA / 3;
+        }
         this.duckCount = GameConstants.DUCK_FRAMES;
     }
 
@@ -118,42 +122,52 @@ public class Player extends GameObject {
 
     @Override
     public void draw(Canvas canvas) {
+        Bitmap image = this.standImage;
+        int heightCorrection = 0;
+
         switch (state) {
             case Running:
-                if (isNextToWall) {
-                    canvas.drawBitmap(standImage, this.x, this.y, null);
-                } else {
-                    if (isBig) {
-                        canvas.drawBitmap(animation.getImage(), this.x, this.y, null);
-                    } else {
-                        canvas.drawBitmap(Bitmap.createScaledBitmap(animation.getImage(), this.width, this.height, false), this.x, this.y, null);
-                    }
+                if (!isNextToWall) {
+                    image = animation.getImage();
                 }
                 break;
             case Jumping:
                 if (duckCount > 0) {
-                    canvas.drawBitmap(this.duckImage, this.x, this.y + GameConstants.DUCK_CORRECTION, null);
+                    image = this.duckImage;
+                    if (isBig) {
+                        heightCorrection = GameConstants.DUCK_CORRECTION;
+                    }
+                    else {
+                        heightCorrection = 18;
+                    }
                     duckCount--;
                 } else {
-                    canvas.drawBitmap(this.jumpImage, this.x, this.y, null);
+                    image = this.jumpImage;
                 }
                 break;
             case HighPoint:
-                canvas.drawBitmap(this.jumpImage, this.x, this.y, null);
+                image = this.jumpImage;
                 break;
             case Falling:
-                canvas.drawBitmap(this.jumpImage, this.x, this.y, null);
+                image = this.jumpImage;
                 break;
             case Drowning:
-                canvas.drawBitmap(this.jumpImage, this.x, this.y, null);
+                image = this.jumpImage;
                 break;
             case HitWall:
-                canvas.drawBitmap(this.hurtImage, this.x, this.y, null);
+                image = this.hurtImage;
                 break;
             case Dead:
-                canvas.drawBitmap(this.hurtImage, this.x, this.y, null);
+                image = this.hurtImage;
                 break;
         }
+
+        if (isBig) {
+            canvas.drawBitmap(image, this.x, this.y + heightCorrection, null);
+        } else {
+            canvas.drawBitmap(Bitmap.createScaledBitmap(image, this.width, this.height - heightCorrection, false), this.x, this.y + heightCorrection, null);
+        }
+
     }
 
     @Override

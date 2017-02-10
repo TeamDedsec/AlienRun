@@ -21,6 +21,22 @@ public class BlockFactory {
         BlockSet blockSet = BlockSetFactory.createBlockSet(setType);
 
         switch (blockType) {
+            case GroundBottomMiddle:
+                return new Block(blockSet.getFullGround(), 1, "FullGround",
+                        x, y, GameConstants.BLOCK_WIDTH, GameConstants.BLOCK_HEIGHT,
+                        CollisionType.Ground, false);
+            case GroundFullWall:
+                return new Block(blockSet.getFullGround(), 1, "FullGround",
+                        x, y, GameConstants.BLOCK_WIDTH, GameConstants.BLOCK_HEIGHT,
+                        CollisionType.Wall, false);
+            case GroundBottomLeft:
+                return new Block(blockSet.getBottomLeft(), 1, "BottomLeft",
+                        x, y, GameConstants.BLOCK_WIDTH, GameConstants.BLOCK_HEIGHT,
+                        CollisionType.Wall, false);
+            case GroundBottomRight:
+                return new Block(blockSet.getBottomRight(), 1, "BottomRight",
+                        x, y, GameConstants.BLOCK_WIDTH, GameConstants.BLOCK_HEIGHT,
+                        CollisionType.Ground, false);
             case GroundMid:
                 return new Block(blockSet.getMiddleGround(), 1, "GroundMid",
                         x, y, GameConstants.BLOCK_WIDTH, GameConstants.BLOCK_HEIGHT,

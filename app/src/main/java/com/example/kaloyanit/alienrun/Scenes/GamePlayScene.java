@@ -24,6 +24,7 @@ import com.example.kaloyanit.alienrun.Factories.PlayerFactory;
 import com.example.kaloyanit.alienrun.GameObjects.Background;
 import com.example.kaloyanit.alienrun.GameObjects.Bomb;
 import com.example.kaloyanit.alienrun.GameObjects.Enemy;
+import com.example.kaloyanit.alienrun.GameObjects.Explosion;
 import com.example.kaloyanit.alienrun.GameObjects.LevelModule;
 import com.example.kaloyanit.alienrun.GameObjects.MusicPlayer;
 import com.example.kaloyanit.alienrun.GameObjects.Player;
@@ -61,6 +62,7 @@ public class GamePlayScene implements IScene {
     private boolean isJumpButtonPressed = false;
     private Bomb bomb = null;
     private Paint paint;
+    private Explosion explosion = null;
 
     //TODO: JT: Change collision with obstacle/enemy to something specific, not wall!!! This is more important now, as enemies don't kill you!!
     //TODO: JT: Think of a way to make the player to be able to jump while colliding with a wall
@@ -94,6 +96,7 @@ public class GamePlayScene implements IScene {
         modules = new ArrayList<>();
         enemies = new ArrayList<>();
         modules.add(moduleFactory.getLevelModule(0));
+        //modules.add(moduleFactory.getLevelModule(6));
         modules.add(moduleFactory.getLevelModule(4));
         modules.add(moduleFactory.getLevelModule(1));
         modules.add(moduleFactory.getLevelModule(2));
@@ -106,10 +109,21 @@ public class GamePlayScene implements IScene {
             background.update();
             moduleFactory.update();
 
+            if (explosion != null) {
+                explosion.update();
+                if (explosion.isFinished()) {
+                    explosion = null;
+                }
+            }
+
             if (bomb != null) {
                 bomb.update();
                 for (int i = 0; i < enemies.size(); i++) {
                     if (Rect.intersects(bomb.getRectangle(), enemies.get(i).getRectangle())) {
+                        if (explosion == null) {
+                            explosion = new Explosion(bomb.getX() + bomb.getWidth(), bomb.getY() + bomb.getHeight() / 2);
+                            SoundPlayer.playExplosionSound();
+                        }
                         bomb = null;
                         enemies.remove(i);
                         GlobalVariables.SCORE += 5;
@@ -154,13 +168,13 @@ public class GamePlayScene implements IScene {
             player.updateState(Helpers.checkCollision(player, modules));
             //TODO: JT: think of a better way to spawn enemies
             if (modulesPassed % 5 == 0 && modulesPassed > 0 && !isScoreChecked) {
-                int rand = Helpers.getRandomNumber(GameConstants.BLOCK_HEIGHT * 2, BasicConstants.BG_HEIGHT - GameConstants.BLOCK_HEIGHT * 2);
+                int rand = Helpers.getRandomNumber(BasicConstants.SCREEN_HEIGHT / 3, BasicConstants.BG_HEIGHT - GameConstants.BLOCK_HEIGHT * 2);
                 enemies.add(EnemyFactory.createEnemy(BasicConstants.BG_WIDTH, rand));
                 if (modulesPassed % 10 == 0) {
                     this.increaseSpeed();
                 }
 
-                if (modulesPassed % 40 == 0) {
+                if (modulesPassed % 20 == 0) {
                     background.setImage(BackgroundFactory.getBackgroundImage());
                     moduleFactory.changeBlockType();
                 }
@@ -175,6 +189,9 @@ public class GamePlayScene implements IScene {
             }
             for (int i = 0; i < enemies.size(); i++) {
                 enemies.get(i).update();
+            }
+            if (explosion != null) {
+                explosion.update();
             }
             resetCounter--;
             if (resetCounter <= 0) {
@@ -204,6 +221,10 @@ public class GamePlayScene implements IScene {
         background.draw(canvas);
         //canvas.drawBitmap(pause, 10, 0, null);
 
+        if (explosion != null) {
+            explosion.draw(canvas);
+        }
+
         for (int j = 0; j < modules.size(); j++) {
             LevelModule mod = modules.get(j);
             for (int i = 0; i < mod.getBlocks().size(); i++) {
@@ -213,10 +234,6 @@ public class GamePlayScene implements IScene {
         }
 
         player.draw(canvas);
-
-        if (bomb != null) {
-            bomb.draw(canvas);
-        }
 
         for (int i = 0; i < modules.size(); i++) {
             LevelModule mod = modules.get(i);
@@ -229,6 +246,10 @@ public class GamePlayScene implements IScene {
 
         for (int i = 0; i < enemies.size(); i++) {
             enemies.get(0).draw(canvas);
+        }
+
+        if (bomb != null) {
+            bomb.draw(canvas);
         }
 
         if (GlobalVariables.GAMES_PLAYED > 15) {
@@ -268,7 +289,7 @@ public class GamePlayScene implements IScene {
                     touchX = x;
                     touchY = y;
 
-                    if (x > BasicConstants.SCREEN_WIDTH / 2 && y > BasicConstants.SCREEN_HEIGHT / 2) {
+                    if (x > (BasicConstants.SCREEN_WIDTH / 3) * 2 && y > (BasicConstants.SCREEN_HEIGHT / 3) * 2) {
                         isJumpButtonPressed = true;
                         if (player.tryJump()) {
                             SoundPlayer.playJumpSound();
@@ -285,7 +306,7 @@ public class GamePlayScene implements IScene {
                         player.becomeSmall();
                         ScaleDetector.scaleFactor = 1.0f;
                     } else {
-                        if (touchX < BasicConstants.SCREEN_WIDTH / 2 && touchX < x && bomb == null) {
+                        if (touchX < (BasicConstants.SCREEN_WIDTH / 3) * 2 && touchX < x && bomb == null) {
                             bomb = new Bomb(0, (int) (touchY / GlobalVariables.yRATIO));
                         }
                     }
