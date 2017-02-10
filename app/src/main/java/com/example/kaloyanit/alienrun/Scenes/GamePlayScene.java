@@ -167,7 +167,7 @@ public class GamePlayScene implements IScene {
             player.updateState(Helpers.checkCollision(player, modules));
             //TODO: JT: think of a better way to spawn enemies
             if (modulesPassed % 5 == 0 && modulesPassed > 0 && !isScoreChecked) {
-                int rand = Helpers.getRandomNumber(GameConstants.BLOCK_HEIGHT * 2, BasicConstants.BG_HEIGHT - GameConstants.BLOCK_HEIGHT * 2);
+                int rand = Helpers.getRandomNumber(BasicConstants.SCREEN_HEIGHT / 3, BasicConstants.BG_HEIGHT - GameConstants.BLOCK_HEIGHT * 2);
                 enemies.add(EnemyFactory.createEnemy(BasicConstants.BG_WIDTH, rand));
                 if (modulesPassed % 10 == 0) {
                     this.increaseSpeed();
@@ -188,6 +188,9 @@ public class GamePlayScene implements IScene {
             }
             for (int i = 0; i < enemies.size(); i++) {
                 enemies.get(i).update();
+            }
+            if (explosion != null) {
+                explosion.update();
             }
             resetCounter--;
             if (resetCounter <= 0) {
@@ -285,7 +288,7 @@ public class GamePlayScene implements IScene {
                     touchX = x;
                     touchY = y;
 
-                    if (x > BasicConstants.SCREEN_WIDTH / 2 && y > BasicConstants.SCREEN_HEIGHT / 2) {
+                    if (x > (BasicConstants.SCREEN_WIDTH / 3) * 2 && y > (BasicConstants.SCREEN_HEIGHT / 3) * 2) {
                         isJumpButtonPressed = true;
                         if (player.tryJump()) {
                             SoundPlayer.playJumpSound();
@@ -302,7 +305,7 @@ public class GamePlayScene implements IScene {
                         player.becomeSmall();
                         ScaleDetector.scaleFactor = 1.0f;
                     } else {
-                        if (touchX < BasicConstants.SCREEN_WIDTH / 2 && touchX < x && bomb == null) {
+                        if (touchX < (BasicConstants.SCREEN_WIDTH / 3) * 2 && touchX < x && bomb == null) {
                             bomb = new Bomb(0, (int) (touchY / GlobalVariables.yRATIO));
                         }
                     }
