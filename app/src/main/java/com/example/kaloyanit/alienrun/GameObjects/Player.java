@@ -2,6 +2,7 @@ package com.example.kaloyanit.alienrun.GameObjects;
 
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
+import android.graphics.Paint;
 import android.util.Log;
 
 import com.example.kaloyanit.alienrun.Core.Animation;
@@ -35,6 +36,7 @@ public class Player extends GameObject {
     private boolean isNextToWall = false;
     private boolean isBig = true;
     private int invulnerabilityFrames = 0;
+    private Paint paint;
 
     public void setNextToWall(boolean nextToWall) {
         isNextToWall = nextToWall;
@@ -63,6 +65,8 @@ public class Player extends GameObject {
         this.duckCount = GameConstants.DUCK_FRAMES;
         this.lives = lives;
         this.jumps = 0;
+        paint = new Paint();
+        paint.setAlpha(255);
 
         Bitmap[] walk = new Bitmap[walkFrames];
 
@@ -163,9 +167,9 @@ public class Player extends GameObject {
         }
 
         if (isBig) {
-            canvas.drawBitmap(image, this.x, this.y + heightCorrection, null);
+            canvas.drawBitmap(image, this.x, this.y + heightCorrection, paint);
         } else {
-            canvas.drawBitmap(Bitmap.createScaledBitmap(image, this.width, this.height - heightCorrection, false), this.x, this.y + heightCorrection, null);
+            canvas.drawBitmap(Bitmap.createScaledBitmap(image, this.width, this.height - heightCorrection, false), this.x, this.y + heightCorrection, paint);
         }
 
     }
@@ -174,6 +178,10 @@ public class Player extends GameObject {
     public void update() {
         if (invulnerabilityFrames > 0) {
             invulnerabilityFrames--;
+        }
+
+        if (invulnerabilityFrames <= 0) {
+            paint.setAlpha(255);
         }
 
         this.x += xDelta;
@@ -323,6 +331,7 @@ public class Player extends GameObject {
                 state = PlayerState.Dead;
             } else {
                 invulnerabilityFrames = 120;
+                paint.setAlpha(120);
             }
         }
     }

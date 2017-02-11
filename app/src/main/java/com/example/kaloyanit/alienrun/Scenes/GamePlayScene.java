@@ -150,18 +150,16 @@ public class GamePlayScene implements IScene {
                 }
             }
 
-            if (!player.isInvulnerable()) {
                 for (int i = 0; i < enemies.size(); i++) {
                     Enemy enemy = enemies.get(0);
                     enemy.update();
                     if (enemy.getX() < -100) {
                         enemies.remove(i);
                     } else {
-                        if (Helpers.checkPreciseCollision(player, enemy)) {
+                        if (!player.isInvulnerable() && Helpers.checkPreciseCollision(player, enemy)) {
                             player.hitIntoEnemy();
                         }
                     }
-                }
             }
 
             player.updateState(Helpers.checkCollision(player, modules));
@@ -173,7 +171,7 @@ public class GamePlayScene implements IScene {
                     this.increaseSpeed();
                 }
 
-                if (modulesPassed % 20 == 0) {
+                if (modulesPassed % 15 == 0) {
                     background.setImage(BackgroundFactory.getBackgroundImage());
                     moduleFactory.changeBlockType();
                 }
@@ -220,10 +218,6 @@ public class GamePlayScene implements IScene {
         background.draw(canvas);
         //canvas.drawBitmap(pause, 10, 0, null);
 
-        if (explosion != null) {
-            explosion.draw(canvas);
-        }
-
         for (int j = 0; j < modules.size(); j++) {
             LevelModule mod = modules.get(j);
             for (int i = 0; i < mod.getBlocks().size(); i++) {
@@ -249,6 +243,10 @@ public class GamePlayScene implements IScene {
 
         if (bomb != null) {
             bomb.draw(canvas);
+        }
+
+        if (explosion != null) {
+            explosion.draw(canvas);
         }
 
         if (GlobalVariables.GAMES_PLAYED > 15) {
