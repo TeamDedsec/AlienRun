@@ -248,7 +248,7 @@ public class LevelModuleFactory {
             module.addBlock(BlockType.Coin, currentX, positionY - GameConstants.BLOCK_HEIGHT - 200);
             currentX += GameConstants.BLOCK_WIDTH;
         }
-        currentX += GameConstants.BLOCK_WIDTH;
+        currentX += GameConstants.BLOCK_WIDTH * 2;
 
         module.addBlock(BlockType.GroundLeft, currentX, positionY);
         currentX += GameConstants.BLOCK_WIDTH;
@@ -269,19 +269,6 @@ public class LevelModuleFactory {
 
         module.addBlock(BlockType.GroundRight, currentX, positionY);
         currentX += GameConstants.BLOCK_WIDTH * 2;
-
-/*        for (int i = 0; i < 5; i++) {
-            if (i == 4) {
-                module.addBlock(BlockType.GroundLeft, currentX, positionY - (i * GameConstants.BLOCK_HEIGHT));
-            } else if (i == 5) {
-                continue;
-            } else if (i == 6) {
-                module.addBlock(BlockType.GroundBottomLeft, currentX, positionY - (i * GameConstants.BLOCK_HEIGHT));
-            } else {
-                module.addBlock(BlockType.GroundFullWall, currentX, positionY - (i * GameConstants.BLOCK_HEIGHT));
-            }
-        }
-        currentX += GameConstants.BLOCK_WIDTH;*/
 
         int height = (BasicConstants.BG_HEIGHT / GameConstants.BLOCK_HEIGHT) + 1;
 
@@ -317,9 +304,9 @@ public class LevelModuleFactory {
                         module.addBlock(BlockType.GroundFullWall, currentX, positionY - (j * GameConstants.BLOCK_HEIGHT));
                         continue;
                     } else {
-                        if (i == 0 && j > 3) {
+                        if ((i == 0 || i == 5) && j > 3) {
                             continue;
-                        } else if (i == 5 && j == 5) {
+                        } else if (i == 4 && j == 5) {
                             module.addBlock(BlockType.GroundBottomRight, currentX, positionY - (j * GameConstants.BLOCK_HEIGHT));
                             continue;
                         } else {
