@@ -27,6 +27,9 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.kaloyanit.alienrun.Data.AchievementHelper;
+import com.example.kaloyanit.alienrun.Data.AchievementsDataSource;
+import com.example.kaloyanit.alienrun.Models.Achievement;
 import com.example.kaloyanit.alienrun.Models.Achievements.PointAchievement;
 import com.example.kaloyanit.alienrun.Core.GamePanel;
 import com.example.kaloyanit.alienrun.Core.SceneManager;
@@ -37,6 +40,7 @@ import com.example.kaloyanit.alienrun.Utils.GlobalVariables;
 import com.example.kaloyanit.alienrun.Views.ScalableView;
 
 import java.util.ArrayList;
+import java.util.List;
 
 
 public class GameActivity extends AppCompatActivity {
@@ -58,9 +62,10 @@ public class GameActivity extends AppCompatActivity {
     private RelativeLayout achievementsLayout;
     private ScalableView achievementsButton;
     private ListView achievementLv;
+    private AchievementsDataSource database;
 
 
-    private ArrayList<PointAchievement> achievements;
+    private List<Achievement> achievements;
 
     //TODO: Add AsyncTask to pause thread - should fix canvas null problem
 
@@ -79,9 +84,13 @@ public class GameActivity extends AppCompatActivity {
         BasicConstants.SCREEN_HEIGHT = dm.heightPixels;
         SceneManager.ACTIVE_SCENE = 0;
         setContentView(R.layout.activity_game);
-        achievements = PointAchievement.getAchievements();
+        //achievements = PointAchievement.getAchievements();
         gameView = (GamePanel)findViewById(R.id.gameView);
         gameView.setVisibility(View.GONE);
+
+        database = new AchievementsDataSource(this);
+
+
 
         //  Start loading layout for start menu
         startLayout();
@@ -165,9 +174,9 @@ public class GameActivity extends AppCompatActivity {
             public void run() {
                 scoreView.setText(Integer.toString(GlobalVariables.SCORE));
                 if(achievements.get(index).getPoints() == GlobalVariables.SCORE) {
-                    achievements.get(index).lockAchievement();
-                    index++;
-                    Toast toast = Toast.makeText(getBaseContext(), achievements.get(index).returnMessages(), Toast.LENGTH_SHORT);
+                    //achievements.get(index).lockAchievement();
+                    //index++;
+                    Toast toast = Toast.makeText(getBaseContext(), achievements.get(index).getFullText(), Toast.LENGTH_SHORT);
                     toast.show();
                 }
                 handler.postDelayed(this, 500);
@@ -247,8 +256,11 @@ public class GameActivity extends AppCompatActivity {
         achievementsLayout = (RelativeLayout) findViewById(R.id.achievements_layout);
         achievementsLayout.setVisibility(View.VISIBLE);
         achievementLv = (ListView) findViewById(R.id.lv_achievements);
+        database.open();
+        achievements = database.getAllAchievements();
+        database.close();
 
-        ArrayAdapter<PointAchievement> achievementsAdapter = new ArrayAdapter<PointAchievement>(this, -1, PointAchievement.getAchievements()) {
+        ArrayAdapter<Achievement> achievementsAdapter = new ArrayAdapter<Achievement>(this, -1, achievements) {
             public TextView tvAchievementPoints;
             public CheckBox checkBoxAchievement;
             public TextView tvAchievement;
@@ -275,7 +287,7 @@ public class GameActivity extends AppCompatActivity {
                 tvAchievement.setText(name);
                 tvAchievementPoints.setText(pointsToString);
 
-                if(this.getItem(position).isLocked()) {
+                if(this.getItem(position).getIsLocked()) {
                     checkBoxAchievement.setChecked(false);
                 } else {
                     checkBoxAchievement.setChecked(true);
