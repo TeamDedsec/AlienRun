@@ -39,6 +39,7 @@ public class Helpers {
     public static CollisionType checkCollision(Player player, ArrayList<LevelModule> modules) {
         //TODO: JT: Update and refactor collision
         //Store all found collisions in a sorted list by their priority
+        player.setNextToWall(false);
         Map<Integer, CollisionType> types = new TreeMap<>();
         for (int j = 0; j < modules.size(); j++) {
             LevelModule module = modules.get(j);
@@ -56,14 +57,14 @@ public class Helpers {
                             }
                         }
                         if (currBlock.getCollisionType() == CollisionType.Enemy) {
-                            if (checkPreciseCollision(player, currBlock)) {
-                                //Lower the collision radius if it's an enemy
-                                if (!player.isInvulnerable() && checkCollision(player, currBlock)) {
+                            if (player.isInvulnerable()) {
+                                continue;
+                            } else {
+                                if (checkPreciseCollision(player, currBlock)) {
                                     types.put(currBlock.getCollisionType().ordinal(), currBlock.getCollisionType());
                                     continue;
                                 }
                             }
-                            continue;
                         }
                         //If the block's collision is Ground, check which side the player is hitting it from
                         if (currBlock.getCollisionType() == CollisionType.Wall) {
@@ -71,8 +72,10 @@ public class Helpers {
                                 player.setNextToWall(true);
                             } else if (player.getY() + player.getHeight() - GlobalVariables.GRAVITY <= currBlock.getY()) {
                                 types.put(CollisionType.Ground.ordinal(), CollisionType.Ground);
+                                continue;
                             } else {
                                 types.put(CollisionType.Roof.ordinal(), CollisionType.Roof);
+                                continue;
                             }
                         }
 
@@ -80,9 +83,11 @@ public class Helpers {
                             if (player.getY() + player.getHeight() - GlobalVariables.GRAVITY <= currBlock.getY()) {
                                 //This checks if the player is above the block, and tells him he can run on it
                                 types.put(CollisionType.Ground.ordinal(), CollisionType.Ground);
+                                continue;
                             } else { //if (player.getY() > currBlock.getY() + (currBlock.getHeight())) {
                                 //This checks if the player is below the block and triggers collision at the middle of the block;
                                 types.put(CollisionType.Roof.ordinal(), CollisionType.Roof);
+                                continue;
                             }
                         }
 
@@ -100,9 +105,8 @@ public class Helpers {
 
         //Always add the default collision, which has the lowest priority
         types.put(CollisionType.None.ordinal(), CollisionType.None);
-        if (!types.containsValue(CollisionType.Wall)) {
-            player.setNextToWall(false);
-        }
+/*        if (!types.containsValue(CollisionType.Wall)) {
+        }*/
         //Get the first item in the list, which has the highest priority
         Map.Entry<Integer, CollisionType> entry = types.entrySet().iterator().next();
         return entry.getValue();

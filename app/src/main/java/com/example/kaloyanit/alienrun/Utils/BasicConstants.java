@@ -11,6 +11,7 @@ public class BasicConstants {
     public static int SCREEN_HEIGHT;
     public static int BG_WIDTH = (int)(1024 * 1.5f);
     public static int BG_HEIGHT = (int)(512 * 1.5f);
+    public static int MAX_FPS = 60;
 
     public static Context CURRENT_CONTEXT;
 }

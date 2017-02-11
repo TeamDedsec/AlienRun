@@ -32,10 +32,12 @@ public class Player extends GameObject {
     private int lives;
     private int jumps;
     private int drownFrames;
+    private boolean isMovingForward = false;
     private boolean isInBounds = true;
     private boolean isNextToWall = false;
     private boolean isBig = true;
     private int invulnerabilityFrames = 0;
+    private int forwardFrames = 0;
     private Paint paint;
 
     public void setNextToWall(boolean nextToWall) {
@@ -78,6 +80,10 @@ public class Player extends GameObject {
         animation.setDelay(GlobalVariables.DELAY);
     }
 
+    public int getLives() {
+        return lives;
+    }
+
     private void resetJump() {
         if (isBig) {
             this.yDelta = GameConstants.JUMP_DELTA;
@@ -85,6 +91,17 @@ public class Player extends GameObject {
             this.yDelta = GameConstants.JUMP_DELTA / 3;
         }
         this.duckCount = GameConstants.DUCK_FRAMES;
+    }
+
+    public void addExtraLife() {
+        if (lives == 1) {
+            this.lives++;
+        }
+    }
+
+    public void moveForward() {
+        this.isMovingForward = true;
+        forwardFrames = 10;
     }
 
     public void resetDrownFrames() {
@@ -182,6 +199,14 @@ public class Player extends GameObject {
 
         if (invulnerabilityFrames <= 0) {
             paint.setAlpha(255);
+        }
+
+        if (isMovingForward) {
+            this.x += 5;
+            this.forwardFrames--;
+            if (forwardFrames <= 0) {
+                this.isMovingForward = false;
+            }
         }
 
         this.x += xDelta;
@@ -330,7 +355,7 @@ public class Player extends GameObject {
             if (lives <= 0) {
                 state = PlayerState.Dead;
             } else {
-                invulnerabilityFrames = 120;
+                invulnerabilityFrames = BasicConstants.MAX_FPS * 2;
                 paint.setAlpha(120);
             }
         }
