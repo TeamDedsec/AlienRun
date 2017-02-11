@@ -6,6 +6,10 @@ import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.Point;
 import android.graphics.Rect;
+import android.hardware.Sensor;
+import android.hardware.SensorEvent;
+import android.hardware.SensorEventListener;
+import android.hardware.SensorManager;
 import android.net.wifi.WifiManager;
 import android.util.Log;
 import android.view.MotionEvent;
@@ -47,7 +51,7 @@ import java.util.ArrayList;
  * Created by KaloyanIT on 1/25/2017.
  */
 
-public class GamePlayScene implements IScene {
+public class GamePlayScene implements IScene, SensorEventListener {
     private float touchX;
     private float touchY;
     private Player player;
@@ -69,6 +73,7 @@ public class GamePlayScene implements IScene {
     private Bomb bomb = null;
     private Paint paint;
     private Explosion explosion = null;
+    private SensorManager sensorManager;
 
     //TODO: JT: Change collision with obstacle/enemy to something specific, not wall!!! This is more important now, as enemies don't kill you!!
     //TODO: JT: Think of a way to make the player to be able to jump while colliding with a wall
@@ -81,6 +86,8 @@ public class GamePlayScene implements IScene {
 
         soundPool.play(music, 0.8f, 0.8f, 1, 1, 1.0f);*/
 
+        sensorManager = BasicConstants.SENSOR_SERVICE;
+        sensorManager.registerListener(this, sensorManager.getDefaultSensor(Sensor.TYPE_GAME_ROTATION_VECTOR), SensorManager.SENSOR_DELAY_GAME);
         MusicPlayer.playBackgroundMusic();
         background = BackgroundFactory.createBackground(BackgroundType.Grass);
         paint = new Paint();
@@ -334,7 +341,7 @@ public class GamePlayScene implements IScene {
                         player.becomeSmall();
                         ScaleDetector.scaleFactor = 1.0f;
                     } else {
-                        if (touchX < (BasicConstants.SCREEN_WIDTH / 3) * 2 && touchX < x && bomb == null) {
+                        if (touchX < (BasicConstants.SCREEN_WIDTH / 3) * 2 && touchX < x && bomb == null && player.isAlive()) {
                             bomb = new Bomb(0, (int) (touchY / GlobalVariables.yRATIO));
                         }
                     }
@@ -352,6 +359,19 @@ public class GamePlayScene implements IScene {
                 }*/
             }
         }
+    }
+
+    @Override
+    public void onSensorChanged(SensorEvent event) {
+        if (event.sensor.getType() == Sensor.TYPE_GAME_ROTATION_VECTOR) {
+            Log.d("ROTATION", String.valueOf(event.values[0]));
+            Log.d("ROTATION", String.valueOf(event.values[1]));
+            Log.d("ROTATION", String.valueOf(event.values[2]));
+        }
+    }
+
+    @Override
+    public void onAccuracyChanged(Sensor sensor, int accuracy) {
     }
 /*    //Fix this and extract it
     private boolean checkTouchCollision(Rect a, Rect b) {

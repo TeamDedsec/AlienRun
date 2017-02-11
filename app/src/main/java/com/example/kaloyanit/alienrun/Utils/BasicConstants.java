@@ -1,6 +1,7 @@
 package com.example.kaloyanit.alienrun.Utils;
 
 import android.content.Context;
+import android.hardware.SensorManager;
 
 /**
  * Created by KaloyanIT on 1/25/2017.
@@ -13,5 +14,6 @@ public class BasicConstants {
     public static int BG_HEIGHT = (int)(512 * 1.5f);
     public static int MAX_FPS = 60;
 
+    public static SensorManager SENSOR_SERVICE;
     public static Context CURRENT_CONTEXT;
 }
