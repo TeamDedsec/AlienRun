@@ -21,6 +21,9 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.kaloyanit.alienrun.Data.AchievementHelper;
+import com.example.kaloyanit.alienrun.Data.AchievementsDataSource;
+import com.example.kaloyanit.alienrun.Models.Achievement;
 import com.example.kaloyanit.alienrun.Models.Achievements.PointAchievement;
 import com.example.kaloyanit.alienrun.Core.GamePanel;
 import com.example.kaloyanit.alienrun.Core.SceneManager;
@@ -31,6 +34,7 @@ import com.example.kaloyanit.alienrun.Utils.GlobalVariables;
 import com.example.kaloyanit.alienrun.Views.ScalableView;
 
 import java.util.ArrayList;
+import java.util.List;
 
 
 public class GameActivity extends AppCompatActivity{
@@ -75,6 +79,15 @@ public class GameActivity extends AppCompatActivity{
         achievements = PointAchievement.getAchievements();
         gameView = (GamePanel)findViewById(R.id.gameView);
         gameView.setVisibility(View.GONE);
+
+        AchievementsDataSource database = new AchievementsDataSource(this);
+        database.open();
+
+        database.createAchievement("Pesho", 10);
+
+        List<Achievement> achvList = database.getAllAchievements();
+
+
 
         //  Start loading layout for start menu
         startLayout();

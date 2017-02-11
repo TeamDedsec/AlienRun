@@ -9,21 +9,23 @@ import android.util.Log;
  * Created by KaloyanIT on 2/10/2017.
  */
 
-public class MySQLiteHelper extends SQLiteOpenHelper {
+public class AchievementHelper extends SQLiteOpenHelper {
 
     public static final String TABLE_ACHIEVEMENTS = "achievements";
     public static final String COLUMN_ID = "_id";
     public static final String COLUMN_NAME = "name";
+    public static final String COLUMN_POINTS = "points";
 
     private static final String DATABASE_NAME = "achievements.db";
-    private static final int DATABASE_VERSION = 1;
+    private static final int DATABASE_VERSION = 2;
 
     private static final String DATABASE_CREATE = "create table "
-            + TABLE_ACHIEVEMENTS + "( " +COLUMN_ID
-            + " integer primary key autoincrement, " + COLUMN_NAME
-            + " text not null);";
+            + TABLE_ACHIEVEMENTS + "( " + COLUMN_ID
+            + " integer primary key, " + COLUMN_NAME
+            + " text not null, "
+            + COLUMN_POINTS + " integer not null);";
 
-    public MySQLiteHelper(Context context) {
+    public AchievementHelper(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
     }
 
@@ -34,7 +36,7 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-        Log.w(MySQLiteHelper.class.getName(),
+        Log.w(AchievementHelper.class.getName(),
                 "Upgrading database from version " + oldVersion + " to "
                         + newVersion + ", which will destroy all old data");
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_ACHIEVEMENTS);

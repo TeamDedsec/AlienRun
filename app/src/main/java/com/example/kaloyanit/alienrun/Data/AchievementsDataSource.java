@@ -7,7 +7,6 @@ import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 
 import com.example.kaloyanit.alienrun.Contracts.IDataSource;
-import com.example.kaloyanit.alienrun.Data.MySQLiteHelper;
 import com.example.kaloyanit.alienrun.Models.Achievement;
 
 import java.util.ArrayList;
@@ -19,11 +18,11 @@ import java.util.List;
 
 public class AchievementsDataSource implements IDataSource{
     private SQLiteDatabase database;
-    private MySQLiteHelper dbHelper;
-    private String[] allColumns = { MySQLiteHelper.COLUMN_ID, MySQLiteHelper.COLUMN_NAME };
+    private AchievementHelper dbHelper;
+    private String[] allColumns = { AchievementHelper.COLUMN_ID, AchievementHelper.COLUMN_NAME, AchievementHelper.COLUMN_POINTS};
 
     public AchievementsDataSource(Context context) {
-        dbHelper = new MySQLiteHelper(context);
+        dbHelper = new AchievementHelper(context);
     }
 
     public void open() {
@@ -38,11 +37,12 @@ public class AchievementsDataSource implements IDataSource{
         dbHelper.close();
     }
 
-    public Achievement createAchievement(String name) {
+    public Achievement createAchievement(String name, int points) {
         ContentValues values = new ContentValues();
-        values.put(MySQLiteHelper.COLUMN_NAME, name);
-        long insertId = database.insert(MySQLiteHelper.TABLE_ACHIEVEMENTS, null, values);
-        Cursor cursor = database.query(MySQLiteHelper.TABLE_ACHIEVEMENTS, allColumns, MySQLiteHelper.COLUMN_ID + " = " + insertId, null, null, null, null);
+        values.put(AchievementHelper.COLUMN_NAME, name);
+        values.put(AchievementHelper.COLUMN_POINTS, points);
+        long insertId = database.insertOrThrow(AchievementHelper.TABLE_ACHIEVEMENTS, null, values);
+        Cursor cursor = database.query(AchievementHelper.TABLE_ACHIEVEMENTS, allColumns, AchievementHelper.COLUMN_ID + " = " + insertId , null, null, null, null);
         cursor.moveToFirst();
         Achievement newAchievement = cursorToAchievement(cursor);
         cursor.close();
@@ -52,13 +52,14 @@ public class AchievementsDataSource implements IDataSource{
     public List<Achievement> getAllAchievements() {
         List<Achievement> achievements = new ArrayList<>();
 
-        Cursor cursor = database.query(MySQLiteHelper.TABLE_ACHIEVEMENTS, allColumns, null, null, null, null, null);
+        Cursor cursor = database.query(AchievementHelper.TABLE_ACHIEVEMENTS, allColumns, null, null, null, null, null);
         cursor.moveToFirst();
         while (!cursor.isAfterLast()) {
             Achievement achievement = cursorToAchievement(cursor);
             achievements.add(achievement);
             cursor.moveToNext();
         }
+
         //Close!!!
         cursor.close();
         return achievements;
@@ -68,6 +69,7 @@ public class AchievementsDataSource implements IDataSource{
         Achievement achv = new Achievement();
         achv.setId(cursor.getLong(0));
         achv.setName(cursor.getString(1));
+        achv.setPoints(cursor.getInt(2));
         return achv;
     }
 }
