@@ -36,6 +36,7 @@ public class Player extends GameObject {
     private boolean isInBounds = true;
     private boolean isNextToWall = false;
     private boolean isBig = true;
+    private boolean isAlive = true;
     private int invulnerabilityFrames = 0;
     private int forwardFrames = 0;
     private Paint paint;
@@ -78,6 +79,10 @@ public class Player extends GameObject {
 
         animation.setFrames(walk, walkFrames);
         animation.setDelay(GlobalVariables.DELAY);
+    }
+
+    public boolean isAlive() {
+        return isAlive;
     }
 
     public boolean isMovingForward() {
@@ -358,6 +363,7 @@ public class Player extends GameObject {
             SoundPlayer.playImpactSound();
             if (lives <= 0) {
                 state = PlayerState.Dead;
+                isAlive = false;
             } else {
                 invulnerabilityFrames = BasicConstants.MAX_FPS * 2;
                 paint.setAlpha(120);
