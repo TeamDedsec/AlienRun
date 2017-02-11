@@ -8,6 +8,8 @@ public class Achievement {
     private long id;
     private String name;
     private int points;
+    private boolean isLocked;
+    private int lockNumber;
 
     public long getId() {
         return this.id;
@@ -25,7 +27,34 @@ public class Achievement {
 
     public void setPoints(int currPoints) { this.points = currPoints; }
 
+    public int getLockNumber() {
+        return this.lockNumber;
+    }
+
+    public void setLockNumber(int number) {
+        this.lockNumber = number;
+    }
+
+    public boolean getIsLocked() {
+        if(lockNumber == 0) {
+            this.isLocked = false;
+            return isLocked;
+        } else {
+            this.isLocked  = true;
+            return isLocked;
+        }
+    }
+
     public void setName(String name) {
         this.name = name;
+    }
+
+    public String getFullText() {
+        return this.name + " unlocked";
+    }
+
+    @Override
+    public String toString() {
+        return this.name;
     }
 }

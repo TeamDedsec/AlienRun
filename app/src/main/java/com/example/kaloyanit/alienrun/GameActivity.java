@@ -83,7 +83,11 @@ public class GameActivity extends AppCompatActivity{
         AchievementsDataSource database = new AchievementsDataSource(this);
         database.open();
 
-        database.createAchievement("Pesho", 10);
+        //database.createAchievement("Beginner", 10);
+        //database.deleteAchievement(0);
+        //database.deleteAchievement(4);
+        //database.deleteAchievement(5);
+        //database.deleteAchievement(6);
 
         List<Achievement> achvList = database.getAllAchievements();
 
