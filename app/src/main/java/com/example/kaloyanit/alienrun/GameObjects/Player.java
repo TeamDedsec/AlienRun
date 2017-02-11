@@ -80,6 +80,10 @@ public class Player extends GameObject {
         animation.setDelay(GlobalVariables.DELAY);
     }
 
+    public boolean isMovingForward() {
+        return isMovingForward;
+    }
+
     public int getLives() {
         return lives;
     }
@@ -201,7 +205,7 @@ public class Player extends GameObject {
             paint.setAlpha(255);
         }
 
-        if (isMovingForward) {
+        if (isMovingForward && !isNextToWall) {
             this.x++;
             this.forwardFrames--;
             if (forwardFrames <= 0) {
