@@ -3,12 +3,14 @@ package com.example.kaloyanit.alienrun.Core;
 import android.graphics.Canvas;
 import android.view.SurfaceHolder;
 
+import com.example.kaloyanit.alienrun.Utils.BasicConstants;
+
 /**
  * Created by KaloyanIT on 1/25/2017.
  */
 
 public class MainThread extends Thread {
-    public static final int MAX_FPS = 60;
+    public static final int MAX_FPS = BasicConstants.MAX_FPS;
     private double averageFPS;
     private SurfaceHolder surfaceHolder;
     private GamePanel gamePanel;

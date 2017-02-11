@@ -17,10 +17,12 @@ import com.example.kaloyanit.alienrun.Core.SceneManager;
 import com.example.kaloyanit.alienrun.Enums.BackgroundType;
 import com.example.kaloyanit.alienrun.Enums.BlockSetType;
 import com.example.kaloyanit.alienrun.Enums.CollisionType;
+import com.example.kaloyanit.alienrun.Enums.PowerUpType;
 import com.example.kaloyanit.alienrun.Factories.BackgroundFactory;
 import com.example.kaloyanit.alienrun.Factories.EnemyFactory;
 import com.example.kaloyanit.alienrun.Factories.LevelModuleFactory;
 import com.example.kaloyanit.alienrun.Factories.PlayerFactory;
+import com.example.kaloyanit.alienrun.Factories.PowerUpFactory;
 import com.example.kaloyanit.alienrun.GameObjects.Background;
 import com.example.kaloyanit.alienrun.GameObjects.Bomb;
 import com.example.kaloyanit.alienrun.GameObjects.Enemy;
@@ -28,6 +30,9 @@ import com.example.kaloyanit.alienrun.GameObjects.Explosion;
 import com.example.kaloyanit.alienrun.GameObjects.LevelModule;
 import com.example.kaloyanit.alienrun.GameObjects.MusicPlayer;
 import com.example.kaloyanit.alienrun.GameObjects.Player;
+import com.example.kaloyanit.alienrun.GameObjects.PowerUps.ExtraLife;
+import com.example.kaloyanit.alienrun.GameObjects.PowerUps.Mover;
+import com.example.kaloyanit.alienrun.GameObjects.PowerUps.PowerUp;
 import com.example.kaloyanit.alienrun.GameObjects.SoundPlayer;
 import com.example.kaloyanit.alienrun.R;
 import com.example.kaloyanit.alienrun.Utils.BasicConstants;
@@ -55,6 +60,7 @@ public class GamePlayScene implements IScene {
     private LevelModuleFactory moduleFactory;
     private ArrayList<LevelModule> modules;
     private ArrayList<Enemy> enemies;
+    private ArrayList<PowerUp> powerUps;
     private int frameCounter = 0;
     private int modulesPassed;
     private int resetCounter = 120;
@@ -95,8 +101,8 @@ public class GamePlayScene implements IScene {
         moduleFactory = new LevelModuleFactory(BlockSetType.Grass);
         modules = new ArrayList<>();
         enemies = new ArrayList<>();
+        powerUps = new ArrayList<>();
         modules.add(moduleFactory.getLevelModule(0));
-        //modules.add(moduleFactory.getLevelModule(6));
         modules.add(moduleFactory.getLevelModule(4));
         modules.add(moduleFactory.getLevelModule(1));
         modules.add(moduleFactory.getLevelModule(2));
@@ -135,6 +141,15 @@ public class GamePlayScene implements IScene {
                 }
             }
 
+            for (int i = 0; i < powerUps.size(); i++) {
+                PowerUp currPower = powerUps.get(i);
+                currPower.update();
+                if (player.getRectangle().intersect(currPower.getRectangle())) {
+                    currPower.executeEffect(player);
+                    powerUps.remove(currPower);
+                }
+            }
+
             for (int j = 0; j < modules.size(); j++) {
                 LevelModule mod = modules.get(j);
                 mod.update();
@@ -146,21 +161,30 @@ public class GamePlayScene implements IScene {
 
                 if (j == modules.size() - 1) {
                     if (mod.getEndX() < BasicConstants.BG_WIDTH) {
-                        modules.add(moduleFactory.getLevelModule());
+                        LevelModule newModule = moduleFactory.getLevelModule();
+                        modules.add(newModule);
+                        int rng = Helpers.getRandomNumber(0, 5);
+                        if (rng == 0) {
+                            if (player.getLives() <= 1 && player.getX() <= 300) {
+                                powerUps.add(PowerUpFactory.createPowerUp(newModule.getStartX(), BasicConstants.BG_HEIGHT - (GameConstants.BLOCK_HEIGHT * 2)));
+                            } else if (player.getLives() <= 1) {
+                                powerUps.add(PowerUpFactory.createPowerUp(PowerUpType.ExtraLife, newModule.getStartX(), BasicConstants.BG_HEIGHT - (GameConstants.BLOCK_HEIGHT * 2)));
+                            } else if (player.getX() <= 300) {
+                                powerUps.add(PowerUpFactory.createPowerUp(PowerUpType.Mover, newModule.getStartX(), BasicConstants.BG_HEIGHT - (GameConstants.BLOCK_HEIGHT * 2)));
+                            }
+                        }
                     }
                 }
             }
 
-            if (!player.isInvulnerable()) {
-                for (int i = 0; i < enemies.size(); i++) {
-                    Enemy enemy = enemies.get(0);
-                    enemy.update();
-                    if (enemy.getX() < -100) {
-                        enemies.remove(i);
-                    } else {
-                        if (Helpers.checkPreciseCollision(player, enemy)) {
-                            player.hitIntoEnemy();
-                        }
+            for (int i = 0; i < enemies.size(); i++) {
+                Enemy enemy = enemies.get(0);
+                enemy.update();
+                if (enemy.getX() < -100) {
+                    enemies.remove(i);
+                } else {
+                    if (!player.isInvulnerable() && Helpers.checkPreciseCollision(player, enemy)) {
+                        player.hitIntoEnemy();
                     }
                 }
             }
@@ -174,7 +198,7 @@ public class GamePlayScene implements IScene {
                     this.increaseSpeed();
                 }
 
-                if (modulesPassed % 20 == 0) {
+                if (modulesPassed % 15 == 0) {
                     background.setImage(BackgroundFactory.getBackgroundImage());
                     moduleFactory.changeBlockType();
                 }
@@ -221,10 +245,6 @@ public class GamePlayScene implements IScene {
         background.draw(canvas);
         //canvas.drawBitmap(pause, 10, 0, null);
 
-        if (explosion != null) {
-            explosion.draw(canvas);
-        }
-
         for (int j = 0; j < modules.size(); j++) {
             LevelModule mod = modules.get(j);
             for (int i = 0; i < mod.getBlocks().size(); i++) {
@@ -244,12 +264,20 @@ public class GamePlayScene implements IScene {
             }
         }
 
+        for (int i = 0; i < powerUps.size(); i++) {
+            powerUps.get(i).draw(canvas);
+        }
+
         for (int i = 0; i < enemies.size(); i++) {
             enemies.get(0).draw(canvas);
         }
 
         if (bomb != null) {
             bomb.draw(canvas);
+        }
+
+        if (explosion != null) {
+            explosion.draw(canvas);
         }
 
         if (GlobalVariables.GAMES_PLAYED > 15) {

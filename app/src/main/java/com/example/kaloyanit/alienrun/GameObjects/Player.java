@@ -2,6 +2,7 @@ package com.example.kaloyanit.alienrun.GameObjects;
 
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
+import android.graphics.Paint;
 import android.util.Log;
 
 import com.example.kaloyanit.alienrun.Core.Animation;
@@ -31,10 +32,13 @@ public class Player extends GameObject {
     private int lives;
     private int jumps;
     private int drownFrames;
+    private boolean isMovingForward = false;
     private boolean isInBounds = true;
     private boolean isNextToWall = false;
     private boolean isBig = true;
     private int invulnerabilityFrames = 0;
+    private int forwardFrames = 0;
+    private Paint paint;
 
     public void setNextToWall(boolean nextToWall) {
         isNextToWall = nextToWall;
@@ -63,6 +67,8 @@ public class Player extends GameObject {
         this.duckCount = GameConstants.DUCK_FRAMES;
         this.lives = lives;
         this.jumps = 0;
+        paint = new Paint();
+        paint.setAlpha(255);
 
         Bitmap[] walk = new Bitmap[walkFrames];
 
@@ -74,6 +80,10 @@ public class Player extends GameObject {
         animation.setDelay(GlobalVariables.DELAY);
     }
 
+    public int getLives() {
+        return lives;
+    }
+
     private void resetJump() {
         if (isBig) {
             this.yDelta = GameConstants.JUMP_DELTA;
@@ -81,6 +91,17 @@ public class Player extends GameObject {
             this.yDelta = GameConstants.JUMP_DELTA / 3;
         }
         this.duckCount = GameConstants.DUCK_FRAMES;
+    }
+
+    public void addExtraLife() {
+        if (lives == 1) {
+            this.lives++;
+        }
+    }
+
+    public void moveForward() {
+        this.isMovingForward = true;
+        forwardFrames = 50;
     }
 
     public void resetDrownFrames() {
@@ -163,9 +184,9 @@ public class Player extends GameObject {
         }
 
         if (isBig) {
-            canvas.drawBitmap(image, this.x, this.y + heightCorrection, null);
+            canvas.drawBitmap(image, this.x, this.y + heightCorrection, paint);
         } else {
-            canvas.drawBitmap(Bitmap.createScaledBitmap(image, this.width, this.height - heightCorrection, false), this.x, this.y + heightCorrection, null);
+            canvas.drawBitmap(Bitmap.createScaledBitmap(image, this.width, this.height - heightCorrection, false), this.x, this.y + heightCorrection, paint);
         }
 
     }
@@ -174,6 +195,18 @@ public class Player extends GameObject {
     public void update() {
         if (invulnerabilityFrames > 0) {
             invulnerabilityFrames--;
+        }
+
+        if (invulnerabilityFrames <= 0) {
+            paint.setAlpha(255);
+        }
+
+        if (isMovingForward) {
+            this.x++;
+            this.forwardFrames--;
+            if (forwardFrames <= 0) {
+                this.isMovingForward = false;
+            }
         }
 
         this.x += xDelta;
@@ -322,7 +355,8 @@ public class Player extends GameObject {
             if (lives <= 0) {
                 state = PlayerState.Dead;
             } else {
-                invulnerabilityFrames = 120;
+                invulnerabilityFrames = BasicConstants.MAX_FPS * 2;
+                paint.setAlpha(120);
             }
         }
     }
