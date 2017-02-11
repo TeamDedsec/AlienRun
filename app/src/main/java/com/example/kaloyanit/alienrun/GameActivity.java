@@ -2,6 +2,7 @@ package com.example.kaloyanit.alienrun;
 
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
+import android.hardware.SensorManager;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.NonNull;
@@ -66,6 +67,7 @@ public class GameActivity extends AppCompatActivity{
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
         this.requestWindowFeature(Window.FEATURE_NO_TITLE);
 
+        BasicConstants.SENSOR_SERVICE = (SensorManager)getSystemService(SENSOR_SERVICE);
         DisplayMetrics dm = new DisplayMetrics();
         getWindowManager().getDefaultDisplay().getMetrics(dm);
         BasicConstants.SCREEN_WIDTH = dm.widthPixels;

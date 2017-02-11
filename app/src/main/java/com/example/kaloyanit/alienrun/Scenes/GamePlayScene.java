@@ -9,6 +9,7 @@ import android.graphics.Rect;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
+import android.hardware.SensorManager;
 import android.net.wifi.WifiManager;
 import android.util.Log;
 import android.view.MotionEvent;
@@ -72,6 +73,7 @@ public class GamePlayScene implements IScene, SensorEventListener {
     private Bomb bomb = null;
     private Paint paint;
     private Explosion explosion = null;
+    private SensorManager sensorManager;
 
     //TODO: JT: Change collision with obstacle/enemy to something specific, not wall!!! This is more important now, as enemies don't kill you!!
     //TODO: JT: Think of a way to make the player to be able to jump while colliding with a wall
@@ -84,6 +86,8 @@ public class GamePlayScene implements IScene, SensorEventListener {
 
         soundPool.play(music, 0.8f, 0.8f, 1, 1, 1.0f);*/
 
+        sensorManager = BasicConstants.SENSOR_SERVICE;
+        sensorManager.registerListener(this, sensorManager.getDefaultSensor(Sensor.TYPE_GAME_ROTATION_VECTOR), SensorManager.SENSOR_DELAY_GAME);
         MusicPlayer.playBackgroundMusic();
         background = BackgroundFactory.createBackground(BackgroundType.Grass);
         paint = new Paint();
