@@ -85,9 +85,8 @@ public class GamePlayScene implements IScene, SensorEventListener {
         tryJump = soundPool.load(BasicConstants.CURRENT_CONTEXT, R.raw.tryJump, 1);
 
         soundPool.play(music, 0.8f, 0.8f, 1, 1, 1.0f);*/
-
         sensorManager = BasicConstants.SENSOR_SERVICE;
-        sensorManager.registerListener(this, sensorManager.getDefaultSensor(Sensor.TYPE_GAME_ROTATION_VECTOR), SensorManager.SENSOR_DELAY_GAME);
+        sensorManager.registerListener(this, sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER), SensorManager.SENSOR_DELAY_NORMAL);
         MusicPlayer.playBackgroundMusic();
         background = BackgroundFactory.createBackground(BackgroundType.Grass);
         paint = new Paint();
@@ -363,15 +362,14 @@ public class GamePlayScene implements IScene, SensorEventListener {
 
     @Override
     public void onSensorChanged(SensorEvent event) {
-        if (event.sensor.getType() == Sensor.TYPE_GAME_ROTATION_VECTOR) {
-            Log.d("ROTATION", String.valueOf(event.values[0]));
-            Log.d("ROTATION", String.valueOf(event.values[1]));
+        if (event.sensor.getType() == Sensor.TYPE_ACCELEROMETER) {
             Log.d("ROTATION", String.valueOf(event.values[2]));
         }
     }
 
     @Override
     public void onAccuracyChanged(Sensor sensor, int accuracy) {
+
     }
 /*    //Fix this and extract it
     private boolean checkTouchCollision(Rect a, Rect b) {

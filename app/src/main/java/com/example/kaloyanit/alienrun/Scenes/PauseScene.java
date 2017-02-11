@@ -2,6 +2,7 @@ package com.example.kaloyanit.alienrun.Scenes;
 
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
+import android.hardware.SensorEvent;
 import android.view.MotionEvent;
 
 import com.example.kaloyanit.alienrun.Contracts.IScene;

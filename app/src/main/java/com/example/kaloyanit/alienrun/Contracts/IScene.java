@@ -1,6 +1,8 @@
 package com.example.kaloyanit.alienrun.Contracts;
 
 import android.graphics.Canvas;
+import android.hardware.SensorEvent;
+import android.hardware.SensorEventListener;
 import android.view.MotionEvent;
 
 /**

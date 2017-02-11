@@ -2,12 +2,17 @@ package com.example.kaloyanit.alienrun;
 
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
+import android.hardware.Sensor;
+import android.hardware.SensorEvent;
+import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
+import android.transition.Scene;
 import android.util.DisplayMetrics;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -34,7 +39,7 @@ import com.example.kaloyanit.alienrun.Views.ScalableView;
 import java.util.ArrayList;
 
 
-public class GameActivity extends AppCompatActivity{
+public class GameActivity extends AppCompatActivity {
 
     private ScalableView pauseButton;
     private ScalableView exitButton;
@@ -67,7 +72,7 @@ public class GameActivity extends AppCompatActivity{
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
         this.requestWindowFeature(Window.FEATURE_NO_TITLE);
 
-        BasicConstants.SENSOR_SERVICE = (SensorManager)getSystemService(SENSOR_SERVICE);
+        BasicConstants.SENSOR_SERVICE = (SensorManager) getSystemService(SENSOR_SERVICE);
         DisplayMetrics dm = new DisplayMetrics();
         getWindowManager().getDefaultDisplay().getMetrics(dm);
         BasicConstants.SCREEN_WIDTH = dm.widthPixels;
