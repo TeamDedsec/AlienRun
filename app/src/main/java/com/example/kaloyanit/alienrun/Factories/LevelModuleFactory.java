@@ -52,7 +52,7 @@ public class LevelModuleFactory {
     }
 
     public LevelModule getLevelModule() {
-        int index = Helpers.getRandomNumber(0, 5);
+        int index = Helpers.getRandomNumber(0, 6);
         return getLevelModule(index);
     }
 
@@ -270,7 +270,7 @@ public class LevelModuleFactory {
         module.addBlock(BlockType.GroundRight, currentX, positionY);
         currentX += GameConstants.BLOCK_WIDTH * 2;
 
-        for (int i = 0; i < 11; i++) {
+/*        for (int i = 0; i < 5; i++) {
             if (i == 4) {
                 module.addBlock(BlockType.GroundLeft, currentX, positionY - (i * GameConstants.BLOCK_HEIGHT));
             } else if (i == 5) {
@@ -281,7 +281,62 @@ public class LevelModuleFactory {
                 module.addBlock(BlockType.GroundFullWall, currentX, positionY - (i * GameConstants.BLOCK_HEIGHT));
             }
         }
+        currentX += GameConstants.BLOCK_WIDTH;*/
 
+        int height = (BasicConstants.BG_HEIGHT / GameConstants.BLOCK_HEIGHT) + 1;
+
+        for (int i = 0; i < 6; i++) {
+            for (int j = 0; j < height; j++) {
+                if (j == 4) {
+                    continue;
+                }
+
+                if (i == 0) {
+                    if (j == 3) {
+                        module.addBlock(BlockType.GroundLeft, currentX, positionY - (j * GameConstants.BLOCK_HEIGHT));
+                        continue;
+                    }
+                } else if (i == 5) {
+                    if (j == 3) {
+                        module.addBlock(BlockType.GroundRight, currentX, positionY - (j * GameConstants.BLOCK_HEIGHT));
+                        continue;
+                    }
+                }
+
+                if (j == 3) {
+                    module.addBlock(BlockType.GroundMid, currentX, positionY - (j * GameConstants.BLOCK_HEIGHT));
+                    continue;
+                } else {
+                    if (i == 0 && j < 4) {
+                        module.addBlock(BlockType.GroundFullWall, currentX, positionY - (j * GameConstants.BLOCK_HEIGHT));
+                        continue;
+                    } else if (i == 1 && j == 5) {
+                        module.addBlock(BlockType.GroundBottomLeft, currentX, positionY - (j * GameConstants.BLOCK_HEIGHT));
+                        continue;
+                    } else if (i == 1 && j > 5) {
+                        module.addBlock(BlockType.GroundFullWall, currentX, positionY - (j * GameConstants.BLOCK_HEIGHT));
+                        continue;
+                    } else {
+                        if (i == 0 && j > 3) {
+                            continue;
+                        } else if (i == 5 && j == 5) {
+                            module.addBlock(BlockType.GroundBottomRight, currentX, positionY - (j * GameConstants.BLOCK_HEIGHT));
+                            continue;
+                        } else {
+                            module.addBlock(BlockType.GroundBottomMiddle, currentX, positionY - (j * GameConstants.BLOCK_HEIGHT));
+                            continue;
+                        }
+                    }
+                }
+
+            }
+            currentX += GameConstants.BLOCK_WIDTH;
+        }
+
+        currentX += GameConstants.BLOCK_WIDTH;
+        module.addBlock(BlockType.GroundLeft, currentX, positionY);
+        currentX += GameConstants.BLOCK_WIDTH;
+        module.setEndX(currentX);
 
         return module;
     }

@@ -67,7 +67,7 @@ public class Helpers {
                         }
                         //If the block's collision is Ground, check which side the player is hitting it from
                         if (currBlock.getCollisionType() == CollisionType.Wall) {
-                            if (player.getX() + player.getWidth() - GlobalVariables.GRAVITY <= currBlock.getX()) {
+                            if (player.getX() + player.getWidth() + GlobalVariables.GAME_SPEED <= currBlock.getX()) {
                                 player.setNextToWall(true);
                             } else if (player.getY() + player.getHeight() - GlobalVariables.GRAVITY <= currBlock.getY()) {
                                 types.put(CollisionType.Ground.ordinal(), CollisionType.Ground);
