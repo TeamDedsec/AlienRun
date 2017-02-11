@@ -101,7 +101,7 @@ public class Player extends GameObject {
 
     public void moveForward() {
         this.isMovingForward = true;
-        forwardFrames = 10;
+        forwardFrames = 50;
     }
 
     public void resetDrownFrames() {
@@ -202,7 +202,7 @@ public class Player extends GameObject {
         }
 
         if (isMovingForward) {
-            this.x += 5;
+            this.x++;
             this.forwardFrames--;
             if (forwardFrames <= 0) {
                 this.isMovingForward = false;
