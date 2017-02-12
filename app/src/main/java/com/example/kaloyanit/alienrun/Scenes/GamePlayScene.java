@@ -6,14 +6,7 @@ import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.Point;
 import android.graphics.Rect;
-import android.hardware.Sensor;
-import android.hardware.SensorEvent;
-import android.hardware.SensorEventListener;
-import android.hardware.SensorManager;
-import android.net.wifi.WifiManager;
-import android.util.Log;
 import android.view.MotionEvent;
-import android.view.ScaleGestureDetector;
 import android.view.View;
 
 import com.example.kaloyanit.alienrun.Contracts.IScene;
@@ -34,9 +27,6 @@ import com.example.kaloyanit.alienrun.GameObjects.Explosion;
 import com.example.kaloyanit.alienrun.GameObjects.LevelModule;
 import com.example.kaloyanit.alienrun.GameObjects.MusicPlayer;
 import com.example.kaloyanit.alienrun.GameObjects.Player;
-import com.example.kaloyanit.alienrun.GameObjects.PowerUps.ExtraLife;
-import com.example.kaloyanit.alienrun.GameObjects.PowerUps.Invincibility;
-import com.example.kaloyanit.alienrun.GameObjects.PowerUps.Mover;
 import com.example.kaloyanit.alienrun.GameObjects.PowerUps.PowerUp;
 import com.example.kaloyanit.alienrun.GameObjects.SoundPlayer;
 import com.example.kaloyanit.alienrun.R;
@@ -64,18 +54,18 @@ public class GamePlayScene implements IScene {
     private View pauseView;
     private LevelModuleFactory moduleFactory;
     private ArrayList<LevelModule> modules;
-    private ArrayList<Enemy> enemies;
     private ArrayList<PowerUp> powerUps;
     private int frameCounter = 0;
     private int modulesPassed;
     private int resetCounter = 120;
     private boolean isScoreChecked = false;
     private boolean isJumpButtonPressed = false;
+    private Enemy enemy = null;
     private Bomb bomb = null;
-    private Paint paint;
     private Explosion explosion = null;
+    private Paint paint;
 
-    //TODO: JT: Change collision with obstacle/enemy to something specific, not wall!!! This is more important now, as enemies don't kill you!!
+    //TODO: JT: Change collision with obstacle/enemy to something specific, not wall!!! This is more important now, as enemy don't kill you!!
     //TODO: JT: Think of a way to make the player to be able to jump while colliding with a wall
 
     public GamePlayScene() {
@@ -104,7 +94,6 @@ public class GamePlayScene implements IScene {
         player = PlayerFactory.createPlayer(GlobalVariables.ACTIVE_PLAYER, playerPoint.x, playerPoint.y - 20);
         moduleFactory = new LevelModuleFactory(BlockSetType.Grass);
         modules = new ArrayList<>();
-        enemies = new ArrayList<>();
         powerUps = new ArrayList<>();
         modules.add(moduleFactory.getLevelModule(0));
         modules.add(moduleFactory.getLevelModule(4));
@@ -128,16 +117,15 @@ public class GamePlayScene implements IScene {
 
             if (bomb != null) {
                 bomb.update();
-                for (int i = 0; i < enemies.size(); i++) {
-                    if (Rect.intersects(bomb.getRectangle(), enemies.get(i).getRectangle())) {
+                if (enemy != null) {
+                    if (Rect.intersects(bomb.getRectangle(), enemy.getRectangle())) {
                         if (explosion == null) {
                             explosion = new Explosion(bomb.getX() + bomb.getWidth(), bomb.getY() + bomb.getHeight() / 2);
                             SoundPlayer.playExplosionSound();
                         }
                         bomb = null;
-                        enemies.remove(i);
+                        enemy = null;
                         GlobalVariables.SCORE += 5;
-                        break;
                     }
                 }
                 if (bomb != null && (bomb.getX() > BasicConstants.BG_WIDTH || bomb.getY() > BasicConstants.BG_HEIGHT)) {
@@ -183,11 +171,10 @@ public class GamePlayScene implements IScene {
                 }
             }
 
-            for (int i = 0; i < enemies.size(); i++) {
-                Enemy enemy = enemies.get(0);
+            if (enemy != null) {
                 enemy.update();
                 if (enemy.getX() < -100) {
-                    enemies.remove(i);
+                    enemy = null;
                 } else {
                     if (!player.isInvulnerable() && !player.isFlying() && Helpers.checkPreciseCollision(player, enemy)) {
                         player.hitIntoEnemy();
@@ -197,10 +184,10 @@ public class GamePlayScene implements IScene {
 
             player.updateState(Helpers.checkCollision(player, modules));
 
-            //TODO: JT: think of a better way to spawn enemies
+            //TODO: JT: think of a better way to spawn enemy
             if (modulesPassed % 5 == 0 && modulesPassed > 0 && !isScoreChecked) {
                 int rand = Helpers.getRandomNumber(BasicConstants.SCREEN_HEIGHT / 3, BasicConstants.BG_HEIGHT - GameConstants.BLOCK_HEIGHT * 2);
-                enemies.add(EnemyFactory.createEnemy(BasicConstants.BG_WIDTH, rand));
+                enemy = EnemyFactory.createEnemy(BasicConstants.BG_WIDTH, rand);
                 if (modulesPassed % 10 == 0) {
                     this.increaseSpeed();
                 }
@@ -218,8 +205,8 @@ public class GamePlayScene implements IScene {
             if (bomb != null) {
                 bomb.update();
             }
-            for (int i = 0; i < enemies.size(); i++) {
-                enemies.get(i).update();
+            if (enemy != null) {
+                enemy.update();
             }
             if (explosion != null) {
                 explosion.update();
@@ -275,8 +262,8 @@ public class GamePlayScene implements IScene {
             powerUps.get(i).draw(canvas);
         }
 
-        for (int i = 0; i < enemies.size(); i++) {
-            enemies.get(0).draw(canvas);
+        if (enemy != null) {
+            enemy.draw(canvas);
         }
 
         if (bomb != null) {
@@ -350,10 +337,10 @@ public class GamePlayScene implements IScene {
                 height = (int) (y - touchY);
 
                 Rect shit = new Rect((int) touchX, (int) touchY, (int) touchX + length, (int) touchY + height);
-                for (int i = 0; i < enemies.size(); i++) {
-                    Enemy enemy = enemies.get(i);
+                for (int i = 0; i < enemy.size(); i++) {
+                    Enemy enemy = enemy.get(i);
                     if (checkTouchCollision(shit, enemy.getRectangle())) {//; Rect.intersects(shit, enemy.getRectangle())) {
-                        enemies.remove(i);
+                        enemy.remove(i);
                         this.score += 5;
                     }
                 }*/

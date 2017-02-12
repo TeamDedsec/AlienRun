@@ -131,15 +131,30 @@ public class Player extends GameObject implements SensorEventListener {
     }
 
     public void startFlying() {
-        if (!isBig) {
-            becomeBig();
+        if (state == PlayerState.Flying) {
+            flyingFrames = BasicConstants.MAX_FPS * 10;
+        } else {
+            if (!isBig) {
+                becomeBig();
+            }
+            this.width = 47;
+            this.height = 47;
+            this.jumps = 0;
+            this.rotationAtFlightStart = this.rotation;
+            this.state = PlayerState.Flying;
+            this.isFlying = true;
+            GlobalVariables.GAME_SPEED -= 5;
+            flyingFrames = BasicConstants.MAX_FPS * 10;
         }
-        this.jumps = 0;
-        this.rotationAtFlightStart = this.rotation;
-        this.state = PlayerState.Flying;
-        this.isFlying = true;
-        GlobalVariables.GAME_SPEED -= 5;
-        flyingFrames = BasicConstants.MAX_FPS * 10;
+    }
+
+    public void stopFlying() {
+        GlobalVariables.GAME_SPEED += 5;
+        state = PlayerState.Falling;
+        isFlying = false;
+        this.height = GameConstants.PLAYER_HEIGHT;
+        this.width = GameConstants.PLAYER_WIDTH;
+        becomeInvulnerable();
     }
 
     private void becomeInvulnerable() {
@@ -164,7 +179,7 @@ public class Player extends GameObject implements SensorEventListener {
     }
 
     public void becomeBig() {
-        if (isBig) {
+        if (isBig || state == PlayerState.Flying) {
             return;
         } else {
             this.y -= 25;
@@ -175,7 +190,7 @@ public class Player extends GameObject implements SensorEventListener {
     }
 
     public void becomeSmall() {
-        if (!isBig) {
+        if (!isBig || state == PlayerState.Flying) {
             return;
         } else {
             this.width -= 18;
@@ -192,6 +207,9 @@ public class Player extends GameObject implements SensorEventListener {
         switch (state) {
             case Flying:
                 image = this.ballImage;
+                if (flyingFrames > 0 && flyingFrames < BasicConstants.MAX_FPS) {
+                    paint.setAlpha(150);
+                }
                 break;
             case Running:
                 if (!isNextToWall) {
@@ -239,10 +257,7 @@ public class Player extends GameObject implements SensorEventListener {
     @Override
     public void update() {
         if (state == PlayerState.Flying && flyingFrames <= 0) {
-            GlobalVariables.GAME_SPEED += 5;
-            state = PlayerState.Falling;
-            isFlying = false;
-            becomeInvulnerable();
+            stopFlying();
         }
 
         if (flyingFrames > 0) {
@@ -273,7 +288,7 @@ public class Player extends GameObject implements SensorEventListener {
 
         switch (state) {
             case Flying:
-                this.y += (rotationAtFlightStart - rotation) * 2;
+                this.y += (rotationAtFlightStart - rotation) * 4;
                 if (y > BasicConstants.BG_HEIGHT - this.height) {
                     y = BasicConstants.BG_HEIGHT - this.height;
                 }

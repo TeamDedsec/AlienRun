@@ -6,6 +6,8 @@ import android.graphics.BitmapFactory;
 import com.example.kaloyanit.alienrun.Enums.CollisionType;
 import com.example.kaloyanit.alienrun.Enums.EnemyType;
 import com.example.kaloyanit.alienrun.GameObjects.Block;
+import com.example.kaloyanit.alienrun.GameObjects.Enemies.Bat;
+import com.example.kaloyanit.alienrun.GameObjects.Enemies.Fly;
 import com.example.kaloyanit.alienrun.GameObjects.Enemy;
 import com.example.kaloyanit.alienrun.R;
 import com.example.kaloyanit.alienrun.Utils.BasicConstants;
@@ -54,7 +56,7 @@ public class EnemyFactory {
                 anim[1] = BitmapFactory.decodeResource(
                         BasicConstants.CURRENT_CONTEXT.getResources(),
                         R.drawable.bat_fly);
-                return new Enemy(anim, 2, "Bat", x, y, 70, 47, randSpeed, 9, 10);
+                return new Bat(anim, 2, "Bat", x, y, 70, 47, randSpeed, 9, 10);
             case Fly:
                 anim = new Bitmap[2];
                 anim[0] = BitmapFactory.decodeResource(
@@ -63,7 +65,7 @@ public class EnemyFactory {
                 anim[1] = BitmapFactory.decodeResource(
                         BasicConstants.CURRENT_CONTEXT.getResources(),
                         R.drawable.fly_fly);
-                return new Enemy(anim, 2, "Fly", x, y, 57, 45, randSpeed, 5, 6);
+                return new Fly(anim, 2, "Fly", x, y, 57, 45, randSpeed, 5, 6);
             default:
                 throw new RuntimeException();
         }

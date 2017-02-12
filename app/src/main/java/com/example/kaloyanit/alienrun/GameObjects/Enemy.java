@@ -13,15 +13,15 @@ import com.example.kaloyanit.alienrun.Utils.GlobalVariables;
  * Created by julian.teofilov on 3/2/2017.
  */
 
-public class Enemy extends GameObject {
-    private Animation animation;
-    private int frames;
-    private String name;
-    private int moveSpeed;
-    private CollisionType collisionType = CollisionType.Enemy;
-    private boolean animationFix = false;
-    private int xCorrection;
-    private int yCorrection;
+public abstract class Enemy extends GameObject {
+    protected Animation animation;
+    protected int frames;
+    protected String name;
+    protected int moveSpeed;
+    protected CollisionType collisionType = CollisionType.Enemy;
+    protected boolean animationFix = false;
+    protected int xCorrection;
+    protected int yCorrection;
 
     public Enemy(Bitmap[] images, int frames, String name, int x, int y, int width, int height, int moveSpeed, int xCorrection, int yCorrection) {
         this.animation = new Animation();
@@ -60,7 +60,5 @@ public class Enemy extends GameObject {
     }
 
     @Override
-    public void update() {
-        this.x += GlobalVariables.GAME_SPEED + this.moveSpeed;
-    }
+    public abstract void update();
 }

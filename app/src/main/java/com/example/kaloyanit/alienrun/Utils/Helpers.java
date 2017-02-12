@@ -69,6 +69,8 @@ public class Helpers {
                                 if (checkPreciseCollision(player, currBlock)) {
                                     types.put(currBlock.getCollisionType().ordinal(), currBlock.getCollisionType());
                                     continue;
+                                } else {
+                                    continue;
                                 }
                             }
                         }
