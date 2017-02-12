@@ -81,7 +81,9 @@ public class GameActivity extends AppCompatActivity {
         gameView.setVisibility(View.GONE);
 
         database = new AchievementsDataSource(this);
-
+        database.open();
+        achievements = database.getAllAchievements();
+        database.close();
 
 
         //  Start loading layout for start menu
@@ -248,9 +250,6 @@ public class GameActivity extends AppCompatActivity {
         achievementsLayout = (RelativeLayout) findViewById(R.id.achievements_layout);
         achievementsLayout.setVisibility(View.VISIBLE);
         achievementLv = (ListView) findViewById(R.id.lv_achievements);
-        database.open();
-        achievements = database.getAllAchievements();
-        database.close();
 
         ArrayAdapter<Achievement> achievementsAdapter = new ArrayAdapter<Achievement>(this, -1, achievements) {
             public TextView tvAchievementPoints;
