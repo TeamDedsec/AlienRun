@@ -1,7 +1,5 @@
 package com.example.kaloyanit.alienrun.Utils;
 
-import android.graphics.Bitmap;
-import android.graphics.Matrix;
 import android.graphics.Rect;
 
 import com.example.kaloyanit.alienrun.Enums.CollisionType;
@@ -9,8 +7,7 @@ import com.example.kaloyanit.alienrun.GameObjects.Block;
 import com.example.kaloyanit.alienrun.GameObjects.GameObject;
 import com.example.kaloyanit.alienrun.GameObjects.LevelModule;
 import com.example.kaloyanit.alienrun.GameObjects.Player;
-import com.example.kaloyanit.alienrun.GameObjects.SoundPlayer;
-import com.example.kaloyanit.alienrun.Scenes.GamePlayScene;
+import com.example.kaloyanit.alienrun.SoundPlayers.SoundPlayer;
 
 import java.util.ArrayList;
 import java.util.Map;

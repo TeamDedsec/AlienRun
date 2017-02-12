@@ -11,10 +11,8 @@ import com.example.kaloyanit.alienrun.Utils.GlobalVariables;
  * Created by julian.teofilov on 26/1/2017.
  */
 
-public class Background implements IGameObject {
+public class Background extends GameObject {
     private Bitmap image;
-    private int x;
-    private int y;
 
     public void setImage(Bitmap image) {
         this.image = image;

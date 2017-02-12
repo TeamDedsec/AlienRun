@@ -7,11 +7,11 @@ import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
-import android.util.Log;
 
 import com.example.kaloyanit.alienrun.Core.Animation;
 import com.example.kaloyanit.alienrun.Enums.CollisionType;
 import com.example.kaloyanit.alienrun.Enums.PlayerState;
+import com.example.kaloyanit.alienrun.SoundPlayers.SoundPlayer;
 import com.example.kaloyanit.alienrun.Utils.BasicConstants;
 import com.example.kaloyanit.alienrun.Utils.GameConstants;
 import com.example.kaloyanit.alienrun.Utils.GlobalVariables;

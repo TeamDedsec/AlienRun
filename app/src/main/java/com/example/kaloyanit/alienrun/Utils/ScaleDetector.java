@@ -16,7 +16,6 @@ public class ScaleDetector extends ScaleGestureDetector.SimpleOnScaleGestureList
     @Override
     public boolean onScale(ScaleGestureDetector detector) {
         scaleFactor = detector.getScaleFactor();
-        Log.d("Scale", String.valueOf(scaleFactor));
         return true;
     }
 }

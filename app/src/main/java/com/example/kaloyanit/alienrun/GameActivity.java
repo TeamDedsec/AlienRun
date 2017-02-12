@@ -2,17 +2,12 @@ package com.example.kaloyanit.alienrun;
 
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
-import android.hardware.Sensor;
-import android.hardware.SensorEvent;
-import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
-import android.transition.Scene;
 import android.util.DisplayMetrics;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -27,19 +22,16 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.kaloyanit.alienrun.Data.AchievementHelper;
 import com.example.kaloyanit.alienrun.Data.AchievementsDataSource;
 import com.example.kaloyanit.alienrun.Models.Achievement;
-import com.example.kaloyanit.alienrun.Models.Achievements.PointAchievement;
 import com.example.kaloyanit.alienrun.Core.GamePanel;
 import com.example.kaloyanit.alienrun.Core.SceneManager;
-import com.example.kaloyanit.alienrun.GameObjects.MusicPlayer;
+import com.example.kaloyanit.alienrun.SoundPlayers.MusicPlayer;
 import com.example.kaloyanit.alienrun.Models.PlayerModel;
 import com.example.kaloyanit.alienrun.Utils.BasicConstants;
 import com.example.kaloyanit.alienrun.Utils.GlobalVariables;
 import com.example.kaloyanit.alienrun.Views.ScalableView;
 
-import java.util.ArrayList;
 import java.util.List;
 
 
