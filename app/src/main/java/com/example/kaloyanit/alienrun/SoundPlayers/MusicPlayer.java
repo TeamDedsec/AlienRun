@@ -1,4 +1,4 @@
-package com.example.kaloyanit.alienrun.GameObjects;
+package com.example.kaloyanit.alienrun.SoundPlayers;
 
 import android.media.MediaPlayer;
 
