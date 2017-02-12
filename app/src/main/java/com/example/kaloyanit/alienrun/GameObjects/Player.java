@@ -3,6 +3,10 @@ package com.example.kaloyanit.alienrun.GameObjects;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Paint;
+import android.hardware.Sensor;
+import android.hardware.SensorEvent;
+import android.hardware.SensorEventListener;
+import android.hardware.SensorManager;
 import android.util.Log;
 
 import com.example.kaloyanit.alienrun.Core.Animation;
@@ -16,12 +20,13 @@ import com.example.kaloyanit.alienrun.Utils.GlobalVariables;
  * Created by KaloyanIT on 1/25/2017.
  */
 
-public class Player extends GameObject {
+public class Player extends GameObject implements SensorEventListener {
     private Bitmap walkSheet;
     private Bitmap jumpImage;
     private Bitmap duckImage;
     private Bitmap hurtImage;
     private Bitmap standImage;
+    private Bitmap ballImage;
     private PlayerState state;
     private int highPointCount = 0;
     private int yDelta = GameConstants.JUMP_DELTA;
@@ -37,9 +42,14 @@ public class Player extends GameObject {
     private boolean isNextToWall = false;
     private boolean isBig = true;
     private boolean isAlive = true;
+    private boolean isFlying = false;
     private int invulnerabilityFrames = 0;
     private int forwardFrames = 0;
+    private int flyingFrames = 0;
+    private int rotation;
+    private int rotationAtFlightStart;
     private Paint paint;
+    private SensorManager sensorManager;
 
     public void setNextToWall(boolean nextToWall) {
         isNextToWall = nextToWall;
@@ -50,7 +60,7 @@ public class Player extends GameObject {
         }
     }
 
-    public Player(Bitmap walkSheet, Bitmap jumpImage, Bitmap duckImage, Bitmap hurtImage, Bitmap standImage,
+    public Player(Bitmap walkSheet, Bitmap jumpImage, Bitmap duckImage, Bitmap hurtImage, Bitmap standImage, Bitmap ballImage,
                   int x, int y, int walkFrames,
                   int jumpCount, int lives) {
         this.walkSheet = walkSheet;
@@ -58,7 +68,8 @@ public class Player extends GameObject {
         this.duckImage = duckImage;
         this.hurtImage = hurtImage;
         this.standImage = standImage;
-        this.state = PlayerState.Running;
+        this.ballImage = ballImage;
+        this.state = PlayerState.Falling;
         this.x = x;
         this.y = y;
         this.width = GameConstants.PLAYER_WIDTH;
@@ -70,6 +81,8 @@ public class Player extends GameObject {
         this.jumps = 0;
         paint = new Paint();
         paint.setAlpha(255);
+        sensorManager = BasicConstants.SENSOR_SERVICE;
+        sensorManager.registerListener(this, sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER), SensorManager.SENSOR_DELAY_NORMAL);
 
         Bitmap[] walk = new Bitmap[walkFrames];
 
@@ -87,6 +100,10 @@ public class Player extends GameObject {
 
     public boolean isMovingForward() {
         return isMovingForward;
+    }
+
+    public boolean isFlying() {
+        return isFlying;
     }
 
     public int getLives() {
@@ -111,6 +128,23 @@ public class Player extends GameObject {
     public void moveForward() {
         this.isMovingForward = true;
         forwardFrames = 50;
+    }
+
+    public void startFlying() {
+        if (!isBig) {
+            becomeBig();
+        }
+        this.jumps = 0;
+        this.rotationAtFlightStart = this.rotation;
+        this.state = PlayerState.Flying;
+        this.isFlying = true;
+        GlobalVariables.GAME_SPEED -= 5;
+        flyingFrames = BasicConstants.MAX_FPS * 10;
+    }
+
+    private void becomeInvulnerable() {
+        invulnerabilityFrames = BasicConstants.MAX_FPS * 2;
+        paint.setAlpha(120);
     }
 
     public void resetDrownFrames() {
@@ -156,6 +190,9 @@ public class Player extends GameObject {
         int heightCorrection = 0;
 
         switch (state) {
+            case Flying:
+                image = this.ballImage;
+                break;
             case Running:
                 if (!isNextToWall) {
                     image = animation.getImage();
@@ -166,8 +203,7 @@ public class Player extends GameObject {
                     image = this.duckImage;
                     if (isBig) {
                         heightCorrection = GameConstants.DUCK_CORRECTION;
-                    }
-                    else {
+                    } else {
                         heightCorrection = 18;
                     }
                     duckCount--;
@@ -202,6 +238,21 @@ public class Player extends GameObject {
 
     @Override
     public void update() {
+        if (state == PlayerState.Flying && flyingFrames <= 0) {
+            GlobalVariables.GAME_SPEED += 5;
+            state = PlayerState.Falling;
+            isFlying = false;
+            becomeInvulnerable();
+        }
+
+        if (flyingFrames > 0) {
+            flyingFrames--;
+        }
+
+        if (state == PlayerState.Flying) {
+            setNextToWall(false);
+        }
+
         if (invulnerabilityFrames > 0) {
             invulnerabilityFrames--;
         }
@@ -221,6 +272,16 @@ public class Player extends GameObject {
         this.x += xDelta;
 
         switch (state) {
+            case Flying:
+                this.y += (rotationAtFlightStart - rotation) * 2;
+                if (y > BasicConstants.BG_HEIGHT - this.height) {
+                    y = BasicConstants.BG_HEIGHT - this.height;
+                }
+                if (y < 0) {
+                    y = 0;
+                }
+                this.flyingFrames--;
+                break;
             case Jumping:
                 yDelta += GlobalVariables.JUMP_VELOCITY;
                 if (yDelta <= 0) {
@@ -260,12 +321,18 @@ public class Player extends GameObject {
         if (this.x + this.width < 0 || this.y > BasicConstants.BG_HEIGHT) {
             isInBounds = false;
         }
+
         animation.setDelay(GlobalVariables.DELAY);
         animation.update();
     }
 
     public void updateState(CollisionType collisionType) {
         switch (state) {
+            case Flying:
+                if (!isNextToWall) {
+                    setNextToWall(false);
+                }
+                break;
             case Running:
                 switch (collisionType) {
                     case None:
@@ -365,8 +432,7 @@ public class Player extends GameObject {
                 state = PlayerState.Dead;
                 isAlive = false;
             } else {
-                invulnerabilityFrames = BasicConstants.MAX_FPS * 2;
-                paint.setAlpha(120);
+                becomeInvulnerable();
             }
         }
     }
@@ -404,5 +470,15 @@ public class Player extends GameObject {
             return true;
         }
         return false;
+    }
+
+    @Override
+    public void onSensorChanged(SensorEvent event) {
+        this.rotation = (int) (event.values[2]);
+    }
+
+    @Override
+    public void onAccuracyChanged(Sensor sensor, int accuracy) {
+
     }
 }

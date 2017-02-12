@@ -21,6 +21,7 @@ public class PlayerFactory {
                         BitmapFactory.decodeResource(BasicConstants.CURRENT_CONTEXT.getResources(), R.drawable.p1_duck),
                         BitmapFactory.decodeResource(BasicConstants.CURRENT_CONTEXT.getResources(), R.drawable.p1_hurt),
                         BitmapFactory.decodeResource(BasicConstants.CURRENT_CONTEXT.getResources(), R.drawable.p1_stand),
+                        BitmapFactory.decodeResource(BasicConstants.CURRENT_CONTEXT.getResources(), R.drawable.p1_ball),
                         x, y,
                         GameConstants.WALK_FRAMES,
                         1, 1);
@@ -30,6 +31,7 @@ public class PlayerFactory {
                         BitmapFactory.decodeResource(BasicConstants.CURRENT_CONTEXT.getResources(), R.drawable.p2_duck),
                         BitmapFactory.decodeResource(BasicConstants.CURRENT_CONTEXT.getResources(), R.drawable.p2_hurt),
                         BitmapFactory.decodeResource(BasicConstants.CURRENT_CONTEXT.getResources(), R.drawable.p2_stand),
+                        BitmapFactory.decodeResource(BasicConstants.CURRENT_CONTEXT.getResources(), R.drawable.p2_ball),
                         x, y,
                         GameConstants.WALK_FRAMES,
                         1, 2);
@@ -39,6 +41,7 @@ public class PlayerFactory {
                         BitmapFactory.decodeResource(BasicConstants.CURRENT_CONTEXT.getResources(), R.drawable.p3_duck),
                         BitmapFactory.decodeResource(BasicConstants.CURRENT_CONTEXT.getResources(), R.drawable.p3_hurt),
                         BitmapFactory.decodeResource(BasicConstants.CURRENT_CONTEXT.getResources(), R.drawable.p3_stand),
+                        BitmapFactory.decodeResource(BasicConstants.CURRENT_CONTEXT.getResources(), R.drawable.p3_ball),
                         x, y,
                         GameConstants.WALK_FRAMES,
                         2, 1);

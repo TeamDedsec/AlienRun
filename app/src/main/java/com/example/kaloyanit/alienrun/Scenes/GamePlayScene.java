@@ -35,6 +35,7 @@ import com.example.kaloyanit.alienrun.GameObjects.LevelModule;
 import com.example.kaloyanit.alienrun.GameObjects.MusicPlayer;
 import com.example.kaloyanit.alienrun.GameObjects.Player;
 import com.example.kaloyanit.alienrun.GameObjects.PowerUps.ExtraLife;
+import com.example.kaloyanit.alienrun.GameObjects.PowerUps.Invincibility;
 import com.example.kaloyanit.alienrun.GameObjects.PowerUps.Mover;
 import com.example.kaloyanit.alienrun.GameObjects.PowerUps.PowerUp;
 import com.example.kaloyanit.alienrun.GameObjects.SoundPlayer;
@@ -51,7 +52,7 @@ import java.util.ArrayList;
  * Created by KaloyanIT on 1/25/2017.
  */
 
-public class GamePlayScene implements IScene, SensorEventListener {
+public class GamePlayScene implements IScene {
     private float touchX;
     private float touchY;
     private Player player;
@@ -73,7 +74,6 @@ public class GamePlayScene implements IScene, SensorEventListener {
     private Bomb bomb = null;
     private Paint paint;
     private Explosion explosion = null;
-    private SensorManager sensorManager;
 
     //TODO: JT: Change collision with obstacle/enemy to something specific, not wall!!! This is more important now, as enemies don't kill you!!
     //TODO: JT: Think of a way to make the player to be able to jump while colliding with a wall
@@ -85,8 +85,6 @@ public class GamePlayScene implements IScene, SensorEventListener {
         tryJump = soundPool.load(BasicConstants.CURRENT_CONTEXT, R.raw.tryJump, 1);
 
         soundPool.play(music, 0.8f, 0.8f, 1, 1, 1.0f);*/
-        sensorManager = BasicConstants.SENSOR_SERVICE;
-        sensorManager.registerListener(this, sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER), SensorManager.SENSOR_DELAY_NORMAL);
         MusicPlayer.playBackgroundMusic();
         background = BackgroundFactory.createBackground(BackgroundType.Grass);
         paint = new Paint();
@@ -169,9 +167,11 @@ public class GamePlayScene implements IScene, SensorEventListener {
                     if (mod.getEndX() < BasicConstants.BG_WIDTH) {
                         LevelModule newModule = moduleFactory.getLevelModule();
                         modules.add(newModule);
-                        int rng = Helpers.getRandomNumber(0, 5);
+                        int rng = Helpers.getRandomNumber(0, 3);
                         if (rng == 0) {
-                            if (player.getLives() <= 1 && player.getX() <= 300) {
+                            if (player.getLives() == 1 && player.getX() >= 300) {
+                                powerUps.add(PowerUpFactory.createPowerUp(PowerUpType.Invincibility, newModule.getStartX(), BasicConstants.BG_HEIGHT - (GameConstants.BLOCK_HEIGHT * 2)));
+                            } else if (player.getLives() <= 1 && player.getX() <= 300) {
                                 powerUps.add(PowerUpFactory.createPowerUp(newModule.getStartX(), BasicConstants.BG_HEIGHT - (GameConstants.BLOCK_HEIGHT * 2)));
                             } else if (player.getLives() <= 1) {
                                 powerUps.add(PowerUpFactory.createPowerUp(PowerUpType.ExtraLife, newModule.getStartX(), BasicConstants.BG_HEIGHT - (GameConstants.BLOCK_HEIGHT * 2)));
@@ -189,13 +189,14 @@ public class GamePlayScene implements IScene, SensorEventListener {
                 if (enemy.getX() < -100) {
                     enemies.remove(i);
                 } else {
-                    if (!player.isInvulnerable() && Helpers.checkPreciseCollision(player, enemy)) {
+                    if (!player.isInvulnerable() && !player.isFlying() && Helpers.checkPreciseCollision(player, enemy)) {
                         player.hitIntoEnemy();
                     }
                 }
             }
 
             player.updateState(Helpers.checkCollision(player, modules));
+
             //TODO: JT: think of a better way to spawn enemies
             if (modulesPassed % 5 == 0 && modulesPassed > 0 && !isScoreChecked) {
                 int rand = Helpers.getRandomNumber(BasicConstants.SCREEN_HEIGHT / 3, BasicConstants.BG_HEIGHT - GameConstants.BLOCK_HEIGHT * 2);
@@ -358,18 +359,6 @@ public class GamePlayScene implements IScene, SensorEventListener {
                 }*/
             }
         }
-    }
-
-    @Override
-    public void onSensorChanged(SensorEvent event) {
-        if (event.sensor.getType() == Sensor.TYPE_ACCELEROMETER) {
-            Log.d("ROTATION", String.valueOf(event.values[2]));
-        }
-    }
-
-    @Override
-    public void onAccuracyChanged(Sensor sensor, int accuracy) {
-
     }
 /*    //Fix this and extract it
     private boolean checkTouchCollision(Rect a, Rect b) {

@@ -30,8 +30,8 @@ public class BackgroundFactory {
             default:
                 throw new RuntimeException();
         }
-        Bitmap resizedImage = Bitmap.createScaledBitmap(image, BasicConstants.BG_WIDTH, BasicConstants.BG_HEIGHT, false);
-        return new Background(resizedImage);
+        image = Bitmap.createScaledBitmap(image, BasicConstants.BG_WIDTH, BasicConstants.BG_HEIGHT, false);
+        return new Background(image);
     }
 
     public static Bitmap getBackgroundImage() {
@@ -64,8 +64,8 @@ public class BackgroundFactory {
             default:
                 throw new RuntimeException();
         }
-        Bitmap resizedImage = Bitmap.createScaledBitmap(image, BasicConstants.BG_WIDTH, BasicConstants.BG_HEIGHT, false);
+        image = Bitmap.createScaledBitmap(image, BasicConstants.BG_WIDTH, BasicConstants.BG_HEIGHT, false);
 
-        return resizedImage;
+        return image;
     }
 }

@@ -10,5 +10,5 @@ import com.example.kaloyanit.alienrun.GameObjects.PowerUps.Mover;
 public enum  PowerUpType {
     ExtraLife,
     Mover,
-    Immortality
+    Invincibility
 }

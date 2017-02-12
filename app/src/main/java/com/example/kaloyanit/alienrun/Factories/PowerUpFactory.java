@@ -5,10 +5,12 @@ import android.graphics.BitmapFactory;
 
 import com.example.kaloyanit.alienrun.Enums.PowerUpType;
 import com.example.kaloyanit.alienrun.GameObjects.PowerUps.ExtraLife;
+import com.example.kaloyanit.alienrun.GameObjects.PowerUps.Invincibility;
 import com.example.kaloyanit.alienrun.GameObjects.PowerUps.Mover;
 import com.example.kaloyanit.alienrun.GameObjects.PowerUps.PowerUp;
 import com.example.kaloyanit.alienrun.R;
 import com.example.kaloyanit.alienrun.Utils.BasicConstants;
+import com.example.kaloyanit.alienrun.Utils.GameConstants;
 import com.example.kaloyanit.alienrun.Utils.Helpers;
 
 /**
@@ -17,7 +19,7 @@ import com.example.kaloyanit.alienrun.Utils.Helpers;
 
 public class PowerUpFactory {
     public static PowerUp createPowerUp(int x, int y) {
-        int rand = Helpers.getRandomNumber(0, 4);
+        int rand = Helpers.getRandomNumber(0, 6);
         switch (rand) {
             case 0:
             case 1:
@@ -25,6 +27,9 @@ public class PowerUpFactory {
             case 3:
                 return createPowerUp(PowerUpType.Mover, x, y);
             case 4:
+            case 5:
+                return createPowerUp(PowerUpType.Invincibility, x, y);
+            case 6:
                 return createPowerUp(PowerUpType.ExtraLife, x, y);
             default:
                 throw new RuntimeException();
@@ -40,6 +45,10 @@ public class PowerUpFactory {
             case Mover:
                 image = BitmapFactory.decodeResource(BasicConstants.CURRENT_CONTEXT.getResources(), R.drawable.signright);
                 return new Mover(image, x, y);
+            case Invincibility:
+                image = BitmapFactory.decodeResource(BasicConstants.CURRENT_CONTEXT.getResources(), R.drawable.star);
+                //image = Bitmap.createScaledBitmap(image, 60, 60, false);
+                return new Invincibility(image, x, y);
             default:
                 throw new RuntimeException();
         }
