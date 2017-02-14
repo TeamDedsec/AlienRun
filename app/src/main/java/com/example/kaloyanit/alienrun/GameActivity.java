@@ -108,7 +108,6 @@ public class GameActivity extends AppCompatActivity {
 
         // Get Firebase auth instance
         auth = FirebaseAuth.getInstance();
-
         loginButton = (LoginButton) findViewById(R.id.login_button);
         loginButton.setReadPermissions("email", "public_profile");
         loginButton.registerCallback(callbackManager, new FacebookCallback<LoginResult>() {
@@ -130,9 +129,6 @@ public class GameActivity extends AppCompatActivity {
                 // ...
             }
         });
-
-
-
         authListener = new FirebaseAuth.AuthStateListener() {
             @Override
             public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
@@ -160,8 +156,6 @@ public class GameActivity extends AppCompatActivity {
 
         //  Start loading layout for start menu
         startLayout();
-
-        //FirebaseAuth.getInstance().signOut();
     }
 
 

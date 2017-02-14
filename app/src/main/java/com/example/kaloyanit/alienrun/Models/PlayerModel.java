@@ -21,9 +21,9 @@ public class PlayerModel {
     //TODO: Add active player - change background
 
     static {
-        playerModels.add(new PlayerModel("Green Player", R.drawable.p1_stand, 100, "No special skill", true, true));
-        playerModels.add(new PlayerModel("Pink Player", R.drawable.p3_stand, 2000, "Bonus jump", false, false));
-        playerModels.add(new PlayerModel("Blue Player", R.drawable.p2_stand, 8000, "Extra life", false, false));
+        playerModels.add(new PlayerModel("Green", R.drawable.p1_stand, 100, "No special skill", true, true));
+        playerModels.add(new PlayerModel("Pink", R.drawable.p3_stand, 2000, "Bonus jump", false, false));
+        playerModels.add(new PlayerModel("Blue", R.drawable.p2_stand, 8000, "Extra life", false, false));
     }
 
 
