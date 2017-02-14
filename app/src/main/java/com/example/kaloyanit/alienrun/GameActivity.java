@@ -3,7 +3,6 @@ package com.example.kaloyanit.alienrun;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.hardware.SensorManager;
-import android.nfc.Tag;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.NonNull;
@@ -39,15 +38,19 @@ import com.facebook.FacebookCallback;
 import com.facebook.FacebookException;
 import com.facebook.login.LoginResult;
 import com.facebook.login.widget.LoginButton;
+import com.google.android.gms.auth.api.Auth;
+import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
+import com.google.android.gms.auth.api.signin.GoogleSignInResult;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthCredential;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FacebookAuthProvider;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
 import com.facebook.FacebookSdk;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.auth.GoogleAuthProvider;
 
 import java.util.List;
 
@@ -72,6 +75,7 @@ public class GameActivity extends AppCompatActivity {
     private ScalableView achievementsButton;
     private ListView achievementLv;
     private AchievementsDataSource database;
+    private LoginButton loginButton;
 
 
     private List<Achievement> achievements;
@@ -79,7 +83,7 @@ public class GameActivity extends AppCompatActivity {
     private static final String TAG = "FacebookLogin";
     private FirebaseAuth auth;
     private FirebaseAuth.AuthStateListener authListener;
-    private CallbackManager mCallbackManager;
+    private CallbackManager callbackManager;
 
     //TODO: Add AsyncTask to pause thread - should fix canvas null problem
 
@@ -87,7 +91,8 @@ public class GameActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        mCallbackManager = CallbackManager.Factory.create();
+        FacebookSdk.sdkInitialize(getApplicationContext());
+        callbackManager = CallbackManager.Factory.create();
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
         this.requestWindowFeature(Window.FEATURE_NO_TITLE);
@@ -104,12 +109,9 @@ public class GameActivity extends AppCompatActivity {
         // Get Firebase auth instance
         auth = FirebaseAuth.getInstance();
 
-
-
-
-        LoginButton loginButton = (LoginButton) findViewById(R.id.login_button);
+        loginButton = (LoginButton) findViewById(R.id.login_button);
         loginButton.setReadPermissions("email", "public_profile");
-        loginButton.registerCallback(mCallbackManager, new FacebookCallback<LoginResult>() {
+        loginButton.registerCallback(callbackManager, new FacebookCallback<LoginResult>() {
             @Override
             public void onSuccess(LoginResult loginResult) {
                 Log.d(TAG, "facebook:onSuccess:" + loginResult);
@@ -159,7 +161,7 @@ public class GameActivity extends AppCompatActivity {
         //  Start loading layout for start menu
         startLayout();
 
-        FirebaseAuth.getInstance().signOut();
+        //FirebaseAuth.getInstance().signOut();
     }
 
 
@@ -168,7 +170,7 @@ public class GameActivity extends AppCompatActivity {
         super.onActivityResult(requestCode, resultCode, data);
 
         // Pass the activity result back to the Facebook SDK
-        mCallbackManager.onActivityResult(requestCode, resultCode, data);
+        callbackManager.onActivityResult(requestCode, resultCode, data);
     }
 
     private void handleFacebookAccessToken(AccessToken token) {
@@ -255,6 +257,7 @@ public class GameActivity extends AppCompatActivity {
     }
 
     public void gameEngine() {
+        loginButton.setVisibility(View.INVISIBLE);
         pauseButton = (ScalableView) findViewById(R.id.pauseView);
         pauseButton.setVisibility(View.VISIBLE);
         pauseButton.setOnClickListener(view -> {
@@ -431,6 +434,6 @@ public class GameActivity extends AppCompatActivity {
         if(authListener != null) {
             auth.removeAuthStateListener(authListener);
         }
-
     }
+
 }

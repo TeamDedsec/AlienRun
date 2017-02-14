@@ -28,7 +28,9 @@ android {
         //targetCompatibility JavaVersion.VERSION_1_8
     }
 }
-
+repositories {
+    mavenCentral()
+}
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
     androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
