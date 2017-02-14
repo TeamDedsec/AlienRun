@@ -301,8 +301,11 @@ public class GameActivity extends AppCompatActivity {
                 //Initialize item elements
                 TextView tvTitle = (TextView) view.findViewById(R.id.tv_title);
                 TextView tvSkill = (TextView) view.findViewById(R.id.tv_skills);
+                TextView tvPrice = (TextView) view.findViewById(R.id.tv_price) ;
                 ScalableView plImage = (ScalableView) view.findViewById(R.id.pl_image) ;
                 Button buyButton = (Button) view.findViewById(R.id.buy_button);
+
+                tvPrice.setText(String.format("%0$d", this.getItem(position).getPrice()));
 
 
 
