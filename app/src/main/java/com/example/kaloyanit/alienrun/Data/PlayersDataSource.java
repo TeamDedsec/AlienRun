@@ -29,6 +29,11 @@ public class PlayersDataSource implements IDataSource {
     public void open() {
         try {
             database = dbHelper.getWritableDatabase();
+//            if (getAllPlayers().size() == 0) {
+//                createPlayer("Green", "No special skill", 0);
+//                createPlayer("Pink", "Triple Jump", 2000);
+//                createPlayer("Blue", "Extra life", 10000);
+//            }
         } catch (SQLException ex) {
         }
     }

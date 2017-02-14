@@ -17,7 +17,7 @@ public class PlayersHelper extends SQLiteOpenHelper {
     public static final String COLUMN_PRICE = "price";
 
     private static final String DATABASE_NAME = "playerss.db";
-    private static final int DATABASE_VERSION = 1;
+    private static final int DATABASE_VERSION = 3;
 
     private static final String DATABASE_CREATE = "create table "
             + TABLE_PLAYERS + "( " + COLUMN_ID

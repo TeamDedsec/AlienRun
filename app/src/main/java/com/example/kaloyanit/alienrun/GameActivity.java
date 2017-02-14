@@ -24,9 +24,11 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.kaloyanit.alienrun.Data.AchievementsDataSource;
+import com.example.kaloyanit.alienrun.Data.PlayersDataSource;
 import com.example.kaloyanit.alienrun.Models.Achievement;
 import com.example.kaloyanit.alienrun.Core.GamePanel;
 import com.example.kaloyanit.alienrun.Core.SceneManager;
+import com.example.kaloyanit.alienrun.Models.Player;
 import com.example.kaloyanit.alienrun.SoundPlayers.MusicPlayer;
 import com.example.kaloyanit.alienrun.Models.PlayerModel;
 import com.example.kaloyanit.alienrun.Utils.BasicConstants;
@@ -38,10 +40,6 @@ import com.facebook.FacebookCallback;
 import com.facebook.FacebookException;
 import com.facebook.login.LoginResult;
 import com.facebook.login.widget.LoginButton;
-import com.google.android.gms.auth.api.Auth;
-import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
-import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
-import com.google.android.gms.auth.api.signin.GoogleSignInResult;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthCredential;
@@ -50,7 +48,6 @@ import com.google.firebase.auth.FacebookAuthProvider;
 import com.google.firebase.auth.FirebaseAuth;
 import com.facebook.FacebookSdk;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.auth.GoogleAuthProvider;
 
 import java.util.List;
 
@@ -74,7 +71,8 @@ public class GameActivity extends AppCompatActivity {
     private RelativeLayout achievementsLayout;
     private ScalableView achievementsButton;
     private ListView achievementLv;
-    private AchievementsDataSource database;
+    private AchievementsDataSource achievementsDataSource;
+    private PlayersDataSource playersDataSource;
     private LoginButton loginButton;
 
 
@@ -148,10 +146,17 @@ public class GameActivity extends AppCompatActivity {
         gameView = (GamePanel)findViewById(R.id.gameView);
         gameView.setVisibility(View.GONE);
 
-        database = new AchievementsDataSource(this);
-        database.open();
-        achievements = database.getAllAchievements();
-        database.close();
+        achievementsDataSource = new AchievementsDataSource(this);
+        achievementsDataSource.open();
+        achievements = achievementsDataSource.getAllAchievements();
+        achievementsDataSource.close();
+
+       //playersDataSource = new PlayersDataSource(this);
+        //playersDataSource.open();
+        //List<Player> players = playersDataSource.getAllPlayers();
+        //playersDataSource.close();
+
+
 
 
         //  Start loading layout for start menu
