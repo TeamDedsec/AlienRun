@@ -31,6 +31,7 @@ import com.example.kaloyanit.alienrun.Models.PlayerModel;
 import com.example.kaloyanit.alienrun.Utils.BasicConstants;
 import com.example.kaloyanit.alienrun.Utils.GlobalVariables;
 import com.example.kaloyanit.alienrun.Views.ScalableView;
+import com.google.firebase.auth.FirebaseAuth;
 
 import java.util.List;
 
@@ -59,6 +60,8 @@ public class GameActivity extends AppCompatActivity {
 
     private List<Achievement> achievements;
 
+    private FirebaseAuth auth;
+
     //TODO: Add AsyncTask to pause thread - should fix canvas null problem
 
 
@@ -76,6 +79,9 @@ public class GameActivity extends AppCompatActivity {
         BasicConstants.SCREEN_HEIGHT = dm.heightPixels;
         SceneManager.ACTIVE_SCENE = 0;
         setContentView(R.layout.activity_game);
+
+        // Get Firebase auth instance
+        auth = FirebaseAuth.getInstance();
         //achievements = PointAchievement.getAchievements();
         gameView = (GamePanel)findViewById(R.id.gameView);
         gameView.setVisibility(View.GONE);
