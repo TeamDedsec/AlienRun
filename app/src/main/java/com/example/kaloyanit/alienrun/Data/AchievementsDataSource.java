@@ -18,11 +18,11 @@ import java.util.List;
 
 public class AchievementsDataSource implements IDataSource{
     private SQLiteDatabase database;
-    private AchievementHelper dbHelper;
-    private String[] allColumns = { AchievementHelper.COLUMN_ID, AchievementHelper.COLUMN_NAME, AchievementHelper.COLUMN_POINTS, AchievementHelper.COLUMN_LOCK_NUMBER};
+    private AchievementsHelper dbHelper;
+    private String[] allColumns = { AchievementsHelper.COLUMN_ID, AchievementsHelper.COLUMN_NAME, AchievementsHelper.COLUMN_POINTS, AchievementsHelper.COLUMN_LOCK_NUMBER};
 
     public AchievementsDataSource(Context context) {
-        dbHelper = new AchievementHelper(context);
+        dbHelper = new AchievementsHelper(context);
     }
 
     @Override
@@ -41,11 +41,11 @@ public class AchievementsDataSource implements IDataSource{
 
     public Achievement createAchievement(String name, int points) {
         ContentValues values = new ContentValues();
-        values.put(AchievementHelper.COLUMN_NAME, name);
-        values.put(AchievementHelper.COLUMN_POINTS, points);
-        values.put(AchievementHelper.COLUMN_LOCK_NUMBER, 0);
-        long insertId = database.insertOrThrow(AchievementHelper.TABLE_ACHIEVEMENTS, null, values);
-        Cursor cursor = database.query(AchievementHelper.TABLE_ACHIEVEMENTS, allColumns, AchievementHelper.COLUMN_ID + " = " + insertId , null, null, null, null);
+        values.put(AchievementsHelper.COLUMN_NAME, name);
+        values.put(AchievementsHelper.COLUMN_POINTS, points);
+        values.put(AchievementsHelper.COLUMN_LOCK_NUMBER, 0);
+        long insertId = database.insertOrThrow(AchievementsHelper.TABLE_ACHIEVEMENTS, null, values);
+        Cursor cursor = database.query(AchievementsHelper.TABLE_ACHIEVEMENTS, allColumns, AchievementsHelper.COLUMN_ID + " = " + insertId , null, null, null, null);
         cursor.moveToFirst();
         Achievement newAchievement = cursorToAchievement(cursor);
         cursor.close();
@@ -54,13 +54,13 @@ public class AchievementsDataSource implements IDataSource{
 
     public void deleteAchievement(long achvId) {
         long id = achvId;
-        database.delete(AchievementHelper.TABLE_ACHIEVEMENTS, AchievementHelper.COLUMN_ID + " = " + id, null);
+        database.delete(AchievementsHelper.TABLE_ACHIEVEMENTS, AchievementsHelper.COLUMN_ID + " = " + id, null);
     }
 
     public List<Achievement> getAllAchievements() {
         List<Achievement> achievements = new ArrayList<>();
 
-        Cursor cursor = database.query(AchievementHelper.TABLE_ACHIEVEMENTS, allColumns, null, null, null, null, null);
+        Cursor cursor = database.query(AchievementsHelper.TABLE_ACHIEVEMENTS, allColumns, null, null, null, null, null);
         cursor.moveToFirst();
         while (!cursor.isAfterLast()) {
             Achievement achievement = cursorToAchievement(cursor);

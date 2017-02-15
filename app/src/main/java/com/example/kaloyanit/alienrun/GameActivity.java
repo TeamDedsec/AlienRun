@@ -151,10 +151,15 @@ public class GameActivity extends AppCompatActivity {
         achievements = achievementsDataSource.getAllAchievements();
         achievementsDataSource.close();
 
-       //playersDataSource = new PlayersDataSource(this);
-        //playersDataSource.open();
-        //List<Player> players = playersDataSource.getAllPlayers();
-        //playersDataSource.close();
+        playersDataSource = new PlayersDataSource(this);
+        playersDataSource.open();
+        if(playersDataSource.getAllPlayers().size() == 0) {
+            playersDataSource.createPlayer("Green", R.drawable.p1_stand, "No special skill", 0);
+            playersDataSource.createPlayer("Pink", R.drawable.p3_stand, "Triple Jump", 2000);
+            playersDataSource.createPlayer("Blue", R.drawable.p2_stand, "Extra life", 10000);
+        }
+        List<Player> players = playersDataSource.getAllPlayers();
+        playersDataSource.close();
 
 
 

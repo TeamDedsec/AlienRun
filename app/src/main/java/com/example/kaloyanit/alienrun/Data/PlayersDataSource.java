@@ -19,7 +19,7 @@ import java.util.List;
 public class PlayersDataSource implements IDataSource {
     private SQLiteDatabase database;
     private PlayersHelper dbHelper;
-    private String[] allColumns = {PlayersHelper.COLUMN_ID, PlayersHelper.COLUMN_NAME, PlayersHelper.COLUMN_SKILL, PlayersHelper.COLUMN_PRICE };
+    private String[] allColumns = {PlayersHelper.COLUMN_ID, PlayersHelper.COLUMN_NAME, PlayersHelper.COLUMN_PICTURE, PlayersHelper.COLUMN_SKILL, PlayersHelper.COLUMN_PRICE };
 
     public PlayersDataSource(Context context) {
         dbHelper = new PlayersHelper(context);
@@ -43,14 +43,16 @@ public class PlayersDataSource implements IDataSource {
         dbHelper.close();
     }
 
-    private Player createPlayer(String name, String skill, int price) {
+    public Player createPlayer(String name,int id, String skill, int price) {
         ContentValues values = new ContentValues();
         values.put(PlayersHelper.COLUMN_NAME, name);
+        values.put(PlayersHelper.COLUMN_PICTURE, id);
         values.put(PlayersHelper.COLUMN_SKILL, skill);
         values.put(PlayersHelper.COLUMN_PRICE, price);
 
         long insertId = database.insertOrThrow(PlayersHelper.TABLE_PLAYERS, null, values);
         Cursor cursor = database.query(PlayersHelper.TABLE_PLAYERS, allColumns, PlayersHelper.COLUMN_ID + " = " + insertId, null, null, null, null);
+        cursor.moveToFirst();
         Player newPlayer = cursorToPlayer(cursor);
         cursor.close();
 
@@ -81,8 +83,9 @@ public class PlayersDataSource implements IDataSource {
         Player player = new Player();
         player.setId(cursor.getLong(0));
         player.setName(cursor.getString(1));
-        player.setSkill(cursor.getString(2));
-        player.setPrice(cursor.getInt(3));
+        player.setPictureId(cursor.getInt(2));
+        player.setSkill(cursor.getString(3));
+        player.setPrice(cursor.getInt(4));
         return player;
     }
 }

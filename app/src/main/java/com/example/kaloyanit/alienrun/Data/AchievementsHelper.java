@@ -9,8 +9,7 @@ import android.util.Log;
  * Created by KaloyanIT on 2/10/2017.
  */
 
-public class AchievementHelper extends SQLiteOpenHelper {
-
+public class AchievementsHelper extends SQLiteOpenHelper {
     public static final String TABLE_ACHIEVEMENTS = "achievements";
     public static final String COLUMN_ID = "_id";
     public static final String COLUMN_NAME = "name";
@@ -27,7 +26,7 @@ public class AchievementHelper extends SQLiteOpenHelper {
             + COLUMN_POINTS + " integer not null, "
             + COLUMN_LOCK_NUMBER + " integer not null);";
 
-    public AchievementHelper(Context context) {
+    public AchievementsHelper(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
     }
 
@@ -38,7 +37,7 @@ public class AchievementHelper extends SQLiteOpenHelper {
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-        Log.w(AchievementHelper.class.getName(),
+        Log.w(AchievementsHelper.class.getName(),
                 "Upgrading database from version " + oldVersion + " to "
                         + newVersion + ", which will destroy all old data");
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_ACHIEVEMENTS);
