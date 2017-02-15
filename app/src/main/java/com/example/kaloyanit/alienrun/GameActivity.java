@@ -135,7 +135,7 @@ public class GameActivity extends AppCompatActivity {
         gameView.setVisibility(View.GONE);
 
         loadAchievmentsData();
-        loadPlayersLayout();
+        loadPlayersData();
         //  Start loading layout for start menu
         startLayout();
     }
@@ -273,7 +273,7 @@ public class GameActivity extends AppCompatActivity {
         ScalableView backButton = (ScalableView) findViewById(R.id.home_button);
 
 
-        ArrayAdapter<PlayerModel> playersAdapter = new ArrayAdapter<PlayerModel>(this, -1, PlayerModel.getPlayers()) {
+        ArrayAdapter<Player> playersAdapter = new ArrayAdapter<Player>(this, -1, players) {
             @NonNull
             @Override
             public View getView(int position, View convertView, ViewGroup parent) {
@@ -292,8 +292,6 @@ public class GameActivity extends AppCompatActivity {
 
                 tvPrice.setText(String.format("%0$d", this.getItem(position).getPrice()));
 
-
-
                 //Use elements
                 backButton.setOnClickListener(view1 -> {
                     playersLayout.setVisibility(View.INVISIBLE);
@@ -301,33 +299,14 @@ public class GameActivity extends AppCompatActivity {
                 });
 
 
-                tvSkill.setText(this.getItem(position).getSpecialSkill());
 
-                if(this.getItem(position).isSold()) {
-                    if(this.getItem(position).isActive()) {
-                        buyButton.setText("Selected");
-                    } else {
-                        buyButton.setText("Select");
-                        buyButton.setOnClickListener(view1 -> {
-                            //TODO: buy hero
-                            buyButton.setText("Selected");
-                        });
-                    }
-                } else {
-                    buyButton.setOnClickListener(view1 -> {
-                        //TODO: add another shop class
-                        this.getItem(position).buyPlayer();
-                        buyButton.setText("Select");
-                    });
-                    buyButton.setText("Buy");
-                }
+                tvSkill.setText(this.getItem(position).getSkill());
 
 
 
-                plImage.setImageResource(this.getItem(position).getImage());
+                plImage.setImageResource(this.getItem(position).getPictureId());
                 //plImage.setBitmapImage(this.getItem(position).getImage());
                 String title = this.getItem(position).getName();
-                System.out.println(title);
                 tvTitle.setText(title);
 
 
@@ -406,10 +385,17 @@ public class GameActivity extends AppCompatActivity {
     public void loadPlayersData() {
         PlayersDataSource playersDataSource = new PlayersDataSource(this);
         playersDataSource.open();
-        if(playersDataSource.getAllPlayers().size() == 0) {
-            playersDataSource.createPlayer("Green", R.drawable.p1_stand, "No special skill", 0);
-            playersDataSource.createPlayer("Pink", R.drawable.p3_stand, "Triple Jump", 2000);
-            playersDataSource.createPlayer("Blue", R.drawable.p2_stand, "Extra life", 10000);
+//        if(playersDataSource.getAllPlayers().size() == 0) {
+//            playersDataSource.createPlayer("Green", R.drawable.p1_stand, "No special skill", 0);
+//        }
+//        if(playersDataSource.getAllPlayers().size() == 1) {
+//            playersDataSource.createPlayer("Pink", R.drawable.p3_stand, "Triple Jump", 2000);
+//        }
+//        if(playersDataSource.getAllPlayers().size() == 2) {
+//            playersDataSource.createPlayer("Blue", R.drawable.p2_stand, "Extra life", 10000);
+//        }
+        for (int i = 0; i < 5; i++) {
+            playersDataSource.deletePlayer(i);
         }
         players = playersDataSource.getAllPlayers();
         playersDataSource.close();
