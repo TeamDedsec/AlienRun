@@ -55,27 +55,12 @@ import java.util.List;
 public class GameActivity extends AppCompatActivity {
 
     private ScalableView pauseButton;
-    private ScalableView exitButton;
     private GamePanel gameView;
     private TextView scoreView;
-    private ScalableView startView;
-    private Intent pauseIntent;
-    private ScalableView refreshButton;
     private RelativeLayout startLayout;
-    private ScalableView startButton;
     private RelativeLayout pauseLayout;
-    private ScalableView continueButton;
-    private ScalableView homeMenuButton;
-    private ScalableView playersButton;
     private RelativeLayout playersLayout;
-    private RelativeLayout achievementsLayout;
-    private ScalableView achievementsButton;
-    private ListView achievementLv;
-    private AchievementsDataSource achievementsDataSource;
-    private PlayersDataSource playersDataSource;
     private LoginButton loginButton;
-
-
     private List<Achievement> achievements;
     //Firebase
     private static final String TAG = "FacebookLogin";
@@ -89,8 +74,11 @@ public class GameActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        //Facebook Auth
         FacebookSdk.sdkInitialize(getApplicationContext());
         callbackManager = CallbackManager.Factory.create();
+        //
+
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
         this.requestWindowFeature(Window.FEATURE_NO_TITLE);
@@ -146,12 +134,12 @@ public class GameActivity extends AppCompatActivity {
         gameView = (GamePanel)findViewById(R.id.gameView);
         gameView.setVisibility(View.GONE);
 
-        achievementsDataSource = new AchievementsDataSource(this);
+        AchievementsDataSource achievementsDataSource = new AchievementsDataSource(this);
         achievementsDataSource.open();
         achievements = achievementsDataSource.getAllAchievements();
         achievementsDataSource.close();
 
-        playersDataSource = new PlayersDataSource(this);
+        PlayersDataSource playersDataSource = new PlayersDataSource(this);
         playersDataSource.open();
         if(playersDataSource.getAllPlayers().size() == 0) {
             playersDataSource.createPlayer("Green", R.drawable.p1_stand, "No special skill", 0);
@@ -206,9 +194,10 @@ public class GameActivity extends AppCompatActivity {
 
     public void startLayout() {
         startLayout = (RelativeLayout) findViewById(R.id.startPage);
-        startButton = (ScalableView) findViewById(R.id.startView);
-        playersButton = (ScalableView) findViewById(R.id.players_button);
-        achievementsButton = (ScalableView) findViewById(R.id.achievements_button);
+        ScalableView startButton = (ScalableView) findViewById(R.id.startView);
+        ScalableView playersButton = (ScalableView) findViewById(R.id.players_button);
+        ScalableView achievementsButton = (ScalableView) findViewById(R.id.achievements_button);
+        ScalableView settingsButton = (ScalableView) findViewById(R.id.settings_button);
         playersLayout = (RelativeLayout) findViewById(R.id.players_layout);
         startButton.setOnClickListener(view -> {
             SceneManager.ACTIVE_SCENE = 1;
@@ -229,15 +218,20 @@ public class GameActivity extends AppCompatActivity {
             startLayout.setVisibility(View.INVISIBLE);
             achievementsLayout();
         });
+
+        settingsButton.setOnClickListener(view -> {
+            startLayout.setVisibility(View.INVISIBLE);
+            settingsLayout();
+        });
     }
 
     public void pauseLayout() {
         pauseLayout = (RelativeLayout) findViewById(R.id.pauseScene);
         pauseLayout.setVisibility(View.VISIBLE);
 
-        refreshButton = (ScalableView) findViewById(R.id.refreshButton);
-        continueButton = (ScalableView) findViewById(R.id.resumeButton);
-        homeMenuButton = (ScalableView) findViewById(R.id.home_menu_button);
+        ScalableView refreshButton = (ScalableView) findViewById(R.id.refreshButton);
+        ScalableView continueButton = (ScalableView) findViewById(R.id.resumeButton);
+        ScalableView homeMenuButton = (ScalableView) findViewById(R.id.home_menu_button);
 
         continueButton.setOnClickListener(view -> {
             SceneManager.ACTIVE_SCENE = 1;
@@ -365,9 +359,9 @@ public class GameActivity extends AppCompatActivity {
     }
 
     public void achievementsLayout() {
-        achievementsLayout = (RelativeLayout) findViewById(R.id.achievements_layout);
+        RelativeLayout achievementsLayout = (RelativeLayout) findViewById(R.id.achievements_layout);
         achievementsLayout.setVisibility(View.VISIBLE);
-        achievementLv = (ListView) findViewById(R.id.lv_achievements);
+        ListView achievementLv = (ListView) findViewById(R.id.lv_achievements);
 
         ArrayAdapter<Achievement> achievementsAdapter = new ArrayAdapter<Achievement>(this, -1, achievements) {
             public TextView tvAchievementPoints;
@@ -407,6 +401,13 @@ public class GameActivity extends AppCompatActivity {
         };
 
         achievementLv.setAdapter(achievementsAdapter);
+    }
+
+    public void settingsLayout() {
+        RelativeLayout settingsLayout = (RelativeLayout) findViewById(R.id.settings_layout);
+        ScalableView settingsHomeButton = (ScalableView) findViewById(R.id.settings_home_button);
+
+        //TODO: Add buttons
     }
 
 

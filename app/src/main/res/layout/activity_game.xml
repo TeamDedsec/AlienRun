@@ -188,6 +188,22 @@
             android:layout_height="wrap_content">
 
         </ListView>
+    </RelativeLayout>
+
+    <!--Settings-->
+    <RelativeLayout
+        android:id="@+id/settings_layout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="invisible">
+
+        <com.example.kaloyanit.alienrun.Views.ScalableView
+            android:id="@+id/settings_home_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:src="@drawable/home_button"
+            />
 
 
     </RelativeLayout>
