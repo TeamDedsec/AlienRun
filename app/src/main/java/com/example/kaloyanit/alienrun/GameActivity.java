@@ -62,6 +62,7 @@ public class GameActivity extends AppCompatActivity {
     private RelativeLayout playersLayout;
     private LoginButton loginButton;
     private List<Achievement> achievements;
+    private List<Player> players;
     //Firebase
     private static final String TAG = "FacebookLogin";
     private FirebaseAuth auth;
@@ -130,28 +131,11 @@ public class GameActivity extends AppCompatActivity {
         };
 
 
-        //achievements = PointAchievement.getAchievements();
         gameView = (GamePanel)findViewById(R.id.gameView);
         gameView.setVisibility(View.GONE);
 
-        AchievementsDataSource achievementsDataSource = new AchievementsDataSource(this);
-        achievementsDataSource.open();
-        achievements = achievementsDataSource.getAllAchievements();
-        achievementsDataSource.close();
-
-        PlayersDataSource playersDataSource = new PlayersDataSource(this);
-        playersDataSource.open();
-        if(playersDataSource.getAllPlayers().size() == 0) {
-            playersDataSource.createPlayer("Green", R.drawable.p1_stand, "No special skill", 0);
-            playersDataSource.createPlayer("Pink", R.drawable.p3_stand, "Triple Jump", 2000);
-            playersDataSource.createPlayer("Blue", R.drawable.p2_stand, "Extra life", 10000);
-        }
-        List<Player> players = playersDataSource.getAllPlayers();
-        playersDataSource.close();
-
-
-
-
+        loadAchievmentsData();
+        loadPlayersLayout();
         //  Start loading layout for start menu
         startLayout();
     }
@@ -188,9 +172,6 @@ public class GameActivity extends AppCompatActivity {
                     }
                 });
     }
-
-
-
 
     public void startLayout() {
         startLayout = (RelativeLayout) findViewById(R.id.startPage);
@@ -408,6 +389,30 @@ public class GameActivity extends AppCompatActivity {
         ScalableView settingsHomeButton = (ScalableView) findViewById(R.id.settings_home_button);
 
         //TODO: Add buttons
+    }
+
+    public void loadAchievmentsData() {
+        AchievementsDataSource achievementsDataSource = new AchievementsDataSource(this);
+        achievementsDataSource.open();
+        if(achievementsDataSource.getAllAchievements().size() == 0) {
+            achievementsDataSource.createAchievement("Beginer", 10);
+            achievementsDataSource.createAchievement("Interm", 20);
+            achievementsDataSource.createAchievement("Pro", 30);
+        }
+        achievements = achievementsDataSource.getAllAchievements();
+        achievementsDataSource.close();
+    }
+
+    public void loadPlayersData() {
+        PlayersDataSource playersDataSource = new PlayersDataSource(this);
+        playersDataSource.open();
+        if(playersDataSource.getAllPlayers().size() == 0) {
+            playersDataSource.createPlayer("Green", R.drawable.p1_stand, "No special skill", 0);
+            playersDataSource.createPlayer("Pink", R.drawable.p3_stand, "Triple Jump", 2000);
+            playersDataSource.createPlayer("Blue", R.drawable.p2_stand, "Extra life", 10000);
+        }
+        players = playersDataSource.getAllPlayers();
+        playersDataSource.close();
     }
 
 
