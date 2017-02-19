@@ -385,17 +385,14 @@ public class GameActivity extends AppCompatActivity {
     public void loadPlayersData() {
         PlayersDataSource playersDataSource = new PlayersDataSource(this);
         playersDataSource.open();
-//        if(playersDataSource.getAllPlayers().size() == 0) {
-//            playersDataSource.createPlayer("Green", R.drawable.p1_stand, "No special skill", 0);
-//        }
-//        if(playersDataSource.getAllPlayers().size() == 1) {
-//            playersDataSource.createPlayer("Pink", R.drawable.p3_stand, "Triple Jump", 2000);
-//        }
-//        if(playersDataSource.getAllPlayers().size() == 2) {
-//            playersDataSource.createPlayer("Blue", R.drawable.p2_stand, "Extra life", 10000);
-//        }
-        for (int i = 0; i < 5; i++) {
-            playersDataSource.deletePlayer(i);
+        if(playersDataSource.getAllPlayers().size() == 0) {
+            playersDataSource.createPlayer("Green", R.drawable.p1_stand, "No special skill", 0);
+        }
+        if(playersDataSource.getAllPlayers().size() == 1) {
+            playersDataSource.createPlayer("Pink", R.drawable.p3_stand, "Triple Jump", 2000);
+        }
+        if(playersDataSource.getAllPlayers().size() == 2) {
+            playersDataSource.createPlayer("Blue", R.drawable.p2_stand, "Extra life", 10000);
         }
         players = playersDataSource.getAllPlayers();
         playersDataSource.close();
@@ -408,8 +405,6 @@ public class GameActivity extends AppCompatActivity {
         auth.addAuthStateListener(authListener);
     }
 
-
-
     @Override
     public void onPause() {
         MusicPlayer.stopMusic();
@@ -417,14 +412,12 @@ public class GameActivity extends AppCompatActivity {
 
         System.out.println("kPause");
     }
-
     @Override
     protected void onResume() {
         super.onResume();
         System.out.println("Resume");
 
     }
-
     @Override
     protected void onStop() {
         MusicPlayer.stopMusic();

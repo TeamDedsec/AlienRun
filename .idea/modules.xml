@@ -5,6 +5,7 @@
       <module fileurl="file://$PROJECT_DIR$/AlienRun.iml" filepath="$PROJECT_DIR$/AlienRun.iml" />
       <module fileurl="file://$PROJECT_DIR$/AlienRun2.iml" filepath="$PROJECT_DIR$/AlienRun2.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
+      <module fileurl="file://$PROJECT_DIR$/data/data.iml" filepath="$PROJECT_DIR$/data/data.iml" />
     </modules>
   </component>
 </project>
