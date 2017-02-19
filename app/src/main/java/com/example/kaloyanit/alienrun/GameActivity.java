@@ -123,6 +123,8 @@ public class GameActivity extends AppCompatActivity {
                 if(user != null) {
                     // User signed in
                     Log.d(TAG, "onAuthStateChanged:sign_in:" + user.getUid());
+                    System.out.println("Logged user");
+                    System.out.println(user.getUid());
                 } else {
                     //User signed out
                     Log.d(TAG, "onAuthStateChanged:sign_out");
