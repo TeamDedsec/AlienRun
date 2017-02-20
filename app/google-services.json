@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "1025985302032",
+    "firebase_url": "https://alienrun-93de0.firebaseio.com",
+    "project_id": "alienrun-93de0",
+    "storage_bucket": "alienrun-93de0.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1025985302032:android:e109fc8d7cbda5f8",
+        "android_client_info": {
+          "package_name": "com.example.kaloyanit.alienrun"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1025985302032-6iaif66c1k5i7vcaduclivpgp62em1kc.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.kaloyanit.alienrun",
+            "certificate_hash": "4D4868B9E489DC382C26D21B1629CDC9AC193F16"
+          }
+        },
+        {
+          "client_id": "1025985302032-5fvo4q2a64qfe3cv043pkvv4pgugvjd1.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDLUle_z1ZjVg62WEMtCCDGX3TbCSmD9Qg"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1025985302032-5fvo4q2a64qfe3cv043pkvv4pgugvjd1.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
