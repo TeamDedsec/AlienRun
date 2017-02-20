@@ -23,6 +23,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.kaloyanit.alienrun.Data.LocalData;
 import com.example.kaloyanit.alienrun.Data.AchievementsDataSource;
 import com.example.kaloyanit.alienrun.Data.PlayersDataSource;
 import com.example.kaloyanit.alienrun.Models.Achievement;
@@ -30,7 +31,6 @@ import com.example.kaloyanit.alienrun.Core.GamePanel;
 import com.example.kaloyanit.alienrun.Core.SceneManager;
 import com.example.kaloyanit.alienrun.Models.Player;
 import com.example.kaloyanit.alienrun.SoundPlayers.MusicPlayer;
-import com.example.kaloyanit.alienrun.Models.PlayerModel;
 import com.example.kaloyanit.alienrun.Utils.BasicConstants;
 import com.example.kaloyanit.alienrun.Utils.GlobalVariables;
 import com.example.kaloyanit.alienrun.Views.ScalableView;
@@ -50,6 +50,8 @@ import com.facebook.FacebookSdk;
 import com.google.firebase.auth.FirebaseUser;
 
 import java.util.List;
+
+import javax.inject.Inject;
 
 
 public class GameActivity extends AppCompatActivity {
@@ -71,6 +73,10 @@ public class GameActivity extends AppCompatActivity {
 
     //TODO: Add AsyncTask to pause thread - should fix canvas null problem
 
+    @Inject
+    public LocalData<Player> playersInjected;
+    //TODO: This happens in presenter
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -79,6 +85,8 @@ public class GameActivity extends AppCompatActivity {
         FacebookSdk.sdkInitialize(getApplicationContext());
         callbackManager = CallbackManager.Factory.create();
         //
+        
+        this.injectDependencies();
 
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
@@ -136,10 +144,18 @@ public class GameActivity extends AppCompatActivity {
         gameView = (GamePanel)findViewById(R.id.gameView);
         gameView.setVisibility(View.GONE);
 
+
+
         loadAchievmentsData();
         loadPlayersData();
         //  Start loading layout for start menu
         startLayout();
+    }
+
+    private void injectDependencies() {
+        ((GameApplication)getApplication())
+                .getComponent()
+                .inject(this);
     }
 
 
@@ -312,6 +328,7 @@ public class GameActivity extends AppCompatActivity {
                 tvTitle.setText(title);
 
 
+
                 //Return view
                 return view;
             }
@@ -398,6 +415,7 @@ public class GameActivity extends AppCompatActivity {
         }
         players = playersDataSource.getAllPlayers();
         playersDataSource.close();
+
     }
 
 

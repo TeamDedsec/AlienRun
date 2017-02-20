@@ -1,29 +1,15 @@
-package com.example.kaloyanit.alienrun.Models;
-
-import javax.inject.Inject;
+package com.example.data.models;
 
 /**
- * Created by KaloyanIT on 2/15/2017.
+ * Created by KaloyanIT on 2/20/2017.
  */
 
-public class Player {
+public class PlayerModel {
     private long id;
     private String name;
     private String skill;
     private int pictureId;
     private int price;
-
-    public Player() {
-
-    }
-
-    public Player(String name, String skill, int pictureId, int price) {
-        this.name = name;
-        this.skill = skill;
-        this.pictureId = pictureId;
-        this.price = price;
-    }
-
 
     public long getId() {
         return this.id;

@@ -2,6 +2,8 @@ package com.example.kaloyanit.alienrun;
 
 import android.app.Application;
 
+import javax.inject.Singleton;
+
 import dagger.Component;
 
 /**
@@ -9,12 +11,24 @@ import dagger.Component;
  */
 
 public class GameApplication extends Application {
+
+    private ApplicationComponent component;
+
     @Override
     public void onCreate() {
         super.onCreate();
+
+        this.component = DaggerGameApplication_ApplicationComponent.builder()
+                .applicationModule(new ApplicationModule(this))
+                .build();
     }
 
-    @Component
+    public ApplicationComponent getComponent() {
+        return component;
+    }
+
+    @Singleton
+    @Component(modules = {ApplicationModule.class})
     public interface ApplicationComponent {
         void inject(GameActivity gameActivity);
     }
