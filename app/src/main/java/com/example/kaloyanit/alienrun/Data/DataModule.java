@@ -15,6 +15,17 @@ import dagger.Provides;
 
 @Module
 public class DataModule {
+
+    @Provides
+    Class<Player> providePlayerType() {
+        return Player.class;
+    }
+
+    @Provides
+    Class<Player[]> providePlayerArrayType() {
+        return Player[].class;
+    }
+
     @Provides
     BaseData<Player> providePlayerData() {
         LocalData<Player> data = new LocalData<>();

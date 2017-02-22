@@ -3,22 +3,28 @@
     package="com.example.kaloyanit.alienrun">
 
     <application
+        android:name=".GameApplication"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:supportsRtl="true"
-        android:theme="@style/AppTheme"
-        android:name=".GameApplication">
-        <activity android:name=".GameActivity">
+        android:theme="@style/AppTheme">
+        <activity android:name=".Views.main.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
         <meta-data
             android:name="com.facebook.sdk.ApplicationId"
             android:value="@string/facebook_app_id" />
+
+        <activity android:name=".Views.settings.SettingsActivity" />
+        <activity android:name=".Views.players.PlayersActivity" />
+        <activity android:name=".Views.achievements.AchievementsActivity" />
+        <activity android:name=".GameActivity"></activity>
     </application>
 
 </manifest>

@@ -23,9 +23,9 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.kaloyanit.alienrun.Data.LocalData;
 import com.example.kaloyanit.alienrun.Data.AchievementsDataSource;
 import com.example.kaloyanit.alienrun.Data.PlayersDataSource;
+import com.example.kaloyanit.alienrun.Data.base.BaseData;
 import com.example.kaloyanit.alienrun.Models.Achievement;
 import com.example.kaloyanit.alienrun.Core.GamePanel;
 import com.example.kaloyanit.alienrun.Core.SceneManager;
@@ -34,6 +34,9 @@ import com.example.kaloyanit.alienrun.SoundPlayers.MusicPlayer;
 import com.example.kaloyanit.alienrun.Utils.BasicConstants;
 import com.example.kaloyanit.alienrun.Utils.GlobalVariables;
 import com.example.kaloyanit.alienrun.Views.ScalableView;
+import com.example.kaloyanit.alienrun.Views.main.MainActivity;
+import com.example.kaloyanit.alienrun.Views.players.PlayersActivity;
+import com.example.kaloyanit.alienrun.Views.settings.SettingsActivity;
 import com.facebook.AccessToken;
 import com.facebook.CallbackManager;
 import com.facebook.FacebookCallback;
@@ -66,24 +69,20 @@ public class GameActivity extends AppCompatActivity {
     private List<Achievement> achievements;
     private List<Player> players;
     //Firebase
-    private static final String TAG = "FacebookLogin";
-    private FirebaseAuth auth;
-    private FirebaseAuth.AuthStateListener authListener;
-    private CallbackManager callbackManager;
+//    private static final String TAG = "FacebookLogin";
+//    private FirebaseAuth auth;
+//    private FirebaseAuth.AuthStateListener authListener;
+//    private CallbackManager callbackManager;
 
     //TODO: Add AsyncTask to pause thread - should fix canvas null problem
-
-    @Inject
-    public LocalData<Player> playersInjected;
-    //TODO: This happens in presenter
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         //Facebook Auth
-        FacebookSdk.sdkInitialize(getApplicationContext());
-        callbackManager = CallbackManager.Factory.create();
+//        FacebookSdk.sdkInitialize(getApplicationContext());
+//        callbackManager = CallbackManager.Factory.create();
         //
         
         this.injectDependencies();
@@ -99,57 +98,71 @@ public class GameActivity extends AppCompatActivity {
         BasicConstants.SCREEN_HEIGHT = dm.heightPixels;
         SceneManager.ACTIVE_SCENE = 0;
         setContentView(R.layout.activity_game);
-
+        //setContentView(new GamePanel(this));
 
         // Get Firebase auth instance
-        auth = FirebaseAuth.getInstance();
-        loginButton = (LoginButton) findViewById(R.id.login_button);
-        loginButton.setReadPermissions("email", "public_profile");
-        loginButton.registerCallback(callbackManager, new FacebookCallback<LoginResult>() {
-            @Override
-            public void onSuccess(LoginResult loginResult) {
-                Log.d(TAG, "facebook:onSuccess:" + loginResult);
-                handleFacebookAccessToken(loginResult.getAccessToken());
-            }
+//        auth = FirebaseAuth.getInstance();
+//        loginButton = (LoginButton) findViewById(R.id.login_button);
+//        loginButton.setReadPermissions("email", "public_profile");
+//        loginButton.registerCallback(callbackManager, new FacebookCallback<LoginResult>() {
+//            @Override
+//            public void onSuccess(LoginResult loginResult) {
+//                Log.d(TAG, "facebook:onSuccess:" + loginResult);
+//                handleFacebookAccessToken(loginResult.getAccessToken());
+//            }
+//
+//            @Override
+//            public void onCancel() {
+//                Log.d(TAG, "facebook:onCancel");
+//                // ...
+//            }
+//
+//            @Override
+//            public void onError(FacebookException error) {
+//                Log.d(TAG, "facebook:onError", error);
+//                // ...
+//            }
+//        });
+//        authListener = new FirebaseAuth.AuthStateListener() {
+//            @Override
+//            public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
+//                FirebaseUser user = firebaseAuth.getCurrentUser();
+//                if(user != null) {
+//                    // User signed in
+//                    Log.d(TAG, "onAuthStateChanged:sign_in:" + user.getUid());
+//                    System.out.println("Logged user");
+//                    System.out.println(user.getUid());
+//                } else {
+//                    //User signed out
+//                    Log.d(TAG, "onAuthStateChanged:sign_out");
+//                }
+//            }
+//        };
 
-            @Override
-            public void onCancel() {
-                Log.d(TAG, "facebook:onCancel");
-                // ...
-            }
+//        Runnable newThread = new Runnable() {
+//            @Override
+//            public void run() {
+//                gameView = (GamePanel) findViewById(R.id.gameView);
+//                gameView = new GamePanel(getBaseContext());
+//                gameView.setManager(new SceneManager());
+//            }
+//        };
+//
+//        newThread.run();
 
-            @Override
-            public void onError(FacebookException error) {
-                Log.d(TAG, "facebook:onError", error);
-                // ...
-            }
-        });
-        authListener = new FirebaseAuth.AuthStateListener() {
-            @Override
-            public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
-                FirebaseUser user = firebaseAuth.getCurrentUser();
-                if(user != null) {
-                    // User signed in
-                    Log.d(TAG, "onAuthStateChanged:sign_in:" + user.getUid());
-                    System.out.println("Logged user");
-                    System.out.println(user.getUid());
-                } else {
-                    //User signed out
-                    Log.d(TAG, "onAuthStateChanged:sign_out");
-                }
-            }
-        };
+        //use it
 
 
         gameView = (GamePanel)findViewById(R.id.gameView);
-        gameView.setVisibility(View.GONE);
-
-
-
-        loadAchievmentsData();
-        loadPlayersData();
-        //  Start loading layout for start menu
-        startLayout();
+        pauseButton = (ScalableView) findViewById(R.id.pauseView);
+        pauseButton.setVisibility(View.VISIBLE);
+        pauseButton.setOnClickListener(view -> {
+            pauseButton.setVisibility(View.INVISIBLE);
+            SceneManager.ACTIVE_SCENE = 2;
+            System.out.println("Pause event");
+            pauseLayout();
+        });
+        gameEngine();
     }
 
     private void injectDependencies() {
@@ -164,67 +177,39 @@ public class GameActivity extends AppCompatActivity {
         super.onActivityResult(requestCode, resultCode, data);
 
         // Pass the activity result back to the Facebook SDK
-        callbackManager.onActivityResult(requestCode, resultCode, data);
+        //callbackManager.onActivityResult(requestCode, resultCode, data);
     }
 
-    private void handleFacebookAccessToken(AccessToken token) {
-        Log.d(TAG, "handleFacebookAccessToken:" + token);
+//    private void handleFacebookAccessToken(AccessToken token) {
+//        Log.d(TAG, "handleFacebookAccessToken:" + token);
+//
+//        AuthCredential credential = FacebookAuthProvider.getCredential(token.getToken());
+//        auth.signInWithCredential(credential)
+//                .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
+//                    @Override
+//                    public void onComplete(@NonNull Task<AuthResult> task) {
+//                        Log.d(TAG, "signInWithCredential:onComplete:" + task.isSuccessful());
+//
+//                        // If sign in fails, display a message to the user. If sign in succeeds
+//                        // the auth state listener will be notified and logic to handle the
+//                        // signed in user can be handled in the listener.
+//                        if (!task.isSuccessful()) {
+//                            Log.w(TAG, "signInWithCredential", task.getException());
+//                            Toast.makeText(GameActivity.this, "Authentication failed.",
+//                                    Toast.LENGTH_SHORT).show();
+//                        }
+//
+//                        // ...
+//                    }
+//                });
+//    }
 
-        AuthCredential credential = FacebookAuthProvider.getCredential(token.getToken());
-        auth.signInWithCredential(credential)
-                .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
-                    @Override
-                    public void onComplete(@NonNull Task<AuthResult> task) {
-                        Log.d(TAG, "signInWithCredential:onComplete:" + task.isSuccessful());
 
-                        // If sign in fails, display a message to the user. If sign in succeeds
-                        // the auth state listener will be notified and logic to handle the
-                        // signed in user can be handled in the listener.
-                        if (!task.isSuccessful()) {
-                            Log.w(TAG, "signInWithCredential", task.getException());
-                            Toast.makeText(GameActivity.this, "Authentication failed.",
-                                    Toast.LENGTH_SHORT).show();
-                        }
 
-                        // ...
-                    }
-                });
-    }
-
-    public void startLayout() {
-        startLayout = (RelativeLayout) findViewById(R.id.startPage);
-        ScalableView startButton = (ScalableView) findViewById(R.id.startView);
-        ScalableView playersButton = (ScalableView) findViewById(R.id.players_button);
-        ScalableView achievementsButton = (ScalableView) findViewById(R.id.achievements_button);
-        ScalableView settingsButton = (ScalableView) findViewById(R.id.settings_button);
-        playersLayout = (RelativeLayout) findViewById(R.id.players_layout);
-        startButton.setOnClickListener(view -> {
-            SceneManager.ACTIVE_SCENE = 1;
-            SceneManager.resetGame();
-            startLayout.setVisibility(View.GONE);
-            gameEngine();
-        });
-
-        playersButton.setOnClickListener(view -> {
-            gameView.setVisibility(View.INVISIBLE);
-            SceneManager.ACTIVE_SCENE = 0;
-            playersLayout.setVisibility(View.VISIBLE);
-            startLayout.setVisibility(View.INVISIBLE);
-            loadPlayersLayout();
-        });
-
-        achievementsButton.setOnClickListener(view -> {
-            startLayout.setVisibility(View.INVISIBLE);
-            achievementsLayout();
-        });
-
-        settingsButton.setOnClickListener(view -> {
-            startLayout.setVisibility(View.INVISIBLE);
-            settingsLayout();
-        });
-    }
 
     public void pauseLayout() {
+
+        //TODO: Refactor!!
         pauseLayout = (RelativeLayout) findViewById(R.id.pauseScene);
         pauseLayout.setVisibility(View.VISIBLE);
 
@@ -250,22 +235,12 @@ public class GameActivity extends AppCompatActivity {
             pauseButton.setVisibility(View.INVISIBLE);
             pauseLayout.setVisibility(View.INVISIBLE);
             startLayout.setVisibility(View.VISIBLE);
+
+            //TODO: intent main activity
         });
     }
 
     public void gameEngine() {
-        loginButton.setVisibility(View.INVISIBLE);
-        pauseButton = (ScalableView) findViewById(R.id.pauseView);
-        pauseButton.setVisibility(View.VISIBLE);
-        pauseButton.setOnClickListener(view -> {
-            pauseButton.setVisibility(View.INVISIBLE);
-            SceneManager.ACTIVE_SCENE = 2;
-            System.out.println("Pause event");
-            pauseLayout();
-        });
-
-        gameView.setVisibility(View.VISIBLE);
-
         scoreView = (TextView) findViewById(R.id.scoreView);
         scoreView.setText(Integer.toString(GlobalVariables.SCORE));
 //
@@ -275,67 +250,18 @@ public class GameActivity extends AppCompatActivity {
             @Override
             public void run() {
                 scoreView.setText(Integer.toString(GlobalVariables.SCORE));
-                if(achievements.get(index).getPoints() == GlobalVariables.SCORE) {
-                    //achievements.get(index).lockAchievement();
-                    //index++;
-                    Toast toast = Toast.makeText(getBaseContext(), achievements.get(index).getFullText(), Toast.LENGTH_SHORT);
-                    toast.show();
-                }
+//                if(achievements.get(index).getPoints() == GlobalVariables.SCORE) {
+//                    //achievements.get(index).lockAchievement();
+//                    //index++;
+//                    Toast toast = Toast.makeText(getBaseContext(), achievements.get(index).getFullText(), Toast.LENGTH_SHORT);
+//                    toast.show();
+//                }
                 handler.postDelayed(this, 500);
             }
         });
     }
 
-    public void loadPlayersLayout() {
-        GridView lvPlayers = (GridView) findViewById(R.id.players_list);
-        ScalableView backButton = (ScalableView) findViewById(R.id.home_button);
 
-
-        ArrayAdapter<Player> playersAdapter = new ArrayAdapter<Player>(this, -1, players) {
-            @NonNull
-            @Override
-            public View getView(int position, View convertView, ViewGroup parent) {
-                View view = convertView;
-                if(view == null) {
-                    LayoutInflater inflater = LayoutInflater.from(this.getContext());
-                    view = inflater.inflate(R.layout.item_player, parent, false);
-                }
-
-                //Initialize item elements
-                TextView tvTitle = (TextView) view.findViewById(R.id.tv_title);
-                TextView tvSkill = (TextView) view.findViewById(R.id.tv_skills);
-                TextView tvPrice = (TextView) view.findViewById(R.id.tv_price) ;
-                ScalableView plImage = (ScalableView) view.findViewById(R.id.pl_image) ;
-                Button buyButton = (Button) view.findViewById(R.id.buy_button);
-
-                tvPrice.setText(String.format("%0$d", this.getItem(position).getPrice()));
-
-                //Use elements
-                backButton.setOnClickListener(view1 -> {
-                    playersLayout.setVisibility(View.INVISIBLE);
-                    startLayout.setVisibility(View.VISIBLE);
-                });
-
-
-
-                tvSkill.setText(this.getItem(position).getSkill());
-
-
-
-                plImage.setImageResource(this.getItem(position).getPictureId());
-                //plImage.setBitmapImage(this.getItem(position).getImage());
-                String title = this.getItem(position).getName();
-                tvTitle.setText(title);
-
-
-
-                //Return view
-                return view;
-            }
-        };
-
-        lvPlayers.setAdapter(playersAdapter);
-    }
 
     public void achievementsLayout() {
         RelativeLayout achievementsLayout = (RelativeLayout) findViewById(R.id.achievements_layout);
@@ -382,47 +308,15 @@ public class GameActivity extends AppCompatActivity {
         achievementLv.setAdapter(achievementsAdapter);
     }
 
-    public void settingsLayout() {
-        RelativeLayout settingsLayout = (RelativeLayout) findViewById(R.id.settings_layout);
-        ScalableView settingsHomeButton = (ScalableView) findViewById(R.id.settings_home_button);
-
-        //TODO: Add buttons
-    }
-
-    public void loadAchievmentsData() {
-        AchievementsDataSource achievementsDataSource = new AchievementsDataSource(this);
-        achievementsDataSource.open();
-        if(achievementsDataSource.getAllAchievements().size() == 0) {
-            achievementsDataSource.createAchievement("Beginer", 10);
-            achievementsDataSource.createAchievement("Interm", 20);
-            achievementsDataSource.createAchievement("Pro", 30);
-        }
-        achievements = achievementsDataSource.getAllAchievements();
-        achievementsDataSource.close();
-    }
-
-    public void loadPlayersData() {
-        PlayersDataSource playersDataSource = new PlayersDataSource(this);
-        playersDataSource.open();
-        if(playersDataSource.getAllPlayers().size() == 0) {
-            playersDataSource.createPlayer("Green", R.drawable.p1_stand, "No special skill", 0);
-        }
-        if(playersDataSource.getAllPlayers().size() == 1) {
-            playersDataSource.createPlayer("Pink", R.drawable.p3_stand, "Triple Jump", 2000);
-        }
-        if(playersDataSource.getAllPlayers().size() == 2) {
-            playersDataSource.createPlayer("Blue", R.drawable.p2_stand, "Extra life", 10000);
-        }
-        players = playersDataSource.getAllPlayers();
-        playersDataSource.close();
-
-    }
 
 
     @Override
     public void onStart() {
         super.onStart();
-        auth.addAuthStateListener(authListener);
+        System.out.println("Start");
+        //gameView = new GamePanel(this);
+        //gameView.setManager(new SceneManager());
+        //auth.addAuthStateListener(authListener);
     }
 
     @Override
@@ -435,6 +329,9 @@ public class GameActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
+        //gameView.resume();
+        //gameView = new GamePanel(this);
+
         System.out.println("Resume");
 
     }
@@ -442,10 +339,12 @@ public class GameActivity extends AppCompatActivity {
     protected void onStop() {
         MusicPlayer.stopMusic();
         super.onStop();
+        //gameView.pause();
+        //gameView = null;
         System.out.println("Stop");
-        if(authListener != null) {
-            auth.removeAuthStateListener(authListener);
-        }
+//        if(authListener != null) {
+//            auth.removeAuthStateListener(authListener);
+//        }
     }
 
 }

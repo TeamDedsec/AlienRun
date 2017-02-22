@@ -1,0 +1,64 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.example.kaloyanit.alienrun.Views.main.MainView">
+
+
+
+    <!--Start-->
+    <com.example.kaloyanit.alienrun.Views.ScalableView
+        android:id="@+id/main_start_button"
+        android:layout_height="wrap_content"
+        android:layout_width="wrap_content"
+        android:src="@drawable/start_button"
+        android:layout_centerInParent="true"
+        android:clickable="true"/>
+
+    <!--Shop View-->
+    <com.example.kaloyanit.alienrun.Views.ScalableView
+        android:id="@+id/main_leaderboards_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/shopping_cart"
+        android:layout_centerHorizontal="true"
+        android:layout_above="@id/main_start_button"
+        android:layout_alignParentTop="true"
+        android:clickable="true"/>
+
+
+    <!--Heroes-->
+    <com.example.kaloyanit.alienrun.Views.ScalableView
+        android:id="@+id/main_players_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:layout_toLeftOf="@+id/main_start_button"
+        android:layout_alignParentLeft="true"
+        android:src="@drawable/players_button"/>
+
+    <!--Settings-->
+
+    <com.example.kaloyanit.alienrun.Views.ScalableView
+        android:id="@+id/main_settings_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:layout_toRightOf="@+id/main_start_button"
+        android:layout_alignParentRight="true"
+        android:src="@drawable/settings_button"/>
+
+    <!--Achievement-->
+    <com.example.kaloyanit.alienrun.Views.ScalableView
+        android:id="@+id/main_achievements_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@id/main_start_button"
+        android:src="@drawable/achievements_button"/>
+
+
+
+
+</RelativeLayout>

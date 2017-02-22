@@ -15,6 +15,8 @@ import com.example.kaloyanit.alienrun.GameObjects.Background;
 import com.example.kaloyanit.alienrun.R;
 import com.example.kaloyanit.alienrun.Utils.BasicConstants;
 
+import javax.inject.Inject;
+
 /**
  * Created by KaloyanIT on 1/25/2017.
  */
@@ -26,6 +28,7 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
     private SceneManager manager;
     private TextView scoreView;
 
+    @Inject
     public GamePanel(Context context) {
         super(context);
         getHolder().addCallback(this);
@@ -85,6 +88,10 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
         thread.start();
     }
 
+    public void setManager(SceneManager manager) {
+        this.manager = manager;
+    }
+
     @Override
     public void surfaceChanged(SurfaceHolder holder, int format, int width, int height) {
 
@@ -93,9 +100,8 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
     @Override
     public void surfaceCreated(SurfaceHolder holder) {
         thread = new MainThread(getHolder(), this);
-
         thread.setRunning(true);
-        thread.start();        ;
+        thread.start();
     }
 
     @Override
@@ -104,6 +110,7 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
         while(true) {
             try {
                 thread.setRunning(false);
+                //thread.wait();
                 thread.join();
             }catch(Exception e) {
                 e.printStackTrace();

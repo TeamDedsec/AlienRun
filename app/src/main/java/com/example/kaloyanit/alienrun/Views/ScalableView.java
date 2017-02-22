@@ -9,9 +9,12 @@ import android.graphics.Matrix;
 import android.graphics.Paint;
 import android.graphics.drawable.Drawable;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.MotionEvent;
 import android.view.View;
+import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 
 import com.example.kaloyanit.alienrun.R;
@@ -21,7 +24,7 @@ import com.example.kaloyanit.alienrun.Utils.BasicConstants;
  * Created by KaloyanIT on 1/31/2017.
  */
 
-public class ScalableView extends ImageView implements View.OnClickListener{
+public class ScalableView extends ImageButton {
 
     private final Paint paint;
     private Bitmap image;
@@ -45,9 +48,13 @@ public class ScalableView extends ImageView implements View.OnClickListener{
         int src_resources = attrs.getAttributeResourceValue("http://schemas.android.com/apk/res/android", "src", 0);
         //image = BitmapFactory.decodeResource(getResources(), src_resources);
         setBitmapImage(src_resources);
+        //this.setScaleX(scaleFactorX);
+        //this.setScaleY(scaleFactorY);
+        //this.setImageBitmap();
+        this.setBackground(null);
         this.setImageBitmap(image);
 
-        this.setOnClickListener(this);
+        //this.setOnClickListener(this);
     }
 
     public Bitmap getScaledBitmap(Context context, float scalex, float scaley, int id) {
@@ -62,23 +69,5 @@ public class ScalableView extends ImageView implements View.OnClickListener{
 
     public void setBitmapImage(int id) {
         image = getScaledBitmap(getContext(), scaleFactorX, scaleFactorY, id);
-    }
-
-
-//    @Override
-//    public void onDraw(Canvas canvas) {
-//        super.onDraw(canvas);
-////        final float scaleFactorX = BasicConstants.SCREEN_HEIGHT / (BasicConstants.BG_HEIGHT * 1.0f);
-////        final float scaleFactorY = BasicConstants.SCREEN_HEIGHT / (BasicConstants.BG_HEIGHT * 1.0f);
-////        final int savedState = canvas.save();
-////        canvas.scale(scaleFactorX, scaleFactorY);
-//        canvas.drawBitmap(image, 0, 0, paint);
-//        //canvas.restoreToCount(savedState);
-//    }
-
-
-    @Override
-    public void onClick(View v) {
-    //  Set
     }
 }

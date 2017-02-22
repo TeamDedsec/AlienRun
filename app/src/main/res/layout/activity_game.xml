@@ -32,110 +32,11 @@
         android:text="0"
         android:textStyle="normal|bold"/>
 
-    <com.facebook.login.widget.LoginButton
-        android:id="@+id/login_button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="left"/>
-
-
-    <!--StartScene-->
-    <RelativeLayout
-        xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:tools="http://schemas.android.com/tools"
-        android:id="@+id/startPage"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="@drawable/bg_grasslands"
-        android:layout_gravity="center">
-
-        <!--Start-->
-        <com.example.kaloyanit.alienrun.Views.ScalableView
-            android:id="@+id/startView"
-            android:layout_height="wrap_content"
-            android:layout_width="wrap_content"
-            android:src="@drawable/start_button"
-            android:layout_centerInParent="true"
-            android:clickable="true"/>
-
-        <!--Shop View-->
-        <com.example.kaloyanit.alienrun.Views.ScalableView
-            android:id="@+id/shopView"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@drawable/shopping_cart"
-            android:layout_centerHorizontal="true"
-            android:layout_above="@id/startView"
-            android:layout_alignParentTop="true"
-            android:clickable="true"/>
-
-
-        <!--Heroes-->
-        <com.example.kaloyanit.alienrun.Views.ScalableView
-            android:id="@+id/players_button"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:layout_toLeftOf="@+id/startView"
-            android:layout_alignParentLeft="true"
-            android:src="@drawable/players_button"/>
-
-        <!--Settings-->
-
-        <com.example.kaloyanit.alienrun.Views.ScalableView
-            android:id="@+id/settings_button"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:layout_toRightOf="@+id/startView"
-            android:layout_alignParentRight="true"
-            android:src="@drawable/settings_button"/>
-
-        <!--Achievement-->
-        <com.example.kaloyanit.alienrun.Views.ScalableView
-            android:id="@+id/achievements_button"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
-            android:layout_centerHorizontal="true"
-            android:layout_below="@id/startView"
-            android:src="@drawable/achievements_button"/>
-
-
-
-
-
-    </RelativeLayout>
-
-    <!--Players Scene-->
-
-    <RelativeLayout
-        android:id="@+id/players_layout"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="@color/colorRed"
-        android:visibility="invisible">
-
-        <GridView
-            android:id="@+id/players_list"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:numColumns="3"
-            >
-
-        </GridView>
-
-
-        <com.example.kaloyanit.alienrun.Views.ScalableView
-            android:id="@+id/home_button"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
-            android:src="@drawable/home_button"
-            />
-
-
-    </RelativeLayout>
+    <!--<com.facebook.login.widget.LoginButton-->
+        <!--android:id="@+id/login_button"-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:layout_gravity="left"/>-->
 
     <!--Pause Scene-->
     <RelativeLayout
@@ -189,24 +90,6 @@
             android:layout_height="wrap_content">
 
         </ListView>
-    </RelativeLayout>
-
-    <!--Settings-->
-    <RelativeLayout
-        android:id="@+id/settings_layout"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:visibility="invisible">
-
-        <com.example.kaloyanit.alienrun.Views.ScalableView
-            android:id="@+id/settings_home_button"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
-            android:src="@drawable/home_button"
-            />
-
-
     </RelativeLayout>
 
     <com.example.kaloyanit.alienrun.Views.ScalableView
