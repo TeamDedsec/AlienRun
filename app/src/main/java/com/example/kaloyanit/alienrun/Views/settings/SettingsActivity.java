@@ -7,37 +7,30 @@ import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.Toast;
 
-import com.example.kaloyanit.alienrun.GameActivity;
+import com.example.kaloyanit.alienrun.Views.game.GameActivity;
 import com.example.kaloyanit.alienrun.GameApplication;
 import com.example.kaloyanit.alienrun.R;
-import com.example.kaloyanit.alienrun.SoundPlayers.MusicPlayer;
 import com.facebook.AccessToken;
 import com.facebook.CallbackManager;
-import com.facebook.FacebookCallback;
-import com.facebook.FacebookException;
-import com.facebook.FacebookSdk;
-import com.facebook.login.LoginResult;
-import com.facebook.login.widget.LoginButton;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthCredential;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FacebookAuthProvider;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
 
 import javax.inject.Inject;
 
 public class SettingsActivity extends AppCompatActivity {
 
     @Inject
-    SettingsContracts.Presenter presenter;
+    public SettingsContracts.Presenter presenter;
+
     private CallbackManager callbackManager;
     private FirebaseAuth auth;
     private FirebaseAuth.AuthStateListener authListener;

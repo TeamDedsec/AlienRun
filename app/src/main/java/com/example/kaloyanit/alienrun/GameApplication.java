@@ -5,6 +5,7 @@ import android.app.Application;
 import com.example.kaloyanit.alienrun.Data.DataModule;
 import com.example.kaloyanit.alienrun.Views.ViewsModule;
 import com.example.kaloyanit.alienrun.Views.achievements.AchievementsActivity;
+import com.example.kaloyanit.alienrun.Views.game.GameActivity;
 import com.example.kaloyanit.alienrun.Views.main.MainActivity;
 import com.example.kaloyanit.alienrun.Views.players.PlayersActivity;
 import com.example.kaloyanit.alienrun.Views.settings.SettingsActivity;

@@ -2,6 +2,7 @@ package com.example.kaloyanit.alienrun.Core;
 
 import android.content.Context;
 import android.graphics.Canvas;
+import android.graphics.Color;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
@@ -62,7 +63,7 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
 
     public GamePanel(Context context, AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
-        getHolder().addCallback(this);
+
 
         BasicConstants.CURRENT_CONTEXT = context;
 
@@ -70,7 +71,7 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
 
         manager = new SceneManager();
         scoreView =(TextView) findViewById(R.id.scoreView);
-
+        getHolder().addCallback(this);
 
         setFocusable(true);
     }
@@ -107,15 +108,15 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
     @Override
     public void surfaceDestroyed(SurfaceHolder holder) {
         boolean retry = true;
-        while(true) {
+        thread.setRunning(false);
+        while(retry) {
             try {
-                thread.setRunning(false);
                 //thread.wait();
                 thread.join();
+                retry = false;
             }catch(Exception e) {
                 e.printStackTrace();
             }
-            retry = false;
         }
     }
 
@@ -134,9 +135,10 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
 
     @Override
     public void draw(Canvas canvas) {
-        if(canvas == null) {
-            canvas = new Canvas();
-        }
+        //canvas.drawColor(Color.BLACK);
+//        if(canvas == null) {
+//            canvas = new Canvas();
+//        }
         super.draw(canvas);
         manager.draw(canvas);
     }

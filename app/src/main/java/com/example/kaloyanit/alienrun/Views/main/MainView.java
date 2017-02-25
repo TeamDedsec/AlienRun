@@ -8,7 +8,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.example.kaloyanit.alienrun.GameActivity;
+import com.example.kaloyanit.alienrun.Views.game.GameActivity;
 import com.example.kaloyanit.alienrun.R;
 import com.example.kaloyanit.alienrun.Views.ScalableView;
 import com.example.kaloyanit.alienrun.Views.achievements.AchievementsActivity;

@@ -14,10 +14,7 @@ public class SettingsPresenter implements SettingsContracts.Presenter {
 
     public SettingsPresenter(SettingsContracts.View view) {
         this.view = view;
-
         this.getView().setPresenter(this);
-
-
     }
 
     @Override
@@ -27,7 +24,7 @@ public class SettingsPresenter implements SettingsContracts.Presenter {
 
     @Override
     public void start() {
-
+        System.out.println("Presenter start");
     }
 
 

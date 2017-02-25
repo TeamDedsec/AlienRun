@@ -1,4 +1,4 @@
-package com.example.kaloyanit.alienrun;
+package com.example.kaloyanit.alienrun.Views.game;
 
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
@@ -26,10 +26,12 @@ import android.widget.Toast;
 import com.example.kaloyanit.alienrun.Data.AchievementsDataSource;
 import com.example.kaloyanit.alienrun.Data.PlayersDataSource;
 import com.example.kaloyanit.alienrun.Data.base.BaseData;
+import com.example.kaloyanit.alienrun.GameApplication;
 import com.example.kaloyanit.alienrun.Models.Achievement;
 import com.example.kaloyanit.alienrun.Core.GamePanel;
 import com.example.kaloyanit.alienrun.Core.SceneManager;
 import com.example.kaloyanit.alienrun.Models.Player;
+import com.example.kaloyanit.alienrun.R;
 import com.example.kaloyanit.alienrun.SoundPlayers.MusicPlayer;
 import com.example.kaloyanit.alienrun.Utils.BasicConstants;
 import com.example.kaloyanit.alienrun.Utils.GlobalVariables;
@@ -53,6 +55,7 @@ import com.facebook.FacebookSdk;
 import com.google.firebase.auth.FirebaseUser;
 
 import java.util.List;
+import java.util.TimerTask;
 
 import javax.inject.Inject;
 
@@ -73,6 +76,9 @@ public class GameActivity extends AppCompatActivity {
 //    private FirebaseAuth auth;
 //    private FirebaseAuth.AuthStateListener authListener;
 //    private CallbackManager callbackManager;
+
+
+    public GamePanel gamePanel;
 
     //TODO: Add AsyncTask to pause thread - should fix canvas null problem
 
@@ -98,7 +104,18 @@ public class GameActivity extends AppCompatActivity {
         BasicConstants.SCREEN_HEIGHT = dm.heightPixels;
         SceneManager.ACTIVE_SCENE = 0;
         setContentView(R.layout.activity_game);
-        //setContentView(new GamePanel(this));
+        //gamePanel = new GamePanel(this);
+
+//        final Handler handler = new Handler();
+//        handler.post(new Runnable() {
+//            @Override
+//            public void run() {
+//                gamePanel = new GamePanel(getBaseContext());
+//                setContentView(gamePanel);
+//            }
+//        });
+        //gamePanel.
+
 
         // Get Firebase auth instance
 //        auth = FirebaseAuth.getInstance();
@@ -153,17 +170,18 @@ public class GameActivity extends AppCompatActivity {
         //use it
 
 
-        gameView = (GamePanel)findViewById(R.id.gameView);
-        pauseButton = (ScalableView) findViewById(R.id.pauseView);
-        pauseButton.setVisibility(View.VISIBLE);
-        pauseButton.setOnClickListener(view -> {
-            pauseButton.setVisibility(View.INVISIBLE);
-            SceneManager.ACTIVE_SCENE = 2;
-            System.out.println("Pause event");
-            pauseLayout();
-        });
-        gameEngine();
+//        gameView = (GamePanel)findViewById(R.id.gameView);
+//        pauseButton = (ScalableView) findViewById(R.id.pauseView);
+//        pauseButton.setVisibility(View.VISIBLE);
+//        pauseButton.setOnClickListener(view -> {
+//            pauseButton.setVisibility(View.INVISIBLE);
+//            SceneManager.ACTIVE_SCENE = 2;
+//            System.out.println("Pause event");
+//            pauseLayout();
+//        });
+//        gameEngine();
     }
+
 
     private void injectDependencies() {
         ((GameApplication)getApplication())
@@ -322,6 +340,8 @@ public class GameActivity extends AppCompatActivity {
     @Override
     public void onPause() {
         MusicPlayer.stopMusic();
+        SceneManager.ACTIVE_SCENE = 2;
+        //gamePanel.pause();
         super.onPause();
 
         System.out.println("kPause");
@@ -331,7 +351,8 @@ public class GameActivity extends AppCompatActivity {
         super.onResume();
         //gameView.resume();
         //gameView = new GamePanel(this);
-
+        //gamePanel.resume();
+        SceneManager.ACTIVE_SCENE = 1;
         System.out.println("Resume");
 
     }
@@ -339,6 +360,7 @@ public class GameActivity extends AppCompatActivity {
     protected void onStop() {
         MusicPlayer.stopMusic();
         super.onStop();
+        SceneManager.ACTIVE_SCENE = 2;
         //gameView.pause();
         //gameView = null;
         System.out.println("Stop");

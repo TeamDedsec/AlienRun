@@ -24,7 +24,7 @@
         <activity android:name=".Views.settings.SettingsActivity" />
         <activity android:name=".Views.players.PlayersActivity" />
         <activity android:name=".Views.achievements.AchievementsActivity" />
-        <activity android:name=".GameActivity"></activity>
+        <activity android:name=".Views.game.GameActivity"></activity>
     </application>
 
 </manifest>
