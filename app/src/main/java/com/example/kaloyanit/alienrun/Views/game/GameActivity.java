@@ -104,6 +104,7 @@ public class GameActivity extends AppCompatActivity {
         BasicConstants.SCREEN_HEIGHT = dm.heightPixels;
         SceneManager.ACTIVE_SCENE = 0;
         setContentView(R.layout.activity_game);
+        gameEngine();
         //gamePanel = new GamePanel(this);
 
 //        final Handler handler = new Handler();
@@ -279,91 +280,25 @@ public class GameActivity extends AppCompatActivity {
         });
     }
 
-
-
-    public void achievementsLayout() {
-        RelativeLayout achievementsLayout = (RelativeLayout) findViewById(R.id.achievements_layout);
-        achievementsLayout.setVisibility(View.VISIBLE);
-        ListView achievementLv = (ListView) findViewById(R.id.lv_achievements);
-
-        ArrayAdapter<Achievement> achievementsAdapter = new ArrayAdapter<Achievement>(this, -1, achievements) {
-            public TextView tvAchievementPoints;
-            public CheckBox checkBoxAchievement;
-            public TextView tvAchievement;
-
-            @NonNull
-            @Override
-            public View getView(int position, View convertView, ViewGroup parent) {
-                View view = convertView;
-
-                if(view == null) {
-                    LayoutInflater inflater = LayoutInflater.from(this.getContext());
-                    view = inflater.inflate(R.layout.item_achievement, parent, false);
-                }
-
-                //Initialize item elements
-                tvAchievement = (TextView) view.findViewById(R.id.tv_achievement);
-                tvAchievementPoints = (TextView) view.findViewById(R.id.tv_achievement_points);
-                checkBoxAchievement = (CheckBox) view.findViewById(R.id.checkBox_achievement);
-                String name = this.getItem(position).getName();
-                int points = this.getItem(position).getPoints();
-                String pointsToString = String.format(" -  %1$d points", points);
-
-                //Use item elements
-                tvAchievement.setText(name);
-                tvAchievementPoints.setText(pointsToString);
-
-                if(this.getItem(position).getIsLocked()) {
-                    checkBoxAchievement.setChecked(false);
-                } else {
-                    checkBoxAchievement.setChecked(true);
-                }
-
-                return view;
-            }
-        };
-
-        achievementLv.setAdapter(achievementsAdapter);
-    }
-
-
-
     @Override
     public void onStart() {
         super.onStart();
-        System.out.println("Start");
-        //gameView = new GamePanel(this);
-        //gameView.setManager(new SceneManager());
         //auth.addAuthStateListener(authListener);
     }
 
     @Override
     public void onPause() {
         MusicPlayer.stopMusic();
-        SceneManager.ACTIVE_SCENE = 2;
-        //gamePanel.pause();
         super.onPause();
-
-        System.out.println("kPause");
     }
     @Override
     protected void onResume() {
         super.onResume();
-        //gameView.resume();
-        //gameView = new GamePanel(this);
-        //gamePanel.resume();
-        SceneManager.ACTIVE_SCENE = 1;
-        System.out.println("Resume");
-
     }
     @Override
     protected void onStop() {
         MusicPlayer.stopMusic();
         super.onStop();
-        SceneManager.ACTIVE_SCENE = 2;
-        //gameView.pause();
-        //gameView = null;
-        System.out.println("Stop");
 //        if(authListener != null) {
 //            auth.removeAuthStateListener(authListener);
 //        }

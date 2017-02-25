@@ -76,21 +76,8 @@
 
     </RelativeLayout>
 
-    <!--Achievements Scene-->
-    <RelativeLayout
-        android:id="@+id/achievements_layout"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="@color/colorPrimaryDark"
-        android:visibility="invisible">
 
-        <ListView
-            android:id="@+id/lv_achievements"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content">
 
-        </ListView>
-    </RelativeLayout>
 
     <com.example.kaloyanit.alienrun.Views.ScalableView
         android:id="@+id/pauseView"
@@ -98,7 +85,7 @@
         android:layout_height="wrap_content"
         android:src="@drawable/pause"
         android:clickable="true"
-        android:visibility="invisible"/>
+        android:visibility="visible"/>
 
 
 
