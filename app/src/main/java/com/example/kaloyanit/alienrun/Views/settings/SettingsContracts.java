@@ -7,11 +7,15 @@ package com.example.kaloyanit.alienrun.Views.settings;
 public class SettingsContracts {
     public interface View {
         void setPresenter(SettingsContracts.Presenter presenter);
+
+        void mainPage();
     }
 
     public interface Presenter {
         SettingsContracts.View getView();
 
         void start();
+
+        void startMainActivity();
     }
 }

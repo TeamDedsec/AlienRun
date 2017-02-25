@@ -1,6 +1,7 @@
 package com.example.kaloyanit.alienrun.Views.settings;
 
 import com.example.kaloyanit.alienrun.Models.Player;
+import com.example.kaloyanit.alienrun.SoundPlayers.MusicPlayer;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -26,6 +27,17 @@ public class SettingsPresenter implements SettingsContracts.Presenter {
     public void start() {
         System.out.println("Presenter start");
     }
+
+    @Override
+    public void startMainActivity() {
+        this.getView().mainPage();
+    }
+
+    public void stopSound() {
+        MusicPlayer.stopMusic();
+    }
+
+
 
 
 }

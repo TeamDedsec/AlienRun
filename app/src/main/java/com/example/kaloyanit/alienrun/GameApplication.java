@@ -26,8 +26,8 @@ public class GameApplication extends Application {
     public void onCreate() {
         super.onCreate();
 
-        this.component = DaggerGameApplication_ApplicationComponent.builder()
-                .dataModule(new DataModule())
+        this.component = DaggerGameApplication_ApplicationComponent
+                .builder()
                 .build();
     }
 

@@ -44,26 +44,9 @@ public class SettingsActivity extends AppCompatActivity {
         this.requestWindowFeature(Window.FEATURE_NO_TITLE);
 
         //Place login here for test //TODO: Move login outside
-
-
-
-
         // Get Firebase auth instance
-
-
         setContentView(R.layout.activity_settings);
-        Button testButton = (Button) findViewById(R.id.testButton);
-        testButton.setOnClickListener(view -> {
-            Intent intent = new Intent(SettingsActivity.this, GameActivity.class);
-            startActivity(intent
-            );
-        });
-        //Place login here for test //TODO: Move login outside
-
         this.injectDependencies();
-
-        //this.presenter = new SettingsPresenter();
-
         this.getSupportFragmentManager()
                 .beginTransaction()
                 .replace(R.id.container_content, (Fragment) this.presenter.getView())

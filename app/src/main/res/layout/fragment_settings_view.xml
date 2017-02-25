@@ -4,11 +4,19 @@
     android:layout_height="match_parent"
     tools:context="com.example.kaloyanit.alienrun.Views.settings.SettingsView">
 
+    <TextView
+        android:id="@+id/settings_title_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="60sp"
+        android:layout_centerHorizontal="true"
+        android:text="@string/settings_title"/>
+
     <com.example.kaloyanit.alienrun.Views.ScalableView
         android:id="@+id/settings_home_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
         android:src="@drawable/home_button"
         />
 
@@ -16,12 +24,24 @@
         android:id="@+id/login_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@+id/settings_music_button"
         android:layout_gravity="center"/>
 
     <ToggleButton
         android:id="@+id/settings_music_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Show name"/>
+        android:layout_centerVertical="true"
+        android:layout_centerHorizontal="true"
+        />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toLeftOf="@+id/settings_music_button"
+        android:textSize="45sp"
+        android:layout_centerVertical="true"
+        android:text="@string/sound"/>
 
 </RelativeLayout>
