@@ -4,6 +4,14 @@
     android:layout_height="match_parent"
     tools:context="com.example.kaloyanit.alienrun.Views.achievements.AchievementsView">
 
+    <TextView
+        android:id="@+id/achievements_title_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:textSize="60sp"
+        android:text="@string/achievements"/>
+
     <ListView
         android:id="@+id/lv_achievements"
         android:layout_width="wrap_content"

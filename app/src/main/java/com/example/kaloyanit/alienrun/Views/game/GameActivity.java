@@ -303,5 +303,4 @@ public class GameActivity extends AppCompatActivity {
 //            auth.removeAuthStateListener(authListener);
 //        }
     }
-
 }

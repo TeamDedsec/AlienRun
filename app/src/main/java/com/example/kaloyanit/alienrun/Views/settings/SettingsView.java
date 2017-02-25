@@ -59,7 +59,8 @@ public class SettingsView extends Fragment implements SettingsContracts.View, Vi
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.settings_home_button:
-                this.presenter.startMainActivity();
+                getActivity().finish();
+                //this.presenter.startMainActivity();
                 break;
             case R.id.settings_music_button:
                 if(musicToogleBtn.isChecked()) {
