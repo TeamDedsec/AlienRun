@@ -45,6 +45,7 @@ public class Player extends GameObject {
     private int flyingFrames = 0;
     private int rotationAtFlightStart;
     private Paint paint;
+    private SensorManager sensorManager;
 
     public void setNextToWall(boolean nextToWall) {
         isNextToWall = nextToWall;
@@ -76,6 +77,7 @@ public class Player extends GameObject {
         this.jumps = 0;
         paint = new Paint();
         paint.setAlpha(255);
+        sensorManager = new SensorManager();
 
         Bitmap[] walk = new Bitmap[walkFrames];
 
@@ -133,7 +135,7 @@ public class Player extends GameObject {
             this.width = 47;
             this.height = 47;
             this.jumps = 0;
-            this.rotationAtFlightStart = SensorManager.getRotation();
+            this.rotationAtFlightStart = sensorManager.getRotation();
             this.state = PlayerState.Flying;
             this.isFlying = true;
             GlobalVariables.GAME_SPEED -= 5;
@@ -281,7 +283,7 @@ public class Player extends GameObject {
 
         switch (state) {
             case Flying:
-                this.y += (rotationAtFlightStart - SensorManager.getRotation()) * 4;
+                this.y += (rotationAtFlightStart - sensorManager.getRotation()) * 4;
                 if (y > BasicConstants.BG_HEIGHT - this.height) {
                     y = BasicConstants.BG_HEIGHT - this.height;
                 }
