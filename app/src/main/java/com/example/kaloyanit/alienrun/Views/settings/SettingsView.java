@@ -18,6 +18,8 @@ import android.widget.ToggleButton;
 
 import com.example.kaloyanit.alienrun.Models.Player;
 import com.example.kaloyanit.alienrun.R;
+import com.example.kaloyanit.alienrun.Utils.GameConstants;
+import com.example.kaloyanit.alienrun.Utils.GlobalVariables;
 import com.example.kaloyanit.alienrun.Views.ScalableView;
 import com.example.kaloyanit.alienrun.Views.main.MainActivity;
 
@@ -37,6 +39,7 @@ public class SettingsView extends Fragment implements SettingsContracts.View, Vi
         homeButton.setOnClickListener(this);
 
         musicToogleBtn = (ToggleButton) root.findViewById(R.id.settings_music_button);
+        musicToogleBtn.setChecked(true);
         musicToogleBtn.setOnClickListener(this);
         this.presenter.start();
 
@@ -65,10 +68,11 @@ public class SettingsView extends Fragment implements SettingsContracts.View, Vi
             case R.id.settings_music_button:
                 if(musicToogleBtn.isChecked()) {
                     //TODO: Start music
-                    //this.presenter.MusicOn
+                    GlobalVariables.isSoundOn = true;
 
                     System.out.println("Togle work");
                 } else {
+                    GlobalVariables.isSoundOn =false;
                     //TODO: Stop music
                     //this.presneter.musicOff
                 }
