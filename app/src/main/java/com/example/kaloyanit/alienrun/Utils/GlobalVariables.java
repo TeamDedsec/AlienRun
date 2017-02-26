@@ -18,4 +18,6 @@ public class GlobalVariables {
     public static int SCORE = 0;
     public static int COIN_COUNT = 0;
     public static int GAMES_PLAYED = 0;
+    public static boolean isSoundOn = true;
+    public static boolean isMusicOn = true;
 }

@@ -4,6 +4,7 @@ import android.media.MediaPlayer;
 
 import com.example.kaloyanit.alienrun.R;
 import com.example.kaloyanit.alienrun.Utils.BasicConstants;
+import com.example.kaloyanit.alienrun.Utils.GlobalVariables;
 
 /**
  * Created by julian.teofilov on 7/2/2017.
@@ -48,15 +49,17 @@ public class SoundPlayer {
     }
 
     public static void playAndRelease() {
-        mediaPlayer.start();
-        mediaPlayer.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
-            @Override
-            public void onCompletion(MediaPlayer mp) {
-                mp.release();
-                mp = null;
-                isSplashPlaying = false;
-                isHitPlaying = false;
-            }
-        });
+        if (GlobalVariables.isSoundOn) {
+            mediaPlayer.start();
+            mediaPlayer.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
+                @Override
+                public void onCompletion(MediaPlayer mp) {
+                    mp.release();
+                    mp = null;
+                    isSplashPlaying = false;
+                    isHitPlaying = false;
+                }
+            });
+        }
     }
 }
