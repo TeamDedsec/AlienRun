@@ -27,6 +27,7 @@ public class SettingsView extends Fragment implements SettingsContracts.View, Vi
     private SettingsContracts.Presenter presenter;
     private ScalableView homeButton;
     private ToggleButton musicToogleBtn;
+    private ToggleButton soundToggleBtn;
 
     public SettingsView() {
 
@@ -39,9 +40,18 @@ public class SettingsView extends Fragment implements SettingsContracts.View, Vi
         homeButton.setOnClickListener(this);
 
         musicToogleBtn = (ToggleButton) root.findViewById(R.id.settings_music_button);
-        musicToogleBtn.setChecked(true);
+        if(GlobalVariables.isMusicOn) {
+            musicToogleBtn.setChecked(true);
+        }
         musicToogleBtn.setOnClickListener(this);
-        this.presenter.start();
+
+        soundToggleBtn = (ToggleButton) root.findViewById(R.id.settings_sound_button);
+        if(GlobalVariables.isSoundOn) {
+            soundToggleBtn.setChecked(true);
+        }
+        soundToggleBtn.setOnClickListener(this);
+
+        //this.presenter.start();
 
 
         return root;
@@ -67,14 +77,16 @@ public class SettingsView extends Fragment implements SettingsContracts.View, Vi
                 break;
             case R.id.settings_music_button:
                 if(musicToogleBtn.isChecked()) {
-                    //TODO: Start music
-                    GlobalVariables.isSoundOn = true;
-
-                    System.out.println("Togle work");
+                    GlobalVariables.isMusicOn = true;
                 } else {
-                    GlobalVariables.isSoundOn =false;
-                    //TODO: Stop music
-                    //this.presneter.musicOff
+                    GlobalVariables.isMusicOn =false;
+                }
+                break;
+            case R.id.settings_sound_button:
+                if(soundToggleBtn.isChecked()) {
+                    GlobalVariables.isSoundOn = true;
+                } else {
+                    GlobalVariables.isSoundOn = false;
                 }
                 break;
         }

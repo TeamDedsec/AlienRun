@@ -7,7 +7,9 @@ import android.os.Bundle;
 import android.view.Window;
 import android.view.WindowManager;
 
+import com.example.kaloyanit.alienrun.Data.base.BaseData;
 import com.example.kaloyanit.alienrun.GameApplication;
+import com.example.kaloyanit.alienrun.Models.Player;
 import com.example.kaloyanit.alienrun.R;
 
 import javax.inject.Inject;

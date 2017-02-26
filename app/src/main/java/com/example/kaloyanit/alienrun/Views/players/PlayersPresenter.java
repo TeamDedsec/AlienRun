@@ -24,25 +24,22 @@ public class PlayersPresenter implements PlayersContracts.Presenter {
     private final PlayersContracts.View view;
     //private List<Player> players;
 
+    private final LocalData<Player> data;
 
-    public LocalData<Player> data;
-
-    public PlayersPresenter(PlayersContracts.View view, LocalData<Player> data) {
+    public PlayersPresenter(PlayersContracts.View view, LocalData<Player> playerLocalData) {
         this.view = view;
+        this.getView().setPresenter(this);
 
-        this.data = data;
-
-        this.view.setPresenter(this);
+        this.data = playerLocalData;
     }
     @Override
     public PlayersContracts.View getView() {
-        return view;
+        return this.view;
     }
 
     @Override
     public void start() {
-        data.add(new Player("Pesho", "Ibe mnou", 4, 100));
-        data.getAll()
+        this.data.getAll()
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .map(new Function<Player[], List<Player>>() {
@@ -61,7 +58,6 @@ public class PlayersPresenter implements PlayersContracts.Presenter {
                         getView().setPlayers(players);
                     }
                 });
-        //TODO: Add generic implementation;
     }
 
     public List<Player> getPlayers() {

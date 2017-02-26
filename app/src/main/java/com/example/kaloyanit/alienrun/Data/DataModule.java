@@ -27,7 +27,7 @@ public class DataModule {
     }
 
     @Provides
-    BaseData<Player> providePlayerData() {
+    LocalData<Player> providePlayerData() {
         LocalData<Player> data = new LocalData<>();
         data.add(new Player("Green",  "No special skill", R.drawable.p1_stand, 0));
         data.add(new Player("Pink",  "Triple Jump", R.drawable.p3_stand, 1000));

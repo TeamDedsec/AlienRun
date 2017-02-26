@@ -4,6 +4,7 @@
     <string name="settings_title">Settings</string>
     <string name="sound">Sound:</string>
     <string name="achievements">Achievements</string>
+    <string name="music">Music:</string>
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>

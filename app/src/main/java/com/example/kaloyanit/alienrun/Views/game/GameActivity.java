@@ -283,6 +283,7 @@ public class GameActivity extends AppCompatActivity {
     @Override
     public void onStart() {
         super.onStart();
+        SceneManager.resetGame();
         //auth.addAuthStateListener(authListener);
     }
 

@@ -6,6 +6,8 @@ import com.example.kaloyanit.alienrun.Data.base.BaseData;
 import com.example.kaloyanit.alienrun.Models.Player;
 import com.example.kaloyanit.alienrun.R;
 
+import javax.inject.Inject;
+
 import dagger.Module;
 import dagger.Provides;
 
@@ -21,7 +23,7 @@ public class PlayersModule {
     }
 
     @Provides
-    PlayersContracts.Presenter providePlayersPresenter(PlayersContracts.View view, LocalData<Player> data) {
-        return new PlayersPresenter(view, data);
+    PlayersContracts.Presenter providePlayersPresenter(PlayersContracts.View view, LocalData<Player> playerBaseData) {
+        return new PlayersPresenter(view, playerBaseData);
     }
 }

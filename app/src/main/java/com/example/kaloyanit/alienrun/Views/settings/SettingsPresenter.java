@@ -1,5 +1,6 @@
 package com.example.kaloyanit.alienrun.Views.settings;
 
+import com.example.kaloyanit.alienrun.Data.LocalData;
 import com.example.kaloyanit.alienrun.Models.Player;
 import com.example.kaloyanit.alienrun.SoundPlayers.MusicPlayer;
 

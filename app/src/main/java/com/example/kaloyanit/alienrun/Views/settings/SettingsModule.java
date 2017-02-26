@@ -1,5 +1,10 @@
 package com.example.kaloyanit.alienrun.Views.settings;
 
+import com.example.kaloyanit.alienrun.Data.base.BaseData;
+import com.example.kaloyanit.alienrun.Models.Player;
+
+import javax.inject.Inject;
+
 import dagger.Module;
 import dagger.Provides;
 
@@ -8,6 +13,8 @@ import dagger.Provides;
  */
 @Module
 public class SettingsModule {
+
+
     @Provides
     SettingsContracts.View provideSettingsView() {
         return new SettingsView();

@@ -29,7 +29,7 @@
         android:layout_gravity="center"/>
 
     <ToggleButton
-        android:id="@+id/settings_music_button"
+        android:id="@+id/settings_sound_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerVertical="true"
@@ -37,11 +37,28 @@
         />
 
     <TextView
+        android:id="@+id/settings_sound_text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_toLeftOf="@+id/settings_music_button"
+        android:layout_toLeftOf="@+id/settings_sound_button"
         android:textSize="45sp"
         android:layout_centerVertical="true"
         android:text="@string/sound"/>
+
+    <ToggleButton
+        android:id="@+id/settings_music_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@+id/settings_sound_button"
+        />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="45sp"
+        android:text="@string/music"
+        android:layout_above="@+id/login_button"
+        android:layout_toStartOf="@+id/settings_sound_button" />
 
 </RelativeLayout>
