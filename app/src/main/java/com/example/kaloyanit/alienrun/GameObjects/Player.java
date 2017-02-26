@@ -3,10 +3,6 @@ package com.example.kaloyanit.alienrun.GameObjects;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Paint;
-import android.hardware.Sensor;
-import android.hardware.SensorEvent;
-import android.hardware.SensorEventListener;
-import android.hardware.SensorManager;
 
 import com.example.kaloyanit.alienrun.Core.Animation;
 import com.example.kaloyanit.alienrun.Enums.CollisionType;
@@ -15,12 +11,13 @@ import com.example.kaloyanit.alienrun.SoundPlayers.SoundPlayer;
 import com.example.kaloyanit.alienrun.Utils.BasicConstants;
 import com.example.kaloyanit.alienrun.Utils.GameConstants;
 import com.example.kaloyanit.alienrun.Utils.GlobalVariables;
+import com.example.kaloyanit.alienrun.Utils.SensorManager;
 
 /**
  * Created by KaloyanIT on 1/25/2017.
  */
 
-public class Player extends GameObject implements SensorEventListener {
+public class Player extends GameObject {
     private Bitmap walkSheet;
     private Bitmap jumpImage;
     private Bitmap duckImage;
@@ -46,10 +43,8 @@ public class Player extends GameObject implements SensorEventListener {
     private int invulnerabilityFrames = 0;
     private int forwardFrames = 0;
     private int flyingFrames = 0;
-    private int rotation;
     private int rotationAtFlightStart;
     private Paint paint;
-    private SensorManager sensorManager;
 
     public void setNextToWall(boolean nextToWall) {
         isNextToWall = nextToWall;
@@ -81,8 +76,6 @@ public class Player extends GameObject implements SensorEventListener {
         this.jumps = 0;
         paint = new Paint();
         paint.setAlpha(255);
-        sensorManager = BasicConstants.SENSOR_SERVICE;
-        sensorManager.registerListener(this, sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER), SensorManager.SENSOR_DELAY_NORMAL);
 
         Bitmap[] walk = new Bitmap[walkFrames];
 
@@ -140,7 +133,7 @@ public class Player extends GameObject implements SensorEventListener {
             this.width = 47;
             this.height = 47;
             this.jumps = 0;
-            this.rotationAtFlightStart = this.rotation;
+            this.rotationAtFlightStart = SensorManager.getRotation();
             this.state = PlayerState.Flying;
             this.isFlying = true;
             GlobalVariables.GAME_SPEED -= 5;
@@ -288,7 +281,7 @@ public class Player extends GameObject implements SensorEventListener {
 
         switch (state) {
             case Flying:
-                this.y += (rotationAtFlightStart - rotation) * 4;
+                this.y += (rotationAtFlightStart - SensorManager.getRotation()) * 4;
                 if (y > BasicConstants.BG_HEIGHT - this.height) {
                     y = BasicConstants.BG_HEIGHT - this.height;
                 }
@@ -485,15 +478,5 @@ public class Player extends GameObject implements SensorEventListener {
             return true;
         }
         return false;
-    }
-
-    @Override
-    public void onSensorChanged(SensorEvent event) {
-        this.rotation = (int) (event.values[2]);
-    }
-
-    @Override
-    public void onAccuracyChanged(Sensor sensor, int accuracy) {
-
     }
 }
