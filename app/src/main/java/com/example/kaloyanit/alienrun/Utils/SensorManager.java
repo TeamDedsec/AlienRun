@@ -9,10 +9,10 @@ import android.hardware.SensorEventListener;
  */
 
 public class SensorManager implements SensorEventListener {
-    private static android.hardware.SensorManager sensorManager;
-    private static int rotation;
+    private android.hardware.SensorManager sensorManager;
+    private int rotation;
 
-    public static int getRotation() {
+    public int getRotation() {
         return rotation;
     }
 
