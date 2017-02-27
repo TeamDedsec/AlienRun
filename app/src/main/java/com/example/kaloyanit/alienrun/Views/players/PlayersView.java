@@ -46,6 +46,7 @@ public class PlayersView extends Fragment implements PlayersContracts.View {
 
 
         playersAdapter = new PlayersAdapter(getContext());
+        lvPlayers.setAdapter(playersAdapter);
 
 
         //this.presenter.start();

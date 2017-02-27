@@ -5,27 +5,14 @@ import android.content.pm.ActivityInfo;
 import android.hardware.SensorManager;
 import android.os.Bundle;
 import android.os.Handler;
-import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.util.DisplayMetrics;
-import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
-import android.widget.ArrayAdapter;
-import android.widget.Button;
-import android.widget.CheckBox;
-import android.widget.GridView;
-import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import com.example.kaloyanit.alienrun.Data.AchievementsDataSource;
-import com.example.kaloyanit.alienrun.Data.PlayersDataSource;
-import com.example.kaloyanit.alienrun.Data.base.BaseData;
 import com.example.kaloyanit.alienrun.GameApplication;
 import com.example.kaloyanit.alienrun.Models.Achievement;
 import com.example.kaloyanit.alienrun.Core.GamePanel;
@@ -36,28 +23,9 @@ import com.example.kaloyanit.alienrun.SoundPlayers.MusicPlayer;
 import com.example.kaloyanit.alienrun.Utils.BasicConstants;
 import com.example.kaloyanit.alienrun.Utils.GlobalVariables;
 import com.example.kaloyanit.alienrun.Views.ScalableView;
-import com.example.kaloyanit.alienrun.Views.main.MainActivity;
-import com.example.kaloyanit.alienrun.Views.players.PlayersActivity;
-import com.example.kaloyanit.alienrun.Views.settings.SettingsActivity;
-import com.facebook.AccessToken;
-import com.facebook.CallbackManager;
-import com.facebook.FacebookCallback;
-import com.facebook.FacebookException;
-import com.facebook.login.LoginResult;
 import com.facebook.login.widget.LoginButton;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
-import com.google.firebase.auth.AuthCredential;
-import com.google.firebase.auth.AuthResult;
-import com.google.firebase.auth.FacebookAuthProvider;
-import com.google.firebase.auth.FirebaseAuth;
-import com.facebook.FacebookSdk;
-import com.google.firebase.auth.FirebaseUser;
 
 import java.util.List;
-import java.util.TimerTask;
-
-import javax.inject.Inject;
 
 
 public class GameActivity extends AppCompatActivity {
