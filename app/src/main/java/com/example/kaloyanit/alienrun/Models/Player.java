@@ -6,7 +6,7 @@ import javax.inject.Inject;
  * Created by KaloyanIT on 2/15/2017.
  */
 
-public class Player {
+public class Player implements ModelBase {
     private long id;
     private String name;
     private String skill;

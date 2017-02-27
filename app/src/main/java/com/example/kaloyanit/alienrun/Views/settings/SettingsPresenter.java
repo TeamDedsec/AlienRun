@@ -26,7 +26,7 @@ public class SettingsPresenter implements SettingsContracts.Presenter {
 
     @Override
     public void start() {
-        System.out.println("Presenter start");
+
     }
 
     @Override

@@ -105,6 +105,16 @@ public class GameActivity extends AppCompatActivity {
         SceneManager.ACTIVE_SCENE = 0;
         setContentView(R.layout.activity_game);
         gameEngine();
+        gameView = (GamePanel)findViewById(R.id.gameView);
+        pauseButton = (ScalableView) findViewById(R.id.pauseView);
+        pauseButton.setVisibility(View.VISIBLE);
+        pauseButton.setOnClickListener(view -> {
+            pauseButton.setVisibility(View.INVISIBLE);
+            SceneManager.ACTIVE_SCENE = 2;
+            System.out.println("Pause event");
+            pauseLayout();
+        });
+//
         //gamePanel = new GamePanel(this);
 
 //        final Handler handler = new Handler();
@@ -171,16 +181,7 @@ public class GameActivity extends AppCompatActivity {
         //use it
 
 
-//        gameView = (GamePanel)findViewById(R.id.gameView);
-//        pauseButton = (ScalableView) findViewById(R.id.pauseView);
-//        pauseButton.setVisibility(View.VISIBLE);
-//        pauseButton.setOnClickListener(view -> {
-//            pauseButton.setVisibility(View.INVISIBLE);
-//            SceneManager.ACTIVE_SCENE = 2;
-//            System.out.println("Pause event");
-//            pauseLayout();
-//        });
-//        gameEngine();
+//                gameEngine();
     }
 
 
@@ -253,7 +254,7 @@ public class GameActivity extends AppCompatActivity {
             SceneManager.ACTIVE_SCENE = 0;
             pauseButton.setVisibility(View.INVISIBLE);
             pauseLayout.setVisibility(View.INVISIBLE);
-            startLayout.setVisibility(View.VISIBLE);
+            this.finish();
 
             //TODO: intent main activity
         });

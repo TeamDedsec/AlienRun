@@ -7,7 +7,9 @@ import com.example.kaloyanit.alienrun.Views.ViewsModule;
 import com.example.kaloyanit.alienrun.Views.achievements.AchievementsActivity;
 import com.example.kaloyanit.alienrun.Views.game.GameActivity;
 import com.example.kaloyanit.alienrun.Views.main.MainActivity;
+import com.example.kaloyanit.alienrun.Views.main.MainModule;
 import com.example.kaloyanit.alienrun.Views.players.PlayersActivity;
+import com.example.kaloyanit.alienrun.Views.players.PlayersModule;
 import com.example.kaloyanit.alienrun.Views.settings.SettingsActivity;
 
 import javax.inject.Singleton;
@@ -28,6 +30,9 @@ public class GameApplication extends Application {
 
         this.component = DaggerGameApplication_ApplicationComponent
                 .builder()
+                .applicationModule(new ApplicationModule(this.getApplicationContext()))
+                .dataModule(new DataModule())
+                .viewsModule(new ViewsModule())
                 .build();
     }
 
@@ -36,7 +41,7 @@ public class GameApplication extends Application {
     }
 
     @Singleton
-    @Component(modules = {ApplicationModule.class, DataModule.class, ViewsModule.class})
+    @Component(modules = {ViewsModule.class, ApplicationModule.class, DataModule.class})
     public interface ApplicationComponent {
         void inject(GameActivity gameActivity);
 

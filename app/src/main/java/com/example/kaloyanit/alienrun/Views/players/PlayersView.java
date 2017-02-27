@@ -16,14 +16,19 @@ import android.widget.TextView;
 import com.example.kaloyanit.alienrun.GameApplication;
 import com.example.kaloyanit.alienrun.Models.Player;
 import com.example.kaloyanit.alienrun.R;
+import com.example.kaloyanit.alienrun.Views.PlayersAdapter;
 import com.example.kaloyanit.alienrun.Views.ScalableView;
 
+import java.util.ArrayList;
 import java.util.List;
+
+import javax.inject.Inject;
 
 public class PlayersView extends Fragment implements PlayersContracts.View {
 
     private PlayersContracts.Presenter presenter;
-    private ArrayAdapter<Player> playersAdapter;
+    private List<Player> players;
+    private PlayersAdapter playersAdapter;
 
     public PlayersView() {
         // Required empty public constructor
@@ -38,44 +43,25 @@ public class PlayersView extends Fragment implements PlayersContracts.View {
         GridView lvPlayers = (GridView) root.findViewById(R.id.players_list);
         ScalableView backButton = (ScalableView) root.findViewById(R.id.home_button);
 
-        this.presenter.start();
 
 
-        playersAdapter = new ArrayAdapter<Player>(getContext(), -1) {
-            @NonNull
-            @Override
-            public View getView(int position, View convertView, ViewGroup parent) {
-                View view = convertView;
-                if (view == null) {
-                    LayoutInflater inflater = LayoutInflater.from(this.getContext());
-                    view = inflater.inflate(R.layout.item_player, parent, false);
-                }
-
-                //Initialize item elements
-                TextView tvTitle = (TextView) view.findViewById(R.id.tv_title);
-                TextView tvSkill = (TextView) view.findViewById(R.id.tv_skills);
-                TextView tvPrice = (TextView) view.findViewById(R.id.tv_price);
-                ScalableView plImage = (ScalableView) view.findViewById(R.id.pl_image);
-                Button buyButton = (Button) view.findViewById(R.id.buy_button);
-
-                tvPrice.setText(String.format("%0$d", this.getItem(position).getPrice()));
-                tvSkill.setText(this.getItem(position).getSkill());
-
-                //plImage.setImageResource(this.getItem(position).getPictureId());
-                //plImage.setBitmapImage(this.getItem(position).getImage());
-                String title = this.getItem(position).getName();
-                tvTitle.setText(title);
+        playersAdapter = new PlayersAdapter(getContext());
 
 
-                //Return view
-                return view;
-            }
-        };
+        //this.presenter.start();
+
+        if(presenter != null) {
+            this.presenter.start();
+        }
+
+
         // Inflate the layout for this fragment
         return root;
     }
 
+    @Override
     public void setPlayers(List<Player> players) {
+        //this.playersAdapter.addAll(players);
         this.playersAdapter.addAll(players);
     }
 

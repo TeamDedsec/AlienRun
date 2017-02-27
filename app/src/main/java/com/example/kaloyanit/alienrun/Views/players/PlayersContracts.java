@@ -3,6 +3,7 @@ package com.example.kaloyanit.alienrun.Views.players;
 
 import com.example.kaloyanit.alienrun.Models.Player;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -17,9 +18,9 @@ public class PlayersContracts {
     }
 
     public interface Presenter {
-        PlayersContracts.View getView();
-
         void start();
+
+        PlayersContracts.View getView();
 
         List<Player> getPlayers();
     }

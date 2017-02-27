@@ -10,6 +10,6 @@ import dagger.Module;
 /**
  * Created by KaloyanIT on 2/20/2017.
  */
-@Module(includes = {SettingsModule.class, PlayersModule.class, AchievementsModule.class, MainModule.class})
+@Module(includes = {MainModule.class, PlayersModule.class, SettingsModule.class, AchievementsModule.class})
 public class ViewsModule {
 }

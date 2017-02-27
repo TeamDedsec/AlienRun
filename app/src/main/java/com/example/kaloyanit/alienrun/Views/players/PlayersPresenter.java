@@ -42,16 +42,23 @@ public class PlayersPresenter implements PlayersContracts.Presenter {
         this.data.getAll()
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .map(new Function<Player[], List<Player>>() {
-                    @Override
-                    public List<Player> apply(Player[] players) throws Exception {
-                        ArrayList<Player> playersResult = new ArrayList<Player>();
-                        for (int i = 0; i < players.length ; i++) {
-                            playersResult.add(players[i]);
-                        }
-                        return playersResult;
-                    }
-                })
+//                .map(new Function<Player[], List<Player>>() {
+//                    @Override
+//                    public List<Player> apply(Player[] players) throws Exception {
+//                        ArrayList<Player> playersResult = new ArrayList<Player>();
+//                        for (int i = 0; i < players.length ; i++) {
+//                            playersResult.add(players[i]);
+//                        }
+//                        return playersResult;
+//                    }
+//                })
+//                .subscribe(new Consumer<List<Player>>() {
+//                    @Override
+//                    public void accept(List<Player> players) throws Exception {
+//                        ArrayList<Player> accepted = new ArrayList<Player>(players);
+//                        getView().setPlayers(accepted);
+//                    }
+//                });
                 .subscribe(new Consumer<List<Player>>() {
                     @Override
                     public void accept(List<Player> players) throws Exception {
@@ -60,7 +67,8 @@ public class PlayersPresenter implements PlayersContracts.Presenter {
                 });
     }
 
+    @Override
     public List<Player> getPlayers() {
-        return new ArrayList<>();
+        return new ArrayList<Player>();
     }
 }

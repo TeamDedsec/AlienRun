@@ -9,12 +9,12 @@ import dagger.Provides;
 @Module
 public class AchievementsModule {
     @Provides
-    AchievementsContracts.View provideSettingsView() {
+    AchievementsContracts.View provideAchievementsView() {
         return new AchievementsView();
     }
 
     @Provides
-    AchievementsContracts.Presenter provideSettingsPresenter(AchievementsContracts.View view) {
+    AchievementsContracts.Presenter provideAchievementsPresenter(AchievementsContracts.View view) {
         return new AchievementsPresenter(view);
     }
 }

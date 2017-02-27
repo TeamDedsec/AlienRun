@@ -2,8 +2,11 @@ package com.example.kaloyanit.alienrun.Data;
 
 
 import com.example.kaloyanit.alienrun.Data.base.BaseData;
+import com.example.kaloyanit.alienrun.Models.ModelBase;
 
+import java.security.InvalidParameterException;
 import java.util.ArrayList;
+import java.util.List;
 
 import javax.inject.Inject;
 
@@ -13,29 +16,33 @@ import io.reactivex.Observable;
  * Created by KaloyanIT on 2/20/2017.
  */
 
-public class LocalData<T> extends BaseData<T>{
-    private ArrayList<T>  items;
+public class LocalData<T extends ModelBase> {
+    private List<T>  items;
 
     @Inject
     public LocalData() {
-        items = new ArrayList<>();
+        this.items = new ArrayList<>();
     }
 
-    @Override
-    public Observable<T[]> getAll() {
-        return Observable.just(
-                (T[]) this.items.toArray()
-        );
+
+    public Observable<List<T>> getAll() {
+        return Observable.just(this.items);
     }
 
-    @Override
-    public Observable<T> getById(Object id) {
-        return Observable.just(null);
+
+    public Observable<T> getById(long id) {
+        for(T item : this.items) {
+            if(item.getId() == id){
+                return Observable.just(item);
+            }
+        }
+        return Observable.error(new InvalidParameterException("No item with this ID"));
     }
 
-    @Override
+
     public Observable add(T item) {
         this.items.add(item);
+        item.setId(this.items.size() + 1);
         return Observable.just(item);
     }
 }

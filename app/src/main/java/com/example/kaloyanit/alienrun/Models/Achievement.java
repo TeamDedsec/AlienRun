@@ -4,7 +4,7 @@ package com.example.kaloyanit.alienrun.Models;
  * Created by KaloyanIT on 2/10/2017.
  */
 
-public class Achievement {
+public class Achievement implements ModelBase {
     private long id;
     private String name;
     private int points;
