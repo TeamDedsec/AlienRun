@@ -25,6 +25,11 @@
         <activity android:name=".Views.players.PlayersActivity" />
         <activity android:name=".Views.achievements.AchievementsActivity" />
         <activity android:name=".Views.game.GameActivity"></activity>
+
+        <meta-data android:name="DATABASE" android:value="main.db" />
+        <meta-data android:name="VERSION" android:value="2" />
+        <meta-data android:name="QUERY_LOG" android:value="true" />
+        <meta-data android:name="DOMAIN_PACKAGE_NAME" android:value="com.example" />
     </application>
 
 </manifest>

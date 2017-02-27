@@ -1,28 +1,18 @@
 package com.example.kaloyanit.alienrun.Views.players;
 
-import android.content.Context;
-import android.net.Uri;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
-import android.widget.Button;
 import android.widget.GridView;
-import android.widget.TextView;
 
-import com.example.kaloyanit.alienrun.GameApplication;
 import com.example.kaloyanit.alienrun.Models.Player;
 import com.example.kaloyanit.alienrun.R;
-import com.example.kaloyanit.alienrun.Views.PlayersAdapter;
+import com.example.kaloyanit.alienrun.Adapters.PlayersAdapter;
 import com.example.kaloyanit.alienrun.Views.ScalableView;
 
-import java.util.ArrayList;
 import java.util.List;
-
-import javax.inject.Inject;
 
 public class PlayersView extends Fragment implements PlayersContracts.View {
 

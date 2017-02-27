@@ -1,4 +1,4 @@
-package com.example.kaloyanit.alienrun.Views;
+package com.example.kaloyanit.alienrun.Adapters;
 
 import android.content.Context;
 import android.support.annotation.NonNull;
@@ -11,6 +11,7 @@ import android.widget.TextView;
 
 import com.example.kaloyanit.alienrun.Models.Player;
 import com.example.kaloyanit.alienrun.R;
+import com.example.kaloyanit.alienrun.Views.ScalableView;
 
 import java.util.ArrayList;
 
