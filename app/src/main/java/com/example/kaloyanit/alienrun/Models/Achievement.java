@@ -11,6 +11,13 @@ public class Achievement implements ModelBase {
     private boolean isLocked;
     private int lockNumber;
 
+    public Achievement(String name, int points) {
+        this.name = name;
+        this.isLocked = false;
+        this.points = points;
+        this.setLockNumber(0);
+    }
+
     public long getId() {
         return this.id;
     }

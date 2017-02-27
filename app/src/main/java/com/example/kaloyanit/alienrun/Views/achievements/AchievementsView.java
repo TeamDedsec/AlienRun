@@ -10,7 +10,11 @@ import android.view.ViewGroup;
 import android.widget.ListView;
 
 import com.example.kaloyanit.alienrun.Adapters.AchievementsAdapter;
+import com.example.kaloyanit.alienrun.Models.Achievement;
 import com.example.kaloyanit.alienrun.R;
+
+import java.util.ArrayList;
+import java.util.List;
 
 
 public class AchievementsView extends Fragment implements AchievementsContracts.View {
@@ -30,6 +34,10 @@ public class AchievementsView extends Fragment implements AchievementsContracts.
         achievementsAdapter = new AchievementsAdapter(getContext());
         achievementLv.setAdapter(achievementsAdapter);
 
+        if(this.presenter != null) {
+            this.presenter.start();
+        }
+
 
         // Inflate the layout for this fragment
         return root;
@@ -39,21 +47,9 @@ public class AchievementsView extends Fragment implements AchievementsContracts.
     public void setPresenter(AchievementsContracts.Presenter presenter) {
         this.presenter = presenter;
     }
+
+    @Override
+    public void setAchievements(List<Achievement> achievementsList) {
+        this.achievementsAdapter.addAll(new ArrayList<Achievement>(achievementsList));
+    }
 }
-
-/*
-TODO: Add lists with achievements
-
-RelativeLayout achievementsLayout = (RelativeLayout) findViewById(R.id.achievements_layout);
-achievementsLayout.setVisibility(View.VISIBLE);
-
-
-ArrayAdapter<Achievement> achievementsAdapter = new ArrayAdapter<Achievement>(this, -1, achievements) {
-public TextView tvAchievementPoints;
-public CheckBox checkBoxAchievement;
-public TextView tvAchievement;
-
-
-achievementLv.setAdapter(achievementsAdapter);
-}
-*/

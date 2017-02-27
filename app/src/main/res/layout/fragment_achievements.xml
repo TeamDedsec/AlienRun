@@ -15,7 +15,8 @@
     <ListView
         android:id="@+id/lv_achievements"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:layout_below="@id/achievements_title_tv">
     </ListView>
 
 </RelativeLayout>

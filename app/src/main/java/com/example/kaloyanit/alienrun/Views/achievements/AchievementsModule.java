@@ -1,5 +1,8 @@
 package com.example.kaloyanit.alienrun.Views.achievements;
 
+import com.example.kaloyanit.alienrun.Data.LocalData;
+import com.example.kaloyanit.alienrun.Models.Achievement;
+
 import dagger.Module;
 import dagger.Provides;
 
@@ -14,7 +17,7 @@ public class AchievementsModule {
     }
 
     @Provides
-    AchievementsContracts.Presenter provideAchievementsPresenter(AchievementsContracts.View view) {
-        return new AchievementsPresenter(view);
+    AchievementsContracts.Presenter provideAchievementsPresenter(AchievementsContracts.View view, LocalData<Achievement> achievementLocalData) {
+        return new AchievementsPresenter(view, achievementLocalData);
     }
 }

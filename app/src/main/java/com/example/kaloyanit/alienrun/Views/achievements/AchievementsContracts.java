@@ -11,6 +11,8 @@ import java.util.List;
 public class AchievementsContracts {
     public interface View {
         void setPresenter(AchievementsContracts.Presenter presenter);
+
+        void setAchievements(List<Achievement> achievementsList);
     }
 
     public interface Presenter {

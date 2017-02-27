@@ -43,6 +43,23 @@ public class DataModule {
         LocalData<Achievement> data = new LocalData<>();
 
         //TODO: Add achievements
+        data.add(new Achievement("Beginner", 10));
+        data.add(new Achievement("Beginner", 10));
+        data.add(new Achievement("Beginner", 10));
+        data.add(new Achievement("Beginner", 10));
+        data.add(new Achievement("Beginner", 10));
+        data.add(new Achievement("Beginner", 10));
+        data.add(new Achievement("Beginner", 10));
+        data.add(new Achievement("Beginner", 10));
+        data.add(new Achievement("Beginner", 10));
+        data.add(new Achievement("Beginner", 10));
+        data.add(new Achievement("Beginner", 10));
+        data.add(new Achievement("Beginner", 10));
+        data.add(new Achievement("Beginner", 10));
+        data.add(new Achievement("Beginner", 10));
+        data.add(new Achievement("Beginner", 10));
+
+
 
         return data;
     }
