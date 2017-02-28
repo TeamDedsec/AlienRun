@@ -33,6 +33,7 @@ import com.facebook.AccessToken;
 import com.facebook.CallbackManager;
 import com.facebook.FacebookCallback;
 import com.facebook.FacebookException;
+import com.facebook.FacebookSdk;
 import com.facebook.login.LoginResult;
 import com.facebook.login.widget.LoginButton;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -46,6 +47,8 @@ import com.google.firebase.auth.FirebaseUser;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.concurrent.Executor;
+
+import static com.facebook.FacebookSdk.getApplicationContext;
 
 public class SettingsView extends Fragment implements SettingsContracts.View, View.OnClickListener {
     private SettingsContracts.Presenter presenter;
@@ -84,12 +87,48 @@ public class SettingsView extends Fragment implements SettingsContracts.View, Vi
 //        } catch (NoSuchAlgorithmException e) {
 //
 //        }
-
+        FacebookSdk.sdkInitialize(getApplicationContext());
+        callbackManager = CallbackManager.Factory.create();
+        auth = FirebaseAuth.getInstance();
         loginButton = (LoginButton) root.findViewById(R.id.login_button);
-        if (isLogged) {
-            loginButton.setVisibility(View.INVISIBLE);
-        }
-        facebookLogin();
+        loginButton.setReadPermissions("email", "public_profile");
+        loginButton.registerCallback(callbackManager, new FacebookCallback<LoginResult>() {
+            @Override
+            public void onSuccess(LoginResult loginResult) {
+                Log.d(TAG, "facebook:onSuccess:" + loginResult);
+                handleFacebookAccessToken(loginResult.getAccessToken());
+                isLogged = true;
+            }
+
+            @Override
+            public void onCancel() {
+                Log.d(TAG, "facebook:onCancel");
+                // ...
+            }
+
+            @Override
+            public void onError(FacebookException error) {
+                Log.d(TAG, "facebook:onError", error);
+                // ...
+            }
+        });
+        authListener = new FirebaseAuth.AuthStateListener() {
+            @Override
+            public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
+                FirebaseUser user = firebaseAuth.getCurrentUser();
+                if(user != null) {
+                    // User signed in
+                    isLogged = true;
+                    Log.d(TAG, "onAuthStateChanged:sign_in:" + user.getUid());
+                    System.out.println("Logged user");
+                    System.out.println(user.getUid());
+                } else {
+                    isLogged = false;
+                    //User signed out
+                    Log.d(TAG, "onAuthStateChanged:sign_out");
+                }
+            }
+        };
 
 
         homeButton = (ScalableView) root.findViewById(R.id.settings_home_button);

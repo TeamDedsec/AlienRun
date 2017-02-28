@@ -82,44 +82,6 @@ public class GameActivity extends AppCompatActivity {
             System.out.println("Pause event");
             pauseLayout();
         });
-        // Get Firebase auth instance
-//        auth = FirebaseAuth.getInstance();
-//        loginButton = (LoginButton) findViewById(R.id.login_button);
-//        loginButton.setReadPermissions("email", "public_profile");
-//        loginButton.registerCallback(callbackManager, new FacebookCallback<LoginResult>() {
-//            @Override
-//            public void onSuccess(LoginResult loginResult) {
-//                Log.d(TAG, "facebook:onSuccess:" + loginResult);
-//                handleFacebookAccessToken(loginResult.getAccessToken());
-//            }
-//
-//            @Override
-//            public void onCancel() {
-//                Log.d(TAG, "facebook:onCancel");
-//                // ...
-//            }
-//
-//            @Override
-//            public void onError(FacebookException error) {
-//                Log.d(TAG, "facebook:onError", error);
-//                // ...
-//            }
-//        });
-//        authListener = new FirebaseAuth.AuthStateListener() {
-//            @Override
-//            public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
-//                FirebaseUser user = firebaseAuth.getCurrentUser();
-//                if(user != null) {
-//                    // User signed in
-//                    Log.d(TAG, "onAuthStateChanged:sign_in:" + user.getUid());
-//                    System.out.println("Logged user");
-//                    System.out.println(user.getUid());
-//                } else {
-//                    //User signed out
-//                    Log.d(TAG, "onAuthStateChanged:sign_out");
-//                }
-//            }
-//        };
     }
 
 
