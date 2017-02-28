@@ -82,20 +82,6 @@ public class GameActivity extends AppCompatActivity {
             System.out.println("Pause event");
             pauseLayout();
         });
-//
-        //gamePanel = new GamePanel(this);
-
-//        final Handler handler = new Handler();
-//        handler.post(new Runnable() {
-//            @Override
-//            public void run() {
-//                gamePanel = new GamePanel(getBaseContext());
-//                setContentView(gamePanel);
-//            }
-//        });
-        //gamePanel.
-
-
         // Get Firebase auth instance
 //        auth = FirebaseAuth.getInstance();
 //        loginButton = (LoginButton) findViewById(R.id.login_button);
@@ -134,22 +120,6 @@ public class GameActivity extends AppCompatActivity {
 //                }
 //            }
 //        };
-
-//        Runnable newThread = new Runnable() {
-//            @Override
-//            public void run() {
-//                gameView = (GamePanel) findViewById(R.id.gameView);
-//                gameView = new GamePanel(getBaseContext());
-//                gameView.setManager(new SceneManager());
-//            }
-//        };
-//
-//        newThread.run();
-
-        //use it
-
-
-//                gameEngine();
     }
 
 
@@ -158,42 +128,6 @@ public class GameActivity extends AppCompatActivity {
                 .getComponent()
                 .inject(this);
     }
-
-
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-
-        // Pass the activity result back to the Facebook SDK
-        //callbackManager.onActivityResult(requestCode, resultCode, data);
-    }
-
-//    private void handleFacebookAccessToken(AccessToken token) {
-//        Log.d(TAG, "handleFacebookAccessToken:" + token);
-//
-//        AuthCredential credential = FacebookAuthProvider.getCredential(token.getToken());
-//        auth.signInWithCredential(credential)
-//                .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
-//                    @Override
-//                    public void onComplete(@NonNull Task<AuthResult> task) {
-//                        Log.d(TAG, "signInWithCredential:onComplete:" + task.isSuccessful());
-//
-//                        // If sign in fails, display a message to the user. If sign in succeeds
-//                        // the auth state listener will be notified and logic to handle the
-//                        // signed in user can be handled in the listener.
-//                        if (!task.isSuccessful()) {
-//                            Log.w(TAG, "signInWithCredential", task.getException());
-//                            Toast.makeText(GameActivity.this, "Authentication failed.",
-//                                    Toast.LENGTH_SHORT).show();
-//                        }
-//
-//                        // ...
-//                    }
-//                });
-//    }
-
-
-
 
     public void pauseLayout() {
 
@@ -253,7 +187,6 @@ public class GameActivity extends AppCompatActivity {
     public void onStart() {
         super.onStart();
         SceneManager.resetGame();
-        //auth.addAuthStateListener(authListener);
     }
 
     @Override
@@ -269,8 +202,5 @@ public class GameActivity extends AppCompatActivity {
     protected void onStop() {
         MusicPlayer.stopMusic();
         super.onStop();
-//        if(authListener != null) {
-//            auth.removeAuthStateListener(authListener);
-//        }
     }
 }
