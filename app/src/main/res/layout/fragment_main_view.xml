@@ -5,8 +5,6 @@
     android:background="@drawable/bg_grasslands"
     tools:context="com.example.kaloyanit.alienrun.Views.main.MainView">
 
-
-
     <!--Start-->
     <com.example.kaloyanit.alienrun.Views.ScalableView
         android:id="@+id/main_start_button"
