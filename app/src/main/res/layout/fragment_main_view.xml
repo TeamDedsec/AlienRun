@@ -16,7 +16,7 @@
         android:layout_centerInParent="true"
         android:clickable="true"/>
 
-    <!--Shop View-->
+    <!--Leaderboard View-->
     <com.example.kaloyanit.alienrun.Views.ScalableView
         android:id="@+id/main_leaderboards_button"
         android:layout_width="wrap_content"
