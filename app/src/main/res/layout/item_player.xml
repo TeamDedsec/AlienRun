@@ -9,33 +9,43 @@
         android:id="@+id/tv_title"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
+        android:layout_gravity="center_horizontal"
         android:textStyle="bold"
         android:textSize="30sp"
         android:textAlignment="center"/>
 
-    <com.example.kaloyanit.alienrun.Views.ScalableView
-        xmlns:android="http://schemas.android.com/apk/res/android"
+    <ImageView
         android:id="@+id/pl_image"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:src="@drawable/bat"/>
+        android:layout_gravity="center_horizontal"/>
+
+    <!--<com.example.kaloyanit.alienrun.Views.ScalableView-->
+        <!--xmlns:android="http://schemas.android.com/apk/res/android"-->
+        <!--android:id="@+id/pl_image"-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:src="@drawable/bat"/>-->
 
     <TextView
         android:id="@+id/tv_skills"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textStyle="italic"
-        android:textSize="15sp"/>
+        android:textSize="15sp"
+        android:layout_gravity="center_horizontal"/>
 
     <TextView
         android:id="@+id/tv_price"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"/>
 
     <Button
         android:id="@+id/buy_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
         android:text="Buy me"/>
 
 </LinearLayout>

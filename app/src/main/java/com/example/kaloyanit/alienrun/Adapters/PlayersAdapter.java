@@ -7,6 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.kaloyanit.alienrun.Models.Player;
@@ -41,21 +42,21 @@ public class PlayersAdapter extends ArrayAdapter<Player> {
             view = inflater.inflate(R.layout.item_player, parent, false);
         }
 
-
         Player player = this.getItem(position);
 
         //Initialize item elements
         TextView tvTitle = (TextView) view.findViewById(R.id.tv_title);
         TextView tvSkill = (TextView) view.findViewById(R.id.tv_skills);
         TextView tvPrice = (TextView) view.findViewById(R.id.tv_price);
-        ScalableView playerImage = (ScalableView) view.findViewById(R.id.pl_image);
-        Button buyButton = (Button) view.findViewById(R.id.buy_button);
+        //ScalableView playerImage = (ScalableView) view.findViewById(R.id.pl_image);
+        ImageView playerImage = (ImageView) view.findViewById(R.id.pl_image);
 
+        Button buyButton = (Button) view.findViewById(R.id.buy_button);
+        //TODO: Add buy logic
         tvPrice.setText(String.format("%0$d", player.getPrice()));
         tvSkill.setText(player.getSkill());
 
         playerImage.setImageResource(player.getPictureId());
-        //playerImage.setBitmapImage(player.getPictureId());
         String title = player.getName();
         tvTitle.setText(title);
 
