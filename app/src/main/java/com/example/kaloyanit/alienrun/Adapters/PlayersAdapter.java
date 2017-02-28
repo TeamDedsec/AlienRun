@@ -48,14 +48,14 @@ public class PlayersAdapter extends ArrayAdapter<Player> {
         TextView tvTitle = (TextView) view.findViewById(R.id.tv_title);
         TextView tvSkill = (TextView) view.findViewById(R.id.tv_skills);
         TextView tvPrice = (TextView) view.findViewById(R.id.tv_price);
-        ScalableView plImage = (ScalableView) view.findViewById(R.id.pl_image);
+        ScalableView playerImage = (ScalableView) view.findViewById(R.id.pl_image);
         Button buyButton = (Button) view.findViewById(R.id.buy_button);
 
         tvPrice.setText(String.format("%0$d", player.getPrice()));
         tvSkill.setText(player.getSkill());
 
-        //plImage.setImageResource(player.getPictureId());
-        //plImage.setBitmapImage(player.getImage());
+        playerImage.setImageResource(player.getPictureId());
+        //playerImage.setBitmapImage(player.getPictureId());
         String title = player.getName();
         tvTitle.setText(title);
 

@@ -51,6 +51,8 @@ public class SettingsView extends Fragment implements SettingsContracts.View, Vi
         }
         soundToggleBtn.setOnClickListener(this);
 
+
+
         return root;
     }
 

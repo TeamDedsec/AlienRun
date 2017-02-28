@@ -24,7 +24,7 @@ import com.example.kaloyanit.alienrun.Utils.BasicConstants;
  * Created by KaloyanIT on 1/31/2017.
  */
 
-public class ScalableView extends ImageButton {
+public class ScalableView extends ImageView {
 
     private final Paint paint;
     private Bitmap image;

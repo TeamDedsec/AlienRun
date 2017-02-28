@@ -16,7 +16,7 @@ import io.reactivex.Observable;
  * Created by KaloyanIT on 2/20/2017.
  */
 
-public class LocalData<T extends ModelBase> {
+public class LocalData<T extends ModelBase> implements ILocalData<T> {
     private List<T>  items;
 
     @Inject
@@ -24,12 +24,12 @@ public class LocalData<T extends ModelBase> {
         this.items = new ArrayList<>();
     }
 
-
+    @Override
     public Observable<List<T>> getAll() {
         return Observable.just(this.items);
     }
 
-
+    @Override
     public Observable<T> getById(long id) {
         for(T item : this.items) {
             if(item.getId() == id){
@@ -39,7 +39,7 @@ public class LocalData<T extends ModelBase> {
         return Observable.error(new InvalidParameterException("No item with this ID"));
     }
 
-
+    @Override
     public Observable add(T item) {
         this.items.add(item);
         item.setId(this.items.size() + 1);

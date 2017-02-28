@@ -16,17 +16,6 @@ import dagger.Provides;
 
 @Module
 public class DataModule {
-
-//    @Provides
-//    Class<Player> providePlayerType() {
-//        return Player.class;
-//    }
-//
-//    @Provides
-//    Class<Player[]> providePlayerArrayType() {
-//        return Player[].class;
-//    }
-
     @Provides
     LocalData<Player> providePlayerData() {
         LocalData<Player> data = new LocalData<>();
@@ -58,9 +47,6 @@ public class DataModule {
         data.add(new Achievement("Beginner", 10));
         data.add(new Achievement("Beginner", 10));
         data.add(new Achievement("Beginner", 10));
-
-
-
         return data;
     }
 }

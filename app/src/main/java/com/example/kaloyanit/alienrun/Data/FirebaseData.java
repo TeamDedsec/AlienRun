@@ -11,25 +11,10 @@ import io.reactivex.Observable;
  * Created by KaloyanIT on 2/20/2017.
  */
 
-public class FirebaseData<T extends ModelBase> extends BaseData<T> {
+public class FirebaseData<T extends ModelBase> {
     private DatabaseReference database;
 
     public FirebaseData() {
         this.database = FirebaseDatabase.getInstance().getReference();
-    }
-
-    @Override
-    public Observable<T[]> getAll() {
-        return null;
-    }
-
-    @Override
-    public Observable<T> getById(Object id) {
-        return null;
-    }
-
-    @Override
-    public Observable<T> add(T obj) {
-        return null;
     }
 }
