@@ -11,6 +11,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentActivity;
 import android.util.Base64;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -87,52 +88,12 @@ public class SettingsView extends Fragment implements SettingsContracts.View, Vi
 //        } catch (NoSuchAlgorithmException e) {
 //
 //        }
-        FacebookSdk.sdkInitialize(getApplicationContext());
-        callbackManager = CallbackManager.Factory.create();
-        auth = FirebaseAuth.getInstance();
-        loginButton = (LoginButton) root.findViewById(R.id.login_button);
-        loginButton.setReadPermissions("email", "public_profile");
-        loginButton.registerCallback(callbackManager, new FacebookCallback<LoginResult>() {
-            @Override
-            public void onSuccess(LoginResult loginResult) {
-                Log.d(TAG, "facebook:onSuccess:" + loginResult);
-                handleFacebookAccessToken(loginResult.getAccessToken());
-                isLogged = true;
-            }
-
-            @Override
-            public void onCancel() {
-                Log.d(TAG, "facebook:onCancel");
-                // ...
-            }
-
-            @Override
-            public void onError(FacebookException error) {
-                Log.d(TAG, "facebook:onError", error);
-                // ...
-            }
-        });
-        authListener = new FirebaseAuth.AuthStateListener() {
-            @Override
-            public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
-                FirebaseUser user = firebaseAuth.getCurrentUser();
-                if(user != null) {
-                    // User signed in
-                    isLogged = true;
-                    Log.d(TAG, "onAuthStateChanged:sign_in:" + user.getUid());
-                    System.out.println("Logged user");
-                    System.out.println(user.getUid());
-                } else {
-                    isLogged = false;
-                    //User signed out
-                    Log.d(TAG, "onAuthStateChanged:sign_out");
-                }
-            }
-        };
 
 
         homeButton = (ScalableView) root.findViewById(R.id.settings_home_button);
         homeButton.setOnClickListener(this);
+
+
 
         musicToogleBtn = (ToggleButton) root.findViewById(R.id.settings_music_button);
         if(GlobalVariables.isMusicOn) {
@@ -183,100 +144,6 @@ public class SettingsView extends Fragment implements SettingsContracts.View, Vi
                     GlobalVariables.isSoundOn = false;
                 }
                 break;
-        }
-    }
-
-
-    //Login
-    private void facebookLogin() {
-        callbackManager = CallbackManager.Factory.create();
-        auth = FirebaseAuth.getInstance();
-        loginButton.setReadPermissions("email", "public_profile");
-        loginButton.registerCallback(callbackManager, new FacebookCallback<LoginResult>() {
-            @Override
-            public void onSuccess(LoginResult loginResult) {
-                Log.d(TAG, "facebook:onSuccess:" + loginResult);
-                handleFacebookAccessToken(loginResult.getAccessToken());
-                isLogged = true;
-            }
-
-            @Override
-            public void onCancel() {
-                Log.d(TAG, "facebook:onCancel");
-                // ...
-            }
-
-            @Override
-            public void onError(FacebookException error) {
-                Log.d(TAG, "facebook:onError", error);
-                // ...
-            }
-        });
-        authListener = new FirebaseAuth.AuthStateListener() {
-            @Override
-            public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
-                FirebaseUser user = firebaseAuth.getCurrentUser();
-                if(user != null) {
-                    // User signed in
-                    isLogged = true;
-                    Log.d(TAG, "onAuthStateChanged:sign_in:" + user.getUid());
-                    System.out.println("Logged user");
-                    System.out.println(user.getUid());
-                } else {
-                    isLogged = false;
-                    //User signed out
-                    Log.d(TAG, "onAuthStateChanged:sign_out");
-                }
-            }
-        };
-    }
-
-
-    private void handleFacebookAccessToken(AccessToken token) {
-        Log.d(TAG, "handleFacebookAccessToken:" + token);
-        Activity activity = getActivity();
-
-        AuthCredential credential = FacebookAuthProvider.getCredential(token.getToken());
-        auth.signInWithCredential(credential)
-                .addOnCompleteListener((Executor) this, new OnCompleteListener<AuthResult>() {
-                    @Override
-                    public void onComplete(@NonNull Task<AuthResult> task) {
-                        Log.d(TAG, "signInWithCredential:onComplete:" + task.isSuccessful());
-                        //Toast.makeText(getActivity(), "Auth failde.", Toast.LENGTH_SHORT).show();
-
-                        // If sign in fails, display a message to the user. If sign in succeeds
-                        // the auth state listener will be notified and logic to handle the
-                        // signed in user can be handled in the listener.
-                        if (!task.isSuccessful()) {
-                            Log.w(TAG, "signInWithCredential", task.getException());
-                            Toast.makeText(activity, "Authentication failed.",
-                                    Toast.LENGTH_SHORT).show();
-                        }
-                    }
-                });
-    }
-
-    @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-
-        // Pass the activity result back to the Facebook SDK
-        callbackManager.onActivityResult(requestCode, resultCode, data);
-    }
-
-    @Override
-    public void onStart() {
-        super.onStart();
-
-        auth.addAuthStateListener(authListener);
-    }
-
-    @Override
-    public void onStop() {
-        super.onStop();
-
-        if(authListener != null) {
-            auth.removeAuthStateListener(authListener);
         }
     }
 }

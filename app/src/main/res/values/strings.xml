@@ -1,6 +1,7 @@
 <resources>
     <string name="app_name">AlienRun</string>
     <string name="facebook_app_id">1647158382256545</string>
+    <string name="fb_login_protocol_scheme">fb1647158382256545</string>
     <string name="settings_title">Settings</string>
     <string name="sound">Sound:</string>
     <string name="achievements">Achievements</string>
