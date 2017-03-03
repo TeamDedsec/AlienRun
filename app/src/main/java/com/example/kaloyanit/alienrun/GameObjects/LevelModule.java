@@ -18,11 +18,13 @@ public class LevelModule {
     private int startX;
     private int endX;
     private int length;
+    public boolean isPinchRequired;
 
-    public LevelModule(BlockSetType blockSet, int startX) {
+    public LevelModule(BlockSetType blockSet, int startX, boolean isPinchRequired) {
         this.blocks = new ArrayList<>();
         this.blockSet = blockSet;
         this.startX = startX;
+        this.isPinchRequired = isPinchRequired;
     }
 
     public void addBlock (BlockType type, int x, int y) {

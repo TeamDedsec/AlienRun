@@ -95,7 +95,7 @@ public class LevelModuleFactory {
     }
 
     private LevelModule createStraightLine() {
-        LevelModule module = new LevelModule(type, startPosition);
+        LevelModule module = new LevelModule(type, startPosition, false);
         for (int i = 0; i < 11; i++) {
             module.addBlock(BlockType.GroundMid, startPosition + (i * GameConstants.BLOCK_WIDTH), BasicConstants.BG_HEIGHT - GameConstants.BLOCK_HEIGHT);
         }
@@ -105,7 +105,7 @@ public class LevelModuleFactory {
     }
 
     private LevelModule createStraightLineWithCoins() {
-        LevelModule module = new LevelModule(type, startPosition);
+        LevelModule module = new LevelModule(type, startPosition, false);
         for (int i = 0; i < 11; i++) {
             if (i > 3 && i < 7) {
                 module.addBlock(BlockType.Coin, startPosition + (i * GameConstants.BLOCK_WIDTH), BasicConstants.BG_HEIGHT - (GameConstants.BLOCK_HEIGHT * 2));
@@ -119,7 +119,7 @@ public class LevelModuleFactory {
     }
 
     private LevelModule createWaterPool() {
-        LevelModule module = new LevelModule(type, startPosition);
+        LevelModule module = new LevelModule(type, startPosition, false);
         int currentX = startPosition;
         int positionY = BasicConstants.BG_HEIGHT - GameConstants.BLOCK_HEIGHT;
         for (int i = 0; i < 3; i++) {
@@ -149,7 +149,7 @@ public class LevelModuleFactory {
     }
 
     private LevelModule createFloatingLevel() {
-        LevelModule module = new LevelModule(type, startPosition);
+        LevelModule module = new LevelModule(type, startPosition, false);
         int currentX = startPosition;
         int positionY = BasicConstants.BG_HEIGHT - GameConstants.BLOCK_HEIGHT;
 
@@ -192,7 +192,7 @@ public class LevelModuleFactory {
     }
 
     private LevelModule createFloatingLevelWithSpinner() {
-        LevelModule module = new LevelModule(type, startPosition);
+        LevelModule module = new LevelModule(type, startPosition, false);
         int currentX = startPosition;
         int positionY = BasicConstants.BG_HEIGHT - GameConstants.BLOCK_HEIGHT;
 
@@ -232,7 +232,7 @@ public class LevelModuleFactory {
     }
 
     private LevelModule createBigHole() {
-        LevelModule module = new LevelModule(type, startPosition);
+        LevelModule module = new LevelModule(type, startPosition, false);
         int currentX = startPosition;
         int positionY = BasicConstants.BG_HEIGHT - GameConstants.BLOCK_HEIGHT;
 
@@ -263,7 +263,7 @@ public class LevelModuleFactory {
     }
 
     public LevelModule createSmallWallHole() {
-        LevelModule module = new LevelModule(type, startPosition);
+        LevelModule module = new LevelModule(type, startPosition, true);
         int currentX = startPosition;
         int positionY = BasicConstants.BG_HEIGHT - GameConstants.BLOCK_HEIGHT;
 

@@ -2,6 +2,7 @@ package com.example.kaloyanit.alienrun.GameObjects.PowerUps;
 
 import android.graphics.Bitmap;
 
+import com.example.kaloyanit.alienrun.Enums.PowerUpType;
 import com.example.kaloyanit.alienrun.GameObjects.Player;
 
 /**
@@ -11,7 +12,7 @@ import com.example.kaloyanit.alienrun.GameObjects.Player;
 public class Invincibility extends PowerUp {
 
     public Invincibility(Bitmap image, int x, int y) {
-        super(image, x, y, image.getWidth(), image.getHeight());
+        super(image, x, y, image.getWidth(), image.getHeight(), PowerUpType.Invincibility);
     }
 
     @Override
