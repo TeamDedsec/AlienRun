@@ -33,23 +33,13 @@ public class DataModule {
     @Provides
     LocalData<Achievement> provideAchievementsData() {
         LocalData<Achievement> data = new LocalData<>();
-
-        //TODO: Add achievements
         data.add(new Achievement("Beginner", 10));
-        data.add(new Achievement("Beginner", 10));
-        data.add(new Achievement("Beginner", 10));
-        data.add(new Achievement("Beginner", 10));
-        data.add(new Achievement("Beginner", 10));
-        data.add(new Achievement("Beginner", 10));
-        data.add(new Achievement("Beginner", 10));
-        data.add(new Achievement("Beginner", 10));
-        data.add(new Achievement("Beginner", 10));
-        data.add(new Achievement("Beginner", 10));
-        data.add(new Achievement("Beginner", 10));
-        data.add(new Achievement("Beginner", 10));
-        data.add(new Achievement("Beginner", 10));
-        data.add(new Achievement("Beginner", 10));
-        data.add(new Achievement("Beginner", 10));
+        data.add(new Achievement("Junior", 15));
+        data.add(new Achievement("One step forward", 20));
+        data.add(new Achievement("Play with the bosses", 50));
+        data.add(new Achievement("First big challenge", 100));
+        data.add(new Achievement("PRO", 200));
+        data.add(new Achievement("Winner of the winners", 250));
         return data;
     }
 }
