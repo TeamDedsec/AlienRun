@@ -13,6 +13,7 @@ import android.view.WindowManager;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.example.kaloyanit.alienrun.Data.GameData;
 import com.example.kaloyanit.alienrun.GameApplication;
 import com.example.kaloyanit.alienrun.Models.Achievement;
 import com.example.kaloyanit.alienrun.Core.GamePanel;

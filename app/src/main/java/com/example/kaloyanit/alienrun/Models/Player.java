@@ -11,6 +11,7 @@ public class Player implements ModelBase {
     private String name;
     private String skill;
     private int pictureId;
+    private boolean isSold;
     private int price;
 
     public Player() {
@@ -52,6 +53,15 @@ public class Player implements ModelBase {
     public int getPrice() { return this.price; }
 
     public void setPrice(int currPrice) { this.price = currPrice; }
+
+    public void setSold(boolean isSold) {
+        this.isSold = isSold;
+    }
+
+    public boolean getSold() {
+        return this.isSold;
+    }
+
 
     @Override
     public String toString() {

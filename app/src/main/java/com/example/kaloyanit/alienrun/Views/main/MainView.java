@@ -4,10 +4,14 @@ package com.example.kaloyanit.alienrun.Views.main;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
+import com.example.kaloyanit.alienrun.Data.GameData;
+import com.example.kaloyanit.alienrun.Utils.GlobalVariables;
 import com.example.kaloyanit.alienrun.Views.game.GameActivity;
 import com.example.kaloyanit.alienrun.R;
 import com.example.kaloyanit.alienrun.Views.ScalableView;
@@ -20,6 +24,7 @@ import com.example.kaloyanit.alienrun.Views.settings.SettingsActivity;
  */
 public class MainView extends Fragment implements MainContracts.View, View.OnClickListener {
     private MainContracts.Presenter presenter;
+    private int coins = 0;
 
 
     public MainView() {
@@ -35,10 +40,20 @@ public class MainView extends Fragment implements MainContracts.View, View.OnCli
         ScalableView gameButton = (ScalableView) root.findViewById(R.id.main_start_button);
         ScalableView playersButton = (ScalableView) root.findViewById(R.id.main_players_button);
         ScalableView achievementsButton = (ScalableView) root.findViewById(R.id.main_achievements_button);
+        TextView coinCounter = (TextView) root.findViewById(R.id.main_coin_counter) ;
         settingsButton.setOnClickListener(this);
         playersButton.setOnClickListener(this);
         gameButton.setOnClickListener(this);
         achievementsButton.setOnClickListener(this);
+
+
+
+
+        //gameData.save();
+
+        coinCounter.setText(Integer.toString(this.coins));
+
+
         //this.presenter.start();
 
         // Inflate the layout for this fragment
@@ -99,5 +114,13 @@ public class MainView extends Fragment implements MainContracts.View, View.OnCli
         }
     }
 
-
+    @Override
+    public void onStart() {
+        super.onStart();
+        GameData gameData = new GameData(0);
+        int currentCoins = gameData.getCoinCount();
+        gameData.setCoinCount(currentCoins + GlobalVariables.COIN_COUNT);
+        this.coins = gameData.getCoinCount();
+        //GameData.save(gameData);
+    }
 }

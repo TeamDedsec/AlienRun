@@ -60,10 +60,10 @@ public class SettingsView extends Fragment implements SettingsContracts.View, Vi
 
     //Login
     private static final String TAG = "FacebookLogin";
-    private CallbackManager callbackManager;
+    //private CallbackManager callbackManager;
     private FirebaseAuth auth;
     private FirebaseAuth.AuthStateListener authListener;
-    private LoginButton loginButton;
+    //private LoginButton loginButton;
 
 
     public SettingsView() {

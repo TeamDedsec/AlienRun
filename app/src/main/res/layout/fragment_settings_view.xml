@@ -50,7 +50,7 @@
         android:layout_height="wrap_content"
         android:textSize="45sp"
         android:text="@string/music"
-        android:layout_above="@+id/login_button"
+        android:layout_alignBottom="@+id/settings_music_button"
         android:layout_toStartOf="@+id/settings_sound_button" />
 
 </RelativeLayout>

@@ -20,7 +20,10 @@ public class DataModule {
     LocalData<Player> providePlayerData() {
         LocalData<Player> data = new LocalData<>();
 
-        data.add(new Player("Green",  "No special skill", R.drawable.p1_stand, 0));
+        Player basicPlayer = new Player("Green",  "No special skill", R.drawable.p1_stand, 0);
+        basicPlayer.setSold(true);
+
+        data.add(basicPlayer);
         data.add(new Player("Pink",  "Triple Jump", R.drawable.p3_stand, 1000));
         data.add(new Player("Blue",  "Extra life", R.drawable.p2_stand, 3000));
 

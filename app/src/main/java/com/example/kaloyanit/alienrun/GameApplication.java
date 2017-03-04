@@ -11,6 +11,10 @@ import com.example.kaloyanit.alienrun.Views.main.MainModule;
 import com.example.kaloyanit.alienrun.Views.players.PlayersActivity;
 import com.example.kaloyanit.alienrun.Views.players.PlayersModule;
 import com.example.kaloyanit.alienrun.Views.settings.SettingsActivity;
+import com.orm.SugarContext;
+import com.orm.util.SugarConfig;
+
+import java.io.File;
 
 import javax.inject.Singleton;
 
@@ -27,6 +31,9 @@ public class GameApplication extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
+        SugarContext.init(this);
+        File dbPath = getDatabasePath("gameAttributes.db");
+        int b = 5;
 
         this.component = DaggerGameApplication_ApplicationComponent
                 .builder()
@@ -34,6 +41,8 @@ public class GameApplication extends Application {
                 .dataModule(new DataModule())
                 .viewsModule(new ViewsModule())
                 .build();
+
+
     }
 
     public ApplicationComponent getComponent() {

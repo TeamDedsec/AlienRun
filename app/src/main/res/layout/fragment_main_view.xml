@@ -5,6 +5,8 @@
     android:background="@drawable/bg_grasslands"
     tools:context="com.example.kaloyanit.alienrun.Views.main.MainView">
 
+
+
     <!--Start-->
     <com.example.kaloyanit.alienrun.Views.ScalableView
         android:id="@+id/main_start_button"
@@ -56,6 +58,12 @@
         android:layout_centerHorizontal="true"
         android:layout_below="@id/main_start_button"
         android:src="@drawable/achievements_button"/>
+
+    <TextView
+        android:id="@+id/main_coin_counter"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="0"/>
 
 
 

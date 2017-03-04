@@ -22,6 +22,10 @@ import com.facebook.FacebookException;
 import com.facebook.FacebookSdk;
 import com.facebook.login.LoginResult;
 import com.facebook.login.widget.LoginButton;
+import com.google.android.gms.auth.api.Auth;
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
+import com.google.android.gms.common.SignInButton;
+import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthCredential;
@@ -46,26 +50,50 @@ public class SettingsActivity extends AppCompatActivity {
     private FirebaseAuth auth;
     private LoginButton loginButton;
     private FirebaseAuth.AuthStateListener authListener;
+    private GoogleApiClient mGoogleApiClient;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         FacebookSdk.sdkInitialize(getApplicationContext());
-        callbackManager = CallbackManager.Factory.create();
-        auth = FirebaseAuth.getInstance();
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
         this.requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.activity_settings);
 
+        //Inject Dagger
         this.injectDependencies();
+//        Inject Dagger
+        this.getSupportFragmentManager()
+                .beginTransaction()
+                .replace(R.id.container_content, (Fragment) this.presenter.getView())
+                .commit();
 
-//        this.getSupportFragmentManager()
-//                .beginTransaction()
-//                .replace(R.id.container_content, (Fragment) this.presenter.getView())
-//                .commit();
+        //Initialize Firebase Auth
+        auth = FirebaseAuth.getInstance();
+
+        //AuthStateListener
+        authListener = new FirebaseAuth.AuthStateListener() {
+            @Override
+            public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
+                FirebaseUser user = firebaseAuth.getCurrentUser();
+                if(user != null) {
+                    // User signed in
+                    Log.d(TAG, "onAuthStateChanged:sign_in:" + user.getUid());
+                    System.out.println("Logged user");
+                    System.out.println(user.getUid());
+                } else {
+                    //firebaseAuth.signOut();
+                    //User signed out
+                    Log.d(TAG, "onAuthStateChanged:sign_out");
+                }
+            }
+        };
 
 
+
+        // FACEBOK Login
+        callbackManager = CallbackManager.Factory.create();
         loginButton = (LoginButton) findViewById(R.id.login_button);
         loginButton.setReadPermissions("email", "public_profile");
         loginButton.registerCallback(callbackManager, new FacebookCallback<LoginResult>() {
@@ -88,24 +116,8 @@ public class SettingsActivity extends AppCompatActivity {
                 // ...
             }
         });
-        authListener = new FirebaseAuth.AuthStateListener() {
-            @Override
-            public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
-                FirebaseUser user = firebaseAuth.getCurrentUser();
-                if(user != null) {
-                    // User signed in
-                    Log.d(TAG, "onAuthStateChanged:sign_in:" + user.getUid());
-                    System.out.println("Logged user");
-                    System.out.println(user.getUid());
-                } else {
-                    //firebaseAuth.signOut();
-                    //User signed out
-                    Log.d(TAG, "onAuthStateChanged:sign_out");
-                }
-            }
-        };
-
     }
+
 
     private void injectDependencies() {
         ((GameApplication)getApplication())
@@ -113,12 +125,38 @@ public class SettingsActivity extends AppCompatActivity {
                 .inject(this);
     }
 
+    @Override
+    public void onStart() {
+        super.onStart();
+
+        auth.addAuthStateListener(authListener);
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+
+
+        if(authListener != null) {
+            auth.removeAuthStateListener(authListener);
+        }
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+
+        // Pass the activity result back to the Facebook SDK
+        callbackManager.onActivityResult(requestCode, resultCode, data);
+    }
+
     private void handleFacebookAccessToken(AccessToken token) {
         Log.d(TAG, "handleFacebookAccessToken:" + token);
 
         AuthCredential credential = FacebookAuthProvider.getCredential(token.getToken());
         auth.signInWithCredential(credential)
-                .addOnCompleteListener((Executor) this, new OnCompleteListener<AuthResult>() {
+                .addOnCompleteListener( this, new OnCompleteListener<AuthResult>() {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         Log.d(TAG, "signInWithCredential:onComplete:" + task.isSuccessful());
@@ -134,32 +172,5 @@ public class SettingsActivity extends AppCompatActivity {
                         }
                     }
                 });
-    }
-
-
-
-    @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-
-
-        // Pass the activity result back to the Facebook SDK
-        callbackManager.onActivityResult(requestCode, resultCode, data);
-    }
-
-    @Override
-    public void onStart() {
-        super.onStart();
-
-        auth.addAuthStateListener(authListener);
-    }
-
-    @Override
-    public void onStop() {
-        super.onStop();
-
-        if(authListener != null) {
-            auth.removeAuthStateListener(authListener);
-        }
     }
 }
