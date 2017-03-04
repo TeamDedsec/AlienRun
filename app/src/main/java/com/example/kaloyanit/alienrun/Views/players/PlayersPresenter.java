@@ -71,4 +71,6 @@ public class PlayersPresenter implements PlayersContracts.Presenter {
     public List<Player> getPlayers() {
         return new ArrayList<Player>();
     }
+
+
 }

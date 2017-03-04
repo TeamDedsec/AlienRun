@@ -14,7 +14,7 @@ import com.example.kaloyanit.alienrun.Views.ScalableView;
 
 import java.util.List;
 
-public class PlayersView extends Fragment implements PlayersContracts.View {
+public class PlayersView extends Fragment implements PlayersContracts.View, View.OnClickListener {
 
     private PlayersContracts.Presenter presenter;
     private List<Player> players;
@@ -32,8 +32,7 @@ public class PlayersView extends Fragment implements PlayersContracts.View {
 
         GridView lvPlayers = (GridView) root.findViewById(R.id.players_list);
         ScalableView backButton = (ScalableView) root.findViewById(R.id.home_button);
-
-
+        backButton.setOnClickListener(this);
 
         playersAdapter = new PlayersAdapter(getContext());
         lvPlayers.setAdapter(playersAdapter);
@@ -60,5 +59,14 @@ public class PlayersView extends Fragment implements PlayersContracts.View {
     @Override
     public void setPresenter(PlayersContracts.Presenter presenter) {
         this.presenter = presenter;
+    }
+
+    @Override
+    public void onClick(View view) {
+        switch (view.getId()) {
+            case R.id.home_button:
+                getActivity().finish();
+                break;
+        }
     }
 }

@@ -10,17 +10,24 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.example.kaloyanit.alienrun.Data.base.Players;
+import com.example.kaloyanit.alienrun.Enums.PlayerType;
 import com.example.kaloyanit.alienrun.Models.Player;
 import com.example.kaloyanit.alienrun.R;
+import com.example.kaloyanit.alienrun.ShopManager;
+import com.example.kaloyanit.alienrun.Utils.GlobalVariables;
 import com.example.kaloyanit.alienrun.Views.ScalableView;
 
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by KaloyanIT on 2/27/2017.
  */
 
 public class PlayersAdapter extends ArrayAdapter<Player> {
+    private ShopManager shop;
+    private List<Players> personalPlayers;
 
     public PlayersAdapter(Context context) {
         this(context, new ArrayList<Player>());
@@ -28,6 +35,7 @@ public class PlayersAdapter extends ArrayAdapter<Player> {
 
     public PlayersAdapter(Context context, ArrayList<Player> players) {
         super(context, -1, players);
+        shop = new ShopManager();
     }
 
     @NonNull
@@ -43,6 +51,8 @@ public class PlayersAdapter extends ArrayAdapter<Player> {
         }
 
         Player player = this.getItem(position);
+        addPlayer(this.getItem(0));
+        //personalPlayers = Players.listAll(Players.class);
 
         //Initialize item elements
         TextView tvTitle = (TextView) view.findViewById(R.id.tv_title);
@@ -51,7 +61,22 @@ public class PlayersAdapter extends ArrayAdapter<Player> {
         //ScalableView playerImage = (ScalableView) view.findViewById(R.id.pl_image);
         ImageView playerImage = (ImageView) view.findViewById(R.id.pl_image);
 
+
         Button buyButton = (Button) view.findViewById(R.id.buy_button);
+
+        buyButton.setOnClickListener(v -> {
+            if(shop.buyPlayer(player)) {
+                changeActivePlayer(player);
+                addPlayer(player);
+                buyButton.setText("Selected");
+                //TODO: Add toastr to notify when player is bought
+            } else {
+                //TODO: Toastr not enough money
+            }
+        });
+
+
+
         //TODO: Add buy logic
         tvPrice.setText(String.format("%0$d", player.getPrice()));
         tvSkill.setText(player.getSkill());
@@ -62,4 +87,25 @@ public class PlayersAdapter extends ArrayAdapter<Player> {
 
         return view;
     }
+
+    private void changeActivePlayer(Player player) {
+        switch (player.getName()){
+            case "Green":
+                GlobalVariables.ACTIVE_PLAYER = PlayerType.Green;
+                break;
+            case "Blue":
+                GlobalVariables.ACTIVE_PLAYER = PlayerType.Blue;
+                break;
+            case "Pink":
+                GlobalVariables.ACTIVE_PLAYER = PlayerType.Pink;
+                break;
+        }
+    }
+
+    private void addPlayer(Player player) {
+        Players personalPlayer = new Players(player.getName());
+        //personalPlayers.add(personalPlayer);
+        Players.save(personalPlayer);
+    }
+
 }
