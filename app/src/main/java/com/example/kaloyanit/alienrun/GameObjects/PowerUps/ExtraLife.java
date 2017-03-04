@@ -3,6 +3,7 @@ package com.example.kaloyanit.alienrun.GameObjects.PowerUps;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 
+import com.example.kaloyanit.alienrun.Enums.PowerUpType;
 import com.example.kaloyanit.alienrun.GameObjects.Player;
 import com.example.kaloyanit.alienrun.R;
 import com.example.kaloyanit.alienrun.Utils.BasicConstants;
@@ -14,7 +15,7 @@ import com.example.kaloyanit.alienrun.Utils.BasicConstants;
 public class ExtraLife extends PowerUp {
 
     public ExtraLife(Bitmap image, int x, int y){
-        super(image, x, y, image.getWidth(), image.getHeight());
+        super(image, x, y, image.getWidth(), image.getHeight(), PowerUpType.ExtraLife);
     }
 
     @Override

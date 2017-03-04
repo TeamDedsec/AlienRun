@@ -20,4 +20,13 @@ public class GlobalVariables {
     public static int GAMES_PLAYED = 0;
     public static boolean isSoundOn = true;
     public static boolean isMusicOn = true;
+    public static int startFrameCount = 60;
+    public static boolean isFirstEnemy = true;
+    public static int jumpFrameCount = 20;
+    public static boolean isFirstJump = true;
+    public static boolean isFirstJumpActive = false;
+    public static boolean isFirstPinch = true;
+    public static boolean isFirstHeart = true;
+    public static boolean isFirstStar = true;
+    public static boolean isFirstSign = true;
 }

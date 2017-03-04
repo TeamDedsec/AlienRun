@@ -47,7 +47,6 @@ public class PowerUpFactory {
                 return new Mover(image, x, y);
             case Invincibility:
                 image = BitmapFactory.decodeResource(BasicConstants.CURRENT_CONTEXT.getResources(), R.drawable.star);
-                //image = Bitmap.createScaledBitmap(image, 60, 60, false);
                 return new Invincibility(image, x, y);
             default:
                 throw new RuntimeException();
