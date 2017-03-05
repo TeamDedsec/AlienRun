@@ -1,6 +1,7 @@
 package com.example.kaloyanit.alienrun.Adapters;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -17,6 +18,7 @@ import com.example.kaloyanit.alienrun.R;
 import com.example.kaloyanit.alienrun.ShopManager;
 import com.example.kaloyanit.alienrun.Utils.GlobalVariables;
 import com.example.kaloyanit.alienrun.Views.ScalableView;
+import com.example.kaloyanit.alienrun.Views.game.GameActivity;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -68,7 +70,6 @@ public class PlayersAdapter extends ArrayAdapter<Player> {
             if(shop.buyPlayer(player)) {
                 changeActivePlayer(player);
                 addPlayer(player);
-                buyButton.setText("Selected");
                 //TODO: Add toastr to notify when player is bought
             } else {
                 //TODO: Toastr not enough money
@@ -106,6 +107,10 @@ public class PlayersAdapter extends ArrayAdapter<Player> {
         Players personalPlayer = new Players(player.getName());
         //personalPlayers.add(personalPlayer);
         Players.save(personalPlayer);
+    }
+
+    public void addPersonalPlayers(ArrayList<Players> personalPlayers) {
+        this.personalPlayers = personalPlayers;
     }
 
 }

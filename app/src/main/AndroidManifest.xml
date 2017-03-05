@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.kaloyanit.alienrun">
-    <uses-permission android:name="android.permission.INTERNET"/>
+
+    <uses-permission android:name="android.permission.INTERNET" />
+
     <application
         android:name=".GameApplication"
         android:allowBackup="true"
@@ -22,22 +24,33 @@
             android:value="@string/facebook_app_id" />
 
         <activity android:name=".Views.settings.SettingsActivity">
-            <!--<intent-filter>-->
-                <!--<action android:name="android.intent.action.VIEW" />-->
-                <!--<category android:name="android.intent.category.DEFAULT" />-->
-                <!--<category android:name="android.intent.category.BROWSABLE" />-->
-                <!--<data android:scheme="@string/fb_login_protocol_scheme" />-->
-            <!--</intent-filter>-->
+
+            <!-- <intent-filter> -->
+            <!-- <action android:name="android.intent.action.VIEW" /> -->
+            <!-- <category android:name="android.intent.category.DEFAULT" /> -->
+            <!-- <category android:name="android.intent.category.BROWSABLE" /> -->
+            <!-- <data android:scheme="@string/fb_login_protocol_scheme" /> -->
+            <!-- </intent-filter> -->
 
         </activity>
         <activity android:name=".Views.players.PlayersActivity" />
         <activity android:name=".Views.achievements.AchievementsActivity" />
-        <activity android:name=".Views.game.GameActivity"></activity>
+        <activity android:name=".Views.game.GameActivity" />
 
-        <meta-data android:name="DATABASE" android:value="gamedataDb.db" />
-        <meta-data android:name="VERSION" android:value="2" />
-        <meta-data android:name="QUERY_LOG" android:value="true" />
-        <meta-data android:name="DOMAIN_PACKAGE_NAME" android:value="com.example.kaloyanit" />
+        <meta-data
+            android:name="DATABASE"
+            android:value="gamedataDb.db" />
+        <meta-data
+            android:name="VERSION"
+            android:value="2" />
+        <meta-data
+            android:name="QUERY_LOG"
+            android:value="true" />
+        <meta-data
+            android:name="DOMAIN_PACKAGE_NAME"
+            android:value="com.example.kaloyanit" />
+
+        <activity android:name=".Views.leaderboard.LeaderboardActivity"></activity>
     </application>
 
 </manifest>

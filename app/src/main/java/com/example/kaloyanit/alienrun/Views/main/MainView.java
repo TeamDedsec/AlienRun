@@ -16,6 +16,7 @@ import com.example.kaloyanit.alienrun.Views.game.GameActivity;
 import com.example.kaloyanit.alienrun.R;
 import com.example.kaloyanit.alienrun.Views.ScalableView;
 import com.example.kaloyanit.alienrun.Views.achievements.AchievementsActivity;
+import com.example.kaloyanit.alienrun.Views.leaderboard.LeaderboardActivity;
 import com.example.kaloyanit.alienrun.Views.players.PlayersActivity;
 import com.example.kaloyanit.alienrun.Views.settings.SettingsActivity;
 
@@ -40,11 +41,13 @@ public class MainView extends Fragment implements MainContracts.View, View.OnCli
         ScalableView gameButton = (ScalableView) root.findViewById(R.id.main_start_button);
         ScalableView playersButton = (ScalableView) root.findViewById(R.id.main_players_button);
         ScalableView achievementsButton = (ScalableView) root.findViewById(R.id.main_achievements_button);
+        ScalableView leaderboardsButton = (ScalableView) root.findViewById(R.id.main_leaderboards_button);
         TextView coinCounter = (TextView) root.findViewById(R.id.main_coin_counter) ;
         settingsButton.setOnClickListener(this);
         playersButton.setOnClickListener(this);
         gameButton.setOnClickListener(this);
         achievementsButton.setOnClickListener(this);
+        leaderboardsButton.setOnClickListener(this);
 
 
 
@@ -85,8 +88,8 @@ public class MainView extends Fragment implements MainContracts.View, View.OnCli
                 intent = new Intent(this.getContext(), SettingsActivity.class);
                 startActivity(intent);
                 break;
-            case "leaderboards":
-                intent = new Intent(this.getContext(), GameActivity.class);
+            case "leaderboard":
+                intent = new Intent(this.getContext(), LeaderboardActivity.class);
                 startActivity(intent);
                 break;
         }
@@ -109,7 +112,7 @@ public class MainView extends Fragment implements MainContracts.View, View.OnCli
                 this.presenter.startGameActivity();
                 break;
             case R.id.main_leaderboards_button:
-                this.presenter.startSettingsActivity();
+                this.presenter.startLeaderboardActivity();
                 break;
         }
     }
