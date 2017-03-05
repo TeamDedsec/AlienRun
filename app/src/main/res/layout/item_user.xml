@@ -4,8 +4,13 @@
     android:layout_height="match_parent">
 
     <TextView
+        android:id="@+id/tv_username"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Pesho"/>
+        android:layout_height="wrap_content"/>
+
+    <TextView
+        android:id="@+id/tv_user_points"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
 
 </LinearLayout>

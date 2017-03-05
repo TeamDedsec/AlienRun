@@ -33,6 +33,7 @@ public class DataModule {
     @Provides
     LocalData<Achievement> provideAchievementsData() {
         LocalData<Achievement> data = new LocalData<>();
+
         data.add(new Achievement("Beginner", 10));
         data.add(new Achievement("Junior", 15));
         data.add(new Achievement("One step forward", 20));
@@ -40,6 +41,7 @@ public class DataModule {
         data.add(new Achievement("First big challenge", 100));
         data.add(new Achievement("PRO", 200));
         data.add(new Achievement("Winner of the winners", 250));
+
         return data;
     }
 
@@ -47,6 +49,9 @@ public class DataModule {
     FirebaseData provideFirebaseData() {
         FirebaseData data = new FirebaseData();
 
+
+
+        //data.getData();
         return data;
     }
 }

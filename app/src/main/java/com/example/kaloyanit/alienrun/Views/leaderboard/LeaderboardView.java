@@ -33,10 +33,16 @@ public class LeaderboardView extends Fragment implements LeaderboardContracts.Vi
         ScalableView homeButton = (ScalableView) root.findViewById(R.id.leaderboards_home_button);
         homeButton.setOnClickListener(this);
 
+
+
         lvLeaderboard = (ListView) root.findViewById(R.id.lv_leaderboard);
         usersAdapter = new UsersAdapter(getContext());
         lvLeaderboard.setAdapter(usersAdapter);
 
+
+        if(presenter != null) {
+            this.presenter.start();
+        }
 
         return root;
     }

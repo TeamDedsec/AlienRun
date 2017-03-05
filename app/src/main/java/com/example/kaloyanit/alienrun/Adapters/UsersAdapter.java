@@ -40,6 +40,19 @@ public class UsersAdapter extends ArrayAdapter<User> {
             view = inflater.inflate(R.layout.item_user, parent, false);
         }
 
+        TextView tvUsername = (TextView) view.findViewById(R.id.tv_username);
+        TextView tvUserPoints = (TextView) view.findViewById(R.id.tv_user_points);
+
+
+        System.out.println("Users adapter");
+
+        User user = this.getItem(position);
+
+        tvUsername.setText(user.username);
+        tvUserPoints.setText(Long.toString(user.score));
+
+        //tvUsername.setText("Pesho");
+        //tvUserPoints.setText("100");
 
 
 

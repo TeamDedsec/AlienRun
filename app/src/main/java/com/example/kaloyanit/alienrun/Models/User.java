@@ -9,13 +9,13 @@ import com.google.firebase.database.IgnoreExtraProperties;
 @IgnoreExtraProperties
 public class User {
     public String username;
-    public int score;
+    public long score;
 
     public User() {
 
     }
 
-    public User(String username, int score) {
+    public User(String username, long score) {
         this.username = username;
         this.score = score;
     }
