@@ -9,8 +9,6 @@ import com.example.kaloyanit.alienrun.Utils.GlobalVariables;
 
 public class ShopManager {
 
-
-
     public ShopManager() {
 
     }

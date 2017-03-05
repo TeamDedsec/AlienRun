@@ -106,7 +106,7 @@ public class PlayersAdapter extends ArrayAdapter<Player> {
     private void addPlayer(Player player) {
         Players personalPlayer = new Players(player.getName());
         //personalPlayers.add(personalPlayer);
-        Players.save(personalPlayer);
+        //Players.save(personalPlayer);
     }
 
     public void addPersonalPlayers(ArrayList<Players> personalPlayers) {

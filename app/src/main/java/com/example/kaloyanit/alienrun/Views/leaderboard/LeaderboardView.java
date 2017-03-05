@@ -5,7 +5,9 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ListView;
 
+import com.example.kaloyanit.alienrun.Adapters.UsersAdapter;
 import com.example.kaloyanit.alienrun.Models.User;
 import com.example.kaloyanit.alienrun.R;
 import com.example.kaloyanit.alienrun.Views.ScalableView;
@@ -17,6 +19,8 @@ import java.util.List;
 public class LeaderboardView extends Fragment implements LeaderboardContracts.View, View.OnClickListener {
 
     private LeaderboardContracts.Presenter presenter;
+    private ListView lvLeaderboard;
+    private UsersAdapter usersAdapter;
 
     public LeaderboardView() {
         // Required empty public constructor
@@ -29,6 +33,10 @@ public class LeaderboardView extends Fragment implements LeaderboardContracts.Vi
         ScalableView homeButton = (ScalableView) root.findViewById(R.id.leaderboards_home_button);
         homeButton.setOnClickListener(this);
 
+        lvLeaderboard = (ListView) root.findViewById(R.id.lv_leaderboard);
+        usersAdapter = new UsersAdapter(getContext());
+        lvLeaderboard.setAdapter(usersAdapter);
+
 
         return root;
     }
@@ -40,7 +48,7 @@ public class LeaderboardView extends Fragment implements LeaderboardContracts.Vi
 
     @Override
     public void setUsers(List<User> users) {
-
+        usersAdapter.addAll(users);
     }
 
     @Override

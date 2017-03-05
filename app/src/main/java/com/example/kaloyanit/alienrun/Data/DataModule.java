@@ -42,4 +42,11 @@ public class DataModule {
         data.add(new Achievement("Winner of the winners", 250));
         return data;
     }
+
+    @Provides
+    FirebaseData provideFirebaseData() {
+        FirebaseData data = new FirebaseData();
+
+        return data;
+    }
 }
