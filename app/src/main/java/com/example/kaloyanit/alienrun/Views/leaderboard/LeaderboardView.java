@@ -8,12 +8,13 @@ import android.view.ViewGroup;
 
 import com.example.kaloyanit.alienrun.Models.User;
 import com.example.kaloyanit.alienrun.R;
+import com.example.kaloyanit.alienrun.Views.ScalableView;
 import com.example.kaloyanit.alienrun.Views.players.PlayersContracts;
 
 import java.util.List;
 
 
-public class LeaderboardView extends Fragment implements LeaderboardContracts.View {
+public class LeaderboardView extends Fragment implements LeaderboardContracts.View, View.OnClickListener {
 
     private LeaderboardContracts.Presenter presenter;
 
@@ -24,8 +25,12 @@ public class LeaderboardView extends Fragment implements LeaderboardContracts.Vi
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_leaderboard_view, container, false);
+        View root = inflater.inflate(R.layout.fragment_leaderboard_view, container, false);
+        ScalableView homeButton = (ScalableView) root.findViewById(R.id.leaderboards_home_button);
+        homeButton.setOnClickListener(this);
+
+
+        return root;
     }
 
     @Override
@@ -36,5 +41,14 @@ public class LeaderboardView extends Fragment implements LeaderboardContracts.Vi
     @Override
     public void setUsers(List<User> users) {
 
+    }
+
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()) {
+            case R.id.leaderboards_home_button:
+                this.getActivity().finish();
+                break;
+        }
     }
 }
