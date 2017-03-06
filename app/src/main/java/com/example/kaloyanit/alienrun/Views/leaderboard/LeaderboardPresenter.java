@@ -40,35 +40,24 @@ public class LeaderboardPresenter implements LeaderboardContracts.Presenter {
 
     @Override
     public void start() {
-//        this.data.addUser(10);
+        this.data.addUser(10);
         //this.data.getData();
         //this.users = this.data.users;
 
 
         this.data.getUsers()
-                .observeOn(Schedulers.io())
-                .subscribeOn(AndroidSchedulers.mainThread())
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Consumer<List<User>>() {
                     @Override
                     public void accept(List<User> users) throws Exception {
-                        view.setUsers(users);
+                        getView().setUsers(users);
                     }
                 });
 
         //this.view.setUsers(this.users);
     }
 
-    public void collectUsers(Map<String, Object> users) {
-        HashSet<User> usersList = new HashSet<>();
-
-        for (Map.Entry<String, Object> entry: users.entrySet()) {
-            Map singleUser = (Map) entry.getValue();
-
-            User user = new User((String) singleUser.get("username"), (Long) singleUser.get("score"));
-
-            this.users.add(user);
-        }
-    }
 
     @Override
     public LeaderboardContracts.View getView() {

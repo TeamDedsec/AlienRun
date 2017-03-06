@@ -2,6 +2,7 @@ package com.example.kaloyanit.alienrun.Adapters;
 
 import android.content.Context;
 import android.content.Intent;
+import android.icu.text.SymbolTable;
 import android.support.annotation.NonNull;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -10,6 +11,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.kaloyanit.alienrun.Data.base.Players;
 import com.example.kaloyanit.alienrun.Enums.PlayerType;
@@ -66,13 +68,19 @@ public class PlayersAdapter extends ArrayAdapter<Player> {
 
         Button buyButton = (Button) view.findViewById(R.id.buy_button);
 
+        if(player.getSold()) {
+            buyButton.setText("Select");
+        }
+
         buyButton.setOnClickListener(v -> {
-            if(shop.buyPlayer(player)) {
+            System.out.println("BB Event");
+            boolean isBuy = this.shop.buyPlayer(player);
+            System.out.println(isBuy);
+            if(isBuy) {
                 changeActivePlayer(player);
-                addPlayer(player);
-                //TODO: Add toastr to notify when player is bought
+                buyButton.setText("Selected");
             } else {
-                //TODO: Toastr not enough money
+                Toast.makeText(getContext(), "Not enough money!", Toast.LENGTH_SHORT);
             }
         });
 

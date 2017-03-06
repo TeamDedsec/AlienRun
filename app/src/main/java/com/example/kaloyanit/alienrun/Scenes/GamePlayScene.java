@@ -11,6 +11,7 @@ import android.view.View;
 
 import com.example.kaloyanit.alienrun.Contracts.IScene;
 import com.example.kaloyanit.alienrun.Core.SceneManager;
+import com.example.kaloyanit.alienrun.Data.FirebaseData;
 import com.example.kaloyanit.alienrun.Enums.BackgroundType;
 import com.example.kaloyanit.alienrun.Enums.BlockSetType;
 import com.example.kaloyanit.alienrun.Enums.CollisionType;
@@ -261,6 +262,8 @@ public class GamePlayScene implements IScene {
                 }
                 resetCounter--;
                 if (resetCounter <= 0) {
+                    FirebaseData data = new FirebaseData();
+                    data.addUser(GlobalVariables.SCORE);
                     SceneManager.resetGame();
                 }
             }

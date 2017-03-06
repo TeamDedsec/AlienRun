@@ -37,13 +37,6 @@ public class MainActivity extends AppCompatActivity {
 
         this.inject();
 
-//        FirebaseData dt = new FirebaseData();
-//        dt.addUser(10);
-//        dt.getData();
-//        dt.getRank();
-
-        int b = 1;
-
         this.getSupportFragmentManager()
                 .beginTransaction()
                 .replace(R.id.container_content, (Fragment) this.presenter.getView())

@@ -25,7 +25,7 @@ import com.example.kaloyanit.alienrun.Views.settings.SettingsActivity;
  */
 public class MainView extends Fragment implements MainContracts.View, View.OnClickListener {
     private MainContracts.Presenter presenter;
-    private int coins = 0;
+    private int coins;
 
 
     public MainView() {
@@ -54,7 +54,10 @@ public class MainView extends Fragment implements MainContracts.View, View.OnCli
 
         //gameData.save();
 
-        coinCounter.setText(Integer.toString(this.coins));
+
+
+
+        coinCounter.setText(Integer.toString(GlobalVariables.COIN_COUNT) + " C");
 
 
         //this.presenter.start();
@@ -124,6 +127,6 @@ public class MainView extends Fragment implements MainContracts.View, View.OnCli
         int currentCoins = gameData.getCoinCount();
         gameData.setCoinCount(currentCoins + GlobalVariables.COIN_COUNT);
         this.coins = gameData.getCoinCount();
-        //GameData.save(gameData);
+        //gameData.save();
     }
 }

@@ -7,6 +7,7 @@
 
 
     <TextView
+        android:id="@+id/leaderboards_title_tv"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:textSize="40sp"
@@ -17,7 +18,8 @@
         android:id="@+id/lv_leaderboard"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@id/achievements_title_tv">
+        android:layout_below="@id/leaderboards_title_tv"
+>
     </ListView>
 
     <com.example.kaloyanit.alienrun.Views.ScalableView

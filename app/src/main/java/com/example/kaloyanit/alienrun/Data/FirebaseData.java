@@ -93,11 +93,11 @@ public class FirebaseData {
 
             User user = new User((String) singleUser.get("username"), (Long) singleUser.get("score"));
 
-            this.users.add(user);
+            FirebaseData.users.add(user);
          }
     }
 
     public Observable<List<User>> getUsers() {
-        return Observable.just(users);
+        return Observable.just(FirebaseData.users);
     }
 }

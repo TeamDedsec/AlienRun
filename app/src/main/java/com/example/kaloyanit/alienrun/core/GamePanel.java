@@ -40,7 +40,6 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
         scoreView = (TextView) findViewById(R.id.scoreView);
 
         setFocusable(true);
-        //TODO: Ask doncho for help with canvas bug #1
         //setWillNotDraw(false);
         //setWillNotDraw(true);
 

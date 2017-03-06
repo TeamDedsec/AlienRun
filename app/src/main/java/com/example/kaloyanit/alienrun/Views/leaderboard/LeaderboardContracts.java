@@ -25,7 +25,5 @@ public class LeaderboardContracts {
         void start();
 
         LeaderboardContracts.View getView();
-
-        void collectUsers(Map<String, Object> users);
     }
 }
